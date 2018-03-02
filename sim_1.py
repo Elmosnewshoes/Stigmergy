@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
+
 def gaussian(x, mu, sig):
     """ ==============================
         calculate the value of a 1D NORMALIZED gaussian function
@@ -30,6 +31,8 @@ class domain:
         self.pheromone_sig = sigma
 
         self.pheromone_map = np.zeros((self.grid_height, self.grid_width))
+        self.surface_plot = self.pheromone_map
+        self.X, self.Y = np.meshgrid(np.linspace(0,self.grid_height-1,self.grid_height), np.linspace(0,self.grid_width-1,self.grid_width))
 
     def addPheromone(self, xy, amount):
         """ =================================
@@ -40,7 +43,7 @@ class domain:
             x, y = np.around(np.array(xy)/self.grid_resolution).astype(int) # mm to grid location
             self.pheromone_map[x,y] += p
 
-    def pheromonelevel(self,xy, n = 10):
+    def pheromoneLevel(self,xy, n = 10):
         """ =================================
             calculate the pheromone level based on xy coordinate in mm
             first, calculate the radial distance to all points
@@ -48,9 +51,9 @@ class domain:
             finally, sum the pheromone levels
             ================================="""
         Q = 0 # pheromone level, to be returned at the end
-        x,y = xy # the coordinates
-        yv, xv = np.meshgrid(np.linspace(0,self.grid_height-1,self.grid_height), np.linspace(0,self.grid_width-1,self.grid_width))
-        mesh_vec = np.dstack((np.asarray(xv).reshape(-1), np.asarray(yv).reshape(-1)))
+        # x,y = xy # the coordinates
+        # yv, xv = np.meshgrid(np.linspace(0,self.grid_height-1,self.grid_height), np.linspace(0,self.grid_width-1,self.grid_width))
+        mesh_vec = np.dstack((np.asarray(self.X).reshape(-1), np.asarray(self.Y).reshape(-1)))
 
         # difference between grid points and xy
         diff = mesh_vec - xy
@@ -69,6 +72,14 @@ class domain:
             print('At ({},{}), P = {}'.format(int(R_sort[ii,0]),int(R_sort[ii,1]),P))
         print(Q)
 
+    def calcMap(self):
+        """ =========================
+            calculate the plotting surface
+            ========================="""
+        for yy in range(self.pheromone_map.shape[0]):
+            for xx in range(self.pheromone_map.shape[1]):
+
+
 
 
 
@@ -85,7 +96,8 @@ def run():
     print(D.pheromone_map)
     D.addPheromone([[1.1,1.1],[2.6,2.6]], [3,4])
     print(D.pheromone_map)
-    D.pheromonelevel((1.1,1.1),100)
+    D.pheromoneLevel((1.1,1.1),100)
+    D.calcMap()
 
 if __name__ == '__main__':
     run()
