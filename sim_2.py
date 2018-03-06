@@ -4,6 +4,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.mlab as mlab
 import matplotlib
+from scipy.interpolate import RectBivariateSpline
+from scipy import interpolate
 
 # np.set_printoptions(threshold=np.nan)
 
@@ -45,9 +47,9 @@ class AntDomain():
         self.H, self.W = ((np.array(size)+pitch)/pitch).round().astype(int)
 
         # pixel coordinates
-        x = np.arange(0,size[1]+pitch,self.pitch)
-        y = np.arange(0,size[0]+pitch,self.pitch)
-        self.X, self.Y = np.meshgrid(x,y)
+        self.xx = np.arange(0,size[1]+pitch,self.pitch)
+        self.yy = np.arange(0,size[0]+pitch,self.pitch)
+        self.X, self.Y = np.meshgrid(self.xx,self.yy)
 
         # initialize empty pheromone map
         self.pheromone_map = np.zeros(self.X.shape)
@@ -83,9 +85,10 @@ class AntDomain():
             Update the heatmap of the pheromone
             =================================="""
         tic = time.time()
+
         # new surface data
         self.fig.clf() # purge the old figure
-        self.surf = plt.imshow(self.pheromone_map, interpolation='bilinear', origin='lower',
+        self.surf = plt.imshow(self.pheromone_map[0::2,0::2], interpolation='bilinear', origin='lower',
                         cmap=colorscheme, extent=(0, np.dot(self.W,self.pitch), 0, np.dot(self.H,self.pitch)))
 
         self.surf_time = time.time()-tic
@@ -98,6 +101,15 @@ class AntDomain():
         # keep the plotting window open until manually closed
         plt.show(block = True)
 
+    def get_pheromone_level(self, probe_point):
+        """  =================================
+            Return the pheromone level based on map position
+            =================================="""
+        x = int(round(roundPartial(probe_point[0],self.pitch)/self.pitch))
+        y = int(round(roundPartial(probe_point[1],self.pitch)/self.pitch))
+        # print(x,y)
+        return self.pheromone_map[y,x]
+
 
 class Ant():
     """ ===========================
@@ -109,7 +121,7 @@ class Ant():
     def __init__(self, start_pos = (1,1), seed = int(time.time()), limits = (10,10)):
         """  =================================
             Initialize the class
-            =================================="""
+            ================================== """
 
         self.x, self.y = start_pos #in mm
         self.limits = limits
@@ -144,7 +156,8 @@ class Ant():
 
 def run():
     pitch = 0.5
-    D = AntDomain(size=(100,200),pitch=pitch)
+    domain_limits = (100,100)
+    D = AntDomain(size=domain_limits,pitch=pitch)
     D.set_plot()
 
     # # D.add_pheromone((1,1))
@@ -158,20 +171,23 @@ def run():
     #     D.plot()
         # print("Step {} took {} sec -- surf time = {} -- draw time = {} -- update_time = {}".format(ii, time.time()-tic,D.surf_time, D.draw_time,D.update_time))
 
-    A = Ant(limits = (200,100),seed =int(time.time()-1000), start_pos=(100,50))
-    A2 = Ant(limits = (200,100), start_pos=(50,50))
+    A = Ant(limits = domain_limits,seed =int(time.time()-1000), start_pos=(10,20))
+    A2 = Ant(limits = domain_limits, start_pos=(50,50))
     for ii in range(100):
 
         tic = time.time()
         # A.random_step(sigma = 2)
         # A2.random_step(sigma =5)
-        D.add_pheromone(A.random_step(sigma=2),sigma=2)
-        D.add_pheromone(A2.random_step(sigma=5),sigma=2)
-        D.plot()
+        D.add_pheromone(A.random_step(sigma=2),sigma=4)
+        D.add_pheromone(A2.random_step(sigma=5),sigma=4)
+        print("Step {} -- Pheromone level = {}".format(ii,D.get_pheromone_level((A.x,A.y))))
+        if ii%1==0:
+            D.plot()
 
-        print("Step {} took {} sec -- surf time = {} -- draw time = {} -- update_time = {}".format(ii, time.time()-tic,D.surf_time, D.draw_time,D.update_time))
+        # print("Step {} took {} sec -- surf time = {} -- draw time = {} -- update_time = {}".format(ii, time.time()-tic,D.surf_time, D.draw_time,D.update_time))
 
     D.hold_until_close()
+    print("number of grid points = {}".format(D.pheromone_map.size))
 
 if __name__=='__main__':
     run()
