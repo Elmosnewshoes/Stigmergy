@@ -8,7 +8,7 @@ class Ant():
     # start_pos (x,y) in mm
     # limits (x_lim, y_lim) in mm
 
-    def __init__(self, start_pos = (1,1), limits = (10,10), ant_id =0):
+    def __init__(self, start_pos = (1,1), limits = (10,10), ant_id =0, speed=0, angle=0):
         """  =================================
             Initialize the class
             ================================== """
@@ -16,8 +16,21 @@ class Ant():
         self.x, self.y = start_pos #in mm
         self.limits = limits
 
+        self.l = 3
+        self.antena_offset = 30*np.pi/(180)
+
         # assign private RNG
         self.gen = np.random.RandomState()
+
+        self.speed = speed
+        self.orientation = angle
+
+    def random_roll(self,sigma_speed = 0.1, sigma_rotate = 0.1):
+        """ ============================
+            perform a step based on speed manipulation
+            ============================ """
+
+
 
     def random_step(self, sigma = 0.1):
         """ ============================

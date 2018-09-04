@@ -61,8 +61,11 @@ class MapPlot():
             levels = MaxNLocator(nbins=15).tick_values(surf.min(),surf.max())
             self.norm = BoundaryNorm(levels,ncolors=self.cmap.N, clip=True)
             self.im = self.ax1.contourf(self.X,self.Y,surf, cmap=self.cmap, norm=self.norm)
-            self.cbar.set_clim()
+            # self.cbar.set_clim()
+            # self.cbar.draw_all()
+            self.cbar.update_normal(self.im)
             self.cbar.draw_all()
+            # self.fig.colorbar(self.im)
 
         #remove old scatter
         self.scat.remove()
