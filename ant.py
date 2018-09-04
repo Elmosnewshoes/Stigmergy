@@ -1,5 +1,9 @@
 import numpy as np
 import time
+from collections import namedtuple
+
+xy = namedtuple('coordinates', 'x y')
+state = namedtuple('state', 'speed angle')
 
 class Ant():
     """ ===========================
@@ -12,18 +16,22 @@ class Ant():
         """  =================================
             Initialize the class
             ================================== """
+        # give the agent an ID (int)
         self.id = ant_id
-        self.x, self.y = start_pos #in mm
-        self.limits = limits
 
-        self.l = 3
-        self.antena_offset = 30*np.pi/(180)
+        # set the start coordinates and domain limits
+        self.pos = xy._make(start_pos) #ant (starting) position in mm
+        self.limits = xy._make(limits)  #domain limits in mm
+
+        # ant physical properties
+        self.l = 3 #length in mm
+        self.antena_offset = 30*np.pi/(180) #angle (rad) between centerline and antenna from the base of the antenna
 
         # assign private RNG
         self.gen = np.random.RandomState()
 
-        self.speed = speed
-        self.orientation = angle
+        # set the physical state of the ant
+        self.state = state(speed, angle)
 
     def random_roll(self,sigma_speed = 0.1, sigma_rotate = 0.1):
         """ ============================
@@ -61,8 +69,9 @@ def run():
         Do something for testing
         ================== """
     D = Ant()
-    D.random_step()
-    print(D.x,D.y)
+    print(D.pos)
+    # D.random_step()
+    # print(D.x,D.y)
 
 if __name__ == '__main__':
     run()
