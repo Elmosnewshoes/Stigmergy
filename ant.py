@@ -48,21 +48,18 @@ class Ant():
         ii = 0
         while True:
             ii+=1
-            # draw a step from the RNG
-            rand_step = self.gen.randn(2,1)
+            # draw a step from the RNG (dx, xy)
+            rand_step = self.gen.randn(1,2)[-1]
 
             # update the next position and check validity
-            pos = [[self.x],[self.y]] + rand_step*sigma
-            if (0<=pos[0][0]<=self.limits[0]) and (0<=pos[1][0]<=self.limits[1]):
+            new_pos = xy._make([self.pos.x, self.pos.y]+ rand_step*sigma)
+            if (0<=new_pos.x<=self.limits[0]) and (0<=new_pos.y<=self.limits[1]):
                 # we have a valid move -> update new position
-                self.x = pos[0][0]
-                self.y = pos[1][0]
-                return((self.x,self.y))
+                self.pos = new_pos
+                return(new_pos)
             else:
-                print('misstep {} at x = {}; y = {}'.format(ii,  pos[0][0], pos[1][0]))
+                print('misstep {} at x = {}; y = {}'.format(ii,  new_pos.x, new_pos.y))
 
-
-    # def
 
 def run():
     """ ==================
@@ -70,8 +67,7 @@ def run():
         ================== """
     D = Ant()
     print(D.pos)
-    # D.random_step()
-    # print(D.x,D.y)
+    print(D.random_step())
 
 if __name__ == '__main__':
     run()
