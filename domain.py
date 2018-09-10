@@ -9,7 +9,7 @@ class AntDomain():
         The playground of the simulation
         =================================="""
 
-    def __init__(self, size = (10.,10.), pitch=0.1 ):
+    def __init__(self, size = [10.,10.], pitch=0.1 ):
         """  =================================
             Initialize the class
             =================================="""
@@ -24,9 +24,9 @@ class AntDomain():
         self.H, self.W = ((np.array(size)+pitch)/pitch).round().astype(int)
 
         # pixel coordinates
-        self.xx = np.arange(0,size[1]+pitch,self.pitch)
-        self.yy = np.arange(0,size[0]+pitch,self.pitch)
-        self.X, self.Y = np.meshgrid(self.xx,self.yy)
+        xx = np.arange(0,size[1]+pitch,self.pitch)
+        yy = np.arange(0,size[0]+pitch,self.pitch)
+        self.X, self.Y = np.meshgrid(xx, yy)
 
         # initialize empty pheromone map
         self.pheromone_map = np.zeros(self.X.shape)
@@ -41,7 +41,7 @@ class AntDomain():
         self.pheromone_map = np.multiply(self.pheromone_map,xsi)
 
     def update_pheromone(self,):
-        """ =========================
+        """    t = time() =========================
             Here the contribution of the temp map is added to
             the global pheromone map
             ========================="""
@@ -77,13 +77,20 @@ class AntDomain():
 def run():
     # do something to test the class
     D = AntDomain(size=(100,100), pitch = 0.1)
+    tic = time.time()
     D.add_pheromone((1,1), Q = 1, sigma = 1)
-    print(D.get_pheromone_level((1,1)))
+    print("Added pheromone in {:.4f} msecs".format(np.dot(time.time()-tic,1e3)))
+    tic2 = time.time()
     D.update_pheromone()
-    print(D.get_pheromone_level((1,1)))
+    print("Updated map in {:.4f} msecs".format(np.dot(time.time()-tic2,1e3)))
+    tic3 = time.time()
+    L = D.get_pheromone_level((1,1))
+    print("Fetched pheromone in {:.4f} msecs".format(np.dot(time.time()-tic3,1e3)))
+    tic4 = time.time()
     D.evaporate(xsi = 0.75)
-    print(D.get_pheromone_level((1,1)))
-
+    print("Evaporate update in  in {:.4f} msecs".format(np.dot(time.time()-tic4,1e3)))
+    # print(D.get_pheromone_level((1,1)))
+    print("Total time: {:.4f} msecs".format(np.dot(time.time()-tic,1e3)))
 
 if __name__=='__main__':
     run()
