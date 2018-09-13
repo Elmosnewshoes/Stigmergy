@@ -3,8 +3,13 @@ import numpy as np
 import matplotlib.mlab as mlab
 
 class MeshMap():
-    def __init__(self, dim, resolution = 1, base = [0,0], **kwargs):
-        if type(dim) is list:
+    """ ===============
+        Handle the map and useful small_functions
+        X,Y are in local coordinates (mm by default)
+        x1,x2 are corresponding grid coordinates
+        =============== """
+    def __init__(self, dim, resolution = 1, base = [0,0]):
+        if type(dim) is list or type(dim) == type(np.array([])):
             self.dim = fun.Point(dim)
         elif type(dim) is int:
             self.dim = fun.Point([dim,dim])
@@ -30,24 +35,44 @@ class MeshMap():
 
         self._map = np.zeros(self.X.shape)
 
-        if 'covariance' in kwargs:
-            self._covariance = kwargs['covariance']
+    def coord2grid(self,coord):
+        if type(coord) is fun.Point:
+            return np.array(np.dot(coord.vec,1/self.pitch).astype(int))
+        elif type(coord) is list:
+            return np.array(np.dot(coord,1/self.pitch).astype(int))
+        elif type(coord) is float or type(coord) is int:
+            return int(float(coord/self.pitch))
+        else:
+            return coord/self.pitch
+
+    def grid2coord(self, loc):
+        if type(loc) is fun.Point:
+            return fun.Point(np.array(np.dot(loc.vec,self.pitch).astype(float)))
+        elif type(loc) is list and len(loc) ==2:
+            return fun.Point(np.array(np.dot(loc,self.pitch).astype(float)))
+        elif type(loc) is float or type(loc) is int:
+            return float(loc*self.pitch)
+        else:
+            return loc/self.pitch
 
     @property
     def map(self, ):
         return self._map
     @map.setter
-    def map(self,shape):
+    def map(self,map):
+        self._map = map
+
+    def init_map(self,map_type,**kwargs):
         "Set the map type according to specified string"
-        if shape == 'identity':
+        if map_type == 'identity':
             self._map = np.identity(min(self.dim.x,self.dim.y))
-        elif shape == 'zero':
+        elif map_type == 'zero':
             pass
-        elif shape == 'random':
+        elif map_type == 'random':
             self._map = np.random.rand(self.dim.x,self.dim.y)
-        elif shape == 'gaussian':
-            self._map = mlab.bivariate_normal(self.X,self.Y, self._covariance,
-                                              self._covariance,
+        elif map_type == 'gaussian':
+            self._map = self.pitch*self.pitch*mlab.bivariate_normal(self.X,self.Y, kwargs['covariance'],
+                                              kwargs['covariance'],
                                               (self.dim.x-self.base.x)/2,
                                               (self.dim.y-self.base.y)/2)
 
@@ -60,9 +85,10 @@ class MeshMap():
             =========== """
         error = False # required in output
         limit = ''
+        ax = ''
         if 'axis' in kwargs:
             ax = kwargs['axis'].upper() # need to return this
-            if ax == 'X':
+            if ax == 'X' or ax =='X1':
                 'X-axis: first component in list/matrix'
                 up_lim = self.lim.x
                 low_lim = self.low_lim.x
@@ -102,12 +128,15 @@ def run():
     M = MeshMap(dim=[10,10], resolution = 0.5)
     # M._map = np.identity(10)
     # print(M.map.shape)
-    # print(M.lim.vec)
-    M._covariance = 0.25
-    M.map = 'gaussian'
+    print(M.lim.vec)
+    M.init_map(map_type ='gaussian', covariance = 0.25)
     i,j = np.where(M.map==M.map.max())
     print('{},{}'.format(M.X[0][i][0],M.Y[j][0][0]))
-    # print(M.span(base=5, span =3, axis='X'))
+    print(M.span(base=5, span =3, axis='X'))
+    print(M.X)
+
+    print(M.coord2grid(1))
+    print(M.grid2coord([1,1]))
 
 if __name__ == '__main__':
     run()

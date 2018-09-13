@@ -2,14 +2,16 @@ import numpy as np
 import time
 import matplotlib.mlab as mlab
 from map import MeshMap
-from small_functions import gaussian, roundPartial
+from small_functions import roundPartial
+
+" Volume of the gaussian is not on to par yet"
 
 class AntDomain():
     """  =================================
         The playground of the simulation
         =================================="""
 
-    def __init__(self, size = [10.,10.], pitch=0.1, local_size = 10 ):
+    def __init__(self, size = [10.,10.], pitch=0.1):
         """  =================================
             Initialize the class
             =================================="""
@@ -25,12 +27,11 @@ class AntDomain():
         # initialize empty map for temporary updates
         self.temp_map = self.Map.map
 
-        # for local update
-        # self.local_coords = np.arange(-round(local_size/2*pitch,2),round(local_size/2*pitch,2)+pitch,pitch)
-        # self.localX, self.localY = np.meshgrid(self.local_coords, self.local_coords)
-        # self.local_gaussian =  mlab.bivariate_normal(self.localX,self.localY, 0.1, 0.1, 0,0)
+        # get a gaussian map (initialize with zeros)
+        self.Gaussian = MeshMap(dim = np.dot(size,1e-1), resolution=pitch)
 
-
+    def set_gaussian(self,sigma):
+        self.Gaussian.init_map(map_type='gaussian',covariance = sigma)
 
     def evaporate(self, xsi):
         """ ========================
@@ -38,7 +39,7 @@ class AntDomain():
             on the pheromone map with evap. constant xsi
             (since lambda is system name)
             ========================"""
-        self.pheromone_map = np.multiply(self.pheromone_map,xsi)
+        self.Map.map = np.multiply(self.Map.map,xsi)
 
     def update_pheromone(self,):
         """ =========================
@@ -46,25 +47,35 @@ class AntDomain():
             the global pheromone map
             ========================="""
         self.Map.map = np.add(self.temp_map,self.Map.map)
-        self.temp_map =  np.zeros(self.X.shape)
+        self.temp_map =  np.zeros(self.Map.X.shape)
 
-    # def local_add(self, loc = [2.5,3], Q = 1):
-    #     rng_x = np.asarray(self.local_coords/self.pitch + loc[0]/self.pitch,dtype=int)
-    #     rng_y = np.asarray(self.local_coords/self.pitch + loc[1]/self.pitch,dtype=int)
-    #     print(self.X[0][rng_x])
-    #     print(self.Y[rng_y][0])
-    #     print(self.temp_map[:][rng_y])
+    def local_add_pheromone(self,loc=[0,0], Q=1.):
+        """  =================================
+            Add some pheromone at a location to the temporary pheromone map,
+            based on stored preshaped normalized gaussian
+            =================================="""
+        # get grid coordinates
+        x,y = loc
+        span_x1, span_x2 = self.Gaussian.map.shape
+        x1_range = self.Map.span(base = x, axis = 'X', span = int((span_x1-1)/2))
+        x2_range = self.Map.span(base = y, axis = 'Y', span = int((span_x2-1)/2))
+
+        if x1_range['error'] == True:
+            if x1_range['limit'] =='upper':
+                self.temp_map[x1_range['span'].min():x1_range['span'].max()+1,
+                              x1_range['span'].min():x1_range['span'].max()+1] = np.dot(Q,self.Gaussian.map)
+
+
+
+
+
 
     def add_pheromone(self, loc=[0,0], Q = 1., sigma = 0.5):
         """  =================================
             Add some pheromone at a location to the temporary pheromone map
             =================================="""
-
         tic = time.time()
-
-        # snap x and y coordinates to grid
-        x = roundPartial(loc[0],self.Map.pitch)
-        y = roundPartial(loc[1],self.Map.pitch)
+        x,y = loc
 
         """ add the pheromone """
         self.temp_map += Q*mlab.bivariate_normal(self.Map.X,self.Map.Y, sigma, sigma, x,y)
@@ -72,33 +83,35 @@ class AntDomain():
 
     def get_pheromone_level(self, probe_point):
         """  =================================
-            Return the pheromone level based on map position
+            Return the pheromone level based on map position in mm
             =================================="""
-        x = int(round(roundPartial(probe_point[0],self.Map.pitch)/self.Map.pitch))
-        y = int(round(roundPartial(probe_point[1],self.Map.pitch)/self.Map.pitch))
-        # print(x,y)
-        return self.pheromone_map[y,x]
-
+        x1,x2 = self.Map.coord2grid(probe_point)
+        return self.Map.map[x1,x2]
 
 def run():
     # do something to test the class
-    D = AntDomain(size=[1000,1000], pitch = 1)
+    D = AntDomain(size=[1000,1000], pitch = .5)
     print(D.Map.map.shape)
     tic = time.time()
     D.add_pheromone([1,1], Q = 1, sigma = 0.1)
     print("Added pheromone in {:.4f} msecs".format(np.dot(time.time()-tic,1e3)))
     tic2 = time.time()
     D.update_pheromone()
-    # print("Updated map in {:.4f} msecs".format(np.dot(time.time()-tic2,1e3)))
-    # tic3 = time.time()
-    # L = D.get_pheromone_level((1,1))
-    # print("Fetched pheromone in {:.4f} msecs".format(np.dot(time.time()-tic3,1e3)))
-    # tic4 = time.time()
-    # D.evaporate(xsi = 0.75)
-    # print("Evaporate update in  in {:.4f} msecs".format(np.dot(time.time()-tic4,1e3)))
-    # # print(D.get_pheromone_level((1,1)))
-    # print("Total time: {:.4f} msecs".format(np.dot(time.time()-tic,1e3)))
+    print("Updated map in {:.4f} msecs".format(np.dot(time.time()-tic2,1e3)))
+    tic3 = time.time()
+    L = D.get_pheromone_level([1,1])
+    print("Fetched pheromone in {:.4f} msecs".format(np.dot(time.time()-tic3,1e3)))
+    print(L)
+    print(D.Map.map.sum()*D.Map.pitch*D.Map.pitch)
+    tic4 = time.time()
+    D.evaporate(xsi = 0.75)
+    print("Evaporate update in  in {:.4f} msecs".format(np.dot(time.time()-tic4,1e3)))
+    print("Total time: {:.4f} msecs".format(np.dot(time.time()-tic,1e3)))
     # print(D.local_add())
 
+    print(D.Gaussian.map.shape)
+    tic = time.time()
+    D.local_add_pheromone([150,150])
+    print("Local add took {:.4f} msec".format(np.dot(time.time()-tic,1e3)))
 if __name__=='__main__':
     run()
