@@ -56,18 +56,30 @@ class AntDomain():
             =================================="""
         # get grid coordinates
         x,y = loc
+
         span_x1, span_x2 = self.Gaussian.map.shape
-        x1_range = self.Map.span(base = x, axis = 'X', span = int((span_x1-1)/2))
-        x2_range = self.Map.span(base = y, axis = 'Y', span = int((span_x2-1)/2))
-
-        if x1_range['error'] == True:
-            if x1_range['limit'] =='upper':
-                self.temp_map[x1_range['span'].min():x1_range['span'].max()+1,
-                              x1_range['span'].min():x1_range['span'].max()+1] = np.dot(Q,self.Gaussian.map)
+        X_range, X_prop = self.Map.span(base = x, axis = 'X', span = int((span_x1-1)/2))
+        Y_range, Y_prop = self.Map.span(base = y, axis = 'Y', span = int((span_x2-1)/2))
 
 
+        # pointer to a temp map that can be sliced and diced
+        tmp_gauss = self.Gaussian.map
 
+        # check if guassian needs slicing
+        if X_prop['error'] == True:
+            if X_prop['limit'] =='upper':
+                tmp_gauss = tmp_gauss[:-int(X_range[0]-X_range[1]),:]
+            else:
+                tmp_gauss = tmp_gauss[-int(X_range[1]-X_range[0]):,:]
+        if Y_prop['error'] == True:
+            if Y_prop['limit'] == 'upper':
+                tmp_gauss = tmp_gauss[:,:-int(Y_range[0]-Y_range[1])]
+            else:
+                tmp_gauss = tmp_gauss[:,-int(Y_range[1]-Y_range[0]):]
 
+        # finally, insert the gaussian in the temp_map
+        self.temp_map[X_range[0]:X_range[1],
+                      Y_range[0]:Y_range[1]] = np.dot(Q,tmp_gauss)
 
 
     def add_pheromone(self, loc=[0,0], Q = 1., sigma = 0.5):
@@ -90,7 +102,7 @@ class AntDomain():
 
 def run():
     # do something to test the class
-    D = AntDomain(size=[1000,1000], pitch = .5)
+    D = AntDomain(size=[1000,1000], pitch = 5)
     print(D.Map.map.shape)
     tic = time.time()
     D.add_pheromone([1,1], Q = 1, sigma = 0.1)

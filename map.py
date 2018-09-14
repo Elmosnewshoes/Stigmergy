@@ -114,14 +114,13 @@ class MeshMap():
 
             low_lim  = max(low_lim,int(base/self.pitch) - int(kwargs['span']))
             up_lim = min(up_lim, int(base/self.pitch) + int(kwargs['span'])+1)
-            span = np.arange(low_lim,up_lim,1) # return this
+            span = [int(low_lim),int(up_lim)] # return this
         else:
             span = int(base/self.pitch)
 
-        return {'span' : span,
-                'error': error,
+        return [span,{'error': error,
                 'axis' : ax,
-                'limit': limit}
+                'limit': limit}]
 
 
 def run():
