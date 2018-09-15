@@ -84,7 +84,15 @@ class MapPlot():
 
     def add_scatter(self,loc,*sensor_loc):
         """ ================
-            Add scatter
+            Add scatter to the list
+            if sensor_loc is provided, update that list as well
+            ================ """
+        self.AntLoc = loc
+        if sensor_loc:
+            self.SensorLoc = sensor_loc
+
+    def draw_scatter(self, color = 'k'):
+        self.scat = self.ax1.scatter(scat_X,scat_Y, s=80, c=color, marker=marker)
 
     # def set_plot(self,Z):
     #     self.fig, self.ax1 = plt.subplots(nrows=1)

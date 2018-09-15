@@ -36,6 +36,8 @@ class Ant():
         self.v_max = v_max
         self.v = speed
 
+        print("Booted up agent {}".format(int(self.ID)))
+
     @property # handle setting of azimuth with restrictions
     def azimuth(self):
         return self._azimuth
