@@ -82,6 +82,7 @@ class AntDomain():
                       Y_range[0]:Y_range[1]] = np.dot(Q,tmp_gauss)
 
 
+
     def add_pheromone(self, loc=[0,0], Q = 1., sigma = 0.5):
         """  =================================
             Add some pheromone at a location to the temporary pheromone map
