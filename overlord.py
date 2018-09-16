@@ -3,7 +3,7 @@ import numpy as np
 import time
 
 
-class AntOverlord():
+class Queen():
     """ ===============
         Manage all the agents during the simulation
         =============== """
@@ -32,8 +32,10 @@ class AntOverlord():
                               [ant.sensors['right'].vec
                               for ant in self.ant_list])
 
-    def deploy(self,):
+    def deploy(self, start = 'random', v_max):
         """ ===============
+            Deploy a number of ants according to the situation specified at
+            self.start
             =============== """
         v_max = 10
         self.ant_list = [ Ant(start_pos = [1,1], ant_id = i, v_max = v_max, limits = self.dom_size)

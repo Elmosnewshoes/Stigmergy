@@ -23,10 +23,11 @@ class Ant():
         self.limits = Point(limits)  #domain limits in mm
 
         # ant physical properties
-        self.l = 3 #length in mm (distance between CoM and sensors)
+        self.l = 30 #length in mm (distance between CoM and sensors)
         self.antenna_offset = 30 #angle [degrees] between centerline and antenna from the base of the antenna
         self.sensors = {'left':Point([0,0]), #position of the sensors (absolute)
                    'right': Point([0,0])}
+        self.set_sensor_position()
 
 
         # assign private RNG
@@ -47,6 +48,8 @@ class Ant():
             self._azimuth = azimuth-360
         elif azimuth < 0:
             self._azimuth = azimuth+360
+        else:
+            self._azimuth = azimuth
 
     def calc_position(self,dt):
         """ ============================
@@ -54,7 +57,7 @@ class Ant():
             follow the wall when in danger of leaving the domain
             ============================ """
         new_pos = np.dot(dt,self.pos.vec
-                         + np.dot(self.v,[1,0])*T_matrix(self.azimuth))
+                         + np.dot(self.v,[1,0])*T_matrix(self.azimuth).transpose())
         # check boundaries
         self.pos.vec = np.maximum(new_pos,[0,0]) #lower bounds
         self.pos.vec = np.minimum(self.pos.vec,self.limits.vec) #upper bounds
@@ -67,11 +70,11 @@ class Ant():
         self.sensors['left'].vec = (self.pos.vec
                                     + np.dot(self.l,[1,0])
                                     *T_matrix(self.azimuth
-                                              + self.antenna_offset))
+                                              + self.antenna_offset).transpose())
         self.sensors['right'].vec = (self.pos.vec
                                      + np.dot(self.l,[1,0])
-                                     *T_matrix(-self.azimuth
-                                               - self.antenna_offset))
+                                     *T_matrix(self.azimuth
+                                               - self.antenna_offset).transpose())
 
     def observed_pheromone(self,Q, c = 0, a = 1):
         """ ============================
@@ -112,7 +115,7 @@ class Ant():
             perform a step based on speed manipulation
             ============================ """
         # set new state
-        self.v = min(max(self.v+5+self.gen.randn()*sigma_speed,0),
+        self.v = min(max(self.v-1+self.gen.randn()*sigma_speed,0),
                          self.v_max) # 0<= speed <= v_max
         self.azimuth +=360*self.gen.randn()*sigma_rotate
 
@@ -137,7 +140,7 @@ class Ant():
             new_pos = Point(self.pos.vec+ rand_step*sigma)
             if (0<=new_pos.x<=self.limits.x) and (0<=new_pos.y<=self.limits.y):
                 # we have a valid move -> update new position
-                self.pos.vec = new_pos
+                self.pos.vec = new_pos.vec
                 self.set_sensor_position()
                 return(new_pos)
             else:

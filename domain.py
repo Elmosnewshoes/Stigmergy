@@ -94,12 +94,20 @@ class AntDomain():
         self.temp_map += Q*mlab.bivariate_normal(self.Map.X,self.Map.Y, sigma, sigma, x,y)
         self.update_time = time.time()-tic
 
-    def get_pheromone_level(self, probe_point):
+    def get_pheromone_level(self, probe_point, islist = False):
         """  =================================
             Return the pheromone level based on map position in mm
             =================================="""
-        x1,x2 = self.Map.coord2grid(probe_point)
-        return self.Map.map[x1,x2]
+        if islist:
+            "multiple queries"
+            out = []
+            for point in probe_point:
+                x1,x2 = self.Map.coord2grid(point)
+                out.append(self.Map.map[x1,x2])
+            return out
+        else:
+            x1,x2 = self.Map.coord2grid(probe_point)
+            return self.Map.map[x1,x2]
 
 def run():
     # do something to test the class
