@@ -30,8 +30,9 @@ class SimpleSim():
         # == Start loop ==
         for i in range(n_steps):
             self.Ant.random_roll(sigma_speed = 5, sigma_rotate = 0.1) # do random step
-            self.Dom.local_add_pheromone(self.Ant.pos.vec) # add pheromone to the map
-            self.Dom.update_pheromone() # update the global map
+            if not self.Ant.out_of_bounds:
+                self.Dom.local_add_pheromone(self.Ant.pos.vec) # add pheromone to the map
+                self.Dom.update_pheromone() # update the global map
             if i%contour_interval ==0: # check if needs printing
                 print("At step {:d}".format(i))
                 self.Plot.draw_contour(self.Dom.Map.map) # plot the contour
@@ -62,8 +63,10 @@ class SimpleSim():
                                     self.Ant.observed_pheromone(pheromone[1],activation = 'linear')],
                                    gain = 0.025,
                                    SNR = 0.05)
-            self.Dom.local_add_pheromone(self.Ant.pos.vec, peak_1 = True, Q = 0.1) # add pheromone to the map
-            self.Dom.update_pheromone() # update the global map
+           # dont add pheromon when at the boundary!
+            if not self.Ant.out_of_bounds:
+                self.Dom.local_add_pheromone(self.Ant.pos.vec, peak_1 = True, Q = 0.1) # add pheromone to the map
+                self.Dom.update_pheromone() # update the global map
             self.draw_ant_scatter()
 
             if i%contour_interval ==0:

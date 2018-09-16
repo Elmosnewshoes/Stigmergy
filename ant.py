@@ -63,12 +63,22 @@ class Ant():
         """ ============================
             Calculate the Ant position based on the current speed and orientation
             follow the wall when in danger of leaving the domain
+            toggle foodbound and out_of_bounds if necessary
             ============================ """
         new_pos = np.dot(dt,self.pos.vec
                          + np.dot(self.v,[1,0])*T_matrix(self.azimuth).transpose())
-        # check boundaries
+
+        # compensate for boundaries
         self.pos.vec = np.maximum(new_pos,[0,0]) #lower bounds
         self.pos.vec = np.minimum(self.pos.vec,self.limits.vec) #upper bounds
+
+        # check boundaries
+        if (min(self.pos.vec) <1e-3
+            or self.pos.x >= self.limits.x-1e-3
+            or self.pos.y >=self.limits.y-1e-3):
+            self.out_of_bounds = True
+        else:
+            self.out_of_bounds = False
 
     def set_sensor_position(self):
         """ ============================
