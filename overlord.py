@@ -5,6 +5,7 @@ import time
 
 class Queen():
     """ ===============
+        WORK IN PROGRESS !!!
         Manage all the agents during the simulation
         =============== """
     def __init__(self, n_agents= 1, start = 'random', dom_size = [1000,1000],):
@@ -32,7 +33,7 @@ class Queen():
                               [ant.sensors['right'].vec
                               for ant in self.ant_list])
 
-    def deploy(self, start = 'random', v_max):
+    def deploy(self, start = 'random', v_max = 1e9):
         """ ===============
             Deploy a number of ants according to the situation specified at
             self.start
@@ -42,7 +43,7 @@ class Queen():
          for i in range(self.n_agents)]
 
 def run():
-    X = AntOverlord(n_agents = 10)
+    X = Queen(n_agents = 10)
     X.deploy()
     tic = time.time()
     print(X.positions())

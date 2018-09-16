@@ -2,7 +2,7 @@ import numpy as np
 import time
 import matplotlib.mlab as mlab
 from map import MeshMap
-from small_functions import roundPartial
+from small_functions import roundPartial, Point
 
 
 class AntDomain():
@@ -10,7 +10,7 @@ class AntDomain():
         The playground of the simulation
         =================================="""
 
-    def __init__(self, size = [10.,10.], pitch=0.1):
+    def __init__(self, size = [10.,10.], pitch=0.1, nest = {}, food = {}):
         """  =================================
             Initialize the class
             =================================="""
@@ -28,6 +28,27 @@ class AntDomain():
 
         # get a gaussian map (initialize with zeros)
         self.Gaussian = MeshMap(dim = np.dot(size,1e-1), resolution=pitch)
+
+        # == set the nest and food if necessary
+        if nest:
+            self.nest_location = Point(nest['location'])
+            self.nest_radius = nest['radius']
+        if food:
+            self.food_location = Point(food['location'])
+            self.food_radius = food['radius']
+
+    def inrange(self,loc, target = 'food'):
+        """ ==============
+            check if the supplied location is within
+            either the nest or the food source
+            ============== """
+        if target == 'food':
+            if np.linalg.norm(np.array(loc)-np.array(self.food_location.vec)) < self.food_radius:
+                return True
+        else:
+            if np.linalg.norm(np.array(loc)-np.array(self.nest_location.vec)) < self.nest_radius:
+                return True
+        return False
 
     def set_gaussian(self,sigma):
         self.Gaussian.init_map(map_type='gaussian',covariance = sigma)

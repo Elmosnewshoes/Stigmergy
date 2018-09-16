@@ -87,10 +87,10 @@ class MapPlot():
         # keep the plotting window open until manually closed
         plt.show(block = True)
 
-    def draw_scatter(self, x,y,marker = 'x', color = 'k', name = 'ant'):
+    def draw_scatter(self, x,y,marker = 'x', color = 'k', name = 'ant',s=80):
         if name in self.scat:
             self.scat[name].remove()
-        self.scat[name] = self.ax.scatter(x,y, s=80, c=color, marker=marker)
+        self.scat[name] = self.ax.scatter(x,y,s=s , c=color, marker=marker)
 
 def run():
     """====================

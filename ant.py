@@ -43,6 +43,9 @@ class Ant():
         self.foodbound = True
         self.out_of_bounds = False
 
+    def reverse(self):
+        self.azimuth = self.azimuth+180
+
     @property
     def sens_loc(self):
         return [self.sensors['left'].vec, self.sensors['right'].vec]
@@ -137,8 +140,8 @@ class Ant():
         #update orientation based on pheromone
         self.azimuth += (diff + SNR*2*(np.random.rand()-0.5)) * theta_max
 
-        print("Q_left: {:.4f}, Q_right: {:.4f} -> d_theta: {:.4f}".
-              format(Q[0,0], Q[0,1],diff*theta_max))
+        # print("Q_left: {:.4f}, Q_right: {:.4f} -> d_theta: {:.4f}".
+        #       format(Q[0,0], Q[0,1],diff*theta_max))
 
         #perform step in new direction
         self.calc_position(dt=dt)
