@@ -10,7 +10,8 @@ class Ant():
     # start_pos (x,y) in mm
     # limits (x_lim, y_lim) in mm
 
-    def __init__(self, start_pos = [1,1], limits = [10,10], ant_id =0, speed=0, angle=0, v_max = 1e9):
+    def __init__(self, start_pos = [1,1], limits = [10,10], ant_id =0, speed=0,
+                 angle=0, v_max = 1e9, activation = 'linear'):
         """  =================================
             Initialize the class
             ================================== """
@@ -29,7 +30,6 @@ class Ant():
                    'right': Point([0,0])}
         self.set_sensor_position()
 
-
         # assign private RNG
         self.gen = np.random.RandomState()
 
@@ -38,6 +38,14 @@ class Ant():
         self.v = speed
 
         print("Booted up agent {}".format(int(self.ID)))
+
+        # Some settings regarding boundary and food/nest awareness
+        self.foodbound = True
+        self.out_of_bounds = False
+
+    @property
+    def sens_loc(self):
+        return [self.sensors['left'].vec, self.sensors['right'].vec]
 
     @property # handle setting of azimuth with restrictions
     def azimuth(self):
@@ -76,7 +84,7 @@ class Ant():
                                      *T_matrix(self.azimuth
                                                - self.antenna_offset).transpose())
 
-    def observed_pheromone(self,Q, c = 0, a = 1):
+    def observed_pheromone(self,Q, activation = 'linear', a= 1, c = 1, **kwargs):
         """ ============================
             Transform the absolute quantity of pheromone to something
             observed by the ant through a (nonlinear) transformation
@@ -84,11 +92,23 @@ class Ant():
             c = breakpoint location in case of sigmoid function
             a = steepness of sigmoid curve
             ============================ """
+        # === preprocessing ==
+        if 'gain' in kwargs:
+            gain = kwargs['gain']
+        else:
+            gain = 1
         if type(Q) is list:
             Q = np.matrix(Q) #list to numpy matrix
-        return 1/(1+np.exp(-np.dot(a,(Q-c))))
 
-    def gradient_step(self,Q,theta_max=360,dt=1, SNR = 0):
+        # == return value ==
+        if activation == 'linear':
+            return gain*Q
+        elif activation == 'sigmoid':
+            return gain/(1+np.exp(-np.dot(a,(Q-c))))
+        else:
+            return Q
+
+    def gradient_step(self,Q,theta_max=360,dt=1, SNR = 0, gain = 1):
         """ ============================
             Take a step towards the direction with the highest amount of
             (observed) pheromone
@@ -97,14 +117,18 @@ class Ant():
             dt = timestep
             SNR = signal to noise ratio
             ============================ """
-        # todo: add noise
+        # todo: add noise, update: done!
         # todo2: speed based on pheromon quantity
+
         if type(Q) is list:
             Q = np.matrix(Q)
-        diff = Q[0,0]-Q[0,1] #difference between left and right: -1<=diff<=1
+        diff = gain*(Q[0,0]-Q[0,1]) #difference between left and right: -1<=diff<=1
 
         #update orientation based on pheromone
-        self.azimuth += diff * theta_max
+        self.azimuth += (diff + SNR*2*(np.random.rand()-0.5)) * theta_max
+
+        print("Q_left: {:.4f}, Q_right: {:.4f} -> d_theta: {:.4f}".
+              format(Q[0,0], Q[0,1],diff*theta_max))
 
         #perform step in new direction
         self.calc_position(dt=dt)
@@ -161,7 +185,7 @@ def run():
     #     D.random_roll(dt = 0.1)
     #     print("Speed = {}, heading = {} ; {}".format(D.v,D.azimuth, D))
     # D.set_sensor_position()
-    print(D.observed_pheromone([0,-1]))
+    print(D.observed_pheromone([3,-1],activation = 'linear'))
     D.gradient_step(Q=D.observed_pheromone([0,1]),theta_max=360)
     print(D)
 

@@ -4,7 +4,6 @@ import matplotlib.mlab as mlab
 from map import MeshMap
 from small_functions import roundPartial
 
-" Volume of the gaussian is not on to par yet"
 
 class AntDomain():
     """  =================================
@@ -49,7 +48,7 @@ class AntDomain():
         self.Map.map = np.add(self.temp_map,self.Map.map)
         self.temp_map =  np.zeros(self.Map.X.shape)
 
-    def local_add_pheromone(self,loc=[0,0], Q=1.):
+    def local_add_pheromone(self,loc=[0,0], Q=1., peak_1 = False):
         """  =================================
             Add some pheromone at a location to the temporary pheromone map,
             based on stored preshaped normalized gaussian
@@ -63,7 +62,10 @@ class AntDomain():
 
 
         # pointer to a temp map that can be sliced and diced
-        tmp_gauss = self.Gaussian.map
+        if peak_1:
+            tmp_gauss = self.Gaussian.map/self.Gaussian.map.max()
+        else:
+            tmp_guass = self.Gaussian.map
 
         # check if guassian needs slicing
         if X_prop['error'] == True:
@@ -83,15 +85,21 @@ class AntDomain():
 
 
 
-    def add_pheromone(self, loc=[0,0], Q = 1., sigma = 0.5):
+    def add_pheromone(self, loc=[0,0], Q = 1., sigma = 0.5, peak_1 = False):
         """  =================================
             Add some pheromone at a location to the temporary pheromone map
+            if peak_1 == true, the peak of the guassian = 1, else, volume of the
+            graph  = 1
             =================================="""
         tic = time.time()
         x,y = loc
 
         """ add the pheromone """
-        self.temp_map += Q*mlab.bivariate_normal(self.Map.X,self.Map.Y, sigma, sigma, x,y)
+        gauss = mlab.bivariate_normal(self.Map.X,self.Map.Y, sigma, sigma, x,y)
+        if peak_1:
+            self.temp_map += Q/gauss.max()*gauss
+        else:
+            self.temp_map += Q*gauss
         self.update_time = time.time()-tic
 
     def get_pheromone_level(self, probe_point, islist = False):
@@ -103,11 +111,18 @@ class AntDomain():
             out = []
             for point in probe_point:
                 x1,x2 = self.Map.coord2grid(point)
-                out.append(self.Map.map[x1,x2])
+                # if out of bounds, return 0
+                try:
+                    out.append(self.Map.map[x1,x2])
+                except:
+                    out.append(0)
             return out
         else:
             x1,x2 = self.Map.coord2grid(probe_point)
-            return self.Map.map[x1,x2]
+            try:
+                return self.Map.map[x1,x2]
+            except:
+                return 0
 
 def run():
     # do something to test the class
