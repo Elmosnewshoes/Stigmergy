@@ -1,3 +1,8 @@
+""" ==========
+    Written by: Bram Durieux,
+    Delft University of Technology, Delft, The Netherlands
+    ========== """
+
 import numpy as np
 import time
 from small_functions import T_matrix, Point

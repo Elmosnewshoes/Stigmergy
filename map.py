@@ -1,3 +1,9 @@
+""" ==========
+    Written by: Bram Durieux,
+    Delft University of Technology, Delft, The Netherlands
+    ========== """
+
+
 import small_functions as fun
 import numpy as np
 import matplotlib.mlab as mlab

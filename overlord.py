@@ -1,3 +1,10 @@
+""" ==========
+    Written by: Bram Durieux,
+    Delft University of Technology, Delft, The Netherlands
+    ========== """
+
+
+
 from ant import Ant
 import numpy as np
 import time

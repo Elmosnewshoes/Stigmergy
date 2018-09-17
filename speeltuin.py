@@ -1,3 +1,8 @@
+""" ==========
+    Written by: Bram Durieux,
+    Delft University of Technology, Delft, The Netherlands
+    ========== """
+
 import numpy as np
 import small_functions as fun
 import matplotlib.pyplot as plt

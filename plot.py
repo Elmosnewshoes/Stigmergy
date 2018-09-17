@@ -1,3 +1,9 @@
+""" ==========
+    Written by: Bram Durieux,
+    Delft University of Technology, Delft, The Netherlands
+    ========== """
+
+
 import numpy as np
 import matplotlib.cm as cm
 import matplotlib.pyplot as plt

@@ -1,3 +1,8 @@
+""" ==========
+    Written by: Bram Durieux,
+    Delft University of Technology, Delft, The Netherlands
+    ========== """
+
 import math
 import numpy as np
 from collections import namedtuple
