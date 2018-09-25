@@ -35,6 +35,9 @@ def plot_surf(X,Y,Z):
     tic = time.time()
     plt.show()
     print("Render the plot in {:.4f}".format(time.time()-tic))
+    x= np.random.rand(1000,1000)
+    print(x.nbytes)
+
 def run():
     D = AntDomain(size=[1000,1000], pitch = 2)
     D.set_gaussian(sigma = 25)

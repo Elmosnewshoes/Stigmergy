@@ -5,9 +5,8 @@
 
 import numpy as np
 import time
-import matplotlib.mlab as mlab
 from map import MeshMap
-from small_functions import roundPartial, Point
+from small_functions import roundPartial, Point, bivariate_normal
 
 
 class AntDomain():
@@ -91,7 +90,7 @@ class AntDomain():
         if peak_1:
             tmp_gauss = self.Gaussian.map/self.Gaussian.map.max()
         else:
-            tmp_guass = self.Gaussian.map
+            tmp_gauss = self.Gaussian.map
 
         # check if guassian needs slicing
         if X_prop['error'] == True:
@@ -121,7 +120,7 @@ class AntDomain():
         x,y = loc
 
         """ add the pheromone """
-        gauss = mlab.bivariate_normal(self.Map.X,self.Map.Y, sigma, sigma, x,y)
+        gauss = bivariate_normal(self.Map.X,self.Map.Y, sigma, sigma, x,y)
         if peak_1:
             self.temp_map += Q/gauss.max()*gauss
         else:

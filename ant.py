@@ -14,7 +14,6 @@ class Ant():
         =========================== """
     # start_pos (x,y) in mm
     # limits (x_lim, y_lim) in mm
-
     def __init__(self, start_pos = [1,1], limits = [10,10], ant_id =0, speed=0,
                  angle=0, v_max = 1e9, activation = 'linear'):
         """  =================================
@@ -152,6 +151,9 @@ class Ant():
         self.calc_position(dt=dt)
         self.set_sensor_position()
 
+        # return all positions
+        # return self.pos.x,self.pos.y, self.
+
     def random_roll(self,sigma_speed = 5, sigma_rotate = 0.01, dt = 1):
         """ ============================
             perform a step based on speed manipulation
@@ -191,6 +193,11 @@ class Ant():
     def __str__(self):
         'print something useful'
         return "Ant {ID} at position ({x}, {y})".format(ID=self.ID, x=self.pos.x,y=self.pos.y)
+    def __enter__(self):
+        # return when class is casted in 'with Ant as ..:'
+        return self
+    def __exit__(self, type, value, traceback):
+        pass
 
 
 def run():
