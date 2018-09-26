@@ -7,6 +7,7 @@ from ant import Ant
 from domain import AntDomain
 from plot import MapPlot
 import numpy as np
+import time
 # from overlord import Queen
 
 class SimpleSim():
@@ -90,6 +91,7 @@ class SimpleSim():
         # == loop over the simulation ==
         for i in range(n_steps):
             # get the pheromone level at ant sensor location
+            tic = time.time()
             for Ant in self.Ants:
                 pheromone = self.Dom.get_pheromone_level(Ant.sens_loc,
                                                          islist=True)
@@ -114,39 +116,76 @@ class SimpleSim():
                     Ant.reverse()
                     print("Found nest, looking for food")
 
+            print("Update of {:n} ant in {:.4f} msecs".format(len(self.Ants), 1e3*(time.time()-tic)))
+
             # == draw stuff ==
             self.draw_ant_scatter()
             if i%contour_interval ==0:
-                print("At step {:d}".format(i))
+                tic = time.time()
                 self.Plot.draw_contour(self.Dom.Map.map)
                 self.Dom.evaporate(0.97)
+                print("At step {:d}, plot in {:.4f} msec".format(i, 1e3*(time.time()-tic)))
 
 
 class MultiSim():
     """ ==================
         Do a simulation of a system of Ants
         ================== """
-    def __init__(self, size = [1000,1000], pitch = 1, n_ants = 10):
+    def __init__(self, size = [1000,1000], pitch = 1, n_ants = 5):
         """ ==================
-            WORK IN PROGRESS
+            Do a simulation of a system of ants
+            Better optimized version of SimpleSim
             ================== """
         self.size = size
         self.pitch = pitch
 
-        self.Dom = AntDomain(size, pitch)
-        self.Dom.set_gaussian(sigma = 25)
-        self.Ants = QueenAnt(Ant(limits = size, start_pos = np.dot(0.5,size), speed=10, v_max =20))
-        self.Plot = MapPlot(self.Dom.Map.X,self.Dom.Map.Y)
+        self.Dom = AntDomain(size, pitch,
+                             food = {'location': [850,500],'radius':50},
+                             nest = {'location': [150,500],'radius':50})
+        self.Dom.set_gaussian(sigma = 10)
 
+        self.Ants = [ Ant(limits = size,
+                          start_pos = 1000*np.random.rand(1,2)[0],
+                          angle = 360*np.random.rand(), speed=2,
+                          v_max =5, ant_id = i) for i in range(n_ants) ]
+        self.Plot = MapPlot(self.Dom.Map.X,self.Dom.Map.Y)
+        self._sensors_left = np.zeros((n_ants,2))
+        self._sensor_right = np.zeros((n_ants,2))
+        self._ants_pos = np.zeros((n_ants,2))
+
+    defA
+
+    def pos_xy(self,target, axis):
+        if target == 'ant':
+            if axis == 'x':
+                return self._ants_pos[:,0]
+            else:
+                return self._ants_pos[:,1]
+        elif target == 'left':
+            if axis == 'x':
+                return self._sensors_left[:,0]
+            else:
+                return self._sensors_left[:,1]
+        else:
+            if axis == 'x':
+                return self._sensors_right[:,0]
+            else:
+                return self._sensors_right[:,1]
 
 def runSimpleSim():
-    S = SimpleSim(n_ants = 5)
+    S = SimpleSim(n_ants = 20)
     # S.random_roll_sim()
-    S.gradient_sim(contour_interval = 10, n_steps = 1500)
+    print(S.Dom.Gaussian.map.shape)
+    # S.gradient_sim(contour_interval = 10, n_steps = 1500)
 
     # ==All done, lock the graph ==
     S.Plot.hold_until_close()
 
+def test():
+    MS = MultiSim(n_ants = 10)
+    print(MS.pos_xy('ant','y'))
+
+
 
 if __name__ == '__main__':
-    runSimpleSim()
+    test()

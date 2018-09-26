@@ -13,6 +13,7 @@ import time
 from mpl_toolkits.mplot3d import axes3d, Axes3D #<-- Note the capitalization!
 
 from domain import AntDomain
+from ant import Ant
 
 
 def plot_surf(X,Y,Z):
@@ -46,5 +47,18 @@ def run():
     D.local_add_pheromone([150,150])
     plot_surf(D.Map.X,D.Map.Y,D.temp_map)
 
+    X = np.identity(10)
+    print(X)
+    X[1,0:2] = [1,1]
+    print(X)
+
+def test_ant_speed():
+    limits = [1000,1000]
+    ant = Ant(limits = limits, start_pos = np.dot(0.5,limits), speed=10)
+    dom = AntDomain(size = limits, pitch = 1)
+    dom.set_gaussian(sigma = 10)
+
+
 if __name__ =='__main__':
-    run()
+    # run()
+    test_ant_speed()
