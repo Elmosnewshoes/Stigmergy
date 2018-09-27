@@ -115,7 +115,7 @@ class Ant():
         else:
             gain = 1
         if type(Q) is list:
-            Q = np.matrix(Q) #list to numpy matrix
+            Q = np.array(Q) #list to numpy matrix
 
         # == return value ==
         if activation == 'linear':
@@ -138,21 +138,16 @@ class Ant():
         # todo2: speed based on pheromon quantity
 
         if type(Q) is list:
-            Q = np.matrix(Q)
-        diff = gain*(Q[0,0]-Q[0,1]) #difference between left and right: -1<=diff<=1
+            Q = np.array(Q)
+        diff = gain*(Q[0]-Q[1]) #difference between left and right: -1<=diff<=1
 
         #update orientation based on pheromone
         self.azimuth += (diff + SNR*2*(np.random.rand()-0.5)) * theta_max
-
-        # print("Q_left: {:.4f}, Q_right: {:.4f} -> d_theta: {:.4f}".
-        #       format(Q[0,0], Q[0,1],diff*theta_max))
 
         #perform step in new direction
         self.calc_position(dt=dt)
         self.set_sensor_position()
 
-        # return all positions
-        # return self.pos.x,self.pos.y, self.
 
     def random_roll(self,sigma_speed = 5, sigma_rotate = 0.01, dt = 1):
         """ ============================

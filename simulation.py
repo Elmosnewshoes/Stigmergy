@@ -104,7 +104,6 @@ class SimpleSim():
                # dont add pheromon when at the boundary!
                 if not Ant.out_of_bounds:
                     self.Dom.local_add_pheromone(Ant.pos.vec, peak_1 = True, Q = 0.05) # add pheromone to the map
-                    self.Dom.update_pheromone() # update the global map
 
                 # == Some simulation specific intelligence ==
                 if Ant.foodbound and self.Dom.inrange(Ant.pos.vec,'food'):
@@ -116,12 +115,14 @@ class SimpleSim():
                     Ant.reverse()
                     print("Found nest, looking for food")
 
+
             print("Update of {:n} ant in {:.4f} msecs".format(len(self.Ants), 1e3*(time.time()-tic)))
 
             # == draw stuff ==
             self.draw_ant_scatter()
             if i%contour_interval ==0:
                 tic = time.time()
+                self.Dom.update_pheromone() # update the global map
                 self.Plot.draw_contour(self.Dom.Map.map)
                 self.Dom.evaporate(0.97)
                 print("At step {:d}, plot in {:.4f} msec".format(i, 1e3*(time.time()-tic)))
@@ -153,7 +154,7 @@ class MultiSim():
         self._sensor_right = np.zeros((n_ants,2))
         self._ants_pos = np.zeros((n_ants,2))
 
-    defA
+    # defA
 
     def pos_xy(self,target, axis):
         if target == 'ant':
@@ -173,10 +174,10 @@ class MultiSim():
                 return self._sensors_right[:,1]
 
 def runSimpleSim():
-    S = SimpleSim(n_ants = 20)
+    S = SimpleSim(n_ants = 50)
     # S.random_roll_sim()
     print(S.Dom.Gaussian.map.shape)
-    # S.gradient_sim(contour_interval = 10, n_steps = 1500)
+    S.gradient_sim(contour_interval = 10, n_steps = 1500)
 
     # ==All done, lock the graph ==
     S.Plot.hold_until_close()
@@ -188,4 +189,5 @@ def test():
 
 
 if __name__ == '__main__':
-    test()
+    # test()
+    runSimpleSim()
