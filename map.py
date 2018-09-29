@@ -7,6 +7,7 @@
 import small_functions as fun
 import numpy as np
 import matplotlib.mlab as mlab
+import time
 
 class MeshMap():
     """ ===============
@@ -82,6 +83,20 @@ class MeshMap():
                                               (self.dim.x-self.base.x)/2,
                                               (self.dim.y-self.base.y)/2)
 
+    @property
+    def entropy(self):
+        """ ===========
+            Calculate the shannon entropy of the whole map
+            =========== """
+        # sum of pheromones
+        T = self.map.sum()
+
+        # explicitly avoid zeros as log(0) is not defined
+        M = self.map[self.map > 1e-6]
+
+        # return sum(M/T * log2(M/T))
+        return -np.multiply(M/T,np.log2(M/T)).sum()
+
 
     def span(self,base = 0, **kwargs):
         """ ===========
@@ -130,7 +145,7 @@ class MeshMap():
 
 
 def run():
-    M = MeshMap(dim=[10,10], resolution = 0.5)
+    M = MeshMap(dim=[500,500], resolution = 0.5)
     # M._map = np.identity(10)
     # print(M.map.shape)
     print(M.lim.vec)
@@ -142,6 +157,15 @@ def run():
 
     print(M.coord2grid(1))
     print(M.grid2coord([1,1]))
+    t = time.time()
+    print(M.entropy)
+    print((time.time()-t)*1000, "msec")
+
+    # X = np.arange(9).reshape(3,3)
+    # Y = np.arange(9).reshape(3,3).transpose()
+    # print(X)
+    # print(Y)
+    # print(np.multiply(X,Y))
 
 if __name__ == '__main__':
     run()

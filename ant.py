@@ -23,9 +23,9 @@ class Ant():
         self.ID = ant_id
 
         # set the start coordinates and domain limits
-        self.pos = Point(start_pos) #ant (starting) position in mm
+        self._pos = Point(start_pos) #ant (starting) position in mm
         self._azimuth = angle #azimuth angle [degrees] counterclockwise, base: x-axis
-        self.limits = Point(limits)  #domain limits in mm
+        self._limits = Point(limits)  #domain limits in mm
 
         # ant physical properties
         self.l = 30 #length in mm (distance between CoM and sensors)
@@ -47,8 +47,49 @@ class Ant():
         self.foodbound = True
         self.out_of_bounds = False
 
+    def properties_setter(self,props):
+        """ ==========
+            Set the properties of the ant class based on variables in a dict
+            ========== """
+        for key, value in props.items():
+            print(key,value)
+            setattr(self, key, value) #equivalent to: self.varname= 'something'
+
+    def properties_getter(self):
+        """ ==========
+            Return a list of the ant properties required in the __init__ method
+            ========== """
+        return {'ID':self.ID,
+                'pos':self.pos.vec,
+                'azimuth': self.azimuth,
+                'limits': self.limits.vec,
+                'l': self.l,
+                'antenna_offset': self.antenna_offset,
+                'v_max': self.v_max,
+                'v': self.v}
+
     def reverse(self):
         self.azimuth = self.azimuth+180
+
+    @property
+    def limits(self):
+        return self._limits
+    @limits.setter
+    def limits(self, p):
+        if type(p) is Point:
+            self._limits = p
+        else:
+            self._limits = Point(p)
+
+    @property
+    def pos(self):
+        return self._pos
+    @pos.setter
+    def pos(self, p):
+        if type(p) is Point:
+            self._pos = p
+        else:
+            self._pos = Point(p)
 
     @property
     def sens_loc(self):
@@ -208,7 +249,9 @@ def run():
     print(D.observed_pheromone([3,-1],activation = 'linear'))
     D.gradient_step(Q=D.observed_pheromone([0,1]),theta_max=360)
     print(D)
-
+    # print(D.properties_getter())
+    xyz = D.properties_getter()
+    D.properties_setter(xyz)
 
 
 if __name__ == '__main__':

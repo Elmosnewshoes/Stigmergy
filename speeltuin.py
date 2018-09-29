@@ -139,13 +139,9 @@ def test_ant_speed(n = 50):
 
 def test_size():
     X = np.random.rand(1000,1000)
-    print(X.nbytes)
-
-
-
-
+    print(X[X>1e-3].size)
 
 if __name__ =='__main__':
     # run()
-    test_ant_speed(n=5000)
-    # test_size()
+    # test_ant_speed(n=5000)
+    test_size()

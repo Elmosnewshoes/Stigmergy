@@ -1,6 +1,6 @@
 [X] Map entropy calculator
-[] Ant properties setter
-[] Ant properties exporter
+[X] Ant properties setter
+[X] Ant properties exporter
 [] Domain properties setter
 [] Domain properties exporter
 [] Simulation recorder
