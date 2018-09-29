@@ -14,12 +14,19 @@ class AntDomain():
         The playground of the simulation
         =================================="""
 
-    def __init__(self, size = [10.,10.], pitch=0.1, nest = {}, food = {}):
+    def __init__(self, size = [10.,10.], pitch=0.1, nest = {}, food = {}, **kwargs):
         """  =================================
             Initialize the class
             =================================="""
+        if 'properties' in kwargs:
+            self.properties_setter(kwargs['properties'])
+        else:
+            self._size = size
+            self._pitch = pitch
+            self._nest = nest
+            self._food = food
 
-        self.Map = MeshMap(dim = size, resolution = pitch, base = [0,0])
+        self.Map = MeshMap(dim = self._size, resolution = self._pitch, base = [0,0])
 
         self.update_time = 0
         self.surf_time = 0
@@ -34,12 +41,29 @@ class AntDomain():
         self.Gaussian = MeshMap(dim = np.dot(size,0.095*1e-1), resolution=pitch)
 
         # == set the nest and food if necessary
-        if nest:
+        if self._nest:
             self.nest_location = Point(nest['location'])
             self.nest_radius = nest['radius']
-        if food:
+        if self._food:
             self.food_location = Point(food['location'])
             self.food_radius = food['radius']
+
+    def properties_setter(self,props):
+        """ ==========
+            Set the properties of the ant class based on variables in a dict
+            ========== """
+        for key, value in props.items():
+            setattr(self, key, value) #equivalent to: self.varname= 'something'
+
+    def properties_getter(self):
+        """ ==========
+            Return a list of the ant properties required in the __init__ method
+            ========== """
+        # cannot directly use self.__dict__ because of @property properties
+        return {'_size': self._size,
+                '_pitch':self._pitch,
+                '_food': self._food,
+                '_nest': self._nest}
 
     def inrange(self,loc, target = 'food'):
         """ ==============
@@ -151,7 +175,9 @@ class AntDomain():
 
 def run():
     # do something to test the class
-    D = AntDomain(size=[1000,1000], pitch = 5)
+    D0 = AntDomain(size=[1000,1000], pitch = 5)
+    props = D0.properties_getter()
+    D = AntDomain(properties = props)
     print(D.Map.map.shape)
     tic = time.time()
     D.add_pheromone([1,1], Q = 1, sigma = 0.1)

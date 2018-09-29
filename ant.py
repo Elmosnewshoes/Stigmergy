@@ -15,31 +15,43 @@ class Ant():
     # start_pos (x,y) in mm
     # limits (x_lim, y_lim) in mm
     def __init__(self, start_pos = [1,1], limits = [10,10], ant_id =0, speed=0,
-                 angle=0, v_max = 1e9, activation = 'linear'):
+                 angle=0, v_max = 1e9, **kwargs):
         """  =================================
             Initialize the class
             ================================== """
-        # give the agent an ID (int)
-        self.ID = ant_id
 
-        # set the start coordinates and domain limits
-        self._pos = Point(start_pos) #ant (starting) position in mm
-        self._azimuth = angle #azimuth angle [degrees] counterclockwise, base: x-axis
-        self._limits = Point(limits)  #domain limits in mm
+        # == Check if parameters are passed through a dictionary ==
+        if 'properties' in kwargs:
+            # all properties in dictionary, set by method
+            self.properties_setter(kwargs['properties'])
+        else:
+            # do it the old fashioned way
+            # give the agent an ID (int)
+            self.ID = ant_id
 
-        # ant physical properties
-        self.l = 30 #length in mm (distance between CoM and sensors)
-        self.antenna_offset = 30 #angle [degrees] between centerline and antenna from the base of the antenna
+            # set the start coordinates and domain limits
+            self._pos = Point(start_pos) #ant (starting) position in mm
+            self._azimuth = angle #azimuth angle [degrees] counterclockwise, base: x-axis
+            self._limits = Point(limits)  #domain limits in mm
+
+            # ant physical properties
+            self.l = 30 #length in mm (distance between CoM and sensors)
+            self.antenna_offset = 30 #angle [degrees] between centerline and antenna from the base of the antenna
+
+
+            # assign private RNG
+            self.gen = np.random.RandomState()
+
+            # set the physical state of the ant
+            self.v_max = v_max
+            self.v = speed
+
+        # == intialize the rest ==
+
+        # first time setting sensor positions:
         self.sensors = {'left':Point([0,0]), #position of the sensors (absolute)
                    'right': Point([0,0])}
         self.set_sensor_position()
-
-        # assign private RNG
-        self.gen = np.random.RandomState()
-
-        # set the physical state of the ant
-        self.v_max = v_max
-        self.v = speed
 
         print("Booted up agent {}".format(int(self.ID)))
 
@@ -52,13 +64,13 @@ class Ant():
             Set the properties of the ant class based on variables in a dict
             ========== """
         for key, value in props.items():
-            print(key,value)
             setattr(self, key, value) #equivalent to: self.varname= 'something'
 
     def properties_getter(self):
         """ ==========
             Return a list of the ant properties required in the __init__ method
             ========== """
+        # cannot directly use self.__dict__ because of @property properties
         return {'ID':self.ID,
                 'pos':self.pos.vec,
                 'azimuth': self.azimuth,
@@ -253,6 +265,7 @@ def run():
     xyz = D.properties_getter()
     D.properties_setter(xyz)
 
+    print(D.__dict__)
 
 if __name__ == '__main__':
     run()
