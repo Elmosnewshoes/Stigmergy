@@ -38,7 +38,7 @@ class AntDomain():
         self.temp_map = self.Map.map
 
         # get a gaussian map (initialize with zeros)
-        self.Gaussian = MeshMap(dim = np.dot(size,0.095*1e-1), resolution=pitch)
+        self.Gaussian = MeshMap(dim = np.dot(size,1e-1), resolution=pitch)
 
         # == set the nest and food if necessary
         if self._nest:
@@ -200,5 +200,7 @@ def run():
     tic = time.time()
     D.local_add_pheromone([150,150])
     print("Local add took {:.4f} msec".format(np.dot(time.time()-tic,1e3)))
+
+
 if __name__=='__main__':
     run()
