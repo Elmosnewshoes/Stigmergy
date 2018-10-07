@@ -98,6 +98,13 @@ class MapPlot():
             self.scat[name].remove()
         self.scat[name] = self.ax.scatter(x,y,s=s , c=color, marker=marker)
 
+    def entropy(self):
+        """ ===============
+            Plot the entropy level
+            =============== """
+        
+
+
 def run():
     """====================
         test some things

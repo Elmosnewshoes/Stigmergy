@@ -15,8 +15,15 @@ class MeshMap():
         X,Y are in local coordinates (mm by default)
         x1,x2 are corresponding grid coordinates
         =============== """
-    def __init__(self, dim, resolution = 1, base = [0,0]):
-        if type(dim) is list or type(dim) == type(np.array([])):
+    def __init__(self, dim, resolution = 1, base = [0,0], R = 0):
+        # Dim ->X,Y limits in local coordinates
+        # Resolution: pixels per base unit (mm)
+        # base: minimum of the map in base unit (mm)
+        # R: Radius in X and Y direction in base unit (mm), overwrites dim
+
+        if R!=0:
+            self.dim = fun.Point([np.ceil(R)*2,np.ceil(R)*2])
+        elif type(dim) is list or type(dim) == type(np.array([])):
             self.dim = fun.Point(dim)
         elif type(dim) is int:
             self.dim = fun.Point([dim,dim])
@@ -28,6 +35,7 @@ class MeshMap():
             self.base = fun.Point(base)
         else:
             self.base = base
+
 
         # set limits in pixel/grid coordinates
         self.lim = fun.Point(np.round((np.array(self.dim.vec)-np.array(self.base.vec))
@@ -161,6 +169,7 @@ def run():
     print(M.entropy)
     print((time.time()-t)*1000, "msec")
 
+    M2 = MeshMap(dim = 0, resolution = 1, R =10)
     # X = np.arange(9).reshape(3,3)
     # Y = np.arange(9).reshape(3,3).transpose()
     # print(X)

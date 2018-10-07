@@ -48,6 +48,11 @@ class AntDomain():
             self.food_location = Point(food['location'])
             self.food_radius = food['radius']
 
+    def set_total_pheromone(self, volume = 0):
+        if volume:
+            self._sum = volume
+        else: self._sum = self.Map.map.sum()
+
     def properties_setter(self,props):
         """ ==========
             Set the properties of the ant class based on variables in a dict
@@ -78,16 +83,28 @@ class AntDomain():
                 return True
         return False
 
-    def set_gaussian(self,sigma):
+    def set_gaussian(self,sigma,significancy = 0):
+        # truncate the map:
+        if significancy > 0:
+            # if necessary, calculate the radius where the guassian is 1/100th
+            # of the value of the peak
+            R = sigma*np.sqrt(2*np.log(significancy))
+            self.Gaussian = MeshMap(dim = 0, resolution =self._pitch,R = R)
+            print(f"Significancy radius = {R}")
         self.Gaussian.init_map(map_type='gaussian',covariance = sigma)
 
-    def evaporate(self, xsi):
+    def evaporate(self, xsi = 0):
         """ ========================
             perform an evaporation step
             on the pheromone map with evap. constant xsi
             (since lambda is system name)
+
+            If xsi == 0 -> evaporate such that total pheromone is constant
             ========================"""
-        self.Map.map = np.multiply(self.Map.map,xsi)
+        if not xsi:
+            self.Map.map = np.multiply(self.Map.map,self._sum/self.Map.map.sum())
+        else:
+            self.Map.map = np.multiply(self.Map.map,xsi)
 
     def update_pheromone(self,):
         """ =========================
@@ -175,9 +192,11 @@ class AntDomain():
 
 def run():
     # do something to test the class
-    D0 = AntDomain(size=[1000,1000], pitch = 5)
+    D0 = AntDomain(size=[1000,1000], pitch = 0.5)
     props = D0.properties_getter()
     D = AntDomain(properties = props)
+    D.set_gaussian(sigma=2,significancy =1e2)
+    print("Size of the guassian map = {}".format(D.Gaussian.map.shape))
     print(D.Map.map.shape)
     tic = time.time()
     D.add_pheromone([1,1], Q = 1, sigma = 0.1)

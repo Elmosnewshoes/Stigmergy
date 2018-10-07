@@ -6,7 +6,7 @@
 import numpy as np
 import small_functions as fun
 import matplotlib.pyplot as plt
-from matplotlib import cm
+from matplotlib import cm, gridspec
 import matplotlib.colors as colors
 from map import MeshMap
 import time
@@ -67,7 +67,8 @@ def test_ant_speed(n = 50):
     ant = Ant(limits = limits, start_pos = np.dot(0.5,limits), speed=10)
     dom = AntDomain(size = limits, pitch = 1, food = {'location': [850,500],'radius':50},
         nest = {'location': [150,500],'radius':50})
-    dom.set_gaussian(sigma = 10)
+    dom.set_gaussian(sigma = 10, significancy =1e2)
+    print(dom.Gaussian.map.shape)
 
     # == Prime the map ==
     for i in range(50):
@@ -111,7 +112,7 @@ def test_ant_speed(n = 50):
             dom.local_add_pheromone(ant.pos.vec, peak_1 = True, Q = 0.05) # add pheromone to the map
         timing['add_pheromone']+=(time.time()-t5)*1000
 
-        # == Updating the map ==
+        # == Updating import matplotlib.pyplot as pltthe map ==
         t6 = time.time()
         dom.update_pheromone()
         timing['update_map']+=(time.time()-t6)*1000
@@ -141,7 +142,85 @@ def test_size():
     X = np.random.rand(1000,1000)
     print(X[X>1e-3].size)
 
+def make_pheromone_plot_sim(n = 1000):
+    # sim stuff
+    limits = [1000,1000]
+    out_of_bounds = False
+    ant = Ant(limits = limits, start_pos = np.dot(0.5,limits), speed=10)
+    dom = AntDomain(size = limits, pitch = 1, food = {'location': [850,500],'radius':50},
+        nest = {'location': [150,500],'radius':50})
+    dom.set_gaussian(sigma = 10, significancy =1e2)
+
+
+    # == Prime the map ==
+    for i in range(50):
+        loc = np.array(limits)*np.random.rand(1,2)[0]
+        dom.add_pheromone(Q =0.125,sigma = 50,loc=loc,peak_1=True)
+    dom.update_pheromone()
+    dom.set_total_pheromone(volume =1e5)
+
+    # plot stuff
+    x = np.arange(n).reshape(n,1)
+    y = np.zeros((n,1))
+    plt.ion()
+    # fig, (ax_imshow, ax_points) = plt.subplots(1,2)
+    fig = plt.figure(figsize = (8,6))
+
+    gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
+    ax_imshow = plt.subplot(gs[0])
+    ax_points = plt.subplot(gs[1])
+
+    fig.suptitle('Title of figure', fontsize=20)
+
+    # ax_points.title.set_text('Entropy')
+    ax_points.plot([0],[0], 'ro')
+    ax_points.set_xlim(0,n)
+
+
+    # ax_imshow.title.set_text('Pheromone map')
+    ax_imshow.imshow(np.zeros(dom.Map.map.shape),cmap ='PuBu')
+
+    plt.tight_layout()
+
+
+    for i in range(n):
+        p = dom.get_pheromone_level(ant.sens_loc,islist=True)
+        obs_pher = ant.observed_pheromone(p)
+        ant.gradient_step(obs_pher,gain = 0.005, SNR = 0.05)
+        if ant.foodbound and dom.inrange(ant.pos.vec,'food'):
+            ant.foodbound = False
+            ant.reverse()
+            print("Found food, looking for nest")
+        elif not(ant.foodbound) and dom.inrange(ant.pos.vec, 'nest'):
+            ant.foodbound = True
+            ant.reverse()
+            print("Found nest, looking for food")
+
+        if not ant.out_of_bounds:
+            dom.local_add_pheromone(ant.pos.vec, peak_1 = True, Q = 0.125) # add pheromone to the map
+
+        dom.update_pheromone()
+        dom.evaporate() #maintain constant total pheromone
+        sum = round(dom.Map.map.sum(),2)
+        entropy = dom.Map.entropy
+        print(f"Total pheromone volume = {sum} with entropy: {entropy}")
+        y[i] = entropy
+        ax_points.clear()
+        ax_points.plot(x[y!=0],y[y!=0], 'ro')
+        ax_points.set_ylim(0,max(y)*1.05)
+
+        ax_imshow.clear()
+        ax_imshow.imshow(dom.Map.map,cmap = 'PuBu')
+
+        # ax_points.figure.canvas.draw()
+        # ax_imshow.figure.canvas.draw()
+        fig.canvas.draw()
+
+    plt.show(block=True)
+
+
 if __name__ =='__main__':
     # run()
     # test_ant_speed(n=5000)
-    test_size()
+    # test_size()
+    make_pheromone_plot_sim(n = 100)

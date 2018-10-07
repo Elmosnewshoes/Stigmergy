@@ -11,7 +11,7 @@ import time
 # from overlord import Queen
 
 class SimpleSim():
-    def __init__(self, size = [1000,1000], pitch = 1, n_ants = 5):
+    def __init__(self, size = [1000,1000], pitch = 1, n_ants = 5, ant_sigma = 10, ant_speed  = 5):
         """ ==================
             Do a simulation of an Ant
             ================== """
@@ -21,12 +21,12 @@ class SimpleSim():
         self.Dom = AntDomain(size, pitch,
                              food = {'location': [850,500],'radius':50},
                              nest = {'location': [150,500],'radius':50})
-        self.Dom.set_gaussian(sigma = 10)
-        self.Ant = Ant(limits = size, start_pos = [700,500], speed=5,)
+        self.Dom.set_gaussian(sigma = ant_sigma)
+        self.Ant = Ant(limits = size, start_pos = [700,500], speed=ant_speed,)
         self.Ants = [ Ant(limits = size,
                           start_pos = 1000*np.random.rand(1,2)[0],
-                          angle = 360*np.random.rand(), speed=2,
-                          v_max =5, ant_id = i) for i in range(n_ants) ]
+                          angle = 360*np.random.rand(), speed=ant_speed,
+                          v_max =1e10, ant_id = i) for i in range(n_ants) ]
         self.Plot = MapPlot(self.Dom.Map.X,self.Dom.Map.Y)
 
 
@@ -174,10 +174,10 @@ class MultiSim():
                 return self._sensors_right[:,1]
 
 def runSimpleSim():
-    S = SimpleSim(n_ants = 50)
+    S = SimpleSim(n_ants = 50, ant_sigma = 25, ant_speed  = 10)
     # S.random_roll_sim()
     print(S.Dom.Gaussian.map.shape)
-    S.gradient_sim(contour_interval = 10, n_steps = 1500)
+    S.gradient_sim(contour_interval = 1, n_steps = 1500)
 
     # ==All done, lock the graph ==
     S.Plot.hold_until_close()
