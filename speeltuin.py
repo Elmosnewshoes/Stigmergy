@@ -206,7 +206,7 @@ def make_pheromone_plot_sim(n = 1000):
         print(f"Total pheromone volume = {sum} with entropy: {entropy}")
         y[i] = entropy
         ax_points.clear()
-        ax_points.plot(x[y!=0],y[y!=0], 'ro')
+        ax_points.plot(x[y!=0],y[y!=0], linestyle=':', color='cornflowerblue', markersize=3, marker = '8')
         ax_points.set_ylim(0,max(y)*1.05)
 
         ax_imshow.clear()
@@ -223,4 +223,13 @@ if __name__ =='__main__':
     # run()
     # test_ant_speed(n=5000)
     # test_size()
-    make_pheromone_plot_sim(n = 100)
+    # make_pheromone_plot_sim(n = 100)
+    D = AntDomain([1000,1000])
+    D.set_total_pheromone(1e9)
+    D.Map.init_map('random')
+    D.evaporate()
+    str = "Entropy of the map = {entropy}"
+    print(str.format(entropy = D.Map.entropy))
+    D.Map.init_map('identity')
+    D.evaporate()
+    print(str.format(entropy = D.Map.entropy))
