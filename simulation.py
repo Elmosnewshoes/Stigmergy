@@ -65,9 +65,36 @@ class SimpleSim():
             #== Draw the scatters of ant and sensors ==
             self.draw_ant_scatter()
 
+    def gradient_step(self):
+        """ =================
+            do a gradient step for all ants
+            ================= """
+        for Ant in self.Ants:
+            pheromone = self.Dom.get_pheromone_level(Ant.sens_loc,
+                                                     islist=True)
+            # perform a step
+            Ant.gradient_step([Ant.observed_pheromone(pheromone[0],activation = 'linear'),
+                                Ant.observed_pheromone(pheromone[1],activation = 'linear')],
+                                   gain = 0.005,
+                                   SNR = 0.05)
+           # add the pheromone at ant location
+           # dont add pheromon when at the boundary!
+            if not Ant.out_of_bounds:
+                self.Dom.local_add_pheromone(Ant.pos.vec, peak_1 = True, Q = 0.05) # add pheromone to the map
+
+            # == Some simulation specific intelligence ==
+            if Ant.foodbound and self.Dom.inrange(Ant.pos.vec,'food'):
+                Ant.foodbound = False
+                Ant.reverse()
+                print("Found food, looking for nest")
+            elif not(Ant.foodbound) and self.Dom.inrange(Ant.pos.vec, 'nest'):
+                Ant.foodbound = True
+                Ant.reverse()
+                print("Found nest, looking for food")
 
 
-    def gradient_sim(self,n_steps = 500, contour_interval = 1):
+
+    def gradient_sim_with_scatter(self,n_steps = 500, contour_interval = 1):
         """ ==================
             Simulation with pheromone based navigation
             First, prime the map, then let the ant free
@@ -92,29 +119,8 @@ class SimpleSim():
         for i in range(n_steps):
             # get the pheromone level at ant sensor location
             tic = time.time()
-            for Ant in self.Ants:
-                pheromone = self.Dom.get_pheromone_level(Ant.sens_loc,
-                                                         islist=True)
-                # perform a step
-                Ant.gradient_step([Ant.observed_pheromone(pheromone[0],activation = 'linear'),
-                                    Ant.observed_pheromone(pheromone[1],activation = 'linear')],
-                                       gain = 0.005,
-                                       SNR = 0.05)
-               # add the pheromone at ant location
-               # dont add pheromon when at the boundary!
-                if not Ant.out_of_bounds:
-                    self.Dom.local_add_pheromone(Ant.pos.vec, peak_1 = True, Q = 0.05) # add pheromone to the map
-
-                # == Some simulation specific intelligence ==
-                if Ant.foodbound and self.Dom.inrange(Ant.pos.vec,'food'):
-                    Ant.foodbound = False
-                    Ant.reverse()
-                    print("Found food, looking for nest")
-                elif not(Ant.foodbound) and self.Dom.inrange(Ant.pos.vec, 'nest'):
-                    Ant.foodbound = True
-                    Ant.reverse()
-                    print("Found nest, looking for food")
-
+            self.gradient_step()
+            self.Plot.draw()
 
             print("Update of {:n} ant in {:.4f} msecs".format(len(self.Ants), 1e3*(time.time()-tic)))
 
@@ -177,7 +183,7 @@ def runSimpleSim():
     S = SimpleSim(n_ants = 50, ant_sigma = 25, ant_speed  = 10)
     # S.random_roll_sim()
     print(S.Dom.Gaussian.map.shape)
-    S.gradient_sim(contour_interval = 1, n_steps = 1500)
+    S.gradient_sim_with_scatter(contour_interval = 1, n_steps = 1500)
 
     # ==All done, lock the graph ==
     S.Plot.hold_until_close()
