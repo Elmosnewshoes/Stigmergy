@@ -66,12 +66,12 @@ class Ant():
         for key, value in props.items():
             setattr(self, key, value) #equivalent to: self.varname= 'something'
 
-    def properties_getter(self):
+    def properties_getter(self, prop_list=[]):
         """ ==========
             Return a list of the ant properties required in the __init__ method
             ========== """
         # cannot directly use self.__dict__ because of @property properties
-        return {'ID':self.ID,
+        output_dict = {'ID':self.ID,
                 'pos':self.pos.vec,
                 'azimuth': self.azimuth,
                 'limits': self.limits.vec,
@@ -79,6 +79,10 @@ class Ant():
                 'antenna_offset': self.antenna_offset,
                 'v_max': self.v_max,
                 'v': self.v}
+        if not prop_list:
+            return output_dict
+        else:
+            return {key: output_dict[key] for key in prop_list}
 
     def reverse(self):
         self.azimuth = self.azimuth+180
