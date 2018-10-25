@@ -119,7 +119,7 @@ class AntDomain():
             Add some pheromone at a location to the temporary pheromone map,
             based on stored preshaped normalized gaussian
             =================================="""
-        # get grid coordinates
+        # get gri d coordinates
         x,y = loc
 
         span_x1, span_x2 = self.Gaussian.map.shape
@@ -147,7 +147,7 @@ class AntDomain():
 
         # finally, insert the gaussian in the temp_map
         self.temp_map[X_range[0]:X_range[1],
-                      Y_range[0]:Y_range[1]] = np.dot(Q,tmp_gauss)
+                      Y_range[0]:Y_range[1]] += np.dot(Q,tmp_gauss)
 
 
 
