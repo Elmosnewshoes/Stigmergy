@@ -87,14 +87,11 @@ def run_plot():
                     'l': 10,
                     'antenna_offset': 30}
     A = Ant(**ant_settings)
-    i=0
-    for loc in 360+np.random.rand(n,2)*600:
-        i+=1
+    for i in range(n+1):
 
         ant_loc = A.pos
         left = A.sensors['left']
         right = A.sensors['right']
-        print(D.Gaussian.map.shape)
         D.local_add_pheromone(ant_loc,1e6)
         D.update_pheromone()
 
@@ -104,12 +101,12 @@ def run_plot():
         if i%10 == 0:
             P.draw_stigmergy(D.Map.map)
             P.draw()
-        Q = [D.probe_pheromone(A.sensors['left']),D.probe_pheromone(A.sensors['right'])]
+        Q = [D.probe_pheromone(A.sensors['left']),
+             D.probe_pheromone(A.sensors['right'])]
         A.observe_pheromone(lin_fun,Q)
         A.step(dt=1)
 
     P.hold_until_close()
-
 
 
 if __name__=='__main__':
