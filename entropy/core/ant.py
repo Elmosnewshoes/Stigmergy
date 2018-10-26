@@ -74,6 +74,7 @@ class Ant:
 
         " Update position "
         self.pos = new_pos
+        self.set_sensor_position()
 
 
 ant_settings = {'start_pos': [10,10],

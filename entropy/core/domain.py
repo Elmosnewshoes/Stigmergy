@@ -23,7 +23,6 @@ class Domain():
         self.Map = MeshMap(dim = size, resolution=pitch)
         self.dim = loc(*self.Map.map.shape)
         self.tmp_map = self.Map.map.copy() #explicitly duplicate the map (no pointer)
-        self.Gaussian = self.init_gaussian(4,1e3)
 
     def init_gaussian(self,sigma,significancy = 1e3):
         """ Return gaussian map object """
@@ -31,18 +30,20 @@ class Domain():
             of the value of the peak """
         R = np.asarray(np.ceil(sigma*np.sqrt(2*np.log(significancy))),dtype=int)
         Gaussian = GaussMap(resolution =self.pitch,R = R, covariance = sigma)
-        print(f"Significancy radius = {R}")
+        # print(f"Significancy radius = {R}")
         return Gaussian
 
-    def local_add_pheromone(self, target, Q, by_volume = False):
+    def local_add_pheromone(self, target_pos, Q, by_volume = False):
         """ Add pheromone to the temp map:
                 Q is the quantity
                 If by_volume is True: add unity volume
-                else add such that the peak ==1 """
+                else add such that the peak ==1
+                target_pos x,y in mm """
         if by_volume:
             alpha = 1
         else:
             alpha = 1/self.Gaussian.peak
+        target = self.Map.coord2grid(target_pos)
         "span contains list with 3 elemets per axis: [start slice, center, end_slice]"
         s = self.Map.span(target,self.Gaussian.radius) #get some instructions on where to place the Gaussian
         self.tmp_map[target.y-s['y'][1]+s['y'][0]:target.y+s['y'][2]-s['y'][1],
@@ -50,9 +51,12 @@ class Domain():
                     ]+= self.Gaussian.map[s['y'][0]:s['y'][2],s['x'][0]:s['x'][2]]
 
     def probe_pheromone(self,probe_loc):
-        " Return the pheromone level based on xy in mm "
-        probe_point = self.Map.coord2grid(probe_loc)
-        return self.Map.map[probe_point.y,probe_point.x]
+        " Return the pheromone level based on xy in mm, 0 if out of bounds "
+        if probe_loc.x<0 or probe_loc.y <0 or (probe_loc.vec > self.size.vec).any():
+            return 0
+        else:
+            probe_point = self.Map.coord2grid(probe_loc)
+            return self.Map.map[probe_point.y,probe_point.x]
 
     def set_target_pheromone(self, Q):
         """ Desired total volume of the pheromone on the map """
@@ -85,11 +89,12 @@ def run():
                    'nest':{'location': [250,500],'radius':50},
                    'food':{'location': [750,500],'radius':50}}
     D = Domain(**domain_dict)
+    D.Gaussian = D.init_gaussian(sigma=10)
     print(D.Map)
     print(D.Gaussian.peak)
     print(D.Gaussian.entropy)
     print(D.Gaussian)
-    xy = loc(100,100)
+    xy = point(100,100)
     D.local_add_pheromone(xy, 2,True)
     D.update_pheromone()
     print(D.probe_pheromone(xy))
