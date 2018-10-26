@@ -6,9 +6,43 @@ import numpy as np
 from plugins.helper_functions import T_matrix
 from plugins.helper_classes import point, loc
 
+class Queen:
+    def __init__(self,n_ants, start_pos, start_angle, ant_kwargs={}):
+        """ Class for handling multiple ants as if it was a single """
+        """ ant_kwargs contains constants like: l, antenna_offset,
+            limits, speed"""
+        self.n = n_ants
+        self.ants = []
+        self.pos = np.empty((n_ants,2))
+        self.left = np.empty((n_ants,2))
+        self.right = np.empty((n_ants,2))
+        for i in range(n_ants):
+            self.ants.append(Ant(start_pos = start_pos[i],angle = start_angle[i],
+                                 id = i,**ant_kwargs))
+
+        self.update_positions()
+
+    def update_positions(self):
+        "store the new locations in arrays"
+        for i in range(self.n):
+            with self.ants[i] as ant:
+                self.pos[i] = ant.pos.vec
+                self.left[i] = ant.sensors['left'].vec
+                self.right[i] = ant.sensors['right'].vec
+
+    def gradient_step(self,gain,dt):
+        "Gradient step wrapper"
+        for ant in self.ants:
+            ant.gradient_step(gain,dt)
+
+    def observe_pheromone(self,fun, Q, fun_args = {}):
+        "observe pheromone wrapper"
+        for i in range(self.n):
+            self.ants[i].observe_pheromone[fun,Q[i],**fun_args]
+
 class Ant:
     """ Class for the agent/actor in the sim"""
-    def __init__(self, start_pos, angle, speed, limits, l, antenna_offset):
+    def __init__(self, start_pos, angle, speed, limits, l, antenna_offset,id=0):
         """ all dimensions in mm """
 
         " Properties "
@@ -28,6 +62,8 @@ class Ant:
         " States "
         self.foodbound = False
         self.out_of_bounds = False
+
+        print(f"Booted up ant {self.id} at {self.pos.vec}")
 
     def set_sensor_position(self):
         """ calculate the sensor locations based on length, rotation and offset """
@@ -75,6 +111,13 @@ class Ant:
         " Update position "
         self.pos = new_pos
         self.set_sensor_position()
+
+    def __enter__(self):
+        """ return when class is casted in 'with Ant as ..:"""
+        return self
+    def __exit__(self, type, value, traceback):
+        """ Accompanies __enter__"""
+        pass
 
 
 ant_settings = {'start_pos': [10,10],
@@ -133,5 +176,17 @@ def time_it():
     toc = time.time()
     print("Total step took avg {} msec".format(1e3*(toc-tic)/n))
 
+def test_queen():
+    limits = [1000,1000]
+    n_ants = 10
+    start_positions = np.random.rand(n_ants,2)*limits
+    start_angle = np.random.rand(n_ants)*360
+    ant_consts =  {'speed': 10,
+                   'limits': limits,
+                   'l': 10,
+                   'antenna_offset': 45}
+    Q = Queen(n_ants,start_positions,start_angle,ant_consts)
+
 if __name__ == '__main__':
-    time_it()
+    # time_it()
+    test_queen()
