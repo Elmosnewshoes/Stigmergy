@@ -7,28 +7,41 @@ from plugins.helper_functions import T_matrix
 from plugins.helper_classes import point, loc
 
 class Queen:
-    def __init__(self,n_ants, start_pos, start_angle, ant_kwargs={}):
+    def __init__(self):
         """ Class for handling multiple ants as if it was a single """
         """ ant_kwargs contains constants like: l, antenna_offset,
             limits, speed"""
-        self.n = n_ants
+        self.n = 0 # placeholder for ant count
         self.ants = []
-        self.pos = np.empty((n_ants,2))
-        self.left = np.empty((n_ants,2))
-        self.right = np.empty((n_ants,2))
-        for i in range(n_ants):
-            self.ants.append(Ant(start_pos = start_pos[i],angle = start_angle[i],
-                                 id = i,**ant_kwargs))
+        self.pos = []
+        self.left = []
+        self.right = []
 
         self.update_positions()
+
+    def deploy(self, pos, angle, ant_kwargs):
+        """ deploy n new ants """
+        n = angle.size
+        for i in range(n):
+            "deploy the ant and store positions"
+            with Ant(start_pos = pos[i],angle = angle[i],
+                                 id = i+self.n,**ant_kwargs) as ant:
+                self.ants.append(ant)
+                self.pos.append(ant.pos)
+                self.left.append(ant.sensors['left'])
+                self.right.append(ant.sensors['right'])
+        "update ant count"
+        self.n+=n
+
+
 
     def update_positions(self):
         "store the new locations in arrays"
         for i in range(self.n):
             with self.ants[i] as ant:
-                self.pos[i] = ant.pos.vec
-                self.left[i] = ant.sensors['left'].vec
-                self.right[i] = ant.sensors['right'].vec
+                self.pos[i] = ant.pos
+                self.left[i] = ant.sensors['left']
+                self.right[i] = ant.sensors['right']
 
     def gradient_step(self,gain,dt):
         "Gradient step wrapper"
@@ -38,7 +51,7 @@ class Queen:
     def observe_pheromone(self,fun, Q, fun_args = {}):
         "observe pheromone wrapper"
         for i in range(self.n):
-            self.ants[i].observe_pheromone[fun,Q[i],**fun_args]
+            self.ants[i].observe_pheromone(fun,Q[i],**fun_args)
 
 class Ant:
     """ Class for the agent/actor in the sim"""
@@ -63,7 +76,7 @@ class Ant:
         self.foodbound = False
         self.out_of_bounds = False
 
-        print(f"Booted up ant {self.id} at {self.pos.vec}")
+        print(f"Booted up ant {self.id} at {self.pos}")
 
     def set_sensor_position(self):
         """ calculate the sensor locations based on length, rotation and offset """
@@ -92,7 +105,7 @@ class Ant:
         """ update azimuth based on difference in observed pheromone
             Q[0] == 'left', Q[1]=='right', counterclockwise positive turn"""
         Q = self.Qobserved
-        self.azimuth += gain*(Q[0]-Q[1]) #rotate
+        self.azimuth += gain*dt*180/np.pi*(Q[0]-Q[1]) #rotate
         self.step(dt) #step in new direction
         self.set_sensor_position() #update sensor location
 
@@ -185,8 +198,10 @@ def test_queen():
                    'limits': limits,
                    'l': 10,
                    'antenna_offset': 45}
-    Q = Queen(n_ants,start_positions,start_angle,ant_consts)
+    Q = Queen()
+    Q.deploy(start_positions, start_angle,ant_consts)
+    Q.deploy(start_positions, start_angle,ant_consts)
 
 if __name__ == '__main__':
-    # time_it()
-    test_queen()
+    time_it()
+    # test_queen()

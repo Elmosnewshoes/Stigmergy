@@ -2,6 +2,8 @@
 __pycache__/
 *.py[cod]
 *$py.class
+# sim recordings
+recordings/
 
 # C extensions
 *.so
