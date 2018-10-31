@@ -36,8 +36,8 @@ class StigmergyPlot:
                                                   **self.stigmergy_opts)
         self.ax_stigmergy.set_xticks(np.arange(0, self.mesh_x.max(), 250));
         self.ax_stigmergy.set_yticks(np.arange(0, self.mesh_y.max(), 250));
-        self.ax_stigmergy.set_xlim((0,1000))
-        self.ax_stigmergy.set_ylim((0,1000))
+        self.ax_stigmergy.set_xlim((0,self.mesh_x.max()))
+        self.ax_stigmergy.set_ylim((0,self.mesh_y.max()))
         self.entropy = self.ax_entropy.plot(self.time_vec, self.entropy_vec)
         # self.ax_stigmergy.invert_yaxis()
 
@@ -61,6 +61,15 @@ class StigmergyPlot:
            self.scat[name].remove()
        self.scat[name] = self.ax_stigmergy.scatter(x,y,s=s,c=color,marker=marker)
 
+    def draw_entropy(self,H):
+       " Draw line plot of entropy H "
+       self.entropy.clear()
+       self.entropy_vec = H
+       if len(H) != len(self.time_vec):
+           self.time_vec = np.arange(len(H))
+       self.entropy = self.ax_entropy.plot(self.time_vec,H, linestyle=':', color='cornflowerblue', markersize=3, marker = '8')
+        # self.ax_lines.set_ylim(0,self.E[np.isnan(self.E)==False].max()*1.05)
+
     def draw(self):
         self.fig.canvas.draw()
 
@@ -73,8 +82,9 @@ def run_plot():
     domain_dict = {'size': [1000,1000],
                    'pitch': 2,
                    'nest':{'location': [250,500],'radius':50},
-                   'food':{'location': [750,500],'radius':50}}
-    n = 100
+                   'food':{'location': [750,500],'radius':50},
+                   'start_concentration':1}
+    n = 500
     D = Domain(**domain_dict)
     D.Gaussian = D.init_gaussian(sigma=5,significancy =1e2)
     P = StigmergyPlot(Map=D.Map, n=n,pitch=D.pitch)

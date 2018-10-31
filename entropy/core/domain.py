@@ -10,7 +10,7 @@ import numpy as np
 class Domain():
     """ Domain class, idea is that any input coordinates are in mm,
         the class methods do the conversion to grid coordinates """
-    def __init__(self, size, pitch, nest={}, food={}):
+    def __init__(self, size, pitch, start_concentration, nest={}, food={}):
         """ Simulation playground """
         self.size = point(*size) # xy in mm (point object)
         self.pitch = pitch
@@ -21,6 +21,7 @@ class Domain():
             self.food_location = point(*food['location'])
             self.food_radius = food['radius']
         self.Map = MeshMap(dim = size, resolution=pitch)
+        self.Map.map+= start_concentration
         self.dim = loc(*self.Map.map.shape)
         self.tmp_map = self.Map.map.copy() #explicitly duplicate the map (no pointer)
 
@@ -46,9 +47,13 @@ class Domain():
         target = self.Map.coord2grid(target_pos)
         "span contains list with 3 elemets per axis: [start slice, center, end_slice]"
         s = self.Map.span(target,self.Gaussian.radius) #get some instructions on where to place the Gaussian
+        # try:
         self.tmp_map[target.y-s['y'][1]+s['y'][0]:target.y+s['y'][2]-s['y'][1],
                     target.x-s['x'][1]+s['x'][0]:target.x+s['x'][2]-s['x'][1]
                     ]+= self.Gaussian.map[s['y'][0]:s['y'][2],s['x'][0]:s['x'][2]]
+        # except Exception as error:
+        #     print(target_pos)
+        #     raise error
 
     def probe_pheromone(self,probe_loc):
         " Return the pheromone level based on xy in mm, 0 if out of bounds "
@@ -84,12 +89,13 @@ class Domain():
 
 
 def run():
-    domain_dict = {'size': [1000,1000],
+    domain_dict = {'size': [1000,500],
                    'pitch': 1,
-                   'nest':{'location': [250,500],'radius':50},
-                   'food':{'location': [750,500],'radius':50}}
+                   'start_concentration':1,
+                   'nest':{'location': [250,250],'radius':50},
+                   'food':{'location': [750,250],'radius':50}}
     D = Domain(**domain_dict)
-    D.Gaussian = D.init_gaussian(sigma=10)
+    D.Gaussian = D.init_gaussian(sigma=15)
     print(D.Map)
     print(D.Gaussian.peak)
     print(D.Gaussian.entropy)
@@ -109,6 +115,7 @@ def run():
     xy = point(250,500)
     print(D.food_location.vec)
     print("Point {} is in range of food? {}".format(xy,D.inrange(xy,'food')))
+    D.local_add_pheromone(point(301.13,559.72),1)
 
 if __name__ == '__main__':
     run()

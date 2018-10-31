@@ -55,13 +55,13 @@ class MeshMap:
         """ return xy in local coordinates (point tuple) [mm -- float]
             from grid coords (loc tuple) [absolute -- integer] """
         return point(*l.vec.dot(self.pitch))
-
-    @property
-    def entropy(self):
+#
+    # @property
+    def entropy(self,T=0):
         """ Calculate the shannon entropy of the whole map """
-        T = self.map.sum()# sum of pheromones
+        if T == 0: T = self.map.sum()# sum of pheromones
         M = self.map[self.map > 1e-6]# explicitly avoid zeros as log(0) is not defined
-        return -np.multiply(M/T,np.log2(M/T)).sum() # return sum(M/T * log2(M/T))
+        return -np.multiply(M/T,np.log(M/T)).sum() # return sum(M/T * log(M/T))
 
     def span(self, l, R):
         """ return the upper limits of a meshmap that fits in self.map

@@ -1,4 +1,11 @@
 import numpy as np
+
+def class_tuple2nparray(list_of_xy):
+    xys = np.zeros((len(list_of_xy),2))
+    for i in range(len(list_of_xy)):
+        xys[i] = [list_of_xy[i].x, list_of_xy[i].y]
+    return xys
+
 def T_matrix( theta ):
     """ ==============================
         Transformation matrix for specified angle [theta]
@@ -10,6 +17,9 @@ def T_matrix( theta ):
     return np.array(((c,-s), (s, c)))
     # return np.matrix([[math.cos(theta*math.pi/180), -math.sin(theta*math.pi/180)],
     #                  [math.sin(theta*math.pi/180), math.cos(theta*math.pi/180)]])
+
+def lin_fun(x, noise = 0):
+    return x+(2*noise*np.random.rand()-1)
 
 
 def bivariate_normal(X, Y, sigmax=1.0, sigmay=1.0,

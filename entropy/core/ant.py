@@ -3,7 +3,7 @@
     Delft University of Technology, Delft, The Netherlands
     ========== """
 import numpy as np
-from plugins.helper_functions import T_matrix
+from plugins.helper_functions import T_matrix, lin_fun
 from plugins.helper_classes import point, loc
 
 class Queen:
@@ -14,10 +14,19 @@ class Queen:
         self.n = 0 # placeholder for ant count
         self.ants = []
         self.pos = []
-        self.left = []
-        self.right = []
 
-        self.update_positions()
+        " No longer using update_positions"
+        # self.left = []
+        # self.right = []
+        # self.update_positions()
+
+    @property
+    def left(self):
+        return [ant.sensors['left'] for ant in self.ants]
+
+    @property
+    def right(self):
+        return [ant.sensors['right'] for ant in self.ants]
 
     def deploy(self, pos, angle, ant_kwargs):
         """ deploy n new ants """
@@ -33,7 +42,9 @@ class Queen:
         "update ant count"
         self.n+=n
 
-
+    def revers(self):
+        for ant in self.ants:
+            ant.reverse()
 
     def update_positions(self):
         "store the new locations in arrays"
@@ -51,7 +62,7 @@ class Queen:
     def observe_pheromone(self,fun, Q, fun_args = {}):
         "observe pheromone wrapper"
         for i in range(self.n):
-            self.ants[i].observe_pheromone(fun,Q[i],**fun_args)
+            self.ants[i].observe_pheromone(fun,Q[i],fun_args)
 
 class Ant:
     """ Class for the agent/actor in the sim"""
@@ -73,10 +84,21 @@ class Ant:
         self.set_sensor_position()
 
         " States "
-        self.foodbound = False
+        self.foodbound = True
         self.out_of_bounds = False
 
         print(f"Booted up ant {self.id} at {self.pos}")
+
+
+    def reverse(self):
+        " Turn around 180 degrees "
+        self.azimuth += 180
+        self.foodbound = not self.foodbound
+        if self.foodbound:
+            target = 'food'
+        else:
+            target = 'nest'
+        print(f"Start looking for {target}")
 
     def set_sensor_position(self):
         """ calculate the sensor locations based on length, rotation and offset """
@@ -95,7 +117,7 @@ class Ant:
         else: self._azimuth = a%360
 
 
-    def observe_pheromone(self, fun, Q, fun_args = {}):
+    def observe_pheromone(self,fun, Q, fun_args = {}):
         """ pass Q into the observation function,
             return list of observed pheromone based on the absolute quantity
             in Q """
@@ -114,13 +136,16 @@ class Ant:
         new_pos = point(*self.pos.vec+T_matrix(self.azimuth).dot([self.v*dt,0]))
 
         " Check limits "
-        self.out_of_bounds = True # assume out of bounds
+        xbound = True # assume out of bounds
+        ybound = True
         if new_pos.x >= self.limits.x: new_pos.x = self.limits.x #upper limit x
-        elif new_pos.y >= self.limits.y: new_pos.y = self.limits.y #upper limit y
         elif new_pos.x <= 0: new_pos.x = 0 #lower limit x
+        else: xbound = False
+        if new_pos.y >= self.limits.y: new_pos.y = self.limits.y #upper limit y
         elif new_pos.y <= 0: new_pos.y = 0 # lower limit y
-        else: self.out_of_bounds = False #turns out, not out of bounds
-
+        else: ybound = False #turns out, not out of bounds
+        if xbound or ybound: self.out_of_bounds = True
+        else:  self.out_of_bounds = False
         " Update position "
         self.pos = new_pos
         self.set_sensor_position()
@@ -139,9 +164,6 @@ ant_settings = {'start_pos': [10,10],
                 'limits': [1000,1000],
                 'l': 10,
                 'antenna_offset': 30}
-
-def lin_fun(x):
-    return 10*x
 
 def return_fun(fun,arg):
     return fun(arg)
