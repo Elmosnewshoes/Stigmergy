@@ -1,8 +1,9 @@
 from domain import Domain
 from ant import Queen, lin_fun
 import numpy as np
-from visualization import StigmergyPlot
-from plugins.helper_functions import lin_fun,class_tuple2nparray
+from plugins.helper_functions import lin_fun, T_matrix
+from plugins.helper_classes import point
+
 
 class Sim:
     def __init__(self, dom_dict,ant_dict):
@@ -42,133 +43,96 @@ class Sim:
     def deploy_params(self, n):
         " return pair of start positions and angles for newly deployed ants "
         if self.deploy_location=='nest': #all ants deploy at the edge of the nest
-            R = self.Domain.nest_radius
+            R = self.Domain.nest_radius+1
             nest = self.Domain.nest_location.vec
             teta = np.random.rand(n)*2*np.pi
             start_locs = nest+np.dstack((np.cos(teta)*R,np.sin(teta)*R))[0]
         return start_locs, np.degrees(teta)
 
+    def place_ant(self,ant_pos, R, base):
+        " Reposition the ant when it has reached either the food or nest "
+        if ant_pos.x==base.x:
+            ant_pos.x+=1e-6 #avoid devison by 0
+        teta = np.arctan((ant_pos.y-base.y)/(ant_pos.x-base.x))
+        if ant_pos.x < base.x: teta+=np.pi
+        return point(*(base.vec+np.dstack((np.cos(teta)*R,
+                                           np.sin(teta)*R))[0][0])),np.degrees(teta)
+
     def check_target(self):
         " check if ant is at target and should reverse "
         for i in range(self.Queen.n):
             with self.Queen.ants[i] as ant:
-                if ant.foodbound and self.Domain.inrange(ant.pos,'food'):
-                    self.foodcount+=1
-                    ant.reverse()
-                elif not ant.foodbound and self.Domain.inrange(ant.pos,'nest'):
-                    self.nestcount+=1
-                    ant.reverse()
+                if self.Domain.inrange(ant.pos,'food'):
+                    if ant.foodbound:
+                        self.foodcount+=1
+                        ant.foodbound = False
+                    # ant.reverse()
+                    ant.pos, ant.azimuth = self.place_ant(ant.pos,self.Domain.food_radius,self.Domain.food_location)
+                elif self.Domain.inrange(ant.pos,'nest'):
+                    if not ant.foodbound:
+                        self.nestcount+=1
+                        ant.foodbound = True
+                    # ant.reverse()
+                    ant.pos, ant.azimuth = self.place_ant(ant.pos,self.Domain.nest_radius,self.Domain.nest_location)
+                # elif self.Domain.inrange(ant.pos,'food') or self.Domain.inrange(ant.pos,'nest'):
+                #     ant.reverse(change_objective= False)
 
 
     def gradient_step(self,gain, dt, noise):
         " Gradient step, update map"
         "Check if ants need to be deployed"
-        if self.Queen.n < self.n_agents:
-            " Deploy (more) agents "
-            n = np.sum(self.deploy_time <= self.sim_time)
-            start_locs, start_angles = self.deploy_params(n)
-            self.Queen.deploy(start_locs, start_angles, self.ant_dict)
-        Q = self.parse_pheromone(self.Queen.left, self.Queen.right)
+        Q = self.parse_pheromone(lefts = [ant.sensors['left'] for ant in self.Queen.ants],
+                                 rights = [ant.sensors['right'] for ant in self.Queen.ants])
         self.Queen.observe_pheromone(self.sens_function,Q,{'noise':noise})
         self.Queen.gradient_step(gain = gain, dt = dt)
         # self.Queen.update_positions()
         self.check_target()
 
+        if self.Queen.n < self.n_agents:
+            " Deploy (more) agents "
+            n = np.sum(self.deploy_time <= self.sim_time)
+            start_locs, start_angles = self.deploy_params(n)
+            self.Queen.deploy(start_locs, start_angles, self.ant_dict)
+
     def deposit_pheromone(self, tau, by_volume = False):
         " deposit quantity tau pheromone at the ant locations "
         for i in range(self.Queen.n):
             if not self.Queen.ants[i].out_of_bounds:
-                self.Domain.local_add_pheromone(self.Queen.ants[i].pos, tau, by_volume)
+                self.Domain.local_add_pheromone(self.Queen.ants[i].pos,
+                                                self.Queen.ants[i].drop_quantity,
+                                                by_volume)
 
-class SimRecorder():
-    def __init__(self,simname,limits, ant_gain, sim_args, domain_args, ant_constants):
-        " Record a simulation "
-        Sim = Sim(dom_dict = domain_args, ant_dict= ant_constants)
-        self.deploy_args = sim_args
-        self.domain_args = domain_args
-        self.domain_args['limits'] = limits
 
-    def run_gradient_sim(self, n_steps, dt):
-        " "
-        self.Sim.start_sim(**self.deploy_args)# initialize the simulation
-        self.Sim.Domain.set_target_pheromone(Q = 100*n_ants) #target pheromone total
-        self.Sim.Domain.evaporate() #set base level
-        self.Sim.Domain.update_pheromone() # idem
-
-class SimPlayer():
-    def __init__(self):
-        " Playback a recorded simulation "
-
-limits = [1000,500]
-food = [850,250]
-nest = [150,250]
-ant_gain = 15
-n_ants = 80
-pheromone_variance = 7
-
-deploy_dict = {'n_agents': n_ants,
-            'sigma': pheromone_variance,
-            'deploy_method': 'instant',
-            'sens_function':'linear',
-            'deploy_location': 'nest'}
-
-domain_dict = {'size': limits,
-                'pitch': 1,
-                'nest':{'location': nest,'radius':100},
-                'food':{'location': food,'radius':100},
-                'start_concentration':1}
-ant_constants = {'speed': 15,
-                'l': 10,
-                'antenna_offset': 30,
-                'limits': limits}
 
 def run():
+    limits = [1000,500]
+    food = [750,250]
+    nest = [250,250]
+    ant_gain = 10
+    n_ants = 80
+    pheromone_variance = 12
+    Q=.0005
+
+    deploy_dict = {'n_agents': n_ants,
+                'sigma': pheromone_variance,
+                'deploy_method': 'instant',
+                'sens_function':'linear',
+                'deploy_location': 'nest'}
+
+    domain_dict = {'size': limits,
+                    'pitch': 1,
+                    'nest':{'location': nest,'radius':100},
+                    'food':{'location': food,'radius':100},
+                    'start_concentration':1}
+    ant_constants = {'speed': 15,
+                    'l': 10,
+                    'antenna_offset': 30,
+                    'limits': limits,
+                    'drop_quantity':Q}
     S = Sim(domain_dict, ant_constants)
     print(S.Domain.Map.map.sum())
 
 
-def sim_only():
-    S = Sim(domain_dict, ant_constants,)
-    S.start_sim(**deploy_dict)# initialize the simulation
-    S.Domain.set_target_pheromone(Q = 100*n_ants) #target pheromone total
-    S.Domain.evaporate() #set base level
-    S.Domain.update_pheromone() # idem
-    dt =1
-    n=1000
-    for i in range(n):
-        # print(f"Round {i}")
-        # S.entropy.append(S.Domain.Map.entropy(S.Domain.target_pheromone))
-        S.gradient_step(gain = ant_gain,dt = dt, noise=ant_gain*1e-3*1.75)
-        S.deposit_pheromone(.005*dt, True)
-        S.Domain.evaporate()
-        S.Domain.update_pheromone()
-
-    P = StigmergyPlot(S.Domain.Map,n=n)
-    P.draw_stigmergy(S.Domain.Map.map)
-    # P.draw_entropy(S.entropy)
-    P.draw()
-    print("{} ants found food and {} returned".format(S.foodcount,S.nestcount))
-    P.hold_until_close()
-    # print(S.entropy)
-
-
-
 
 if __name__ == '__main__':
-    """ === Ant simulation steps: ===
-    Domain:
-        1: deploy domain
-        2: set target pheromone level
-        3: set the gaussian for pheromone deposition
-    Ants:
-        1:Deploy ants
-
-    == Step ==
-        1: sense pheromone
-        2: perform gradient step
-        3: update the map
-
-    ================================== """
-
-    # run()
-    sim_only()
+    run()

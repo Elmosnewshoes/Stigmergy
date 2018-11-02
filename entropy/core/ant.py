@@ -13,11 +13,11 @@ class Queen:
             limits, speed"""
         self.n = 0 # placeholder for ant count
         self.ants = []
-        self.pos = []
+        # self.pos = []
 
-        " No longer using update_positions"
-        # self.left = []
-        # self.right = []
+        # " Vectors of position pairs as list are usefull for plotting and recording"
+        # self.lefts = []
+        # self.rights = []
         # self.update_positions()
 
     @property
@@ -36,9 +36,9 @@ class Queen:
             with Ant(start_pos = pos[i],angle = angle[i],
                                  id = i+self.n,**ant_kwargs) as ant:
                 self.ants.append(ant)
-                self.pos.append(ant.pos)
-                self.left.append(ant.sensors['left'])
-                self.right.append(ant.sensors['right'])
+                # self.pos.append(ant.pos)
+                # self.lefts.append(ant.sensors['left'])
+                # self.rights.append(ant.sensors['right'])
         "update ant count"
         self.n+=n
 
@@ -46,13 +46,13 @@ class Queen:
         for ant in self.ants:
             ant.reverse()
 
-    def update_positions(self):
-        "store the new locations in arrays"
-        for i in range(self.n):
-            with self.ants[i] as ant:
-                self.pos[i] = ant.pos
-                self.left[i] = ant.sensors['left']
-                self.right[i] = ant.sensors['right']
+    # def update_positions(self):
+    #     "store the new locations in arrays"
+    #     for i in range(self.n):
+    #         with self.ants[i] as ant:
+    #             self.pos[i] = ant.pos
+    #             self.lefts[i] = ant.sensors['left']
+    #             self.rights[i] = ant.sensors['right']
 
     def gradient_step(self,gain,dt):
         "Gradient step wrapper"
@@ -61,12 +61,13 @@ class Queen:
 
     def observe_pheromone(self,fun, Q, fun_args = {}):
         "observe pheromone wrapper"
+        # print(Q)
         for i in range(self.n):
             self.ants[i].observe_pheromone(fun,Q[i],fun_args)
 
 class Ant:
     """ Class for the agent/actor in the sim"""
-    def __init__(self, start_pos, angle, speed, limits, l, antenna_offset,id=0):
+    def __init__(self, start_pos, angle, speed, limits, l, antenna_offset,drop_quantity,id=0):
         """ all dimensions in mm """
 
         " Properties "
@@ -78,6 +79,7 @@ class Ant:
         self.antenna_offset = antenna_offset #angle between centerline and antennas
         self.v = speed
         self.Qobserved = [0,0] #observed pheromone
+        self.drop_quantity = drop_quantity # amount of pheromone to drop
 
         " Sensor specific properties "
         self.sensors = {} #initialize dictionary
@@ -90,15 +92,17 @@ class Ant:
         print(f"Booted up ant {self.id} at {self.pos}")
 
 
-    def reverse(self):
+    def reverse(self,change_objective = True):
         " Turn around 180 degrees "
         self.azimuth += 180
-        self.foodbound = not self.foodbound
-        if self.foodbound:
+        if self.foodbound and change_objective:
+            self.foodbound = not self.foodbound
             target = 'food'
-        else:
+            print(f"Start looking for {target}")
+        elif change_objective:
+            self.foodbound = not self.foodbound
             target = 'nest'
-        print(f"Start looking for {target}")
+            print(f"Start looking for {target}")
 
     def set_sensor_position(self):
         """ calculate the sensor locations based on length, rotation and offset """
