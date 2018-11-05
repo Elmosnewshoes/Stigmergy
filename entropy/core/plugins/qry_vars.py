@@ -10,9 +10,15 @@ VALUES ({n_agents},'{limits}',{pitch},{dt},
     '{deploy_method}', '{deploy_location}',
     '{sens_function}', {speed}, {antenna_offset}, {l})"""
 
-insert_step = {'qry': "INSERT INTO sim_updates(STEP,SIM_ID) VALUES {args}",
-               'args': '({step},{sim_id}),'}
+# insert_step = {'qry': "INSERT INTO sim_updates(STEP,SIM_ID) VALUES {args}",
+#                'args': '({step},{sim_id}),'}
 
-insert_stepupdates = {'qry': """INSERT INTO ant_updates(STEP_ID,ANT_ID, X,Y,TETA,Q)
+insert_stepupdates = {'qry': """INSERT INTO ant_updates(SIM_ID, STEP,ANT_ID, X,Y,TETA,Q)
                       VALUES {args}""",
-                      'args': '({step},{ant_id},{x},{y},{teta},{Q}),'}
+                      'args': '({sim_id},{step},{ant_id},{x},{y},{teta},{Q}),'}
+
+get_antcount = """SELECT n_agents FROM sims as sim WHERE sim.id = {id}
+    """
+get_ant_table = "SELECT * FROM ant_updates WHERE ant_id = {ant_id} AND sim_id ={sim_id}"
+
+get_sim = "SELECT * FROM sims WHERE id = {id}"

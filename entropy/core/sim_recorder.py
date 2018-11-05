@@ -2,8 +2,9 @@ import numpy as np
 from sim import Sim
 import sys
 import sqlite3
-from plugins.qry_vars import create_new_sim, insert_step, insert_stepupdates
+from plugins.qry_vars import create_new_sim, insert_stepupdates
 from visualization import StigmergyPlot
+from plugins.helper_functions import T_matrix
 
 class SimRecorder():
     """ === Ant simulation steps: ===
@@ -64,11 +65,12 @@ class SimRecorder():
         """ insert step into table 'sim_updates' and corresponding ant positions
         into the 'ant_updates' table """
         " if execute is True, commit to database, else just append query "
-        self.step_vars += insert_step['args'].format(step = step, sim_id = sim_id)
+        # self.step_vars += insert_step['args'].format(step = step, sim_id = sim_id)
         for ant in self.Sim.Queen.ants:
             if ant.out_of_bounds:Q=0
             else: Q = ant.drop_quantity
-            self.stepupdate_vars += insert_stepupdates['args'].format(step=step,
+            self.stepupdate_vars += insert_stepupdates['args'].format(sim_id = sim_id,
+                                                                      step=step,
                                                                       ant_id = ant.id,
                                                                        x=ant.pos.x,
                                                                        y= ant.pos.y,
@@ -77,11 +79,11 @@ class SimRecorder():
         if execute:
             "send queries to database and reset the placeholder strings"
             cursor = self.db.cursor()
-            try:
-                cursor.execute(insert_step['qry'].format(args=self.step_vars[:-1]))
-            except Exception as error:
-                self.db.close()
-                raise error
+            # try:
+            #     cursor.execute(insert_step['qry'].format(args=self.step_vars[:-1]))
+            # except Exception as error:
+            #     self.db.close()
+            #     raise error
             try:
                 cursor.execute(insert_stepupdates['qry'].format(
                     args = self.stepupdate_vars[:-1]))
