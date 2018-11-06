@@ -56,7 +56,7 @@ class Sim:
         teta = np.arctan((ant_pos.y-base.y)/(ant_pos.x-base.x))
         if ant_pos.x < base.x: teta+=np.pi
         return point(*(base.vec+np.dstack((np.cos(teta)*R,
-                                           np.sin(teta)*R))[0][0])),np.degrees(teta)
+                            m(dom_dict =                np.sin(teta)*R))[0][0])),np.degrees(teta)
 
     def check_target(self):
         " check if ant is at target and should reverse "
@@ -122,8 +122,7 @@ def run():
     domain_dict = {'size': limits,
                     'pitch': 1,
                     'nest':{'location': nest,'radius':100},
-                    'food':{'location': food,'radius':100},
-                    'start_concentration':1}
+                    'food':{'location': food,'radius':100}}
     ant_constants = {'speed': 15,
                     'l': 10,
                     'antenna_offset': 30,

@@ -10,7 +10,7 @@ import numpy as np
 class Domain():
     """ Domain class, idea is that any input coordinates are in mm,
         the class methods do the conversion to grid coordinates """
-    def __init__(self, size, pitch, start_concentration, nest={}, food={}):
+    def __init__(self, size, pitch,nest={}, food={}):
         """ Simulation playground """
         self.size = point(*size) # xy in mm (point object)
         self.pitch = pitch
@@ -21,7 +21,6 @@ class Domain():
             self.food_location = point(*food['location'])
             self.food_radius = food['radius']
         self.Map = MeshMap(dim = size, resolution=pitch)
-        self.Map.map+= start_concentration
         self.dim = loc(*self.Map.map.shape)
         self.tmp_map = self.Map.map.copy() #explicitly duplicate the map (no pointer)
 

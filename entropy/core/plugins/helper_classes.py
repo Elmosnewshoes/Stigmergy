@@ -41,7 +41,7 @@ class MeshMap:
             np.arange(0,self.lim.x*resolution, resolution),
             np.arange(0,self.lim.y*resolution, resolution),
         )
-        self.map = np.zeros(self.mesh_x.shape)
+        self.map = np.ones(self.mesh_x.shape)
 
     def coord2grid(self, pnt):
         """ return xy in grid coordinates (loc tuple) [absolute -- integer]

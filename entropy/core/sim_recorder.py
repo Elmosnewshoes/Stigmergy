@@ -79,11 +79,6 @@ class SimRecorder():
         if execute:
             "send queries to database and reset the placeholder strings"
             cursor = self.db.cursor()
-            # try:
-            #     cursor.execute(insert_step['qry'].format(args=self.step_vars[:-1]))
-            # except Exception as error:
-            #     self.db.close()
-            #     raise error
             try:
                 cursor.execute(insert_stepupdates['qry'].format(
                     args = self.stepupdate_vars[:-1]))
@@ -157,8 +152,7 @@ deploy_dict = {'n_agents': n_ants,
 domain_dict = {'size': limits,
                 'pitch': 1,
                 'nest':{'location': nest,'radius':100},
-                'food':{'location': food,'radius':100},
-                'start_concentration':1}
+                'food':{'location': food,'radius':100}}
 ant_constants = {'speed': 15,
                 'l': 10,
                 'antenna_offset': 30,
