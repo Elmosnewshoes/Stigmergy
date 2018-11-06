@@ -38,3 +38,12 @@ def bivariate_normal(X, Y, sigmax=1.0, sigmay=1.0,
     z = Xmu**2/sigmax**2 + Ymu**2/sigmay**2 - 2*rho*Xmu*Ymu/(sigmax*sigmay)
     denom = 2*np.pi*sigmax*sigmay*np.sqrt(1-rho**2)
     return np.exp(-z/(2*(1-rho**2))) / denom
+
+def circle_scatter(center,R):
+    " center as in [x, y] location "
+    xy = np.empty((0,2)) # empty list of lists [x, y]
+    for i in range(0,360,10):
+        " Create scatter "
+        xy = np.vstack((xy,np.array(center)
+                            +T_matrix(i).dot([R,0])))
+    return xy
