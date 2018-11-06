@@ -1,12 +1,12 @@
 create_new_sim = """
     INSERT INTO sims(n_agents,domain_limits,pitch,dt,
 nest_location,nest_radius,food_location,food_radius,
-start_concentration,pheromone_variance,
+target_pheromone_volume,pheromone_variance,
 deploy_method,deploy_location,
 sens_function, ant_start_speed, ant_antenna_offset,ant_l)
 VALUES ({n_agents},'{limits}',{pitch},{dt},
     '{nest_location}',{nest_radius},'{food_location}',{food_radius},
-    {start_concentration},{sigma},
+    {target_pheromone_volume},{sigma},
     '{deploy_method}', '{deploy_location}',
     '{sens_function}', {speed}, {antenna_offset}, {l})"""
 

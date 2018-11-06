@@ -49,7 +49,7 @@ class Domain():
         # try:
         self.tmp_map[target.y-s['y'][1]+s['y'][0]:target.y+s['y'][2]-s['y'][1],
                     target.x-s['x'][1]+s['x'][0]:target.x+s['x'][2]-s['x'][1]
-                    ]+= self.Gaussian.map[s['y'][0]:s['y'][2],s['x'][0]:s['x'][2]]
+                    ]+= alpha*Q*self.Gaussian.map[s['y'][0]:s['y'][2],s['x'][0]:s['x'][2]]
         # except Exception as error:
         #     print(target_pos)
         #     raise error

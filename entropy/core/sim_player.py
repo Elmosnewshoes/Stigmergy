@@ -4,7 +4,8 @@ from plugins.qry_vars import get_antcount, get_ant_table,get_sim
 from domain import Domain
 from visualization import StigmergyPlot
 import numpy as np
-from plugins.helper_functions import T_matrix
+from plugins.helper_functions import T_matrix, lin_fun, circle_scatter
+from plugins.helper_classes import point
 
 def select_qry(qry,db_name, db_path):
     db = sqlite3.connect(db_path+db_name)
@@ -49,27 +50,44 @@ class Actor:
         self.step_range = [self.tbl[0][1],self.tbl[-1][1]]
 
         " initialize placeholders "
-        self.steps = np.empty(self.step_range[1]-self.step_range[0])
-        self.x_pos = self.steps.copy()
-        self.y_pos = self.x_pos.copy()
-        self.sens_y_left = self.steps.copy()
-        self.sens_y_right = self.steps.copy()
-        self.sens_x_left = self.steps.copy()
-        self.sens_x_right = self.steps.copy()
-        self.tetas = self.steps.copy()
-        self.Qs = self.steps.copy()
-        self.tbl_to_properties(self.tbl)
+        self.step_nr = np.empty(self.steps)
+        self.pos_list = []
+        self.sens_left_list = []
+        self.sens_right_list = []
+        self.tetas = self.step_nr.copy()
+        self.Qs = self.step_nr.copy()
+        self.tbl_to_properties()
+        self.iter = -1 #keep track of the step
 
-    def tbl_to_properties(self, tbl):
+    def next(self):
+        self.iter+=1
+
+    @property
+    def pos(self):
+        try:
+            return self.pos_list[self.iter]
+        except Exception as error:
+            print("iteration ",self.iter)
+            raise error
+
+    @property
+    def Q(self):
+        return self.Qs[self.iter]
+
+    @property
+    def steps(self):
+        return int(self.step_range[1]-self.step_range[0]+1)
+
+    def tbl_to_properties(self):
         " cast the sql cursor result in useable form "
         i = 0
-        for row in tbl:
-            self.steps[i] = row[2]
-            self.x_pos[i] = row[3]
-            self.y_pos[i] = row[4]
+        for row in self.tbl:
+            self.step_nr[i] = row[1]
+            self.pos_list.append(point(row[3],row[4]))
             self.tetas[i] = row[5]
             self.Qs[i] = row[6]
             T_left = T_matrix(row[5])
+            i+=1
 
 
 class SimPlayer:
@@ -85,6 +103,14 @@ class SimPlayer:
         self.actors = [Actor(i,sim_id,self.sqlqry)
                        for i in range(self.n_agents)]
 
+    def xy(self,n):
+        xy = np.zeros((self.n_agents,2))
+        i = 0
+        for ant in self.actors:
+            xy[i] = ant.pos.vec
+            i+=1
+        return xy[:,0], xy[:,1]
+
 
     def get_agentcount(self):
         " Return the number of ants used in the simulation "
@@ -94,21 +120,57 @@ class SimPlayer:
     def get_settings(self):
         " Get the settings used for the simulation "
         result_tuple = self.sqlqry.select(get_sim.format(id=self.id))[0]
-        print(result_tuple)
+        self.deploy_dict['target_pheromone_volume'] = result_tuple[9]
         self.deploy_dict['sigma'] = result_tuple[10]
-        self.deploy_dict['deploy_method'] = result_tuple[11]
-        self.deploy_dict['deploy_location'] = result_tuple[12]
-        self.deploy_dict['sens_function'] = result_tuple[13]
+        #self.deploy_dict['deploy_method'] = result_tuple[11]
+        #self.deploy_dict['deploy_location'] = result_tuple[12]
+        # self.deploy_dict['sens_function'] = result_tuple[13]
         self.domain_dict['size'] = eval(result_tuple[2])
         self.domain_dict['pitch'] = result_tuple[3]
         self.domain_dict['nest'] = {'location':eval(result_tuple[5]),
                                     'radius':result_tuple[6]}
         self.domain_dict['food'] = {'location':eval(result_tuple[7]),
                                     'radius': result_tuple[8]}
-        self.domain_dict['start_concentration'] = result_tuple[9]
-        "*** TODO: make start_concentration and target_pheromone equal ***"
-        print(self.deploy_dict)
-        print(self.domain_dict)
+        self.ant_dict['start_speed'] = result_tuple[14]
+        self.ant_dict['antenna_offset'] =result_tuple[15]
+        self.ant_dict['l'] = result_tuple[16]
+
+    def deploy_domain(self):
+        self.Domain = Domain(**self.domain_dict)
+
+    def init_sim(self,sigma,target_pheromone_volume):
+        self.Domain.Gaussian = self.Domain.init_gaussian(sigma)
+        self.Domain.set_target_pheromone(target_pheromone_volume)
+        self.Domain.evaporate()
+        self.Domain.update_pheromone()
+        # if sens_function == 'linear':
+        #     self.sens_function = lin_fun
+
+    def prep_visualization(self):
+        self.P = StigmergyPlot(self.Domain.Map, n=10)
+        self.P.draw_stigmergy(self.Domain.tmp_map)
+        scat_nest = circle_scatter(self.Domain.nest_location.vec, self.Domain.nest_radius)
+        scat_food = circle_scatter(self.Domain.food_location.vec, self.Domain.food_radius)
+        self.P.draw_scatter(x = scat_nest[:,0],y=scat_nest[:,1],
+                            marker = '.',name='nest',s=20)
+        self.P.draw_scatter(x = scat_food[:,0],y=scat_food[:,1],
+                            marker = '.',name='food',s=20)
+
+
+    def run_sim(self, visualization = False):
+        " actual replay part "
+        n = self.actors[0].steps
+        for i in range(n):
+            for ant in self.actors:
+                ant.next()
+                self.Domain.local_add_pheromone(target_pos= ant.pos, Q = ant.Q, by_volume = True)
+            self.Domain.evaporate()
+            if visualization:
+                X,Y = self.xy(n)
+                self.P.draw_scatter(X,Y,name='ant')
+                self.P.draw_stigmergy(self.Domain.tmp_map)
+                self.P.draw()
+        self.P.hold_until_close()
 
 
 
@@ -116,8 +178,12 @@ def run():
     db_path =sys.path[0]+"/database/"
     db_name = "stigmergy_database.db"
     # print(select_qry(get_antcount.format(id=15),db_name,db_path)[0][0])
-    S = SimPlayer(15, db_path, db_name)
+    S = SimPlayer(29, db_path, db_name)
     S.get_settings()
+    S.deploy_domain()
+    S.init_sim(**S.deploy_dict)
+    S.prep_visualization()
+    S.run_sim(visualization = True)
 
 
 

@@ -29,12 +29,15 @@ class Sim:
                 self.Domain.probe_pheromone(right)]
                 for left,right in zip(lefts,rights)]
 
-    def start_sim(self,n_agents,sigma,sens_function,deploy_location,
+    def start_sim(self,n_agents,sigma,sens_function,deploy_location, target_pheromone_volume='',
                   deploy_method='instant'):
         " Make the sim environment, determine when ants are to deployed "
         if deploy_method=='instant':
             self.deploy_time = np.zeros(n_agents)
         self.Domain.Gaussian = self.Domain.init_gaussian(sigma)
+        self.Domain.set_target_pheromone(target_pheromone_volume)
+        self.Domain.evaporate() #start with the correct amount of pheromone
+        self.Domain.update_pheromone()
         self.n_agents = n_agents
         if sens_function == 'linear':
             self.sens_function = lin_fun
@@ -56,7 +59,7 @@ class Sim:
         teta = np.arctan((ant_pos.y-base.y)/(ant_pos.x-base.x))
         if ant_pos.x < base.x: teta+=np.pi
         return point(*(base.vec+np.dstack((np.cos(teta)*R,
-                            m(dom_dict =                np.sin(teta)*R))[0][0])),np.degrees(teta)
+                                           np.sin(teta)*R))[0][0])),np.degrees(teta)
 
     def check_target(self):
         " check if ant is at target and should reverse "
@@ -94,7 +97,7 @@ class Sim:
             start_locs, start_angles = self.deploy_params(n)
             self.Queen.deploy(start_locs, start_angles, self.ant_dict)
 
-    def deposit_pheromone(self, tau, by_volume = False):
+    def deposit_pheromone(self, by_volume = False):
         " deposit quantity tau pheromone at the ant locations "
         for i in range(self.Queen.n):
             if not self.Queen.ants[i].out_of_bounds:
@@ -117,7 +120,8 @@ def run():
                 'sigma': pheromone_variance,
                 'deploy_method': 'instant',
                 'sens_function':'linear',
-                'deploy_location': 'nest'}
+                'deploy_location': 'nest',
+                'target_pheromone_volume':100*n_ants}
 
     domain_dict = {'size': limits,
                     'pitch': 1,

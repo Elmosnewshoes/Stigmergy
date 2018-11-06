@@ -92,7 +92,7 @@ def run_plot():
 
     ant_settings = {'start_pos': [500,100],
                     'angle': 45,
-                    'speed': 10,
+                    'speed': 20,
                     'limits': [1000,1000],
                     'l': 10,
                     'antenna_offset': 30}

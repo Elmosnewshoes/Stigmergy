@@ -89,7 +89,7 @@ class Ant:
         self.foodbound = True
         self.out_of_bounds = False
 
-        print(f"Booted up ant {self.id} at {self.pos}")
+        # print(f"Booted up ant {self.id} at {self.pos}")
 
 
     def reverse(self,change_objective = True):
