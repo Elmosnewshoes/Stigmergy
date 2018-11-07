@@ -1,11 +1,11 @@
 import sqlite3
 import sys
-from plugins.qry_vars import get_antcount, get_ant_table,get_sim
-from domain import Domain
-from visualization import StigmergyPlot
+from core.plugins.qry_vars import get_antcount, get_ant_table,get_sim, get_latest_id
+from core.domain import Domain
+from core.visualization import StigmergyPlot
 import numpy as np
-from plugins.helper_functions import T_matrix, lin_fun, circle_scatter
-from plugins.helper_classes import point
+from core.plugins.helper_functions import T_matrix, lin_fun, circle_scatter
+from core.plugins.helper_classes import point
 
 def select_qry(qry,db_name, db_path):
     db = sqlite3.connect(db_path+db_name)
@@ -44,8 +44,8 @@ class SqlQry:
 
 class Actor:
     def __init__(self,id,sim_id,qry_object,speed=0,l=0,antenna_offset=0):
-        self.id = id
         self.sqlqry = qry_object
+        self.id = id
         self.tbl = qry_object.select(get_ant_table.format(ant_id = id, sim_id = sim_id))
         self.step_range = [self.tbl[0][1],self.tbl[-1][1]]
 
@@ -94,13 +94,17 @@ class SimPlayer:
     def __init__(self,sim_id, db_path, db_name):
         """ This class is the playback functionality to visualize a recording
             of a simulation """
-        self.id = sim_id
         self.deploy_dict = {}
         self.domain_dict = {}
         self.ant_dict = {}
         self.sqlqry = SqlQry(db_name=db_name, db_path=db_path)
+        if sim_id =='latest':
+            self.id = self.sqlqry.select(qry=get_latest_id)[0][0]
+            print(f"fetching sim {self.id}")
+        else:
+            self.id = sim_id
         self.n_agents = self.get_agentcount()
-        self.actors = [Actor(i,sim_id,self.sqlqry)
+        self.actors = [Actor(i,self.id,self.sqlqry)
                        for i in range(self.n_agents)]
 
     def xy(self,n):
@@ -122,9 +126,6 @@ class SimPlayer:
         result_tuple = self.sqlqry.select(get_sim.format(id=self.id))[0]
         self.deploy_dict['target_pheromone_volume'] = result_tuple[9]
         self.deploy_dict['sigma'] = result_tuple[10]
-        #self.deploy_dict['deploy_method'] = result_tuple[11]
-        #self.deploy_dict['deploy_location'] = result_tuple[12]
-        # self.deploy_dict['sens_function'] = result_tuple[13]
         self.domain_dict['size'] = eval(result_tuple[2])
         self.domain_dict['pitch'] = result_tuple[3]
         self.domain_dict['nest'] = {'location':eval(result_tuple[5]),
@@ -142,13 +143,11 @@ class SimPlayer:
         self.Domain.Gaussian = self.Domain.init_gaussian(sigma)
         self.Domain.set_target_pheromone(target_pheromone_volume)
         self.Domain.evaporate()
-        self.Domain.update_pheromone()
-        # if sens_function == 'linear':
-        #     self.sens_function = lin_fun
+        # self.Domain.update_pheromone()
 
     def prep_visualization(self):
         self.P = StigmergyPlot(self.Domain.Map, n=10)
-        self.P.draw_stigmergy(self.Domain.tmp_map)
+        self.P.draw_stigmergy(self.Domain.Map.map)
         scat_nest = circle_scatter(self.Domain.nest_location.vec, self.Domain.nest_radius)
         scat_food = circle_scatter(self.Domain.food_location.vec, self.Domain.food_radius)
         self.P.draw_scatter(x = scat_nest[:,0],y=scat_nest[:,1],
@@ -163,22 +162,21 @@ class SimPlayer:
         for i in range(n):
             for ant in self.actors:
                 ant.next()
-                self.Domain.local_add_pheromone(target_pos= ant.pos, Q = ant.Q, by_volume = True)
+                self.Domain.local_add_pheromone(target_pos= ant.pos, Q = ant.Q)
             self.Domain.evaporate()
             if visualization:
                 X,Y = self.xy(n)
                 self.P.draw_scatter(X,Y,name='ant')
-                self.P.draw_stigmergy(self.Domain.tmp_map)
+                self.P.draw_stigmergy(self.Domain.Map.map)
                 self.P.draw()
         self.P.hold_until_close()
 
 
 
 def run():
-    db_path =sys.path[0]+"/database/"
+    db_path =sys.path[0]+"/core/database/"
     db_name = "stigmergy_database.db"
-    # print(select_qry(get_antcount.format(id=15),db_name,db_path)[0][0])
-    S = SimPlayer(29, db_path, db_name)
+    S = SimPlayer('latest', db_path, db_name)
     S.get_settings()
     S.deploy_domain()
     S.init_sim(**S.deploy_dict)

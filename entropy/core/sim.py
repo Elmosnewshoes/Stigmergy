@@ -1,8 +1,8 @@
-from domain import Domain
-from ant import Queen, lin_fun
+from core.domain import Domain
+from core.ant import Queen, lin_fun
 import numpy as np
-from plugins.helper_functions import lin_fun, T_matrix
-from plugins.helper_classes import point
+from core.plugins.helper_functions import lin_fun, T_matrix
+from core.plugins.helper_classes import point
 
 
 class Sim:
@@ -37,7 +37,7 @@ class Sim:
         self.Domain.Gaussian = self.Domain.init_gaussian(sigma)
         self.Domain.set_target_pheromone(target_pheromone_volume)
         self.Domain.evaporate() #start with the correct amount of pheromone
-        self.Domain.update_pheromone()
+        # self.Domain.update_pheromone()
         self.n_agents = n_agents
         if sens_function == 'linear':
             self.sens_function = lin_fun
@@ -97,13 +97,12 @@ class Sim:
             start_locs, start_angles = self.deploy_params(n)
             self.Queen.deploy(start_locs, start_angles, self.ant_dict)
 
-    def deposit_pheromone(self, by_volume = False):
+    def deposit_pheromone(self):
         " deposit quantity tau pheromone at the ant locations "
         for i in range(self.Queen.n):
             if not self.Queen.ants[i].out_of_bounds:
                 self.Domain.local_add_pheromone(self.Queen.ants[i].pos,
-                                                self.Queen.ants[i].drop_quantity,
-                                                by_volume)
+                                                self.Queen.ants[i].drop_quantity)
 
 
 

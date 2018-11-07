@@ -22,3 +22,5 @@ get_antcount = """SELECT n_agents FROM sims as sim WHERE sim.id = {id}
 get_ant_table = "SELECT * FROM ant_updates WHERE ant_id = {ant_id} AND sim_id ={sim_id}"
 
 get_sim = "SELECT * FROM sims WHERE id = {id}"
+
+get_latest_id = "SELECT max(id) FROM sims"

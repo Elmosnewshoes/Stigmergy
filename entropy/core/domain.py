@@ -43,13 +43,13 @@ class Domain():
                     target.x-s['x'][1]+s['x'][0]:target.x+s['x'][2]-s['x'][1]
                     ]+= Q*self.Gaussian.map[s['y'][0]:s['y'][2],s['x'][0]:s['x'][2]]
 
-    def probe_pheromone(self,probe_loc):
+    def probe_pheromone(self,probe_point):
         " Return the pheromone level based on xy in mm, 0 if out of bounds "
-        if probe_loc.x<0 or probe_loc.y <0 or (probe_loc.vec > self.size.vec).any():
+        if probe_point.x<0 or probe_point.y <0 or (probe_point.vec > self.size.vec).any():
             return 0
         else:
-            probe_point = self.Map.coord2grid(probe_loc)
-            return self.Map.map[probe_point.y,probe_point.x]
+            probe_loc = self.Map.coord2grid(probe_point)
+            return self.Map.map[probe_loc.y,probe_loc.x]
 
     def set_target_pheromone(self, Q):
         """ Desired total volume of the pheromone on the map """

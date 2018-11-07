@@ -1,10 +1,10 @@
 import numpy as np
-from sim import Sim
+from core.sim import Sim
 import sys
 import sqlite3
-from plugins.qry_vars import create_new_sim, insert_stepupdates
-from visualization import StigmergyPlot
-from plugins.helper_functions import T_matrix, circle_scatter
+from core.plugins.qry_vars import create_new_sim, insert_stepupdates
+from core.visualization import StigmergyPlot
+from core.plugins.helper_functions import T_matrix, circle_scatter
 
 class SimRecorder():
     """ === Ant simulation steps: ===
@@ -57,8 +57,6 @@ class SimRecorder():
         return id
 
     def connect_db(self,db_path,db_name):
-        # db_path = sys.path[0]+"/database/"
-        # db_name = "stigmergy_database.db"
         self.db = sqlite3.connect(db_path+db_name)
 
     def insert_step(self,sim_id,step,execute = False):
@@ -103,10 +101,10 @@ class SimRecorder():
                 self.insert_step(sim_id,i,True)
             else:
                 self.insert_step(sim_id,i,False)
-            self.Sim.deposit_pheromone( by_volume = True)
-            self.Sim.Domain.evaporate()
-            self.Sim.Domain.update_pheromone()
             self.Sim.gradient_step(gain = self.ant_gain,dt = self.dt, noise=self.ant_gain*2e-3*2*1.75)
+            self.Sim.deposit_pheromone( )
+            self.Sim.Domain.evaporate()
+            # self.Sim.Domain.update_pheromone()
 
     def visualize_results(self):
         P = StigmergyPlot(self.Sim.Domain.Map,n=10)
@@ -156,7 +154,7 @@ def test_SimRecorder():
                     domain_args = domain_dict,
                     ant_constants = ant_constants,
                     dt = 1)
-    S.connect_db(db_path = sys.path[0]+"/database/",
+    S.connect_db(db_path = sys.path[0]+"/core/database/",
                  db_name = "stigmergy_database.db")
     sim_id = S.insert_new_sim()
     S.record_gradient_sim(n_steps = 1000,record_frequency=500,sim_id=sim_id)
