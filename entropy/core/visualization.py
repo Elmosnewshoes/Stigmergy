@@ -2,7 +2,7 @@ import numpy as np
 from matplotlib import cm, gridspec
 import matplotlib.pyplot as plt
 import matplotlib.mlab as mlab
-from plugins.helper_classes import point, loc
+from core.plugins.helper_classes import point, loc
 
 cmaps = {'blue': 'PuBu',
          'grey_reverse': 'grey_r',
