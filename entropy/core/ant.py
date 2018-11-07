@@ -3,8 +3,8 @@
     Delft University of Technology, Delft, The Netherlands
     ========== """
 import numpy as np
-from plugins.helper_functions import T_matrix, lin_fun
-from plugins.helper_classes import point, loc
+from core.plugins.helper_functions import T_matrix, lin_fun
+from core.plugins.helper_classes import point, loc
 
 class Queen:
     def __init__(self):
@@ -13,12 +13,6 @@ class Queen:
             limits, speed"""
         self.n = 0 # placeholder for ant count
         self.ants = []
-        # self.pos = []
-
-        # " Vectors of position pairs as list are usefull for plotting and recording"
-        # self.lefts = []
-        # self.rights = []
-        # self.update_positions()
 
     @property
     def left(self):
@@ -36,23 +30,12 @@ class Queen:
             with Ant(start_pos = pos[i],angle = angle[i],
                                  id = i+self.n,**ant_kwargs) as ant:
                 self.ants.append(ant)
-                # self.pos.append(ant.pos)
-                # self.lefts.append(ant.sensors['left'])
-                # self.rights.append(ant.sensors['right'])
         "update ant count"
         self.n+=n
 
-    def revers(self):
+    def reverse(self):
         for ant in self.ants:
             ant.reverse()
-
-    # def update_positions(self):
-    #     "store the new locations in arrays"
-    #     for i in range(self.n):
-    #         with self.ants[i] as ant:
-    #             self.pos[i] = ant.pos
-    #             self.lefts[i] = ant.sensors['left']
-    #             self.rights[i] = ant.sensors['right']
 
     def gradient_step(self,gain,dt):
         "Gradient step wrapper"
@@ -89,8 +72,6 @@ class Ant:
         self.foodbound = True
         self.out_of_bounds = False
 
-        # print(f"Booted up ant {self.id} at {self.pos}")
-
 
     def reverse(self,change_objective = True):
         " Turn around 180 degrees "
@@ -116,10 +97,9 @@ class Ant:
         return self._azimuth
     @azimuth.setter
     def azimuth(self, a):
-        """ ensure azimuth in [0,360] """
+        """ ensure azimuth in [0,360] (more or less) """
         if a < 0: self._azimuth = 360+(a%-360)
         else: self._azimuth = a%360
-
 
     def observe_pheromone(self,fun, Q, fun_args = {}):
         """ pass Q into the observation function,
@@ -160,74 +140,3 @@ class Ant:
     def __exit__(self, type, value, traceback):
         """ Accompanies __enter__"""
         pass
-
-
-ant_settings = {'start_pos': [10,10],
-                'angle': 45,
-                'speed': 10,
-                'limits': [1000,1000],
-                'l': 10,
-                'antenna_offset': 30}
-
-def return_fun(fun,arg):
-    return fun(arg)
-
-def test_ant():
-    ant = Ant(**ant_settings)
-    print(return_fun(lin_fun,10))
-    print(ant.sensors['left'].vec)
-    print(ant.sensors['right'].vec)
-    print(ant.observerd_pheromone(lin_fun,[1,1]))
-    ant.gradient_step(1,1)
-def time_it():
-    "Time all the steps of the ant class, using time for timit bian a PIA"
-    import time
-    ant = Ant(**ant_settings)
-    n = int(1e5)
-
-    " Observe pheromone "
-    tic = time.time()
-    for Q in np.random.randn(n,2):
-        ant.observe_pheromone(lin_fun,Q)
-    toc = time.time()
-    print("Observed pheromone in avg {} msec".format(1e3*(toc-tic)/n))
-
-    " Step "
-    tic = time.time()
-    for _ in range(n):
-        ant.step(1)
-    toc = time.time()
-    print("Stepped in avg {} msec".format(1e3*(toc-tic)/n))
-
-    " Update sensors "
-    tic = time.time()
-    for _ in range(n):
-        ant.set_sensor_position()
-    toc = time.time()
-    print("Updated sensors in avg {} msec".format(1e3*(toc-tic)/n))
-
-
-    " Total gradient step "
-    tic = time.time()
-    for Q in np.random.randn(n,2):
-        ant.observe_pheromone(lin_fun,Q)
-        ant.gradient_step(1,1)
-    toc = time.time()
-    print("Total step took avg {} msec".format(1e3*(toc-tic)/n))
-
-def test_queen():
-    limits = [1000,1000]
-    n_ants = 10
-    start_positions = np.random.rand(n_ants,2)*limits
-    start_angle = np.random.rand(n_ants)*360
-    ant_consts =  {'speed': 10,
-                   'limits': limits,
-                   'l': 10,
-                   'antenna_offset': 45}
-    Q = Queen()
-    Q.deploy(start_positions, start_angle,ant_consts)
-    Q.deploy(start_positions, start_angle,ant_consts)
-
-if __name__ == '__main__':
-    time_it()
-    # test_queen()

@@ -2,7 +2,7 @@ import numpy as np
 if __name__ == '__main__':
     from helper_functions import bivariate_normal
 else:
-    from plugins.helper_functions import bivariate_normal
+    from core.plugins.helper_functions import bivariate_normal
 
 class point:
     """ holds xy coordinates in mm (floats)"""
