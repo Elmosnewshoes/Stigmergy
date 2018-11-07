@@ -7,6 +7,20 @@ import numpy as np
 from core.plugins.helper_functions import T_matrix, lin_fun, circle_scatter
 from core.plugins.helper_classes import point
 
+"""
+Run PyQt5 Designer, located at:
+
+    /usr/bin/designer
+
+Run PyQt5 User Interface Compiler (PYUIC5) to convert .ui to .py
+
+    pyuic5 gui.ui -o gui.py
+
+Run PyQt5 Resource Compiler (PYRCC5) to convert .qrc to .py
+
+
+"""
+
 def select_qry(qry,db_name, db_path):
     db = sqlite3.connect(db_path+db_name)
     cursor = db.cursor()
