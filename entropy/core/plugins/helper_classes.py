@@ -55,8 +55,7 @@ class MeshMap:
         """ return xy in local coordinates (point tuple) [mm -- float]
             from grid coords (loc tuple) [absolute -- integer] """
         return point(*l.vec.dot(self.pitch))
-#
-    # @property
+
     def entropy(self,T=0):
         """ Calculate the shannon entropy of the whole map """
         if T == 0: T = self.map.sum()# sum of pheromones
@@ -77,7 +76,7 @@ class MeshMap:
         return {'x': [x_min,R,x_max],
                  'y': [y_min,R,y_max]}
     def __repr__(self):
-        return "A map with size {}x{}; with resolution {}".format(*self.map.shape,self.pitch)
+        return "A map with size {}x{}; with resolution {}".format(*self.map.transpose().shape,self.pitch)
 
 class GaussMap(MeshMap):
     def __init__(self,resolution,R,covariance):

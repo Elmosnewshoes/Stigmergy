@@ -22,7 +22,7 @@ class Domain():
             self.food_radius = food['radius']
         self.Map = MeshMap(dim = size, resolution=pitch)
         self.dim = loc(*self.Map.map.shape)
-        self.tmp_map = self.Map.map.copy() #explicitly duplicate the map (no pointer)
+        # self.tmp_map = self.Map.map.copy() #explicitly duplicate the map (no pointer)
 
     def init_gaussian(self,sigma,significancy = 1e3):
         """ Return gaussian map object """
@@ -30,29 +30,18 @@ class Domain():
             of the value of the peak """
         R = np.asarray(np.ceil(sigma*np.sqrt(2*np.log(significancy))),dtype=int)
         Gaussian = GaussMap(resolution =self.pitch,R = R, covariance = sigma)
-        # print(f"Significancy radius = {R}")
         return Gaussian
 
-    def local_add_pheromone(self, target_pos, Q, by_volume = False):
+    def local_add_pheromone(self, target_pos, Q):
         """ Add pheromone to the temp map:
                 Q is the quantity
-                If by_volume is True: add unity volume
-                else add such that the peak ==1
                 target_pos x,y in mm """
-        if by_volume:
-            alpha = 1
-        else:
-            alpha = 1/self.Gaussian.peak
         target = self.Map.coord2grid(target_pos)
         "span contains list with 3 elemets per axis: [start slice, center, end_slice]"
-        s = self.Map.span(target,self.Gaussian.radius) #get some instructions on where to place the Gaussian
-        # try:
-        self.tmp_map[target.y-s['y'][1]+s['y'][0]:target.y+s['y'][2]-s['y'][1],
+        s = self.Map.span(target,self.Gaussian.radius) #get instructions on where to place the Gaussian
+        self.Map.map[target.y-s['y'][1]+s['y'][0]:target.y+s['y'][2]-s['y'][1],
                     target.x-s['x'][1]+s['x'][0]:target.x+s['x'][2]-s['x'][1]
-                    ]+= alpha*Q*self.Gaussian.map[s['y'][0]:s['y'][2],s['x'][0]:s['x'][2]]
-        # except Exception as error:
-        #     print(target_pos)
-        #     raise error
+                    ]+= Q*self.Gaussian.map[s['y'][0]:s['y'][2],s['x'][0]:s['x'][2]]
 
     def probe_pheromone(self,probe_loc):
         " Return the pheromone level based on xy in mm, 0 if out of bounds "
@@ -67,17 +56,19 @@ class Domain():
         self.target_pheromone = Q
 
     def evaporate(self, xsi =0):
-        """ Caution!! tmp map is evaporated, not the main """
+        """ Map is evaporated """
         " Caution: neglecting volume of grid"
         if xsi == 0:
-            self.tmp_map = self.tmp_map.dot(self.target_pheromone/self.tmp_map.sum())
+            # self.tmp_map = self.tmp_map.dot(self.target_pheromone/self.tmp_map.sum())
+            self.Map.map = self.Map.map.dot(self.target_pheromone/self.Map.map.sum())
         else:
-            self.tmp_map = self.tmp_map.dot(xsi)
+            # self.tmp_map = self.tmp_map.dot(xsi)
+            self.Map.map = self.Map.map.dot(xsi)
 
-    def update_pheromone(self):
-        """ Add the temp map to the global map """
-        "Explicit copy, no pointer"
-        self.Map.map = np.copy(self.tmp_map)
+    # def update_pheromone(self):
+    #     """ Add the temp map to the global map """
+    #     "Explicit copy, no pointer"
+    #     self.Map.map = np.copy(self.tmp_map)
 
     def inrange(self,pnt, target = 'food'):
         """ Check if point is within the defined food or nest area """
@@ -90,31 +81,30 @@ class Domain():
 def run():
     domain_dict = {'size': [1000,500],
                    'pitch': 1,
-                   'start_concentration':1,
                    'nest':{'location': [250,250],'radius':50},
                    'food':{'location': [750,250],'radius':50}}
     D = Domain(**domain_dict)
     D.Gaussian = D.init_gaussian(sigma=15)
-    print(D.Map)
-    print(D.Gaussian.peak)
-    print(D.Gaussian.entropy)
-    print(D.Gaussian)
+    print('Class Map:', D.Map)
+    print('Gaussian property peak:',D.Gaussian.peak)
+    print('Entropy of Gaussian:',D.Gaussian.entropy())
+    print('Map class of type Gaussian:',D.Gaussian)
+    print('Total pheromone volume fresh map: ',D.Map.map.sum())
     xy = point(100,100)
-    D.local_add_pheromone(xy, 2,True)
-    D.update_pheromone()
-    print(D.probe_pheromone(xy))
+    D.local_add_pheromone(target_pos=xy,Q= 2)
+    print(f'Pheromone concentration at {xy}:',D.probe_pheromone(xy))
     assert D.probe_pheromone(xy) == D.Map.map.max()#check if all works correctly
-    print(D.tmp_map.sum())
+    print('Total pheromone volume (Map.map.sum())',D.Map.map.sum())
     D.evaporate(0.9)
-    print(D.tmp_map.max())
+    print(D.Map.map.max())
     D.set_target_pheromone(10)
     D.evaporate()
-    print(D.tmp_map.max())
-    print(D.tmp_map.sum())
+    print(D.Map.map.max())
+    print(D.Map.map.sum())
     xy = point(250,500)
     print(D.food_location.vec)
     print("Point {} is in range of food? {}".format(xy,D.inrange(xy,'food')))
-    D.local_add_pheromone(point(301.13,559.72),1)
+    D.local_add_pheromone(point(301.13,359.72),1)
 
 if __name__ == '__main__':
     run()
