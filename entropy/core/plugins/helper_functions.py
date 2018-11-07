@@ -18,8 +18,8 @@ def T_matrix( theta ):
     # return np.matrix([[math.cos(theta*math.pi/180), -math.sin(theta*math.pi/180)],
     #                  [math.sin(theta*math.pi/180), math.cos(theta*math.pi/180)]])
 
-def lin_fun(x, noise = 0):
-    return x+(2*noise*np.random.rand()-1)
+def lin_fun(x,):
+    return x
 
 
 def bivariate_normal(X, Y, sigmax=1.0, sigmay=1.0,

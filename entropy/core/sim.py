@@ -81,13 +81,13 @@ class Sim:
                 #     ant.reverse(change_objective= False)
 
 
-    def gradient_step(self,gain, dt, noise):
+    def gradient_step(self, dt):
         " Gradient step, update map"
         "Check if ants need to be deployed"
         Q = self.parse_pheromone(lefts = [ant.sensors['left'] for ant in self.Queen.ants],
                                  rights = [ant.sensors['right'] for ant in self.Queen.ants])
-        self.Queen.observe_pheromone(self.sens_function,Q,{'noise':noise})
-        self.Queen.gradient_step(gain = gain, dt = dt)
+        self.Queen.observe_pheromone(self.sens_function,Q)
+        self.Queen.gradient_step(dt = dt)
         # self.Queen.update_positions()
         self.check_target()
 
@@ -111,6 +111,7 @@ def run():
     food = [750,250]
     nest = [250,250]
     ant_gain = 10
+    noise_gain = 1
     n_ants = 80
     pheromone_variance = 12
     Q=.0005

@@ -21,7 +21,7 @@ class SimRecorder():
         3: update the map
 
     ================================== """
-    def __init__(self,simname,limits, ant_gain, deploy_args, domain_args, ant_constants,dt):
+    def __init__(self,simname,limits, deploy_args, domain_args, ant_constants,dt):
         " Record a simulation "
         self.Sim = Sim(dom_dict = domain_args, ant_dict= ant_constants)
         self.deploy_args = deploy_args
@@ -29,7 +29,6 @@ class SimRecorder():
         self.ant_constants = ant_constants
         self.domain_args['limits'] = limits
         self.dt = dt
-        self.ant_gain = ant_gain
 
         # some query values
         self.step_vars = ''
@@ -93,7 +92,7 @@ class SimRecorder():
         """ Run a gradient based simulation """
         " Initialize the simulation "
         self.Sim.start_sim(**self.deploy_args)# initialize the simulation
-        self.Sim.gradient_step(gain = self.ant_gain,dt = self.dt, noise=self.ant_gain*1e-3*2*1.75) #deploy ants
+        self.Sim.gradient_step(dt = self.dt) #deploy ants
         " Loop the simulation"
         for i in range(n_steps):
             if (i+1)%record_frequency==0  and i>0 and record_frequency!=-1:
@@ -101,7 +100,7 @@ class SimRecorder():
                 self.insert_step(sim_id,i,True)
             else:
                 self.insert_step(sim_id,i,False)
-            self.Sim.gradient_step(gain = self.ant_gain,dt = self.dt, noise=self.ant_gain*2e-3*2*1.75)
+            self.Sim.gradient_step(dt = self.dt)
             self.Sim.deposit_pheromone( )
             self.Sim.Domain.evaporate()
             # self.Sim.Domain.update_pheromone()
@@ -120,20 +119,21 @@ class SimRecorder():
         P.hold_until_close()
 
 
-limits = [1000,1000]
-food = [750,500]
-nest = [250,500]
-ant_gain = 5
+limits = [1000,500]
+food = [750,250]
+nest = [250,250]
+ant_gain = 100
+noise_gain = 0.5
 n_ants = 80
-pheromone_variance = 20
-Q=.0005
+pheromone_variance = 15
+Q=.25
 
 deploy_dict = {'n_agents': n_ants,
             'sigma': pheromone_variance,
             'deploy_method': 'instant',
             'sens_function':'linear',
             'deploy_location': 'nest',
-            'target_pheromone_volume':100*n_ants}
+            'target_pheromone_volume':1000*n_ants}
 
 domain_dict = {'size': limits,
                 'pitch': 1,
@@ -143,13 +143,15 @@ ant_constants = {'speed': 15,
                 'l': 10,
                 'antenna_offset': 45,
                 'limits': limits,
-                'drop_quantity':Q}
+                'drop_quantity':Q,
+                'gain':ant_gain,
+                'beta':1,
+                'noise_gain':noise_gain}#1e-3*2*1.75}
 
 
 def test_SimRecorder():
     S = SimRecorder(simname = 'simplesim',
                     limits = limits,
-                    ant_gain = ant_gain,
                     deploy_args = deploy_dict,
                     domain_args = domain_dict,
                     ant_constants = ant_constants,
@@ -157,7 +159,7 @@ def test_SimRecorder():
     S.connect_db(db_path = sys.path[0]+"/core/database/",
                  db_name = "stigmergy_database.db")
     sim_id = S.insert_new_sim()
-    S.record_gradient_sim(n_steps = 1000,record_frequency=500,sim_id=sim_id)
+    S.record_gradient_sim(n_steps = 500,record_frequency=100,sim_id=sim_id)
     S.close_db()
 
     S.visualize_results()

@@ -8,14 +8,17 @@ ant_settings = {'start_pos': [10,10],
                 'limits': [1000,1000],
                 'l': 10,
                 'antenna_offset': 30,
-                'drop_quantity':1}
+                'drop_quantity':1,
+                'noise_gain':1,
+                'beta':1,
+                'gain':5}
 
 ant = Ant(**ant_settings)
 print(ant.sensors['left'].vec)
 print(ant.sensors['right'].vec)
 ant.observe_pheromone(lin_fun,[1,1])
 print(ant.Qobserved)
-ant.gradient_step(1,1)
+ant.gradient_step(dt=1)
 print(ant.Qobserved)
 
 def time_it():
@@ -50,7 +53,7 @@ def time_it():
     tic = time.time()
     for Q in np.random.randn(n,2):
         ant.observe_pheromone(lin_fun,Q)
-        ant.gradient_step(1,1)
+        ant.gradient_step(dt=1)
     toc = time.time()
     print("Total step took avg {} msec".format(1e3*(toc-tic)/n))
 time_it()

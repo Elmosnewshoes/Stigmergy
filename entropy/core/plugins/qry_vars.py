@@ -3,12 +3,14 @@ create_new_sim = """
 nest_location,nest_radius,food_location,food_radius,
 target_pheromone_volume,pheromone_variance,
 deploy_method,deploy_location,
-sens_function, ant_start_speed, ant_antenna_offset,ant_l)
+sens_function, ant_start_speed, ant_antenna_offset,ant_l,
+ant_differential_gain, ant_noise_gain, ant_noise_beta)
 VALUES ({n_agents},'{limits}',{pitch},{dt},
     '{nest_location}',{nest_radius},'{food_location}',{food_radius},
     {target_pheromone_volume},{sigma},
     '{deploy_method}', '{deploy_location}',
-    '{sens_function}', {speed}, {antenna_offset}, {l})"""
+    '{sens_function}', {speed}, {antenna_offset}, {l},
+    {gain}, {noise_gain}, {beta})"""
 
 # insert_step = {'qry': "INSERT INTO sim_updates(STEP,SIM_ID) VALUES {args}",
 #                'args': '({step},{sim_id}),'}

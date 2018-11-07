@@ -37,10 +37,10 @@ class Queen:
         for ant in self.ants:
             ant.reverse()
 
-    def gradient_step(self,gain,dt):
+    def gradient_step(self,dt):
         "Gradient step wrapper"
         for ant in self.ants:
-            ant.gradient_step(gain,dt)
+            ant.gradient_step(dt)
 
     def observe_pheromone(self,fun, Q, fun_args = {}):
         "observe pheromone wrapper"
@@ -48,9 +48,30 @@ class Queen:
         for i in range(self.n):
             self.ants[i].observe_pheromone(fun,Q[i],fun_args)
 
+class RNG(np.random.RandomState):
+    def __init__(self,beta = 1):
+        " inherrit the numpy random number generator "
+        super().__init__()
+        self.t = 0 #countdown timer
+        self.beta = beta
+        self.sign = 1
+
+    def add_t(self,dt):
+        self.t-=dt
+
+    def exp_signed_rand(self):
+        if self.t <=0:
+            self.sign = self.rand()-0.5 # 1 or -1 (exceptionally rare: 0)
+            self.t = self.exponential(self.beta)
+        return self.sign*self.rand()
+
+
+
+
 class Ant:
     """ Class for the agent/actor in the sim"""
-    def __init__(self, start_pos, angle, speed, limits, l, antenna_offset,drop_quantity,id=0):
+    def __init__(self, start_pos, angle, speed, limits, l, antenna_offset,drop_quantity,
+                 noise_gain,gain,id=0,beta=1):
         """ all dimensions in mm """
 
         " Properties "
@@ -63,7 +84,13 @@ class Ant:
         self.v = speed
         self.Qobserved = [0,0] #observed pheromone
         self.drop_quantity = drop_quantity # amount of pheromone to drop
+        self.gain = gain
 
+        """ Get the ant its own RNG and timer """
+        self.rng = RNG(beta=beta)
+        self.time = 0
+        self.noise_gain = noise_gain
+        
         " Sensor specific properties "
         self.sensors = {} #initialize dictionary
         self.set_sensor_position()
@@ -71,6 +98,10 @@ class Ant:
         " States "
         self.foodbound = True
         self.out_of_bounds = False
+
+    def compute_noise(self,type):
+        " compute noise value "
+        # if type=='':
 
 
     def reverse(self,change_objective = True):
@@ -107,16 +138,18 @@ class Ant:
             in Q """
         self.Qobserved = [fun(q, **fun_args) for q in Q]
 
-    def gradient_step(self, gain, dt = 1):
+    def gradient_step(self, dt = 1):
         """ update azimuth based on difference in observed pheromone
             Q[0] == 'left', Q[1]=='right', counterclockwise positive turn"""
         Q = self.Qobserved
-        self.azimuth += gain*dt*180/np.pi*(Q[0]-Q[1]) #rotate
+        self.azimuth += (self.gain*dt*180/np.pi*(Q[0]-Q[1]) #rotate
+                         +self.gain*self.noise_gain*self.rng.exp_signed_rand()) #noise component
         self.step(dt) #step in new direction
         self.set_sensor_position() #update sensor location
 
     def step(self, dt):
         """ do a step in the current direction, do boundary checking as well """
+        self.rng.add_t(dt) #update timer of the RNG
         new_pos = point(*self.pos.vec+T_matrix(self.azimuth).dot([self.v*dt,0]))
 
         " Check limits "
