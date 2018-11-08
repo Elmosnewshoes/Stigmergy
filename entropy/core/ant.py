@@ -83,14 +83,16 @@ class Ant:
         self.antenna_offset = antenna_offset #angle between centerline and antennas
         self.v = speed
         self.Qobserved = [0,0] #observed pheromone
-        self.drop_quantity = drop_quantity # amount of pheromone to drop
+        self._drop_quantity = drop_quantity # amount of pheromone to drop
+        self.drop_fun = 'exp_decay'
+        self.drop_time_const = 0.05
         self.gain = gain
 
         """ Get the ant its own RNG and timer """
         self.rng = RNG(beta=beta)
-        self.time = 0
+        self.time = 0 #internal timer for time based pheromone distribution
         self.noise_gain = noise_gain
-        
+
         " Sensor specific properties "
         self.sensors = {} #initialize dictionary
         self.set_sensor_position()
@@ -99,9 +101,14 @@ class Ant:
         self.foodbound = True
         self.out_of_bounds = False
 
-    def compute_noise(self,type):
-        " compute noise value "
-        # if type=='':
+    @property
+    def drop_quantity(self):
+        if self.drop_fun == 'constant':
+            return self._drop_quantity
+        elif self.drop_fun =='exp_decay':
+            x =  self._drop_quantity*np.exp(-self.drop_time_const*self.time)
+            if self.foodbound: return x
+            else: return 1.5*x
 
 
     def reverse(self,change_objective = True):
@@ -150,6 +157,7 @@ class Ant:
     def step(self, dt):
         """ do a step in the current direction, do boundary checking as well """
         self.rng.add_t(dt) #update timer of the RNG
+        self.time += dt #update internal timer
         new_pos = point(*self.pos.vec+T_matrix(self.azimuth).dot([self.v*dt,0]))
 
         " Check limits "

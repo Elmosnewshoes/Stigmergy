@@ -65,16 +65,20 @@ class Sim:
         " check if ant is at target and should reverse "
         for i in range(self.Queen.n):
             with self.Queen.ants[i] as ant:
-                if self.Domain.inrange(ant.pos,'food'):
+                if (self.Domain.inrange(ant.sensors['left'],'food') or
+                      self.Domain.inrange(ant.sensors['right'],'food')):
                     if ant.foodbound:
                         self.foodcount+=1
                         ant.foodbound = False
+                        ant.time=0
                     # ant.reverse()
                     ant.pos, ant.azimuth = self.place_ant(ant.pos,self.Domain.food_radius,self.Domain.food_location)
-                elif self.Domain.inrange(ant.pos,'nest'):
+                elif (self.Domain.inrange(ant.sensors['left'],'nest') or
+                      self.Domain.inrange(ant.sensors['right'],'nest')):
                     if not ant.foodbound:
                         self.nestcount+=1
                         ant.foodbound = True
+                        ant.time=0
                     # ant.reverse()
                     ant.pos, ant.azimuth = self.place_ant(ant.pos,self.Domain.nest_radius,self.Domain.nest_location)
                 # elif self.Domain.inrange(ant.pos,'food') or self.Domain.inrange(ant.pos,'nest'):
