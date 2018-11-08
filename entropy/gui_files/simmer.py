@@ -19,6 +19,16 @@ class Ui_MainWindow(object):
         self.tabWidget.setObjectName("tabWidget")
         self.tab_results = QtWidgets.QWidget()
         self.tab_results.setObjectName("tab_results")
+        self.verticalLayoutWidget = QtWidgets.QWidget(self.tab_results)
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(-1, -1, 771, 481))
+        self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.simPropertiesDisplay = QtWidgets.QTextBrowser(self.verticalLayoutWidget)
+        self.simPropertiesDisplay.setMaximumSize(QtCore.QSize(500, 100))
+        self.simPropertiesDisplay.setObjectName("simPropertiesDisplay")
+        self.verticalLayout.addWidget(self.simPropertiesDisplay)
         self.tabWidget.addTab(self.tab_results, "")
         self.tab_sim = QtWidgets.QWidget()
         self.tab_sim.setObjectName("tab_sim")
@@ -39,12 +49,17 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuFile.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        self.simPropertiesDisplay.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'Noto Sans\'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">damn</p></body></html>"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_results), _translate("MainWindow", "Results"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_sim), _translate("MainWindow", "New Simulation"))
         self.menuFile.setTitle(_translate("MainWindow", "Fi&le"))
