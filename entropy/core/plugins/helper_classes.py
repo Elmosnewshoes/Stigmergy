@@ -3,6 +3,7 @@ if __name__ == '__main__':
     from helper_functions import bivariate_normal
 else:
     from core.plugins.helper_functions import bivariate_normal
+from skimage.transform import resize
 
 class point:
     """ holds xy coordinates in mm (floats)"""
@@ -58,8 +59,13 @@ class MeshMap:
 
     def entropy(self,T=0):
         """ Calculate the shannon entropy of the whole map """
-        if T == 0: T = self.map.sum()# sum of pheromones
-        M = self.map[self.map > 1e-6]# explicitly avoid zeros as log(0) is not defined
+        # if T == 0: T = self.map.sum()# sum of pheromones
+        # M = self.map[self.map > 1e-6]# explicitly avoid zeros as log(0) is not defined
+        # return -np.multiply(M/T,np.log(M/T)).sum() # return sum(M/T * log(M/T))
+
+        Map = resize(self.map, ((self.lim.x-1)/50,(self.lim.y-1)/50), anti_aliasing=True,mode='constant')
+        T=Map.sum()
+        M=Map[Map>1e-6]
         return -np.multiply(M/T,np.log(M/T)).sum() # return sum(M/T * log(M/T))
 
     def span(self, l, R):
@@ -93,6 +99,23 @@ class GaussMap(MeshMap):
         """ Return gaussian with volume ==1 """
         return bivariate_normal(self.mesh_x,self.mesh_y, cov,
                                  cov,(self.dim.x)/2,(self.dim.y)/2)
+
+class RNG(np.random.RandomState):
+    def __init__(self,beta = 1):
+        " inherrit the numpy random number generator "
+        super().__init__()
+        self.t = 0 #countdown timer
+        self.beta = beta
+        self.sign = 1
+
+    def add_t(self,dt):
+        self.t-=dt
+
+    def exp_signed_rand(self):
+        if self.t <=0:
+            self.sign = self.rand()-0.5 # 1 or -1 (exceptionally rare: 0)
+            self.t = self.exponential(self.beta)
+        return self.sign*self.rand()
 
 def run():
     """ test stuff """

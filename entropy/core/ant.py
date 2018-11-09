@@ -3,8 +3,8 @@
     Delft University of Technology, Delft, The Netherlands
     ========== """
 import numpy as np
-from core.plugins.helper_functions import T_matrix, lin_fun
-from core.plugins.helper_classes import point, loc
+from core.plugins.helper_functions import T_matrix, lin_fun, exp_fun
+from core.plugins.helper_classes import point, loc, RNG
 
 class Queen:
     def __init__(self):
@@ -44,35 +44,28 @@ class Queen:
 
     def observe_pheromone(self,fun, Q, fun_args = {}):
         "observe pheromone wrapper"
-        # print(Q)
+        # print(Q)eposit quantity time constant
         for i in range(self.n):
             self.ants[i].observe_pheromone(fun,Q[i],fun_args)
-
-class RNG(np.random.RandomState):
-    def __init__(self,beta = 1):
-        " inherrit the numpy random number generator "
-        super().__init__()
-        self.t = 0 #countdown timer
-        self.beta = beta
-        self.sign = 1
-
-    def add_t(self,dt):
-        self.t-=dt
-
-    def exp_signed_rand(self):
-        if self.t <=0:
-            self.sign = self.rand()-0.5 # 1 or -1 (exceptionally rare: 0)
-            self.t = self.exponential(self.beta)
-        return self.sign*self.rand()
-
-
-
 
 class Ant:
     """ Class for the agent/actor in the sim"""
     def __init__(self, start_pos, angle, speed, limits, l, antenna_offset,drop_quantity,
-                 noise_gain,gain,id=0,beta=1):
-        """ all dimensions in mm """
+                 noise_gain,gain,drop_fun,id=0,beta=1, return_factor=1):
+        """ all dimensions in mm
+            start_pos: [x, y ] coordinate pair
+            angle: azimuth in degrees
+            speed: mm/s
+            limits: [x, y] pair
+            l: length of ant -> distance between sensor and Center of Mass
+            antenna_offset: degrees, angle between centerline of ant and antennas
+            drop_quantity: amount of pheromone dropped
+            noise_gain: fraction of noise w.r.t. the regular gain
+            gain: gain for steering direction
+            drop_fun: whether drop quantity is modified with time based function
+            beta: exponential parameter for the RNG based noise
+            return_factor: scale the amount dropped by ants when they are nestbound
+        """
 
         " Properties "
         self.id = id
@@ -84,8 +77,9 @@ class Ant:
         self.v = speed
         self.Qobserved = [0,0] #observed pheromone
         self._drop_quantity = drop_quantity # amount of pheromone to drop
-        self.drop_fun = 'exp_decay'
+        self.drop_fun = drop_fun
         self.drop_time_const = 0.05
+        self.return_factor = return_factor
         self.gain = gain
 
         """ Get the ant its own RNG and timer """
@@ -104,11 +98,16 @@ class Ant:
     @property
     def drop_quantity(self):
         if self.drop_fun == 'constant':
-            return self._drop_quantity
+            fun = lin_fun
+            kwargs = {'x': self._drop_quantity}
         elif self.drop_fun =='exp_decay':
-            x =  self._drop_quantity*np.exp(-self.drop_time_const*self.time)
-            if self.foodbound: return x
-            else: return 1.5*x
+            fun = exp_fun
+            kwargs = {'x': self._drop_quantity,
+                      't': self.time,
+                      'time_const': self.drop_time_const}
+        Q = fun(**kwargs)
+        if self.foodbound: return Q
+        else: return self.return_factor*Q
 
 
     def reverse(self,change_objective = True):
@@ -149,8 +148,8 @@ class Ant:
         """ update azimuth based on difference in observed pheromone
             Q[0] == 'left', Q[1]=='right', counterclockwise positive turn"""
         Q = self.Qobserved
-        self.azimuth += (self.gain*dt*180/np.pi*(Q[0]-Q[1]) #rotate
-                         +self.gain*self.noise_gain*self.rng.exp_signed_rand()) #noise component
+        self.azimuth += self.gain*dt*180/np.pi*((Q[0]-Q[1]) #rotate
+                         +self.noise_gain*self.rng.exp_signed_rand()) #noise component
         self.step(dt) #step in new direction
         self.set_sensor_position() #update sensor location
 

@@ -91,6 +91,8 @@ class SimRecorder():
     def record_gradient_sim(self, n_steps,record_frequency,sim_id):
         """ Run a gradient based simulation """
         " Initialize the simulation "
+        # h = []
+        # t = []
         self.Sim.start_sim(**self.deploy_args)# initialize the simulation
         self.Sim.gradient_step(dt = self.dt) #deploy ants
         " Loop the simulation"
@@ -98,12 +100,15 @@ class SimRecorder():
             if (i+1)%record_frequency==0  and i>0 and record_frequency!=-1:
                 # self.insert_step(sim_id,i,True)
                 self.insert_step(sim_id,i,True)
-            else:
+            elif record_frequency !=-1:
                 self.insert_step(sim_id,i,False)
             self.Sim.gradient_step(dt = self.dt)
             self.Sim.deposit_pheromone( )
             self.Sim.Domain.evaporate()
-            # self.Sim.Domain.update_pheromone()
+            # if i%10 ==0:
+            #     h.append(self.Sim.Domain.Map.entropy())
+            #     t.append(i)
+        # print(h)
 
     def visualize_results(self):
         P = StigmergyPlot(self.Sim.Domain.Map,n=10)
@@ -123,10 +128,12 @@ limits = [1000,500]
 food = [750,250]
 nest = [250,250]
 ant_gain = 10
-noise_gain = 5
+noise_gain = .08#5/(180/np.pi)
 n_ants = 80
 pheromone_variance = 15
 Q=2
+drop_fun = 'exp_decay'
+return_factor = 1.5
 
 deploy_dict = {'n_agents': n_ants,
             'sigma': pheromone_variance,
@@ -145,8 +152,10 @@ ant_constants = {'speed': 15,
                 'limits': limits,
                 'drop_quantity':Q,
                 'gain':ant_gain,
-                'beta':2,
-                'noise_gain':noise_gain}#1e-3*2*1.75}
+                'beta':2, #exponential noise function
+                'noise_gain':noise_gain,#1e-3*2*1.75}
+                'drop_fun':drop_fun,
+                'return_factor':return_factor}
 
 
 def test_SimRecorder():
@@ -159,7 +168,7 @@ def test_SimRecorder():
     S.connect_db(db_path = sys.path[0]+"/core/database/",
                  db_name = "stigmergy_database.db")
     sim_id = S.insert_new_sim()
-    S.record_gradient_sim(n_steps = 2000,record_frequency=500,sim_id=sim_id)
+    S.record_gradient_sim(n_steps = 3000,record_frequency=500,sim_id=sim_id)
     S.close_db()
 
     S.visualize_results()

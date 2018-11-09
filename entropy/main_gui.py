@@ -16,10 +16,15 @@ class mywindow(QtWidgets.QMainWindow):
 
     def list_sims_tab(self):
         " fill the sim player tab with items "
-        self.simPropertiesDisplay2 = QtWidgets.QTextBrowser(self.ui.verticalLayoutWidget)
-        self.simPropertiesDisplay2.setMaximumSize(QtCore.QSize(500, 100))
-        self.simPropertiesDisplay2.setObjectName("simPropertiesDisplay2")
-        self.ui.verticalLayout.addWidget(self.simPropertiesDisplay2)
+        # self.ui.scrollArea.setWidget(self.ui.verticalLayout)
+        experiment = []
+        for i in range(15):
+            box = QtWidgets.QTextBrowser(self.ui.scrollAreaWidgetContents)
+            experiment.append(box)
+            box.setMaximumSize(QtCore.QSize(500, 100))
+            box.setMinimumSize(QtCore.QSize(500, 100))
+            box.setObjectName("simPropertiesDisplay"+str(i))
+            self.ui.verticalLayout.addWidget(box)
 
 app = QtWidgets.QApplication([])
 application = mywindow()

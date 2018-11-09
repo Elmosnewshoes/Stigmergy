@@ -6,7 +6,8 @@ __pycache__/
 recordings/
 
 # database files
-#database/
+database/
+*.db
 
 # C extensions
 *.so

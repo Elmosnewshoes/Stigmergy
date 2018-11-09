@@ -21,6 +21,9 @@ def T_matrix( theta ):
 def lin_fun(x,):
     return x
 
+def exp_fun(x,t,time_const):
+    return x*np.exp(-time_const*t)
+
 
 def bivariate_normal(X, Y, sigmax=1.0, sigmay=1.0,
                      mux=0.0, muy=0.0, sigmaxy=0.0):
