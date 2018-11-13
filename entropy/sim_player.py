@@ -57,10 +57,9 @@ class SqlQry:
 
 
 class Actor:
-    def __init__(self,id,sim_id,qry_object,speed=0,l=0,antenna_offset=0):
-        self.sqlqry = qry_object
+    def __init__(self,id,sim_id,qry_tbl,speed=0,l=0,antenna_offset=0):
         self.id = id
-        self.tbl = qry_object.select(get_ant_table.format(ant_id = id, sim_id = sim_id))
+        self.tbl = qry_tbl # qry_object.select(get_ant_table.format(ant_id = id, sim_id = sim_id))
         self.step_range = [self.tbl[0][1],self.tbl[-1][1]]
 
         " initialize placeholders "
@@ -118,7 +117,8 @@ class SimPlayer:
         else:
             self.id = sim_id
         self.n_agents = self.get_agentcount()
-        self.actors = [Actor(i,self.id,self.sqlqry)
+        tbl = self.sqlqry.select(f"SELECT * FROM ant_updates WHERE sim_id = {self.id} ORDER BY ant_id, step")
+        self.actors = [Actor(i,self.id,[rw for rw in tbl if rw[2]==i])
                        for i in range(self.n_agents)]
 
     def xy(self,n):
@@ -135,20 +135,20 @@ class SimPlayer:
         return self.sqlqry.select(get_antcount.format(id=self.id))[0][0]
 
 
-    def get_settings(self):
+    def get_settings(self,):
         " Get the settings used for the simulation "
         result_tuple = self.sqlqry.select(get_sim.format(id=self.id))[0]
-        self.deploy_dict['target_pheromone_volume'] = result_tuple[9]
-        self.deploy_dict['sigma'] = result_tuple[10]
+        self.deploy_dict['target_pheromone_volume'] = result_tuple[0]
+        self.deploy_dict['sigma'] = result_tuple[1]
         self.domain_dict['size'] = eval(result_tuple[2])
         self.domain_dict['pitch'] = result_tuple[3]
-        self.domain_dict['nest'] = {'location':eval(result_tuple[5]),
-                                    'radius':result_tuple[6]}
-        self.domain_dict['food'] = {'location':eval(result_tuple[7]),
-                                    'radius': result_tuple[8]}
-        self.ant_dict['start_speed'] = result_tuple[14]
-        self.ant_dict['antenna_offset'] =result_tuple[15]
-        self.ant_dict['l'] = result_tuple[16]
+        self.domain_dict['nest'] = {'location':eval(result_tuple[4]),
+                                    'radius':result_tuple[5]}
+        self.domain_dict['food'] = {'location':eval(result_tuple[6]),
+                                    'radius': result_tuple[7]}
+        self.ant_dict['start_speed'] = result_tuple[8]
+        self.ant_dict['antenna_offset'] =result_tuple[9]
+        self.ant_dict['l'] = result_tuple[10]
 
     def deploy_domain(self):
         self.Domain = Domain(**self.domain_dict)
@@ -160,7 +160,7 @@ class SimPlayer:
         # self.Domain.update_pheromone()
 
     def prep_visualization(self):
-        self.P = StigmergyPlot(self.Domain.Map, n=10)
+        self.P = StigmergyPlot(self.Domain.Map, n=10,colormap = 'plasma')
         self.P.draw_stigmergy(self.Domain.Map.map)
         scat_nest = circle_scatter(self.Domain.nest_location.vec, self.Domain.nest_radius)
         scat_food = circle_scatter(self.Domain.food_location.vec, self.Domain.food_radius)
@@ -190,7 +190,10 @@ class SimPlayer:
 def run():
     db_path =sys.path[0]+"/core/database/"
     db_name = "stigmergy_database.db"
-    S = SimPlayer('latest', db_path, db_name)
+    # id = 60
+    id = 'latest'
+
+    S = SimPlayer(id, db_path, db_name)
     S.get_settings()
     S.deploy_domain()
     S.init_sim(**S.deploy_dict)

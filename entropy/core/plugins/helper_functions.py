@@ -28,6 +28,8 @@ def exp_fun(x,t,time_const):
 def bivariate_normal(X, Y, sigmax=1.0, sigmay=1.0,
                      mux=0.0, muy=0.0, sigmaxy=0.0):
     """
+    X (meshgrid),Y (meshgrid), sigmax (scalar), sigmay (scalar), mux (scalar),
+    muy (scalar) , sigmaxy(scalar)
     FROM https://github.com/matplotlib/matplotlib/blob/81e8154dbba54ac1607b21b22984cabf7a6598fa/lib/matplotlib/mlab.py#L1866
     Bivariate Gaussian distribution for equal shape *X*, *Y*.
     See `bivariate normal
@@ -50,3 +52,8 @@ def circle_scatter(center,R):
         xy = np.vstack((xy,np.array(center)
                             +T_matrix(i).dot([R,0])))
     return xy
+
+def append_dict(d, **kwargs):
+    for key,value in kwargs.items():
+        d[key] = value
+    return d

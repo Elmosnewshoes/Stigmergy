@@ -59,14 +59,14 @@ class MeshMap:
 
     def entropy(self,T=0):
         """ Calculate the shannon entropy of the whole map """
-        # if T == 0: T = self.map.sum()# sum of pheromones
-        # M = self.map[self.map > 1e-6]# explicitly avoid zeros as log(0) is not defined
-        # return -np.multiply(M/T,np.log(M/T)).sum() # return sum(M/T * log(M/T))
-
-        Map = resize(self.map, ((self.lim.x-1)/50,(self.lim.y-1)/50), anti_aliasing=True,mode='constant')
-        T=Map.sum()
-        M=Map[Map>1e-6]
+        if T == 0: T = self.map.sum()# sum of pheromones
+        M = self.map[self.map > 1e-30]# explicitly avoid zeros as log(0) is not defined
         return -np.multiply(M/T,np.log(M/T)).sum() # return sum(M/T * log(M/T))
+
+        # Map = resize(self.map, ((self.lim.x-1)/50,(self.lim.y-1)/50), anti_aliasing=True,mode='constant')
+        # T=Map.sum()
+        # M=Map[Map>1e-6]
+        # return -np.multiply(M/T,np.log(M/T)).sum() # return sum(M/T * log(M/T))
 
     def span(self, l, R):
         """ return the upper limits of a meshmap that fits in self.map

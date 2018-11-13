@@ -84,13 +84,16 @@ class Sim:
                 # elif self.Domain.inrange(ant.pos,'food') or self.Domain.inrange(ant.pos,'nest'):
                 #     ant.reverse(change_objective= False)
 
+    def observe_pheromone(self):
+        " Check the pheromone concentration for all ants and see how it is perceived "
+        Q = self.parse_pheromone(lefts = [ant.sensors['left'] for ant in self.Queen.ants],
+                                 rights = [ant.sensors['right'] for ant in self.Queen.ants])
+        self.Queen.observe_pheromone(self.sens_function,Q)
+
 
     def gradient_step(self, dt):
         " Gradient step, update map"
         "Check if ants need to be deployed"
-        Q = self.parse_pheromone(lefts = [ant.sensors['left'] for ant in self.Queen.ants],
-                                 rights = [ant.sensors['right'] for ant in self.Queen.ants])
-        self.Queen.observe_pheromone(self.sens_function,Q)
         self.Queen.gradient_step(dt = dt)
         # self.Queen.update_positions()
         self.check_target()

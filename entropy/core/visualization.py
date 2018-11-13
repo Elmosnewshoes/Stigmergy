@@ -6,6 +6,7 @@ from core.plugins.helper_classes import point, loc
 
 cmaps = {'blue': 'PuBu',
          'grey_reverse': 'grey_r',
+         'plasma': 'plasma'
          }
 
 class StigmergyPlot:
@@ -28,7 +29,7 @@ class StigmergyPlot:
         self.ax_entropy = plt.subplot(gs[1])
         self.fig.suptitle('Note to self, fix title', fontsize = 20)
 
-        self.stigmergy_opts = {'cmap':plt.get_cmap(cmaps['blue']),
+        self.stigmergy_opts = {'cmap':plt.get_cmap(cmaps[colormap]),
                                'extent':[0,self.mesh_x.max().copy(),
                                          0,self.mesh_y.max().copy()],
                                'origin':'bottom'}

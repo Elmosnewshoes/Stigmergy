@@ -11,11 +11,11 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 600)
+        MainWindow.resize(1093, 839)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
-        self.tabWidget.setGeometry(QtCore.QRect(10, 30, 771, 511))
+        self.tabWidget.setGeometry(QtCore.QRect(0, 10, 1071, 751))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -70,7 +70,7 @@ class Ui_MainWindow(object):
         self.tabWidget.addTab(self.tab_sim, "")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 30))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1093, 30))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
@@ -80,7 +80,10 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
         self.actionQuit = QtWidgets.QAction(MainWindow)
         self.actionQuit.setObjectName("actionQuit")
+        self.actionnieuwe_knop = QtWidgets.QAction(MainWindow)
+        self.actionnieuwe_knop.setObjectName("actionnieuwe_knop")
         self.menuFile.addAction(self.actionQuit)
+        self.menuFile.addAction(self.actionnieuwe_knop)
         self.menubar.addAction(self.menuFile.menuAction())
 
         self.retranslateUi(MainWindow)
@@ -99,4 +102,5 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_sim), _translate("MainWindow", "New Simulation"))
         self.menuFile.setTitle(_translate("MainWindow", "Fi&le"))
         self.actionQuit.setText(_translate("MainWindow", "&Quit()"))
+        self.actionnieuwe_knop.setText(_translate("MainWindow", "nieuwe knop"))
 

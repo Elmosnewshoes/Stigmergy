@@ -2,9 +2,11 @@ import numpy as np
 from core.sim import Sim
 import sys
 import sqlite3
-from core.plugins.qry_vars import create_new_sim, insert_stepupdates
+from core.plugins.helper_functions import append_dict
+from core.plugins.qry_vars import *
 from core.visualization import StigmergyPlot
 from core.plugins.helper_functions import T_matrix, circle_scatter
+import pathlib
 
 class SimRecorder():
     """ === Ant simulation steps: ===
@@ -37,18 +39,18 @@ class SimRecorder():
 
     def insert_new_sim(self,):
         " start logging of sim in sqlite database "
-        var_dict = {key:value for key,value in self.deploy_args.items()}
-        for key,value in self.ant_constants.items(): var_dict[key]=value
-        var_dict['pitch']=self.domain_args['pitch']
-        var_dict['dt']=self.dt
-        var_dict['nest_location'] = self.domain_args['nest']['location']
-        var_dict['nest_radius'] = self.domain_args['nest']['radius']
-        var_dict['food_location'] = self.domain_args['food']['location']
-        var_dict['food_radius'] = self.domain_args['food']['radius']
+        dom_dict = {'size':self.domain_args['size'],
+                    'nest_location': self.domain_args['nest']['location'],
+                    'nest_radius': self.domain_args['nest']['radius'],
+                    'food_location':self.domain_args['food']['location'],
+                    'food_radius':self.domain_args['food']['radius'],
+                    'pitch': self.domain_args['pitch']}
         cursor = self.db.cursor()
         try:
-            cursor.execute(create_new_sim.format(**var_dict))
+            cursor.execute(create_new_sim.format(dt=self.dt,**self.deploy_args))
             id = cursor.lastrowid
+            cursor.execute(insert_ant_settings.format(sim_id=id,**self.ant_constants))
+            cursor.execute(insert_domain_settings.format(sim_id=id,**dom_dict))
             self.db.commit()
         except Exception as error:
             self.db.close()
@@ -57,6 +59,15 @@ class SimRecorder():
 
     def connect_db(self,db_path,db_name):
         self.db = sqlite3.connect(db_path+db_name)
+
+    def insert_results(self, result_dict):
+        " Write the results to the database "
+        cursor = self.db.cursor()
+        try:
+            cursor.execute(insert_results.format(**result_dict))
+        except Exception as error:
+            self.db.close()
+            raise error
 
     def insert_step(self,sim_id,step,execute = False):
         """ insert step into table 'sim_updates' and corresponding ant positions
@@ -88,27 +99,74 @@ class SimRecorder():
     def close_db(self):
         self.db.close()
 
-    def record_gradient_sim(self, n_steps,record_frequency,sim_id):
+    def ant_things(self):
+        " Do the ant moves (right sequence) "
+        self.Sim.Domain.evaporate() #evaporate old step
+        self.Sim.observe_pheromone() # sense the pheromone
+        self.Sim.deposit_pheromone( ) # place new pheromone
+        self.Sim.gradient_step(dt = self.dt) # move
+
+    def init_results(self,record_frequency, n_steps,sim_id,H_steps,path,store_interval):
+        H= []
+        t= []
+        record_frequency = np.min([record_frequency,n_steps])
+        result = {} # result dictionary for database
+        dirname = 'sim_{}/'.format(str(sim_id).zfill(5))
+        if len(H_steps)>0:
+            H_steps = np.multiply(H_steps,n_steps).astype(np.int32).tolist()
+            H = np.zeros(len(H_steps))
+            t = np.dot(H_steps,self.dt) #time vec
+        if path:
+            " create the folder to store graphics and numpy arrays "
+            pathlib.Path(path+dirname).mkdir(parents=True, exist_ok=True)
+            store_interval = np.multiply(store_interval,n_steps).astype(np.int32).tolist()
+        return H,t,record_frequency, result, dirname,H_steps,{}, store_interval
+
+    def save_arrays(self, filepath,array_dict):
+        " store np arrays to disk (compressed format)"
+        np.savez_compressed(filepath,**array_dict)
+
+    def record_gradient_sim(self, n_steps,record_frequency,sim_id,H_steps =[],
+                            path = '',store_map_interval = []):
         """ Run a gradient based simulation """
+        "setup some variables to store results"
+        H,t,record_frequency, result, dirname, H_steps, Map_Dict, \
+        store_map_interval = self.init_results(record_frequency,n_steps,sim_id,
+                                               H_steps,path, store_map_interval)
+
         " Initialize the simulation "
-        # h = []
-        # t = []
-        self.Sim.start_sim(**self.deploy_args)# initialize the simulation
-        self.Sim.gradient_step(dt = self.dt) #deploy ants
+        self.Sim.start_sim(**self.deploy_args)#
+        result['start_entropy'] = self.Sim.Domain.Map.entropy() #logging
+
         " Loop the simulation"
         for i in range(n_steps):
+            " Check the state of the domain"
+            if i in H_steps:
+                j = H_steps.index(i)
+                H[j] = self.Sim.Domain.Map.entropy()
+
+            " ants step "
+            self.ant_things()
+
+            " log the step "
+            if i in store_map_interval:
+                Map_Dict['MAP_t{}'.format(str(i).zfill(5))] = self.Sim.Domain.Map.map.copy()
             if (i+1)%record_frequency==0  and i>0 and record_frequency!=-1:
-                # self.insert_step(sim_id,i,True)
                 self.insert_step(sim_id,i,True)
             elif record_frequency !=-1:
                 self.insert_step(sim_id,i,False)
-            self.Sim.gradient_step(dt = self.dt)
-            self.Sim.deposit_pheromone( )
-            self.Sim.Domain.evaporate()
-            # if i%10 ==0:
-            #     h.append(self.Sim.Domain.Map.entropy())
-            #     t.append(i)
-        # print(h)
+        " Write the results to the databse "
+        result = append_dict(result,**{'end_entropy':self.Sim.Domain.Map.entropy(),
+                                     'entropy_vec': H, 'time_vec':t,
+                                     'foodcount':self.Sim.foodcount,
+                                     'returncount':self.Sim.nestcount,
+                                     'image_path':path+dirname,
+                                     'sim_id': sim_id})
+        print(result)
+        self.insert_results(result)
+        self.save_arrays(filepath=path+dirname+'maps',array_dict=Map_Dict)
+
+
 
     def visualize_results(self):
         P = StigmergyPlot(self.Sim.Domain.Map,n=10)
@@ -127,11 +185,11 @@ class SimRecorder():
 limits = [1000,500]
 food = [750,250]
 nest = [250,250]
-ant_gain = 10
-noise_gain = .08#5/(180/np.pi)
+ant_gain = 1
+noise_gain = .8#5/(180/np.pi)
 n_ants = 80
 pheromone_variance = 15
-Q=2
+Q=20
 drop_fun = 'exp_decay'
 return_factor = 1.5
 
@@ -140,7 +198,7 @@ deploy_dict = {'n_agents': n_ants,
             'deploy_method': 'instant',
             'sens_function':'linear',
             'deploy_location': 'nest',
-            'target_pheromone_volume':1001**2}
+            'target_pheromone_volume':0.1*(limits[0]+1)*(limits[1]+1)}
 
 domain_dict = {'size': limits,
                 'pitch': 1,
@@ -165,10 +223,13 @@ def test_SimRecorder():
                     domain_args = domain_dict,
                     ant_constants = ant_constants,
                     dt = 1)
+    H_steps = np.arange(0,1,1/15)
+    store_map_interval = [0.1,0.25,0.5,0.75,1]
     S.connect_db(db_path = sys.path[0]+"/core/database/",
                  db_name = "stigmergy_database.db")
     sim_id = S.insert_new_sim()
-    S.record_gradient_sim(n_steps = 3000,record_frequency=500,sim_id=sim_id)
+    S.record_gradient_sim(n_steps = 300,record_frequency=500,sim_id=sim_id,H_steps=H_steps,
+                          path =  sys.path[0]+"/core/database/",store_map_interval = store_map_interval)
     S.close_db()
 
     S.visualize_results()

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1109</width>
+    <height>888</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,16 +17,16 @@
    <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>30</y>
-      <width>771</width>
-      <height>511</height>
+      <x>0</x>
+      <y>10</y>
+      <width>1081</width>
+      <height>781</height>
      </rect>
     </property>
     <property name="sizePolicy">
-     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
+     <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+      <horstretch>100</horstretch>
+      <verstretch>100</verstretch>
      </sizepolicy>
     </property>
     <property name="minimumSize">
@@ -56,8 +56,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>711</width>
-        <height>481</height>
+        <width>1061</width>
+        <height>500</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -75,7 +75,7 @@
       <property name="maximumSize">
        <size>
         <width>16777215</width>
-        <height>500</height>
+        <height>16777215</height>
        </size>
       </property>
       <property name="baseSize">
@@ -104,8 +104,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>707</width>
-         <height>477</height>
+         <width>1057</width>
+         <height>496</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -127,26 +127,106 @@
            <number>4</number>
           </property>
           <item>
-           <widget class="QTextBrowser" name="simPropertiesDisplay">
-            <property name="minimumSize">
-             <size>
-              <width>500</width>
-              <height>100</height>
-             </size>
-            </property>
+           <widget class="QFrame" name="sim_results_fram">
             <property name="maximumSize">
              <size>
-              <width>500</width>
-              <height>100</height>
+              <width>1000</width>
+              <height>300</height>
              </size>
             </property>
-            <property name="html">
-             <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <widget class="QTextBrowser" name="simPropertiesDisplay">
+             <property name="geometry">
+              <rect>
+               <x>20</x>
+               <y>10</y>
+               <width>500</width>
+               <height>200</height>
+              </rect>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>500</width>
+               <height>100</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>500</width>
+               <height>200</height>
+              </size>
+             </property>
+             <property name="html">
+              <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Noto Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;damn&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt; &lt;/p&gt;
+&lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Firstname&lt;/span&gt;    &lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Lastname&lt;/span&gt;    &lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Age&lt;/span&gt;    &lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Jill    &lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Smith    &lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;50    &lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Eve    &lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Jackson    &lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;94  &lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+            </widget>
+            <widget class="QGraphicsView" name="entropy_plot">
+             <property name="geometry">
+              <rect>
+               <x>520</x>
+               <y>10</y>
+               <width>256</width>
+               <height>200</height>
+              </rect>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="replay_button">
+             <property name="geometry">
+              <rect>
+               <x>780</x>
+               <y>10</y>
+               <width>111</width>
+               <height>34</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>Replay</string>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="copy_button">
+             <property name="geometry">
+              <rect>
+               <x>780</x>
+               <y>50</y>
+               <width>111</width>
+               <height>34</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>Copy settings</string>
+             </property>
+            </widget>
            </widget>
           </item>
          </layout>
@@ -167,7 +247,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1109</width>
      <height>30</height>
     </rect>
    </property>
@@ -176,6 +256,7 @@ p, li { white-space: pre-wrap; }
      <string>Fi&amp;le</string>
     </property>
     <addaction name="actionQuit"/>
+    <addaction name="actionnieuwe_knop"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
@@ -183,6 +264,11 @@ p, li { white-space: pre-wrap; }
   <action name="actionQuit">
    <property name="text">
     <string>&amp;Quit()</string>
+   </property>
+  </action>
+  <action name="actionnieuwe_knop">
+   <property name="text">
+    <string>&amp;nieuwe knop</string>
    </property>
   </action>
  </widget>
