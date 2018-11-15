@@ -149,6 +149,8 @@ class SimPlayer:
         self.ant_dict['start_speed'] = result_tuple[8]
         self.ant_dict['antenna_offset'] =result_tuple[9]
         self.ant_dict['l'] = result_tuple[10]
+        self.entropy_vec = np.array(eval(result_tuple[11]))
+        self.step_vec = np.array(eval(result_tuple[12]))
 
     def deploy_domain(self):
         self.Domain = Domain(**self.domain_dict)
@@ -160,7 +162,7 @@ class SimPlayer:
         # self.Domain.update_pheromone()
 
     def prep_visualization(self):
-        self.P = StigmergyPlot(self.Domain.Map, n=10,colormap = 'plasma')
+        self.P = StigmergyPlot(self.Domain.Map,colormap = 'plasma')
         self.P.draw_stigmergy(self.Domain.Map.map)
         scat_nest = circle_scatter(self.Domain.nest_location.vec, self.Domain.nest_radius)
         scat_food = circle_scatter(self.Domain.food_location.vec, self.Domain.food_radius)
@@ -173,6 +175,7 @@ class SimPlayer:
     def run_sim(self, visualization = False):
         " actual replay part "
         n = self.actors[0].steps
+        time_len = 0 # number of elements of entropy vector plotted
         for i in range(n):
             for ant in self.actors:
                 ant.next()
@@ -182,6 +185,11 @@ class SimPlayer:
                 X,Y = self.xy(n)
                 self.P.draw_scatter(X,Y,name='ant')
                 self.P.draw_stigmergy(self.Domain.Map.map)
+                tmp = self.step_vec[self.step_vec<=i].size
+                if tmp > time_len:
+                    time_len = tmp
+                    self.P.draw_entropy(H = self.entropy_vec[0:time_len],
+                                        t = self.step_vec[0:time_len])
                 self.P.draw()
         self.P.hold_until_close()
 

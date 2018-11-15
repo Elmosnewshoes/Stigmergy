@@ -4,7 +4,7 @@ import sys
 import sqlite3
 from core.plugins.helper_functions import append_dict
 from core.plugins.qry_vars import *
-from core.visualization import StigmergyPlot
+from core.visualization import StigmergyPlot, Plotter
 from core.plugins.helper_functions import T_matrix, circle_scatter
 import pathlib
 
@@ -65,6 +65,7 @@ class SimRecorder():
         cursor = self.db.cursor()
         try:
             cursor.execute(insert_results.format(**result_dict))
+            self.db.commit()
         except Exception as error:
             self.db.close()
             raise error
@@ -114,8 +115,8 @@ class SimRecorder():
         dirname = 'sim_{}/'.format(str(sim_id).zfill(5))
         if len(H_steps)>0:
             H_steps = np.multiply(H_steps,n_steps).astype(np.int32).tolist()
-            H = np.zeros(len(H_steps))
-            t = np.dot(H_steps,self.dt) #time vec
+            H = np.zeros(len(H_steps)).tolist()
+            t = np.dot(H_steps,self.dt).tolist() #time vec
         if path:
             " create the folder to store graphics and numpy arrays "
             pathlib.Path(path+dirname).mkdir(parents=True, exist_ok=True)
@@ -139,7 +140,7 @@ class SimRecorder():
         result['start_entropy'] = self.Sim.Domain.Map.entropy() #logging
 
         " Loop the simulation"
-        for i in range(n_steps):
+        for i in range(n_steps+1):
             " Check the state of the domain"
             if i in H_steps:
                 j = H_steps.index(i)
@@ -162,24 +163,30 @@ class SimRecorder():
                                      'returncount':self.Sim.nestcount,
                                      'image_path':path+dirname,
                                      'sim_id': sim_id})
-        print(result)
         self.insert_results(result)
-        self.save_arrays(filepath=path+dirname+'maps',array_dict=Map_Dict)
+        target_folder = path+dirname+'maps'
+        self.save_arrays(filepath=target_folder,array_dict=Map_Dict)
+        return result
 
 
 
-    def visualize_results(self):
-        P = StigmergyPlot(self.Sim.Domain.Map,n=10)
+    def visualize_results(self, H='', t=[], path = ''):
+        P = Plotter(self.Sim.Domain.Map)
         P.draw_stigmergy(self.Sim.Domain.Map.map)
         scat_nest = circle_scatter(self.Sim.Domain.nest_location.vec, self.Sim.Domain.nest_radius)
         scat_food = circle_scatter(self.Sim.Domain.food_location.vec, self.Sim.Domain.food_radius)
         P.draw_scatter(x = scat_nest[:,0],y=scat_nest[:,1],name='nest')
         P.draw_scatter(x = scat_food[:,0],y=scat_food[:,1],name='food')
-        # P.draw_entropy(S.entropy)
-        P.draw()
+        if type(H) is not str():
+            P.draw_entropy(H=H,t=t)
+        if path:
+            P.save(path+'final_lowres.eps',dpi=10)
+            P.set_labels()
+            P.set_subtitles()
+            P.save(path+'final.eps', dpi=50)
+        P.show()
         print("{} ants found food and {} returned".format(self.Sim.foodcount,
                                                           self.Sim.nestcount))
-        P.hold_until_close()
 
 
 limits = [1000,500]
@@ -222,17 +229,19 @@ def test_SimRecorder():
                     deploy_args = deploy_dict,
                     domain_args = domain_dict,
                     ant_constants = ant_constants,
-                    dt = 1)
-    H_steps = np.arange(0,1,1/15)
+                    dt =1)
+    H_steps = np.arange(0,1+1/15,1/15)
     store_map_interval = [0.1,0.25,0.5,0.75,1]
     S.connect_db(db_path = sys.path[0]+"/core/database/",
                  db_name = "stigmergy_database.db")
     sim_id = S.insert_new_sim()
-    S.record_gradient_sim(n_steps = 300,record_frequency=500,sim_id=sim_id,H_steps=H_steps,
+    result = S.record_gradient_sim(n_steps = 120,record_frequency=500,sim_id=sim_id,H_steps=H_steps,
                           path =  sys.path[0]+"/core/database/",store_map_interval = store_map_interval)
     S.close_db()
 
-    S.visualize_results()
+    S.visualize_results(np.array(result['entropy_vec']),
+                        np.array(result['time_vec']),
+                        path = result['image_path'] )
 
 if __name__ == '__main__':
     test_SimRecorder()

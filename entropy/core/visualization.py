@@ -5,71 +5,88 @@ import matplotlib.mlab as mlab
 from core.plugins.helper_classes import point, loc
 
 cmaps = {'blue': 'PuBu',
-         'grey_reverse': 'grey_r',
+         'grey_reverse': 'Greys_r',
+         'grey': 'Greys',
          'plasma': 'plasma'
          }
-
-class StigmergyPlot:
-    def __init__(self,Map, colormap = 'blue', n = 10,pitch=1):
-        """ Setup, Map instance of MeshMap,
-         colormap and size of time steps vector"""
-        self.mesh_x = Map.mesh_x #meshgrid coordinates
-        self.mesh_y = Map.mesh_y #idem
-
-        self.time_vec = np.arange(n)
-        self.entropy_vec = np.zeros((n,1))
-
-        # self.cmap = plt.get_cmap(cmaps['blue'])
-        plt.ion() # make interactive
-        self.fig = plt.figure(figsize=(8,6))
-        self.ax = self.fig.gca()
-
-        gs = gridspec.GridSpec(1,2,width_ratios=[3,1]) #2 plots in a single figure
-        self.ax_stigmergy = plt.subplot(gs[0])
-        self.ax_entropy = plt.subplot(gs[1])
-        self.fig.suptitle('Note to self, fix title', fontsize = 20)
-
+class Plotter():
+    " base plot class (not interactive) "
+    def __init__(self, M, colormap = 'blue', figsize = (10,6)):
+        self.fig = plt.figure(figsize =figsize, constrained_layout = True)
         self.stigmergy_opts = {'cmap':plt.get_cmap(cmaps[colormap]),
-                               'extent':[0,self.mesh_x.max().copy(),
-                                         0,self.mesh_y.max().copy()],
+                               'extent':[0,M.mesh_x.max().copy(),
+                                         0,M.mesh_y.max().copy()],
                                'origin':'bottom'}
-        self.stigmergy = self.ax_stigmergy.imshow(np.zeros(self.mesh_x.shape),
-                                                  **self.stigmergy_opts)
-        self.ax_stigmergy.set_xticks(np.arange(0, self.mesh_x.max(), 250));
-        self.ax_stigmergy.set_yticks(np.arange(0, self.mesh_y.max(), 250));
-        self.ax_stigmergy.set_xlim((0,self.mesh_x.max()))
-        self.ax_stigmergy.set_ylim((0,self.mesh_y.max()))
-        self.entropy = self.ax_entropy.plot(self.time_vec, self.entropy_vec)
-        # self.ax_stigmergy.invert_yaxis()
+        self.gs = gridspec.GridSpec(1,3,width_ratios=[.1,3,.9], figure = self.fig) #2 plots in a single figure
+        self.ax_stigmergy = plt.subplot(self.gs[1])
+        self.ax_entropy = plt.subplot(self.gs[2])
+        self.stigmergy_limits(M.mesh_x.max(), M.mesh_y.max())
+        self.scat = {} #hold scatters
 
-        #placeholders for the scatter plot of ants
-        self.scat = {} #hold scatters for ant and sensor locations
+    def stigmergy_limits(self,x_max, y_max):
+        self.ax_stigmergy.set_xticks(np.arange(0, x_max, 250));
+        self.ax_stigmergy.set_yticks(np.arange(0, y_max, 250));
+        self.ax_stigmergy.set_xlim((0,x_max))
+        self.ax_stigmergy.set_ylim((0,y_max))
+
+    def draw_cb(self):
+        self.ax_cb = plt.subplot(self.gs[0])
+        fig.colorbar(self.stigmergy,cax = self.ax_cb,orientation = 'vertical',pad=.1)
+
+    def draw_stigmergy(self,Z):
+        try:
+            self.stigmergy.remove()
+        except:
+            pass
+        self.stigmergy = self.ax_stigmergy.imshow(Z,vmin=0,**self.stigmergy_opts)
+
+
+    def draw_entropy(self,H, **kwargs):
+        " Draw line plot of entropy H "
+        try:
+             self.entropy.clear()
+        except:
+            pass
+        if not 't' in kwargs:
+            t = np.arange(len(H))
+        else:
+            t=kwargs['t']
+        self.entropy = self.ax_entropy.plot(t,H, linestyle=':', color='cornflowerblue', markersize=3, marker = '8')
+        self.ax_entropy.set_ylim(0,H.max()*1.05)
+
+    def show(self):
+        plt.show()
+
+    def save(self,path, dpi = 50):
+        self.fig.savefig(path,bbox_inches = 'tight', format ='eps', dpi = dpi)
+
+    def set_subtitles(self):
+        self.ax_stigmergy.set_title('Pheromone volume')
+        self.ax_entropy.set_title('entropy')
+
+    def draw_scatter(self,x,y,marker='x',color='k',name='ant',s=80):
+        if name in self.scat:
+            self.scat[name].remove()
+        self.scat[name] = self.ax_stigmergy.scatter(x,y,s=s,c=color,marker=marker)
+
+    def set_labels(self, target = ''):
+        if target == 'entropy' or target == '':
+            self.ax_entropy.set_xlabel('time (s)')
+            self.ax_entropy.set_ylabel('Entropy (H)')
+        if target == 'stigmergy' or target == '':
+            self.ax_stigmergy.set_xlabel('x1 [mm]')
+            self.ax_stigmergy.set_ylabel('x2 [mm]')
+
+class StigmergyPlot(Plotter):
+    " interactive plotter "
+    def __init__(self, Map, colormap = 'blue', figsize = (10,6)):
+        plt.ion() # make interactive
+        super().__init__(M =Map, colormap = colormap, figsize = figsize)
         self.ant_loc = np.empty((0,2))
 
     def append_scatter(self,arr, a):
         """ pnt as point tuple/class """
         return np.append(arr, np.resize(a.vec,(1,2)),axis=0)
-
-    def draw_stigmergy(self,Z):
-        """ Use imshow, much faster than contourf,
-            subsampling has little effect on draw speed """
-        self.stigmergy.remove()
-        self.stigmergy = self.ax_stigmergy.imshow(Z,
-                                                  **self.stigmergy_opts)
-
-    def draw_scatter(self,x,y,marker='x',color='k',name='ant',s=80):
-       if name in self.scat:
-           self.scat[name].remove()
-       self.scat[name] = self.ax_stigmergy.scatter(x,y,s=s,c=color,marker=marker)
-
-    def draw_entropy(self,H):
-       " Draw line plot of entropy H "
-       self.entropy.clear()
-       self.entropy_vec = H
-       if len(H) != len(self.time_vec):
-           self.time_vec = np.arange(len(H))
-       self.entropy = self.ax_entropy.plot(self.time_vec,H, linestyle=':', color='cornflowerblue', markersize=3, marker = '8')
-        # self.ax_lines.set_ylim(0,self.E[np.isnan(self.E)==False].max()*1.05)
 
     def draw(self):
         self.fig.canvas.draw()

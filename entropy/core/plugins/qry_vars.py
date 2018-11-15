@@ -33,8 +33,9 @@ get_ant_table = "SELECT * FROM ant_updates WHERE ant_id = {ant_id} AND sim_id ={
 
 get_sim = """SELECT sim.target_pheromone_volume, sim.pheromone_variance,
     dom.size, dom.pitch, dom.nest_location, dom.nest_radius,dom.food_location,dom.food_radius,
-    ant.speed, ant.antenna_offset, ant.l
+    ant.speed, ant.antenna_offset, ant.l, IFNULL(results.entropy_vec,'[]'), IFNULL(results.time_vec,'[]')
     FROM sims AS sim, domain_settings AS dom, ant_settings AS ant
+    LEFT JOIN results ON results.sim_id = sim.id
     WHERE sim.id = {id}
     AND sim.id = dom.sim_id
     AND ant.sim_id = sim.id """
