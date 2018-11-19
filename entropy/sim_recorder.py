@@ -192,13 +192,13 @@ class SimRecorder():
 limits = [1000,500]
 food = [750,250]
 nest = [250,250]
-ant_gain = 1
-noise_gain = .8#5/(180/np.pi)
+ant_gain =2
+noise_gain = 2#5/(180/np.pi)
 n_ants = 80
 pheromone_variance = 15
 Q=20
 drop_fun = 'exp_decay'
-return_factor = 1.5
+return_factor = 1.1
 
 deploy_dict = {'n_agents': n_ants,
             'sigma': pheromone_variance,
@@ -235,7 +235,7 @@ def test_SimRecorder():
     S.connect_db(db_path = sys.path[0]+"/core/database/",
                  db_name = "stigmergy_database.db")
     sim_id = S.insert_new_sim()
-    result = S.record_gradient_sim(n_steps = 120,record_frequency=500,sim_id=sim_id,H_steps=H_steps,
+    result = S.record_gradient_sim(n_steps = 1200,record_frequency=500,sim_id=sim_id,H_steps=H_steps,
                           path =  sys.path[0]+"/core/database/",store_map_interval = store_map_interval)
     S.close_db()
 

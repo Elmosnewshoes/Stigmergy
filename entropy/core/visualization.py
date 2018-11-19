@@ -11,15 +11,19 @@ cmaps = {'blue': 'PuBu',
          }
 class Plotter():
     " base plot class (not interactive) "
-    def __init__(self, M, colormap = 'blue', figsize = (10,6)):
-        self.fig = plt.figure(figsize =figsize, constrained_layout = True)
+    def __init__(self, M, colormap = 'blue', figsize = (10,6), shown='all'):
+
         self.stigmergy_opts = {'cmap':plt.get_cmap(cmaps[colormap]),
                                'extent':[0,M.mesh_x.max().copy(),
                                          0,M.mesh_y.max().copy()],
                                'origin':'bottom'}
-        self.gs = gridspec.GridSpec(1,3,width_ratios=[.1,3,.9], figure = self.fig) #2 plots in a single figure
-        self.ax_stigmergy = plt.subplot(self.gs[1])
-        self.ax_entropy = plt.subplot(self.gs[2])
+        if shown=='all':
+            self.fig = plt.figure(figsize =figsize, constrained_layout = True)
+            self.gs = gridspec.GridSpec(1,3,width_ratios=[.1,3,.9], figure = self.fig) #2 plots in a single figure
+            self.ax_stigmergy = plt.subplot(self.gs[1])
+            self.ax_entropy = plt.subplot(self.gs[2])
+        elif shown =='stigmergy':
+            self.fig, self.ax_stigmergy = plt.subplots(figsize =figsize, constrained_layout = True)
         self.stigmergy_limits(M.mesh_x.max(), M.mesh_y.max())
         self.scat = {} #hold scatters
 
@@ -79,9 +83,9 @@ class Plotter():
 
 class StigmergyPlot(Plotter):
     " interactive plotter "
-    def __init__(self, Map, colormap = 'blue', figsize = (10,6)):
+    def __init__(self, Map, colormap = 'blue', figsize = (10,6), shown = 'all'):
         plt.ion() # make interactive
-        super().__init__(M =Map, colormap = colormap, figsize = figsize)
+        super().__init__(M =Map, colormap = colormap, figsize = figsize, shown=shown)
         self.ant_loc = np.empty((0,2))
 
     def append_scatter(self,arr, a):
