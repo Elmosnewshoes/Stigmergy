@@ -30,11 +30,14 @@ cdef class Ant:
 
     " cpython methods "
     cpdef readonly void init_positions(self, double[:])
-    cpdef public void step(self,double)
     cpdef public double return_drop_quantity(self)
+    cpdef public void gradient_step(self,double)
+    cdef void increase_azimuth(self, double *)
 
     " C-only methods "
+    cdef public void step(self,double *)
     cdef public bint correct_bounds(self)
     cdef void set_sensors(self)
     cdef void observe(self,str , double[2])
+    cdef void rotate(self, double *)
     # cpdef void step(self,double)

@@ -55,7 +55,7 @@ cdef class pyAnt(Ant):
         cdef double dt = .1
         cdef double tic =time()
         for x in range(n):
-            self.step(dt)
+            self.step(&dt)
         return (time()-tic)*1e3 #mseconds
 
     def time_sensors(self,int n):
@@ -74,7 +74,7 @@ cdef class pyAnt(Ant):
             q[0]=x[0]
             q[1]=x[1]
             self.observe('linear', q)
-            self.step(dt)
+            self.gradient_step(dt)
         return (time()-tic)*1e3 #mseconds
 
 

@@ -1349,11 +1349,14 @@ static struct __pyx_vtabstruct_8cythonic_7plugins_9positions_point *__pyx_vtabpt
 
 struct __pyx_vtabstruct_8cythonic_4core_3ant_Ant {
   void (*init_positions)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, __Pyx_memviewslice, int __pyx_skip_dispatch);
-  void (*step)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, double, int __pyx_skip_dispatch);
   double (*return_drop_quantity)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, int __pyx_skip_dispatch);
+  void (*gradient_step)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, double, int __pyx_skip_dispatch);
+  void (*increase_azimuth)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, double *);
+  void (*step)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, double *);
   int (*correct_bounds)(struct __pyx_obj_8cythonic_4core_3ant_Ant *);
   void (*set_sensors)(struct __pyx_obj_8cythonic_4core_3ant_Ant *);
   void (*observe)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, PyObject *, double *);
+  void (*rotate)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, double *);
 };
 static struct __pyx_vtabstruct_8cythonic_4core_3ant_Ant *__pyx_vtabptr_8cythonic_4core_3ant_Ant;
 
@@ -4018,7 +4021,7 @@ static PyObject *__pyx_pf_8cythonic_7wrapper_5pyAnt_10time_step(struct __pyx_obj
  *         cdef double dt = .1
  *         cdef double tic =time()             # <<<<<<<<<<<<<<
  *         for x in range(n):
- *             self.step(dt)
+ *             self.step(&dt)
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 56, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -4048,7 +4051,7 @@ static PyObject *__pyx_pf_8cythonic_7wrapper_5pyAnt_10time_step(struct __pyx_obj
  *         cdef double dt = .1
  *         cdef double tic =time()
  *         for x in range(n):             # <<<<<<<<<<<<<<
- *             self.step(dt)
+ *             self.step(&dt)
  *         return (time()-tic)*1e3 #mseconds
  */
   __pyx_t_5 = __pyx_v_n;
@@ -4059,16 +4062,16 @@ static PyObject *__pyx_pf_8cythonic_7wrapper_5pyAnt_10time_step(struct __pyx_obj
     /* "cythonic/wrapper.pyx":58
  *         cdef double tic =time()
  *         for x in range(n):
- *             self.step(dt)             # <<<<<<<<<<<<<<
+ *             self.step(&dt)             # <<<<<<<<<<<<<<
  *         return (time()-tic)*1e3 #mseconds
  * 
  */
-    ((struct __pyx_vtabstruct_8cythonic_7wrapper_pyAnt *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.step(((struct __pyx_obj_8cythonic_4core_3ant_Ant *)__pyx_v_self), __pyx_v_dt, 0);
+    ((struct __pyx_vtabstruct_8cythonic_7wrapper_pyAnt *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.step(((struct __pyx_obj_8cythonic_4core_3ant_Ant *)__pyx_v_self), (&__pyx_v_dt));
   }
 
   /* "cythonic/wrapper.pyx":59
  *         for x in range(n):
- *             self.step(dt)
+ *             self.step(&dt)
  *         return (time()-tic)*1e3 #mseconds             # <<<<<<<<<<<<<<
  * 
  *     def time_sensors(self,int n):
@@ -4512,7 +4515,7 @@ static PyObject *__pyx_pf_8cythonic_7wrapper_5pyAnt_14time_iteration(struct __py
  *             q[0]=x[0]
  *             q[1]=x[1]             # <<<<<<<<<<<<<<
  *             self.observe('linear', q)
- *             self.step(dt)
+ *             self.gradient_step(dt)
  */
     __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_x, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 75, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
@@ -4524,7 +4527,7 @@ static PyObject *__pyx_pf_8cythonic_7wrapper_5pyAnt_14time_iteration(struct __py
  *             q[0]=x[0]
  *             q[1]=x[1]
  *             self.observe('linear', q)             # <<<<<<<<<<<<<<
- *             self.step(dt)
+ *             self.gradient_step(dt)
  *         return (time()-tic)*1e3 #mseconds
  */
     ((struct __pyx_vtabstruct_8cythonic_7wrapper_pyAnt *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.observe(((struct __pyx_obj_8cythonic_4core_3ant_Ant *)__pyx_v_self), __pyx_n_s_linear, __pyx_v_q);
@@ -4532,11 +4535,11 @@ static PyObject *__pyx_pf_8cythonic_7wrapper_5pyAnt_14time_iteration(struct __py
     /* "cythonic/wrapper.pyx":77
  *             q[1]=x[1]
  *             self.observe('linear', q)
- *             self.step(dt)             # <<<<<<<<<<<<<<
+ *             self.gradient_step(dt)             # <<<<<<<<<<<<<<
  *         return (time()-tic)*1e3 #mseconds
  * 
  */
-    ((struct __pyx_vtabstruct_8cythonic_7wrapper_pyAnt *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.step(((struct __pyx_obj_8cythonic_4core_3ant_Ant *)__pyx_v_self), __pyx_v_dt, 0);
+    ((struct __pyx_vtabstruct_8cythonic_7wrapper_pyAnt *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.gradient_step(((struct __pyx_obj_8cythonic_4core_3ant_Ant *)__pyx_v_self), __pyx_v_dt, 0);
 
     /* "cythonic/wrapper.pyx":73
  *         Q = np.random.rand(n,2)
@@ -4550,7 +4553,7 @@ static PyObject *__pyx_pf_8cythonic_7wrapper_5pyAnt_14time_iteration(struct __py
 
   /* "cythonic/wrapper.pyx":78
  *             self.observe('linear', q)
- *             self.step(dt)
+ *             self.gradient_step(dt)
  *         return (time()-tic)*1e3 #mseconds             # <<<<<<<<<<<<<<
  * 
  * 

@@ -3,6 +3,7 @@ from cythonic.plugins.functions cimport transform
 from cythonic.plugins.sens_functions cimport lin
 from cythonic.plugins.drop_functions cimport exp_decay
 import numpy as np
+from libc.math cimport M_PI as PI
 
 cpdef float cube(float x):
     return x*x*x
@@ -61,7 +62,12 @@ cdef class Ant:
             " possibly drop more pheromone when food is found "
             return self.return_factor*Q
 
-
+    cdef public void rotate(self, double * dt):
+        " rotate the ant "
+        cdef double d_teta = dt[0]*self.gain*180./PI*(
+            self.q_observed[0]-self.q_observed[1])
+        """STILL NO NOISE!!! """
+        self.increase_azimuth(&d_teta)
 
     cdef bint correct_bounds(self):
         " Check limits, place ant at boundary of neccesary "
@@ -82,18 +88,24 @@ cdef class Ant:
         else:
             return False
 
-    cpdef void step(self,double dt):
+    cpdef public void gradient_step(self,double dt):
+        " do the sequence of differential stepping "
+        " note: manually observe the phereomone first "
+        self.rotate(&dt)
+        self.step(&dt)
+        self.set_sensors()
+
+    cdef void step(self,double * dt):
         """ do a step in the current direction, do boundary checking as well """
         # self.rng.add_t(dt) #update timer of the RNG
-        self.time += dt #update internal timer
+        self.time += dt[0] #update internal timer
 
         " Update position "
-        cdef double dL = self.v*dt
+        cdef double dL = self.v*dt[0]
         self._pos.xy = transform(self._azimuth,&dL,&self._pos.xy).xy
 
         " correct for boundary "
         self.out_of_bounds = self.correct_bounds()
-        self.set_sensors()
 
     cdef void set_sensors(self):
         self._left = transform(self._azimuth+self.sens_offset,&self.l,&self._pos.xy)
@@ -103,6 +115,15 @@ cdef class Ant:
         self._pos = point(xy[0], xy[1])
         self.set_sensors()
 
+
+    cdef void increase_azimuth(self, double * d_teta):
+        " C-implementation of property azimuth.setter "
+        if d_teta[0]+ self._azimuth >= 360:
+            self._azimuth += d_teta[0]-360.
+        elif d_teta[0] + self._azimuth < 0:
+            self._azimuth += d_teta[0] + 360.
+        else:
+            self._azimuth += d_teta[0]
 
     @property
     def pos(self):

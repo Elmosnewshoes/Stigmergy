@@ -2,8 +2,8 @@ cimport numpy as np
 import numpy as np
 from libc.math cimport sin as csin,cos as ccos
 from cythonic.plugins.positions cimport point
+from libc.math cimport M_PI as PI
 
-DEF PI = 3.1415926535897932384626433832795028841971
 cdef double deg(double *rad):
     return rad[0]*180/PI
 
