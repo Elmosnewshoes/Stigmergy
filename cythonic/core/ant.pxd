@@ -6,19 +6,35 @@ cpdef float cube(float)
 cdef class Ant:
     " attributes "
     cdef:
+        #physical properties
         readonly double l
         readonly unsigned int id
-        readonly double gain, v
-        readonly bint foodbound, out_of_bounds
-        readonly double _azimuth, sens_offset
-        readonly point _pos, _left, _right
         readonly point limits
 
-    " cp methods "
+        # environment interaction
+        readonly double gain,sens_offset
+
+        #states
+        readonly bint foodbound, out_of_bounds
+        readonly double _azimuth
+        readonly point _pos, _left, _right
+
+        # drop quantity related
+        readonly double[2] q_observed
+        readonly double _drop_quantity, return_factor
+        readonly double time, v, drop_beta
+        readonly str drop_fun
+
+        # sensing related
+        # -- nothing yet --
+
+    " cpython methods "
     cpdef readonly void init_positions(self, double[:])
     cpdef public void step(self,double)
+    cpdef public double return_drop_quantity(self)
 
     " C-only methods "
     cdef public bint correct_bounds(self)
     cdef void set_sensors(self)
+    cdef void observe(self,str , double[2])
     # cpdef void step(self,double)

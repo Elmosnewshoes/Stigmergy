@@ -11,7 +11,8 @@ ant_settings = {'start_pos': [10,10],
                 'drop_quantity':1,
                 'noise_gain':1,
                 'beta':1,
-                'gain':5}
+                'gain':5,
+                'drop_fun':'exp_decay'}
 
 ant = Ant(**ant_settings)
 print(ant.sensors['left'].vec)
