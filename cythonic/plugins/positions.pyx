@@ -4,9 +4,9 @@ cdef class point:
         self.x = x
         self.y = y
 
-    cdef double cx(self):
+    cdef readonly double cx(self):
         return self.xy[0]
-    cdef double cy(self):
+    cdef readonly double cy(self):
         return self.xy[1]
 
     @property
@@ -33,9 +33,9 @@ cdef class index:
         self.x = x
         self.y = y
 
-    cdef unsigned long cx(self):
+    cdef readonly unsigned long cx(self):
         return self.xy[0]
-    cdef unsigned long cy(self):
+    cdef readonly unsigned long cy(self):
         return self.xy[1]
 
     @property

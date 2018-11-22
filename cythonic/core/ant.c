@@ -1139,24 +1139,12 @@ static CYTHON_INLINE __pyx_t_double_complex __pyx_t_double_complex_from_parts(do
 
 /*--- Type declarations ---*/
 struct __pyx_obj_8cythonic_7plugins_9positions_point;
+struct __pyx_obj_8cythonic_7plugins_9positions_index;
 struct __pyx_obj_8cythonic_4core_3ant_Ant;
 struct __pyx_array_obj;
 struct __pyx_MemviewEnum_obj;
 struct __pyx_memoryview_obj;
 struct __pyx_memoryviewslice_obj;
-struct __pyx_t_8cythonic_7plugins_9positions_location;
-
-/* "cythonic/plugins/positions.pxd":6
- *     cdef public double cy(self)
- * 
- * cdef struct location:             # <<<<<<<<<<<<<<
- *     # unsigned integer, grid location
- *     unsigned int x,y
- */
-struct __pyx_t_8cythonic_7plugins_9positions_location {
-  unsigned int x;
-  unsigned int y;
-};
 
 /* "../PythonEnvs/Ants/lib/python3.6/site-packages/Cython/Includes/numpy/__init__.pxd":769
  * ctypedef npy_longdouble longdouble_t
@@ -1197,12 +1185,26 @@ typedef npy_cdouble __pyx_t_5numpy_complex_t;
 /* "cythonic/plugins/positions.pxd":1
  * cdef class point:             # <<<<<<<<<<<<<<
  *     cdef public double[2] xy
- *     cdef public double cx(self)
+ *     cdef readonly double cx(self)
  */
 struct __pyx_obj_8cythonic_7plugins_9positions_point {
   PyObject_HEAD
   struct __pyx_vtabstruct_8cythonic_7plugins_9positions_point *__pyx_vtab;
   double xy[2];
+};
+
+
+/* "cythonic/plugins/positions.pxd":6
+ *     cdef readonly double cy(self)
+ * 
+ * cdef class index:             # <<<<<<<<<<<<<<
+ *     # unsigned integer, grid location
+ *     cdef:
+ */
+struct __pyx_obj_8cythonic_7plugins_9positions_index {
+  PyObject_HEAD
+  struct __pyx_vtabstruct_8cythonic_7plugins_9positions_index *__pyx_vtab;
+  unsigned long xy[2];
 };
 
 
@@ -1318,7 +1320,7 @@ struct __pyx_memoryviewslice_obj {
 /* "cythonic/plugins/positions.pxd":1
  * cdef class point:             # <<<<<<<<<<<<<<
  *     cdef public double[2] xy
- *     cdef public double cx(self)
+ *     cdef readonly double cx(self)
  */
 
 struct __pyx_vtabstruct_8cythonic_7plugins_9positions_point {
@@ -1326,6 +1328,21 @@ struct __pyx_vtabstruct_8cythonic_7plugins_9positions_point {
   double (*cy)(struct __pyx_obj_8cythonic_7plugins_9positions_point *);
 };
 static struct __pyx_vtabstruct_8cythonic_7plugins_9positions_point *__pyx_vtabptr_8cythonic_7plugins_9positions_point;
+
+
+/* "cythonic/plugins/positions.pxd":6
+ *     cdef readonly double cy(self)
+ * 
+ * cdef class index:             # <<<<<<<<<<<<<<
+ *     # unsigned integer, grid location
+ *     cdef:
+ */
+
+struct __pyx_vtabstruct_8cythonic_7plugins_9positions_index {
+  unsigned long (*cx)(struct __pyx_obj_8cythonic_7plugins_9positions_index *);
+  unsigned long (*cy)(struct __pyx_obj_8cythonic_7plugins_9positions_index *);
+};
+static struct __pyx_vtabstruct_8cythonic_7plugins_9positions_index *__pyx_vtabptr_8cythonic_7plugins_9positions_index;
 
 
 /* "cythonic/core/ant.pyx":11
@@ -2121,6 +2138,7 @@ static PyObject *__pyx_memoryviewslice_assign_item_from_object(struct __pyx_memo
 
 /* Module declarations from 'cythonic.plugins.positions' */
 static PyTypeObject *__pyx_ptype_8cythonic_7plugins_9positions_point = 0;
+static PyTypeObject *__pyx_ptype_8cythonic_7plugins_9positions_index = 0;
 
 /* Module declarations from 'cpython.buffer' */
 
@@ -22769,6 +22787,8 @@ static int __Pyx_modinit_type_import_code(void) {
   /*--- Type import code ---*/
   __pyx_ptype_8cythonic_7plugins_9positions_point = __Pyx_ImportType("cythonic.plugins.positions", "point", sizeof(struct __pyx_obj_8cythonic_7plugins_9positions_point), 1); if (unlikely(!__pyx_ptype_8cythonic_7plugins_9positions_point)) __PYX_ERR(4, 1, __pyx_L1_error)
   __pyx_vtabptr_8cythonic_7plugins_9positions_point = (struct __pyx_vtabstruct_8cythonic_7plugins_9positions_point*)__Pyx_GetVtable(__pyx_ptype_8cythonic_7plugins_9positions_point->tp_dict); if (unlikely(!__pyx_vtabptr_8cythonic_7plugins_9positions_point)) __PYX_ERR(4, 1, __pyx_L1_error)
+  __pyx_ptype_8cythonic_7plugins_9positions_index = __Pyx_ImportType("cythonic.plugins.positions", "index", sizeof(struct __pyx_obj_8cythonic_7plugins_9positions_index), 1); if (unlikely(!__pyx_ptype_8cythonic_7plugins_9positions_index)) __PYX_ERR(4, 6, __pyx_L1_error)
+  __pyx_vtabptr_8cythonic_7plugins_9positions_index = (struct __pyx_vtabstruct_8cythonic_7plugins_9positions_index*)__Pyx_GetVtable(__pyx_ptype_8cythonic_7plugins_9positions_index->tp_dict); if (unlikely(!__pyx_vtabptr_8cythonic_7plugins_9positions_index)) __PYX_ERR(4, 6, __pyx_L1_error)
   __pyx_ptype_7cpython_4type_type = __Pyx_ImportType(__Pyx_BUILTIN_MODULE_NAME, "type", 
   #if defined(PYPY_VERSION_NUM) && PYPY_VERSION_NUM < 0x050B0000
   sizeof(PyTypeObject),

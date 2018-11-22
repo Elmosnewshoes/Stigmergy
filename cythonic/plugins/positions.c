@@ -789,7 +789,7 @@ struct __pyx_obj_8cythonic_7plugins_9positions_index;
 /* "cythonic/plugins/positions.pxd":1
  * cdef class point:             # <<<<<<<<<<<<<<
  *     cdef public double[2] xy
- *     cdef public double cx(self)
+ *     cdef readonly double cx(self)
  */
 struct __pyx_obj_8cythonic_7plugins_9positions_point {
   PyObject_HEAD
@@ -799,7 +799,7 @@ struct __pyx_obj_8cythonic_7plugins_9positions_point {
 
 
 /* "cythonic/plugins/positions.pxd":6
- *     cdef public double cy(self)
+ *     cdef readonly double cy(self)
  * 
  * cdef class index:             # <<<<<<<<<<<<<<
  *     # unsigned integer, grid location
@@ -1296,7 +1296,7 @@ static int __pyx_pf_8cythonic_7plugins_9positions_5point___cinit__(struct __pyx_
  *         self.x = x
  *         self.y = y             # <<<<<<<<<<<<<<
  * 
- *     cdef double cx(self):
+ *     cdef readonly double cx(self):
  */
   if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_y, __pyx_v_y) < 0) __PYX_ERR(1, 5, __pyx_L1_error)
 
@@ -1322,9 +1322,9 @@ static int __pyx_pf_8cythonic_7plugins_9positions_5point___cinit__(struct __pyx_
 /* "cythonic/plugins/positions.pyx":7
  *         self.y = y
  * 
- *     cdef double cx(self):             # <<<<<<<<<<<<<<
+ *     cdef readonly double cx(self):             # <<<<<<<<<<<<<<
  *         return self.xy[0]
- *     cdef double cy(self):
+ *     cdef readonly double cy(self):
  */
 
 double __pyx_f_8cythonic_7plugins_9positions_5point_cx(struct __pyx_obj_8cythonic_7plugins_9positions_point *__pyx_v_self) {
@@ -1334,9 +1334,9 @@ double __pyx_f_8cythonic_7plugins_9positions_5point_cx(struct __pyx_obj_8cythoni
 
   /* "cythonic/plugins/positions.pyx":8
  * 
- *     cdef double cx(self):
+ *     cdef readonly double cx(self):
  *         return self.xy[0]             # <<<<<<<<<<<<<<
- *     cdef double cy(self):
+ *     cdef readonly double cy(self):
  *         return self.xy[1]
  */
   __pyx_r = (__pyx_v_self->xy[0]);
@@ -1345,9 +1345,9 @@ double __pyx_f_8cythonic_7plugins_9positions_5point_cx(struct __pyx_obj_8cythoni
   /* "cythonic/plugins/positions.pyx":7
  *         self.y = y
  * 
- *     cdef double cx(self):             # <<<<<<<<<<<<<<
+ *     cdef readonly double cx(self):             # <<<<<<<<<<<<<<
  *         return self.xy[0]
- *     cdef double cy(self):
+ *     cdef readonly double cy(self):
  */
 
   /* function exit code */
@@ -1357,9 +1357,9 @@ double __pyx_f_8cythonic_7plugins_9positions_5point_cx(struct __pyx_obj_8cythoni
 }
 
 /* "cythonic/plugins/positions.pyx":9
- *     cdef double cx(self):
+ *     cdef readonly double cx(self):
  *         return self.xy[0]
- *     cdef double cy(self):             # <<<<<<<<<<<<<<
+ *     cdef readonly double cy(self):             # <<<<<<<<<<<<<<
  *         return self.xy[1]
  * 
  */
@@ -1371,7 +1371,7 @@ double __pyx_f_8cythonic_7plugins_9positions_5point_cy(struct __pyx_obj_8cythoni
 
   /* "cythonic/plugins/positions.pyx":10
  *         return self.xy[0]
- *     cdef double cy(self):
+ *     cdef readonly double cy(self):
  *         return self.xy[1]             # <<<<<<<<<<<<<<
  * 
  *     @property
@@ -1380,9 +1380,9 @@ double __pyx_f_8cythonic_7plugins_9positions_5point_cy(struct __pyx_obj_8cythoni
   goto __pyx_L0;
 
   /* "cythonic/plugins/positions.pyx":9
- *     cdef double cx(self):
+ *     cdef readonly double cx(self):
  *         return self.xy[0]
- *     cdef double cy(self):             # <<<<<<<<<<<<<<
+ *     cdef readonly double cy(self):             # <<<<<<<<<<<<<<
  *         return self.xy[1]
  * 
  */
@@ -1764,8 +1764,8 @@ static PyObject *__pyx_pf_8cythonic_7plugins_9positions_5point_2__repr__(struct 
 /* "cythonic/plugins/positions.pxd":2
  * cdef class point:
  *     cdef public double[2] xy             # <<<<<<<<<<<<<<
- *     cdef public double cx(self)
- *     cdef public double cy(self)
+ *     cdef readonly double cx(self)
+ *     cdef readonly double cy(self)
  */
 
 /* Python wrapper */
@@ -2031,7 +2031,7 @@ static int __pyx_pf_8cythonic_7plugins_9positions_5index___cinit__(struct __pyx_
  *         self.x = x
  *         self.y = y             # <<<<<<<<<<<<<<
  * 
- *     cdef unsigned long cx(self):
+ *     cdef readonly unsigned long cx(self):
  */
   if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_y, __pyx_v_y) < 0) __PYX_ERR(1, 34, __pyx_L1_error)
 
@@ -2057,9 +2057,9 @@ static int __pyx_pf_8cythonic_7plugins_9positions_5index___cinit__(struct __pyx_
 /* "cythonic/plugins/positions.pyx":36
  *         self.y = y
  * 
- *     cdef unsigned long cx(self):             # <<<<<<<<<<<<<<
+ *     cdef readonly unsigned long cx(self):             # <<<<<<<<<<<<<<
  *         return self.xy[0]
- *     cdef unsigned long cy(self):
+ *     cdef readonly unsigned long cy(self):
  */
 
 unsigned long __pyx_f_8cythonic_7plugins_9positions_5index_cx(struct __pyx_obj_8cythonic_7plugins_9positions_index *__pyx_v_self) {
@@ -2069,9 +2069,9 @@ unsigned long __pyx_f_8cythonic_7plugins_9positions_5index_cx(struct __pyx_obj_8
 
   /* "cythonic/plugins/positions.pyx":37
  * 
- *     cdef unsigned long cx(self):
+ *     cdef readonly unsigned long cx(self):
  *         return self.xy[0]             # <<<<<<<<<<<<<<
- *     cdef unsigned long cy(self):
+ *     cdef readonly unsigned long cy(self):
  *         return self.xy[1]
  */
   __pyx_r = (__pyx_v_self->xy[0]);
@@ -2080,9 +2080,9 @@ unsigned long __pyx_f_8cythonic_7plugins_9positions_5index_cx(struct __pyx_obj_8
   /* "cythonic/plugins/positions.pyx":36
  *         self.y = y
  * 
- *     cdef unsigned long cx(self):             # <<<<<<<<<<<<<<
+ *     cdef readonly unsigned long cx(self):             # <<<<<<<<<<<<<<
  *         return self.xy[0]
- *     cdef unsigned long cy(self):
+ *     cdef readonly unsigned long cy(self):
  */
 
   /* function exit code */
@@ -2092,9 +2092,9 @@ unsigned long __pyx_f_8cythonic_7plugins_9positions_5index_cx(struct __pyx_obj_8
 }
 
 /* "cythonic/plugins/positions.pyx":38
- *     cdef unsigned long cx(self):
+ *     cdef readonly unsigned long cx(self):
  *         return self.xy[0]
- *     cdef unsigned long cy(self):             # <<<<<<<<<<<<<<
+ *     cdef readonly unsigned long cy(self):             # <<<<<<<<<<<<<<
  *         return self.xy[1]
  * 
  */
@@ -2106,7 +2106,7 @@ unsigned long __pyx_f_8cythonic_7plugins_9positions_5index_cy(struct __pyx_obj_8
 
   /* "cythonic/plugins/positions.pyx":39
  *         return self.xy[0]
- *     cdef unsigned long cy(self):
+ *     cdef readonly unsigned long cy(self):
  *         return self.xy[1]             # <<<<<<<<<<<<<<
  * 
  *     @property
@@ -2115,9 +2115,9 @@ unsigned long __pyx_f_8cythonic_7plugins_9positions_5index_cy(struct __pyx_obj_8
   goto __pyx_L0;
 
   /* "cythonic/plugins/positions.pyx":38
- *     cdef unsigned long cx(self):
+ *     cdef readonly unsigned long cx(self):
  *         return self.xy[0]
- *     cdef unsigned long cy(self):             # <<<<<<<<<<<<<<
+ *     cdef readonly unsigned long cy(self):             # <<<<<<<<<<<<<<
  *         return self.xy[1]
  * 
  */
@@ -2496,8 +2496,8 @@ static PyObject *__pyx_pf_8cythonic_7plugins_9positions_5index_2__repr__(struct 
  *     # unsigned integer, grid location
  *     cdef:
  *         public unsigned long[2] xy             # <<<<<<<<<<<<<<
- *         public unsigned long cx(self)
- *         public unsigned long cy(self)
+ *         readonly unsigned long cx(self)
+ *         readonly unsigned long cy(self)
  */
 
 /* Python wrapper */

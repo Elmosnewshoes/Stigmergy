@@ -1,5 +1,12 @@
-from cythonic.plugins.positions import point
+from cythonic.plugins.positions cimport point, index
 
 cdef class MeshMap:
-    cdef public double resolution
-    cdef public double[2] dim
+    cdef:
+        readonly double pitch
+        readonly point dim
+        readonly double[:,::1] map
+        readonly index lim
+
+    " methods "
+    cdef readonly unsigned long to_grid(self,double * x)
+    cdef readonly double to_mm(self,unsigned long * x)

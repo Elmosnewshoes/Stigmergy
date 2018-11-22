@@ -1067,7 +1067,7 @@ typedef npy_cdouble __pyx_t_5numpy_complex_t;
 /* "cythonic/plugins/positions.pxd":1
  * cdef class point:             # <<<<<<<<<<<<<<
  *     cdef public double[2] xy
- *     cdef public double cx(self)
+ *     cdef readonly double cx(self)
  */
 struct __pyx_obj_8cythonic_7plugins_9positions_point {
   PyObject_HEAD
@@ -1077,7 +1077,7 @@ struct __pyx_obj_8cythonic_7plugins_9positions_point {
 
 
 /* "cythonic/plugins/positions.pxd":6
- *     cdef public double cy(self)
+ *     cdef readonly double cy(self)
  * 
  * cdef class index:             # <<<<<<<<<<<<<<
  *     # unsigned integer, grid location
@@ -1094,7 +1094,7 @@ struct __pyx_obj_8cythonic_7plugins_9positions_index {
 /* "cythonic/plugins/positions.pxd":1
  * cdef class point:             # <<<<<<<<<<<<<<
  *     cdef public double[2] xy
- *     cdef public double cx(self)
+ *     cdef readonly double cx(self)
  */
 
 struct __pyx_vtabstruct_8cythonic_7plugins_9positions_point {
@@ -1105,7 +1105,7 @@ static struct __pyx_vtabstruct_8cythonic_7plugins_9positions_point *__pyx_vtabpt
 
 
 /* "cythonic/plugins/positions.pxd":6
- *     cdef public double cy(self)
+ *     cdef readonly double cy(self)
  * 
  * cdef class index:             # <<<<<<<<<<<<<<
  *     # unsigned integer, grid location
