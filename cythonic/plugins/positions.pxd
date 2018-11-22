@@ -3,6 +3,9 @@ cdef class point:
     cdef public double cx(self)
     cdef public double cy(self)
 
-cdef struct location:
+cdef class index:
     # unsigned integer, grid location
-    unsigned int x,y
+    cdef:
+        public unsigned long[2] xy
+        public unsigned long cx(self)
+        public unsigned long cy(self)
