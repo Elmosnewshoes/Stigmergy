@@ -9,3 +9,7 @@ cdef class index:
         public unsigned long[2] xy
         readonly unsigned long cx(self)
         readonly unsigned long cy(self)
+
+cdef struct map_range:
+    unsigned long[3] x
+    unsigned long[3] y

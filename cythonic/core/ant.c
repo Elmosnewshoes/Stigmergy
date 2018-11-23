@@ -1145,6 +1145,19 @@ struct __pyx_array_obj;
 struct __pyx_MemviewEnum_obj;
 struct __pyx_memoryview_obj;
 struct __pyx_memoryviewslice_obj;
+struct __pyx_t_8cythonic_7plugins_9positions_map_range;
+
+/* "cythonic/plugins/positions.pxd":13
+ *         readonly unsigned long cy(self)
+ * 
+ * cdef struct map_range:             # <<<<<<<<<<<<<<
+ *     unsigned long[3] x
+ *     unsigned long[3] y
+ */
+struct __pyx_t_8cythonic_7plugins_9positions_map_range {
+  unsigned long x[3];
+  unsigned long y[3];
+};
 
 /* "../PythonEnvs/Ants/lib/python3.6/site-packages/Cython/Includes/numpy/__init__.pxd":769
  * ctypedef npy_longdouble longdouble_t

@@ -1027,6 +1027,19 @@ static CYTHON_INLINE __pyx_t_double_complex __pyx_t_double_complex_from_parts(do
 /*--- Type declarations ---*/
 struct __pyx_obj_8cythonic_7plugins_9positions_point;
 struct __pyx_obj_8cythonic_7plugins_9positions_index;
+struct __pyx_t_8cythonic_7plugins_9positions_map_range;
+
+/* "cythonic/plugins/positions.pxd":13
+ *         readonly unsigned long cy(self)
+ * 
+ * cdef struct map_range:             # <<<<<<<<<<<<<<
+ *     unsigned long[3] x
+ *     unsigned long[3] y
+ */
+struct __pyx_t_8cythonic_7plugins_9positions_map_range {
+  unsigned long x[3];
+  unsigned long y[3];
+};
 
 /* "../PythonEnvs/Ants/lib/python3.6/site-packages/Cython/Includes/numpy/__init__.pxd":769
  * ctypedef npy_longdouble longdouble_t
