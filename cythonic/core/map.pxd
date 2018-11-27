@@ -10,7 +10,7 @@ cdef class Map:
     " methods "
     cdef readonly unsigned long to_grid(self,double * x)
     cdef readonly double to_mm(self,unsigned long * x)
-    cdef readonly map_range span(self,unsigned long[::1],double*)
+    cdef readonly map_range span(self,unsigned long *, unsigned long *,double*)
 cdef class MeshMap(Map):
     cdef double i
 cdef class GaussMap(Map):

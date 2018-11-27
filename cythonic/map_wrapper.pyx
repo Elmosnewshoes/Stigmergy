@@ -1,4 +1,4 @@
-from cythonic.core.map cimport  GaussMap
+from cythonic.core.map cimport  GaussMap,MeshMap
 from cythonic.plugins.positions cimport point, index, map_range
 
 import numpy as np
@@ -11,24 +11,14 @@ cpdef void print_I():
     print(I)
 
 
-cdef class MMap(GaussMap):
+cdef class MMap(MeshMap):
     " inherit the meshmap and publish its methods to python "
     def attributes(self):
         return [attr for attr in dir(self)
                   if not attr.startswith('__') and not attr == 'attributes']
-    def rounded(self, double x):
-        return self.to_grid(&x)
 
-    def get_bounds(self,loc,R):
+    def get_bounds(self,vec,R):
+        cdef point p = point(vec[0],vec[1])
         cdef double r = R
-        return self.span(np.array(loc,dtype = np.uint64),&r)
-
-    @property
-    def vol(self):
-        return self.volume
-    @property
-    def pk(self):
-        return self.peak
-
-    # def __cinit__(self,dim, resolution):
-    #     super().__init__(dim,resolution)
+        cdef index i = index(self.to_grid(&p.x),self.to_grid(&p.y))
+        return self.span(&i.x,&i.y,&r)

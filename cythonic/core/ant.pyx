@@ -4,10 +4,15 @@ from cythonic.plugins.sens_functions cimport lin
 from cythonic.plugins.drop_functions cimport exp_decay
 import numpy as np
 from libc.math cimport M_PI as PI
+cimport cython
 
 cpdef float cube(float x):
     return x*x*x
 
+@cython.cdivision(True)
+@cython.wraparound(False)
+@cython.boundscheck(False)
+@cython.nonecheck(False)
 cdef class Ant:
     " default agent acting in a system "
     def __cinit__(self, double l, unsigned int id,
@@ -75,11 +80,11 @@ cdef class Ant:
         cdef bint ybound = True
 
         " slightly (overly) complicated code to ensure all-C performance "
-        if self._pos.cx() >= self.limits.cx(): self._pos.xy[0] = self.limits.cx() #upper limit x
-        elif self._pos.cx() <= 0.: self._pos.xy[0] = 0. #lower limit x
+        if self._pos.x >= self.limits.x: self._pos.x = self.limits.x #upper limit x
+        elif self._pos.x <= 0.: self._pos.x = 0. #lower limit x
         else: xbound = False
-        if self._pos.cy() >= self.limits.cy(): self._pos.xy[1] = self.limits.cy() #upper limit y
-        elif self._pos.cy() <= 0: self._pos.xy[0] = 0. # lower limit y
+        if self._pos.y >= self.limits.y: self._pos.y = self.limits.y #upper limit y
+        elif self._pos.y <= 0: self._pos.y = 0. # lower limit y
         else: ybound = False #turns out, not out of bounds
 
         " return boolean for out_of_bounds"
@@ -102,14 +107,14 @@ cdef class Ant:
 
         " Update position "
         cdef double dL = self.v*dt[0]
-        self._pos.xy = transform(self._azimuth,&dL,&self._pos.xy).xy
+        self._pos = transform(self._azimuth,&dL,&self._pos)
 
         " correct for boundary "
         self.out_of_bounds = self.correct_bounds()
 
     cdef void set_sensors(self):
-        self._left = transform(self._azimuth+self.sens_offset,&self.l,&self._pos.xy)
-        self._right = transform(self._azimuth-self.sens_offset,&self.l,&self._pos.xy)
+        self._left = transform(self._azimuth+self.sens_offset,&self.l,&self._pos)
+        self._right = transform(self._azimuth-self.sens_offset,&self.l,&self._pos)
 
     cpdef void init_positions(self,double[:] xy):
         self._pos = point(xy[0], xy[1])
