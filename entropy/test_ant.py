@@ -11,7 +11,7 @@ ant_settings = {'start_pos': [10,10],
                 'drop_quantity':1,
                 'beta':1,
                 'noise_gain':1e-3*2*1.75,
-                'gain':5}
+                'gain':5,}
 
 ant = Ant(**ant_settings)
 rand = []

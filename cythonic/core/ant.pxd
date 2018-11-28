@@ -29,16 +29,16 @@ cdef class Ant:
         # sensing related
         readonly RNG rng
 
-    " cpython methods "
-    cpdef readonly void init_positions(self, double[:])
-    cpdef public double return_drop_quantity(self)
-    cpdef public void gradient_step(self,double)
-    cdef void increase_azimuth(self, double *)
+    " CPython methods "
+    cpdef public void gradient_step(self,double dt, str observe_fun, double[:] Q)
 
     " C-only methods "
-    cdef public void step(self,double *)
+    cdef readonly void step(self,double * dt)
+    cdef readonly void init_positions(self, double[:])
+    cdef public double return_drop_quantity(self)
+    cdef void increase_azimuth(self, double *)
     cdef public bint correct_bounds(self)
     cdef void set_sensors(self)
-    cdef void observe(self,str , double[2])
-    cdef void rotate(self, double *)
+    cdef void observe(self,str observe_fun, double[:] Q)
+    cdef void rotate(self, double * dt)
     # cpdef void step(self,double)

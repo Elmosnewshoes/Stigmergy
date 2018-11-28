@@ -28,7 +28,6 @@ cdef class Ant:
         self.q_observed[0]=0
         self.q_observed[1]=0
 
-
         " dropping related "
         self.drop_beta = drop_beta
         self.drop_fun = drop_fun
@@ -46,16 +45,16 @@ cdef class Ant:
         " constraints "
         self.limits = point(limits[0], limits[1])
 
-    cdef void observe(self,str observe_fun, double[2] Q):
+    cdef void observe(self,str observe_fun, double[:] Q):
         " observe pheromone Q[0] (left) and Q[1] (right) "
         if observe_fun =='linear':
             self.q_observed[0] = lin(&Q[0])
             self.q_observed[1] = lin(&Q[1])
 
-    cpdef double return_drop_quantity(self):
+    cdef double return_drop_quantity(self):
         """ return the pheromone to be dropped on the map,
             possibly based on internal timer self.time """
-        cdef double Q # drop quantity
+        cdef double Q=0 # drop quantity
         if self.drop_fun == 'constant':
             Q = self._drop_quantity
         elif self.drop_fun == 'exp_decay':
@@ -92,14 +91,15 @@ cdef class Ant:
         else:
             return False
 
-    cpdef public void gradient_step(self,double dt):
+    cpdef public void gradient_step(self,double dt, str observe_fun, double[:] Q):
         " do the sequence of differential stepping "
-        " note: manually observe the phereomone first "
+        " 1: sniff pheromone, 2: rotate, 3: step, 4: update sensors "
+        self.observe(observe_fun, Q)
         self.rotate(&dt)
         self.step(&dt)
         self.set_sensors()
 
-    cdef void step(self,double * dt):
+    cdef readonly void step(self,double * dt):
         """ do a step in the current direction, do boundary checking as well """
         # self.rng.add_t(dt) #update timer of the RNG
         self.time += dt[0] #update internal timer
@@ -116,7 +116,7 @@ cdef class Ant:
         self._left = transform(self._azimuth+self.sens_offset,&self.l,&self._pos)
         self._right = transform(self._azimuth-self.sens_offset,&self.l,&self._pos)
 
-    cpdef void init_positions(self,double[:] xy):
+    cdef void init_positions(self,double[:] xy):
         " call when initializing the ant, set the position "
         self._pos = point(xy[0], xy[1])
         self.set_sensors()
@@ -131,6 +131,7 @@ cdef class Ant:
         else:
             self._azimuth += d_teta[0]
 
+    " some legacy properties "
     @property
     def pos(self):
         return (self._pos.x, self._pos.y)

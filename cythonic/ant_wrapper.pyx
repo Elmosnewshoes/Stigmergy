@@ -26,9 +26,9 @@ cdef class pyAnt(Ant):
     def chck_bnds(self):
         return self.correct_bounds()
     def return_positions(self):
-        return [np.array(self._pos.xy),
-            np.array(self._left.xy),
-            np.array(self._right.xy)]
+        return [np.array(self._pos),
+            np.array(self._left),
+            np.array(self._right)]
     def return_observed(self,method, q):
         cdef double[2] Q
         Q[0] = q[0]
@@ -71,8 +71,8 @@ cdef class pyAnt(Ant):
         for x in Q:
             q[0]=x[0]
             q[1]=x[1]
-            self.observe('linear', q)
-            self.gradient_step(dt)
+            # self.observe('linear', q)
+            self.gradient_step(dt, 'linear',q)
         return (time()-tic)*1e3 #mseconds
 
 
