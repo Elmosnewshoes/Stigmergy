@@ -5,9 +5,7 @@ from cythonic.plugins.drop_functions cimport exp_decay
 import numpy as np
 from libc.math cimport M_PI as PI
 cimport cython
-
-cpdef float cube(float x):
-    return x*x*x
+from cythonic.plugins.rng cimport RNG
 
 @cython.cdivision(True)
 @cython.wraparound(False)
@@ -18,7 +16,7 @@ cdef class Ant:
     def __cinit__(self, double l, unsigned int id,
                     double speed, double gain, double sens_offset,
                     double[:] limits, double q, double return_factor,
-                    str drop_fun, double drop_beta):
+                    str drop_fun, double drop_beta, double rng_gamma):
         " (virtual) hardware characteristics "
         self.id = id
         self.l = l
@@ -38,6 +36,7 @@ cdef class Ant:
         self.return_factor = return_factor
 
         " private RNG "
+        self.rng = RNG(rng_gamma)
 
         " state "
         self.foodbound = False
@@ -113,10 +112,12 @@ cdef class Ant:
         self.out_of_bounds = self.correct_bounds()
 
     cdef void set_sensors(self):
+        " update the position of the sensors "
         self._left = transform(self._azimuth+self.sens_offset,&self.l,&self._pos)
         self._right = transform(self._azimuth-self.sens_offset,&self.l,&self._pos)
 
     cpdef void init_positions(self,double[:] xy):
+        " call when initializing the ant, set the position "
         self._pos = point(xy[0], xy[1])
         self.set_sensors()
 

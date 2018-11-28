@@ -1,5 +1,6 @@
 from cythonic.plugins.positions cimport point
-cpdef float cube(float)
+from cythonic.plugins.rng cimport RNG
+
 #defining NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
 
 
@@ -26,7 +27,7 @@ cdef class Ant:
         readonly str drop_fun
 
         # sensing related
-        # -- nothing yet --
+        readonly RNG rng
 
     " cpython methods "
     cpdef readonly void init_positions(self, double[:])

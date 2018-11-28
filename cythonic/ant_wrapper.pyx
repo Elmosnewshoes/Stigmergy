@@ -1,4 +1,4 @@
-from cythonic.core.ant cimport cube
+
 from cythonic.core.ant cimport Ant
 from cythonic.plugins.positions cimport point
 from cythonic.plugins.functions cimport rot_matrix
@@ -13,8 +13,6 @@ cdef double sens_fun(str fun_type, double *x):
 def sens(str fun_type, double x):
     return sens_fun(fun_type,&x)
 
-def cube_wrapped(x):
-    return cube(x)
 
 
 def pnt(x,y):
