@@ -1,3 +1,6 @@
+# distutils: extra_compile_args = -fopenmp
+# distutils: extra_link_args = -fopenmp
+from cython.parallel cimport prange
 cimport numpy as np
 import numpy as np
 from cythonic.plugins.positions cimport point, index, map_range
@@ -38,6 +41,17 @@ cdef class Map:
     cdef readonly double to_mm(self,unsigned long * x):
         " convert grid index to location in mm "
         return <double>self.pitch*x[0]
+
+    cdef readonly double sum(self):
+        " manually sum a map using multiple threads (faster than NumPy)"
+        cdef double s = 0
+        cdef unsigned int i,j,I,J
+        I = self.map.shape[0]
+        J = self.map.shape[1]
+        for i in prange(I, nogil=True,schedule='static', chunksize=5):
+            for j in range(J):
+                s+= self.map[i,j]
+        return s
 
     def __repr__(self):
         " print useful information "

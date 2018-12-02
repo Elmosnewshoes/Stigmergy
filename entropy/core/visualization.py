@@ -12,10 +12,9 @@ cmaps = {'blue': 'PuBu',
 class Plotter():
     " base plot class (not interactive) "
     def __init__(self, M, colormap = 'blue', figsize = (10,6), shown='all'):
-
         self.stigmergy_opts = {'cmap':plt.get_cmap(cmaps[colormap]),
-                               'extent':[0,M.mesh_x.max().copy(),
-                                         0,M.mesh_y.max().copy()],
+                               'extent':[0,np.array(M.mesh_x).max().copy(),
+                                         0,np.array(M.mesh_y).max().copy()],
                                'origin':'bottom'}
         if shown=='all':
             self.fig = plt.figure(figsize =figsize, constrained_layout = True)
@@ -24,7 +23,7 @@ class Plotter():
             self.ax_entropy = plt.subplot(self.gs[2])
         elif shown =='stigmergy':
             self.fig, self.ax_stigmergy = plt.subplots(figsize =figsize, constrained_layout = True)
-        self.stigmergy_limits(M.mesh_x.max(), M.mesh_y.max())
+        self.stigmergy_limits(np.array(M.mesh_x).max(),np.array(M.mesh_y).max())
         self.scat = {} #hold scatters
 
     def stigmergy_limits(self,x_max, y_max):

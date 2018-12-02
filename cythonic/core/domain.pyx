@@ -36,7 +36,25 @@ cdef class domain:
             Q = 0.
         return Q
 
-#     cdef readonly void add_pheromone(self,double[:,::1] mp, double[:,::1] gauss, point *p, double *Q):
+    cdef readonly void set_target_pheromone(self, double target):
+        self.target_pheromone= target
+
+
+    cdef readonly void cvaporate(self):
+        " hard coded version of pyvaporate, roughly 7-12 times faster "
+        " parallel computed sum of map yields another 2-3x speed boost"
+        cdef double x = self.target_pheromone/self.Map.sum()
+        cdef unsigned int i,j,I,J
+        I = self.Map.map.shape[0]
+        J = self.Map.map.shape[1]
+        for i in range(I):
+            for j in range(J):
+                self.Map.map[i,j] *=x
+
+    cdef readonly void pyvaporate(self):
+        " evaporate the python way with constant volume"
+        self.Map.map = np.dot(self.Map.map,self.target_pheromone/np.array(self.Map.map).sum())
+
     cdef readonly void add_pheromone(self,point *p, double *Q):
         " add quantity Q pheromone at gaussian centered around p "
         cdef index I = index(self.Map.to_grid(&p.x),self.Map.to_grid(&p.y))
@@ -50,7 +68,7 @@ cdef class domain:
 #                 mp[offset_y+i,offset_x+j]+=Q[0]*gauss[i+s.y[0], j+s.x[0]]
 
 
-    def __cinit__(self,size,pitch,nest_loc, nest_rad, food_loc, food_rad):
+    def __cinit__(self,size,pitch,nest_loc, nest_rad, food_loc, food_rad, target_pheromone = 1.):
         self.size = point(size[0],size[1])
         self.nest_location = point(nest_loc[0],nest_loc[1])
         self.food_location = point(food_loc[0],food_loc[1])
@@ -59,3 +77,4 @@ cdef class domain:
 
         self.Map = MeshMap(dim = np.array(size, dtype = np.float_), resolution = pitch)
         self.dim = index(self.Map.map.shape[0],self.Map.map.shape[1])
+        self.target_pheromone = target_pheromone

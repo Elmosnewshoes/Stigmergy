@@ -12,7 +12,10 @@ cdef class domain:
 
     " methods"
     cdef:
-        readonly void init_gaussian(self,double, double)
+        readonly void init_gaussian(self,double sigma, double significancy)
         bint check_bounds(self, double*,double*)
         readonly double probe_pheromone(self,point*)
         readonly void add_pheromone(self,point *p, double *Q)
+        readonly void pyvaporate(self)
+        readonly void cvaporate(self)
+        readonly void set_target_pheromone(self,double target)
