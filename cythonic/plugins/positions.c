@@ -783,6 +783,7 @@ static const char *__pyx_f[] = {
 /*--- Type declarations ---*/
 struct __pyx_t_8cythonic_7plugins_9positions_point;
 struct __pyx_t_8cythonic_7plugins_9positions_index;
+struct __pyx_t_8cythonic_7plugins_9positions_ant_state;
 struct __pyx_t_8cythonic_7plugins_9positions_map_range;
 
 /* "cythonic/plugins/positions.pxd":1
@@ -807,7 +808,20 @@ struct __pyx_t_8cythonic_7plugins_9positions_index {
   unsigned long y;
 };
 
-/* "cythonic/plugins/positions.pxd":21
+/* "cythonic/plugins/positions.pxd":9
+ *     unsigned long y
+ * 
+ * cdef struct ant_state:             # <<<<<<<<<<<<<<
+ *     double x
+ *     double y
+ */
+struct __pyx_t_8cythonic_7plugins_9positions_ant_state {
+  double x;
+  double y;
+  double theta;
+};
+
+/* "cythonic/plugins/positions.pxd":26
  * #         readonly unsigned long cy(self)
  * 
  * cdef struct map_range:             # <<<<<<<<<<<<<<

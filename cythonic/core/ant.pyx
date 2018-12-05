@@ -1,4 +1,4 @@
-from cythonic.plugins.positions cimport point
+from cythonic.plugins.positions cimport point, ant_state
 from cythonic.plugins.functions cimport transform
 from cythonic.plugins.sens_functions cimport lin
 from cythonic.plugins.drop_functions cimport exp_decay
@@ -51,7 +51,7 @@ cdef class Ant:
             self.q_observed[0] = lin(&Q[0])
             self.q_observed[1] = lin(&Q[1])
 
-    cdef double return_drop_quantity(self):
+    cdef double return_drop_quantity(self, double *dt):
         """ return the pheromone to be dropped on the map,
             possibly based on internal timer self.time """
         cdef double Q=0 # drop quantity
@@ -60,10 +60,10 @@ cdef class Ant:
         elif self.drop_fun == 'exp_decay':
             Q = exp_decay(&self._drop_quantity, &self.time,&self.drop_beta)
         if self.foodbound:
-            return Q
+            return Q*dt[0]
         else:
             " possibly drop more pheromone when food is found "
-            return self.return_factor*Q
+            return self.return_factor*Q*dt[0]
 
     cdef public void rotate(self, double * dt):
         " rotate the ant "
@@ -120,6 +120,10 @@ cdef class Ant:
         " call when initializing the ant, set the position "
         self._pos = point(xy[0], xy[1])
         self.set_sensors()
+
+    cdef void init_state(self,ant_state * x):
+        self._pos = point(x[0].x, x[0].y)
+        self._azimuth = x[0].theta
 
 
     cdef void increase_azimuth(self, double * d_teta):

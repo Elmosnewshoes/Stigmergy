@@ -1,4 +1,4 @@
-from cythonic.plugins.positions cimport point
+from cythonic.plugins.positions cimport point, ant_state
 from cythonic.plugins.rng cimport RNG
 
 #defining NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
@@ -33,9 +33,10 @@ cdef class Ant:
     cpdef public void gradient_step(self,double dt, str observe_fun, double[:] Q)
 
     " C-only methods "
+    cdef readonly void init_state(self,ant_state * x)
     cdef readonly void step(self,double * dt)
     cdef readonly void init_positions(self, double[:])
-    cdef public double return_drop_quantity(self)
+    cdef public double return_drop_quantity(self, double *dt)
     cdef void increase_azimuth(self, double *)
     cdef public bint correct_bounds(self)
     cdef void set_sensors(self)

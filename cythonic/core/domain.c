@@ -1148,6 +1148,7 @@ struct __pyx_memoryview_obj;
 struct __pyx_memoryviewslice_obj;
 struct __pyx_t_8cythonic_7plugins_9positions_point;
 struct __pyx_t_8cythonic_7plugins_9positions_index;
+struct __pyx_t_8cythonic_7plugins_9positions_ant_state;
 struct __pyx_t_8cythonic_7plugins_9positions_map_range;
 
 /* "cythonic/plugins/positions.pxd":1
@@ -1172,7 +1173,20 @@ struct __pyx_t_8cythonic_7plugins_9positions_index {
   unsigned long y;
 };
 
-/* "cythonic/plugins/positions.pxd":21
+/* "cythonic/plugins/positions.pxd":9
+ *     unsigned long y
+ * 
+ * cdef struct ant_state:             # <<<<<<<<<<<<<<
+ *     double x
+ *     double y
+ */
+struct __pyx_t_8cythonic_7plugins_9positions_ant_state {
+  double x;
+  double y;
+  double theta;
+};
+
+/* "cythonic/plugins/positions.pxd":26
  * #         readonly unsigned long cy(self)
  * 
  * cdef struct map_range:             # <<<<<<<<<<<<<<
@@ -1239,9 +1253,9 @@ struct __pyx_obj_8cythonic_4core_3map_Map {
 };
 
 
-/* "cythonic/core/map.pxd":15
- *     cdef readonly map_range span(self,unsigned long *, unsigned long *,double*)
+/* "cythonic/core/map.pxd":16
  *     cdef readonly double sum(self)
+ *     cdef readonly double max(self)
  * cdef class MeshMap(Map):             # <<<<<<<<<<<<<<
  *     cdef double i
  * cdef class GaussMap(Map):
@@ -1252,7 +1266,7 @@ struct __pyx_obj_8cythonic_4core_3map_MeshMap {
 };
 
 
-/* "cythonic/core/map.pxd":17
+/* "cythonic/core/map.pxd":18
  * cdef class MeshMap(Map):
  *     cdef double i
  * cdef class GaussMap(Map):             # <<<<<<<<<<<<<<
@@ -1380,13 +1394,14 @@ struct __pyx_vtabstruct_8cythonic_4core_3map_Map {
   double (*to_mm)(struct __pyx_obj_8cythonic_4core_3map_Map *, unsigned long *);
   struct __pyx_t_8cythonic_7plugins_9positions_map_range (*span)(struct __pyx_obj_8cythonic_4core_3map_Map *, unsigned long *, unsigned long *, double *);
   double (*sum)(struct __pyx_obj_8cythonic_4core_3map_Map *);
+  double (*max)(struct __pyx_obj_8cythonic_4core_3map_Map *);
 };
 static struct __pyx_vtabstruct_8cythonic_4core_3map_Map *__pyx_vtabptr_8cythonic_4core_3map_Map;
 
 
-/* "cythonic/core/map.pxd":15
- *     cdef readonly map_range span(self,unsigned long *, unsigned long *,double*)
+/* "cythonic/core/map.pxd":16
  *     cdef readonly double sum(self)
+ *     cdef readonly double max(self)
  * cdef class MeshMap(Map):             # <<<<<<<<<<<<<<
  *     cdef double i
  * cdef class GaussMap(Map):
@@ -1398,7 +1413,7 @@ struct __pyx_vtabstruct_8cythonic_4core_3map_MeshMap {
 static struct __pyx_vtabstruct_8cythonic_4core_3map_MeshMap *__pyx_vtabptr_8cythonic_4core_3map_MeshMap;
 
 
-/* "cythonic/core/map.pxd":17
+/* "cythonic/core/map.pxd":18
  * cdef class MeshMap(Map):
  *     cdef double i
  * cdef class GaussMap(Map):             # <<<<<<<<<<<<<<
@@ -21165,10 +21180,10 @@ static int __Pyx_modinit_type_import_code(void) {
   /*--- Type import code ---*/
   __pyx_ptype_8cythonic_4core_3map_Map = __Pyx_ImportType("cythonic.core.map", "Map", sizeof(struct __pyx_obj_8cythonic_4core_3map_Map), 1); if (unlikely(!__pyx_ptype_8cythonic_4core_3map_Map)) __PYX_ERR(4, 3, __pyx_L1_error)
   __pyx_vtabptr_8cythonic_4core_3map_Map = (struct __pyx_vtabstruct_8cythonic_4core_3map_Map*)__Pyx_GetVtable(__pyx_ptype_8cythonic_4core_3map_Map->tp_dict); if (unlikely(!__pyx_vtabptr_8cythonic_4core_3map_Map)) __PYX_ERR(4, 3, __pyx_L1_error)
-  __pyx_ptype_8cythonic_4core_3map_MeshMap = __Pyx_ImportType("cythonic.core.map", "MeshMap", sizeof(struct __pyx_obj_8cythonic_4core_3map_MeshMap), 1); if (unlikely(!__pyx_ptype_8cythonic_4core_3map_MeshMap)) __PYX_ERR(4, 15, __pyx_L1_error)
-  __pyx_vtabptr_8cythonic_4core_3map_MeshMap = (struct __pyx_vtabstruct_8cythonic_4core_3map_MeshMap*)__Pyx_GetVtable(__pyx_ptype_8cythonic_4core_3map_MeshMap->tp_dict); if (unlikely(!__pyx_vtabptr_8cythonic_4core_3map_MeshMap)) __PYX_ERR(4, 15, __pyx_L1_error)
-  __pyx_ptype_8cythonic_4core_3map_GaussMap = __Pyx_ImportType("cythonic.core.map", "GaussMap", sizeof(struct __pyx_obj_8cythonic_4core_3map_GaussMap), 1); if (unlikely(!__pyx_ptype_8cythonic_4core_3map_GaussMap)) __PYX_ERR(4, 17, __pyx_L1_error)
-  __pyx_vtabptr_8cythonic_4core_3map_GaussMap = (struct __pyx_vtabstruct_8cythonic_4core_3map_GaussMap*)__Pyx_GetVtable(__pyx_ptype_8cythonic_4core_3map_GaussMap->tp_dict); if (unlikely(!__pyx_vtabptr_8cythonic_4core_3map_GaussMap)) __PYX_ERR(4, 17, __pyx_L1_error)
+  __pyx_ptype_8cythonic_4core_3map_MeshMap = __Pyx_ImportType("cythonic.core.map", "MeshMap", sizeof(struct __pyx_obj_8cythonic_4core_3map_MeshMap), 1); if (unlikely(!__pyx_ptype_8cythonic_4core_3map_MeshMap)) __PYX_ERR(4, 16, __pyx_L1_error)
+  __pyx_vtabptr_8cythonic_4core_3map_MeshMap = (struct __pyx_vtabstruct_8cythonic_4core_3map_MeshMap*)__Pyx_GetVtable(__pyx_ptype_8cythonic_4core_3map_MeshMap->tp_dict); if (unlikely(!__pyx_vtabptr_8cythonic_4core_3map_MeshMap)) __PYX_ERR(4, 16, __pyx_L1_error)
+  __pyx_ptype_8cythonic_4core_3map_GaussMap = __Pyx_ImportType("cythonic.core.map", "GaussMap", sizeof(struct __pyx_obj_8cythonic_4core_3map_GaussMap), 1); if (unlikely(!__pyx_ptype_8cythonic_4core_3map_GaussMap)) __PYX_ERR(4, 18, __pyx_L1_error)
+  __pyx_vtabptr_8cythonic_4core_3map_GaussMap = (struct __pyx_vtabstruct_8cythonic_4core_3map_GaussMap*)__Pyx_GetVtable(__pyx_ptype_8cythonic_4core_3map_GaussMap->tp_dict); if (unlikely(!__pyx_vtabptr_8cythonic_4core_3map_GaussMap)) __PYX_ERR(4, 18, __pyx_L1_error)
   __pyx_ptype_7cpython_4type_type = __Pyx_ImportType(__Pyx_BUILTIN_MODULE_NAME, "type", 
   #if defined(PYPY_VERSION_NUM) && PYPY_VERSION_NUM < 0x050B0000
   sizeof(PyTypeObject),

@@ -1145,6 +1145,7 @@ struct __pyx_memoryview_obj;
 struct __pyx_memoryviewslice_obj;
 struct __pyx_t_8cythonic_7plugins_9positions_point;
 struct __pyx_t_8cythonic_7plugins_9positions_index;
+struct __pyx_t_8cythonic_7plugins_9positions_ant_state;
 struct __pyx_t_8cythonic_7plugins_9positions_map_range;
 
 /* "cythonic/plugins/positions.pxd":1
@@ -1169,7 +1170,20 @@ struct __pyx_t_8cythonic_7plugins_9positions_index {
   unsigned long y;
 };
 
-/* "cythonic/plugins/positions.pxd":21
+/* "cythonic/plugins/positions.pxd":9
+ *     unsigned long y
+ * 
+ * cdef struct ant_state:             # <<<<<<<<<<<<<<
+ *     double x
+ *     double y
+ */
+struct __pyx_t_8cythonic_7plugins_9positions_ant_state {
+  double x;
+  double y;
+  double theta;
+};
+
+/* "cythonic/plugins/positions.pxd":26
  * #         readonly unsigned long cy(self)
  * 
  * cdef struct map_range:             # <<<<<<<<<<<<<<
@@ -1376,9 +1390,10 @@ static struct __pyx_vtabstruct_8cythonic_7plugins_3rng_RNG *__pyx_vtabptr_8cytho
 
 struct __pyx_vtabstruct_8cythonic_4core_3ant_Ant {
   void (*gradient_step)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, double, PyObject *, __Pyx_memviewslice, int __pyx_skip_dispatch);
+  void (*init_state)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, struct __pyx_t_8cythonic_7plugins_9positions_ant_state *);
   void (*step)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, double *);
   void (*init_positions)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, __Pyx_memviewslice);
-  double (*return_drop_quantity)(struct __pyx_obj_8cythonic_4core_3ant_Ant *);
+  double (*return_drop_quantity)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, double *);
   void (*increase_azimuth)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, double *);
   int (*correct_bounds)(struct __pyx_obj_8cythonic_4core_3ant_Ant *);
   void (*set_sensors)(struct __pyx_obj_8cythonic_4core_3ant_Ant *);

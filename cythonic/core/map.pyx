@@ -48,10 +48,23 @@ cdef class Map:
         cdef unsigned int i,j,I,J
         I = self.map.shape[0]
         J = self.map.shape[1]
-        for i in prange(I, nogil=True,schedule='static', chunksize=5):
+        for i in prange(I, nogil=True,schedule='static', chunksize=10):
             for j in range(J):
                 s+= self.map[i,j]
         return s
+
+    cdef readonly double max(self):
+        " manually find max of a map using multiple threads (faster than NumPy)"
+        " assuming strictly nonnegative entries "
+        cdef double m = 0
+        cdef unsigned int i,j,I,J
+        I = self.map.shape[0]
+        J = self.map.shape[1]
+        for i in range(I):
+            for j in range(J):
+                if self.map[i,j]> m:
+                    m=self.map[i,j]
+        return m
 
     def __repr__(self):
         " print useful information "

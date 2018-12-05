@@ -5,9 +5,17 @@ from cythonic.plugins.positions cimport point
 from libc.math cimport M_PI as PI
 cimport cython
 
+@cython.cdivision(True)
+@cython.wraparound(False)
+@cython.boundscheck(False)
+@cython.nonecheck(False)
 cdef double deg(double *rad):
     return rad[0]*180/PI
 
+@cython.cdivision(True)
+@cython.wraparound(False)
+@cython.boundscheck(False)
+@cython.nonecheck(False)
 cdef double rad(double * deg):
     return deg[0]*PI/180
 

@@ -6,6 +6,11 @@ cdef struct index:
     unsigned long x
     unsigned long y
 
+cdef struct ant_state:
+    double x
+    double y
+    double theta
+
 # cdef class point:
 #     cdef public double[2] xy
 #     cdef readonly double cx(self)

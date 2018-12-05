@@ -1146,6 +1146,7 @@ struct __pyx_memoryview_obj;
 struct __pyx_memoryviewslice_obj;
 struct __pyx_t_8cythonic_7plugins_9positions_point;
 struct __pyx_t_8cythonic_7plugins_9positions_index;
+struct __pyx_t_8cythonic_7plugins_9positions_ant_state;
 struct __pyx_t_8cythonic_7plugins_9positions_map_range;
 
 /* "cythonic/plugins/positions.pxd":1
@@ -1170,7 +1171,20 @@ struct __pyx_t_8cythonic_7plugins_9positions_index {
   unsigned long y;
 };
 
-/* "cythonic/plugins/positions.pxd":21
+/* "cythonic/plugins/positions.pxd":9
+ *     unsigned long y
+ * 
+ * cdef struct ant_state:             # <<<<<<<<<<<<<<
+ *     double x
+ *     double y
+ */
+struct __pyx_t_8cythonic_7plugins_9positions_ant_state {
+  double x;
+  double y;
+  double theta;
+};
+
+/* "cythonic/plugins/positions.pxd":26
  * #         readonly unsigned long cy(self)
  * 
  * cdef struct map_range:             # <<<<<<<<<<<<<<
@@ -1365,9 +1379,10 @@ static struct __pyx_vtabstruct_8cythonic_7plugins_3rng_RNG *__pyx_vtabptr_8cytho
 
 struct __pyx_vtabstruct_8cythonic_4core_3ant_Ant {
   void (*gradient_step)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, double, PyObject *, __Pyx_memviewslice, int __pyx_skip_dispatch);
+  void (*init_state)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, struct __pyx_t_8cythonic_7plugins_9positions_ant_state *);
   void (*step)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, double *);
   void (*init_positions)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, __Pyx_memviewslice);
-  double (*return_drop_quantity)(struct __pyx_obj_8cythonic_4core_3ant_Ant *);
+  double (*return_drop_quantity)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, double *);
   void (*increase_azimuth)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, double *);
   int (*correct_bounds)(struct __pyx_obj_8cythonic_4core_3ant_Ant *);
   void (*set_sensors)(struct __pyx_obj_8cythonic_4core_3ant_Ant *);
@@ -2116,13 +2131,14 @@ static int __Pyx_ImportFunction(PyObject *module, const char *funcname, void (**
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 static void __pyx_f_8cythonic_4core_3ant_3Ant_observe(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self, PyObject *__pyx_v_observe_fun, __Pyx_memviewslice __pyx_v_Q); /* proto*/
-double __pyx_f_8cythonic_4core_3ant_3Ant_return_drop_quantity(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self); /* proto*/
+double __pyx_f_8cythonic_4core_3ant_3Ant_return_drop_quantity(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self, double *__pyx_v_dt); /* proto*/
 static void __pyx_f_8cythonic_4core_3ant_3Ant_rotate(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self, double *__pyx_v_dt); /* proto*/
 int __pyx_f_8cythonic_4core_3ant_3Ant_correct_bounds(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self); /* proto*/
 void __pyx_f_8cythonic_4core_3ant_3Ant_gradient_step(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self, double __pyx_v_dt, PyObject *__pyx_v_observe_fun, __Pyx_memviewslice __pyx_v_Q, int __pyx_skip_dispatch); /* proto*/
 void __pyx_f_8cythonic_4core_3ant_3Ant_step(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self, double *__pyx_v_dt); /* proto*/
 static void __pyx_f_8cythonic_4core_3ant_3Ant_set_sensors(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self); /* proto*/
 void __pyx_f_8cythonic_4core_3ant_3Ant_init_positions(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self, __Pyx_memviewslice __pyx_v_xy); /* proto*/
+void __pyx_f_8cythonic_4core_3ant_3Ant_init_state(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self, struct __pyx_t_8cythonic_7plugins_9positions_ant_state *__pyx_v_x); /* proto*/
 static void __pyx_f_8cythonic_4core_3ant_3Ant_increase_azimuth(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self, double *__pyx_v_d_teta); /* proto*/
 static PyObject *__pyx_array_get_memview(struct __pyx_array_obj *__pyx_v_self); /* proto*/
 static char *__pyx_memoryview_get_item_pointer(struct __pyx_memoryview_obj *__pyx_v_self, PyObject *__pyx_v_index); /* proto*/
@@ -3018,7 +3034,7 @@ static void __pyx_f_8cythonic_4core_3ant_3Ant_observe(struct __pyx_obj_8cythonic
  *             self.q_observed[0] = lin(&Q[0])
  *             self.q_observed[1] = lin(&Q[1])             # <<<<<<<<<<<<<<
  * 
- *     cdef double return_drop_quantity(self):
+ *     cdef double return_drop_quantity(self, double *dt):
  */
     __pyx_t_4 = 1;
     (__pyx_v_self->q_observed[1]) = __pyx_f_8cythonic_7plugins_14sens_functions_lin((&(*((double *) ( /* dim=0 */ (__pyx_v_Q.data + __pyx_t_4 * __pyx_v_Q.strides[0]) )))));
@@ -3051,12 +3067,12 @@ static void __pyx_f_8cythonic_4core_3ant_3Ant_observe(struct __pyx_obj_8cythonic
 /* "cythonic/core/ant.pyx":54
  *             self.q_observed[1] = lin(&Q[1])
  * 
- *     cdef double return_drop_quantity(self):             # <<<<<<<<<<<<<<
+ *     cdef double return_drop_quantity(self, double *dt):             # <<<<<<<<<<<<<<
  *         """ return the pheromone to be dropped on the map,
  *             possibly based on internal timer self.time """
  */
 
-double __pyx_f_8cythonic_4core_3ant_3Ant_return_drop_quantity(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self) {
+double __pyx_f_8cythonic_4core_3ant_3Ant_return_drop_quantity(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self, double *__pyx_v_dt) {
   double __pyx_v_Q;
   double __pyx_r;
   __Pyx_RefNannyDeclarations
@@ -3121,7 +3137,7 @@ double __pyx_f_8cythonic_4core_3ant_3Ant_return_drop_quantity(struct __pyx_obj_8
  *         elif self.drop_fun == 'exp_decay':
  *             Q = exp_decay(&self._drop_quantity, &self.time,&self.drop_beta)             # <<<<<<<<<<<<<<
  *         if self.foodbound:
- *             return Q
+ *             return Q*dt[0]
  */
     __pyx_v_Q = __pyx_f_8cythonic_7plugins_14drop_functions_exp_decay((&__pyx_v_self->_drop_quantity), (&__pyx_v_self->time), (&__pyx_v_self->drop_beta));
 
@@ -3139,7 +3155,7 @@ double __pyx_f_8cythonic_4core_3ant_3Ant_return_drop_quantity(struct __pyx_obj_8
  *         elif self.drop_fun == 'exp_decay':
  *             Q = exp_decay(&self._drop_quantity, &self.time,&self.drop_beta)
  *         if self.foodbound:             # <<<<<<<<<<<<<<
- *             return Q
+ *             return Q*dt[0]
  *         else:
  */
   __pyx_t_1 = (__pyx_v_self->foodbound != 0);
@@ -3148,27 +3164,27 @@ double __pyx_f_8cythonic_4core_3ant_3Ant_return_drop_quantity(struct __pyx_obj_8
     /* "cythonic/core/ant.pyx":63
  *             Q = exp_decay(&self._drop_quantity, &self.time,&self.drop_beta)
  *         if self.foodbound:
- *             return Q             # <<<<<<<<<<<<<<
+ *             return Q*dt[0]             # <<<<<<<<<<<<<<
  *         else:
  *             " possibly drop more pheromone when food is found "
  */
-    __pyx_r = __pyx_v_Q;
+    __pyx_r = (__pyx_v_Q * (__pyx_v_dt[0]));
     goto __pyx_L0;
 
     /* "cythonic/core/ant.pyx":62
  *         elif self.drop_fun == 'exp_decay':
  *             Q = exp_decay(&self._drop_quantity, &self.time,&self.drop_beta)
  *         if self.foodbound:             # <<<<<<<<<<<<<<
- *             return Q
+ *             return Q*dt[0]
  *         else:
  */
   }
 
   /* "cythonic/core/ant.pyx":65
- *             return Q
+ *             return Q*dt[0]
  *         else:
  *             " possibly drop more pheromone when food is found "             # <<<<<<<<<<<<<<
- *             return self.return_factor*Q
+ *             return self.return_factor*Q*dt[0]
  * 
  */
   /*else*/ {
@@ -3176,18 +3192,18 @@ double __pyx_f_8cythonic_4core_3ant_3Ant_return_drop_quantity(struct __pyx_obj_8
     /* "cythonic/core/ant.pyx":66
  *         else:
  *             " possibly drop more pheromone when food is found "
- *             return self.return_factor*Q             # <<<<<<<<<<<<<<
+ *             return self.return_factor*Q*dt[0]             # <<<<<<<<<<<<<<
  * 
  *     cdef public void rotate(self, double * dt):
  */
-    __pyx_r = (__pyx_v_self->return_factor * __pyx_v_Q);
+    __pyx_r = ((__pyx_v_self->return_factor * __pyx_v_Q) * (__pyx_v_dt[0]));
     goto __pyx_L0;
   }
 
   /* "cythonic/core/ant.pyx":54
  *             self.q_observed[1] = lin(&Q[1])
  * 
- *     cdef double return_drop_quantity(self):             # <<<<<<<<<<<<<<
+ *     cdef double return_drop_quantity(self, double *dt):             # <<<<<<<<<<<<<<
  *         """ return the pheromone to be dropped on the map,
  *             possibly based on internal timer self.time """
  */
@@ -3202,7 +3218,7 @@ double __pyx_f_8cythonic_4core_3ant_3Ant_return_drop_quantity(struct __pyx_obj_8
 }
 
 /* "cythonic/core/ant.pyx":68
- *             return self.return_factor*Q
+ *             return self.return_factor*Q*dt[0]
  * 
  *     cdef public void rotate(self, double * dt):             # <<<<<<<<<<<<<<
  *         " rotate the ant "
@@ -3233,7 +3249,7 @@ static void __pyx_f_8cythonic_4core_3ant_3Ant_rotate(struct __pyx_obj_8cythonic_
   ((struct __pyx_vtabstruct_8cythonic_4core_3ant_Ant *)__pyx_v_self->__pyx_vtab)->increase_azimuth(__pyx_v_self, (&__pyx_v_d_teta));
 
   /* "cythonic/core/ant.pyx":68
- *             return self.return_factor*Q
+ *             return self.return_factor*Q*dt[0]
  * 
  *     cdef public void rotate(self, double * dt):             # <<<<<<<<<<<<<<
  *         " rotate the ant "
@@ -3811,7 +3827,7 @@ void __pyx_f_8cythonic_4core_3ant_3Ant_init_positions(struct __pyx_obj_8cythonic
  *         self._pos = point(xy[0], xy[1])
  *         self.set_sensors()             # <<<<<<<<<<<<<<
  * 
- * 
+ *     cdef void init_state(self,ant_state * x):
  */
   ((struct __pyx_vtabstruct_8cythonic_4core_3ant_Ant *)__pyx_v_self->__pyx_vtab)->set_sensors(__pyx_v_self);
 
@@ -3827,7 +3843,54 @@ void __pyx_f_8cythonic_4core_3ant_3Ant_init_positions(struct __pyx_obj_8cythonic
   __Pyx_RefNannyFinishContext();
 }
 
-/* "cythonic/core/ant.pyx":125
+/* "cythonic/core/ant.pyx":124
+ *         self.set_sensors()
+ * 
+ *     cdef void init_state(self,ant_state * x):             # <<<<<<<<<<<<<<
+ *         self._pos = point(x[0].x, x[0].y)
+ *         self._azimuth = x[0].theta
+ */
+
+void __pyx_f_8cythonic_4core_3ant_3Ant_init_state(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self, struct __pyx_t_8cythonic_7plugins_9positions_ant_state *__pyx_v_x) {
+  __Pyx_RefNannyDeclarations
+  struct __pyx_t_8cythonic_7plugins_9positions_point __pyx_t_1;
+  double __pyx_t_2;
+  __Pyx_RefNannySetupContext("init_state", 0);
+
+  /* "cythonic/core/ant.pyx":125
+ * 
+ *     cdef void init_state(self,ant_state * x):
+ *         self._pos = point(x[0].x, x[0].y)             # <<<<<<<<<<<<<<
+ *         self._azimuth = x[0].theta
+ * 
+ */
+  __pyx_t_1.x = (__pyx_v_x[0]).x;
+  __pyx_t_1.y = (__pyx_v_x[0]).y;
+  __pyx_v_self->_pos = __pyx_t_1;
+
+  /* "cythonic/core/ant.pyx":126
+ *     cdef void init_state(self,ant_state * x):
+ *         self._pos = point(x[0].x, x[0].y)
+ *         self._azimuth = x[0].theta             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __pyx_t_2 = (__pyx_v_x[0]).theta;
+  __pyx_v_self->_azimuth = __pyx_t_2;
+
+  /* "cythonic/core/ant.pyx":124
+ *         self.set_sensors()
+ * 
+ *     cdef void init_state(self,ant_state * x):             # <<<<<<<<<<<<<<
+ *         self._pos = point(x[0].x, x[0].y)
+ *         self._azimuth = x[0].theta
+ */
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+}
+
+/* "cythonic/core/ant.pyx":129
  * 
  * 
  *     cdef void increase_azimuth(self, double * d_teta):             # <<<<<<<<<<<<<<
@@ -3840,7 +3903,7 @@ static void __pyx_f_8cythonic_4core_3ant_3Ant_increase_azimuth(struct __pyx_obj_
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("increase_azimuth", 0);
 
-  /* "cythonic/core/ant.pyx":127
+  /* "cythonic/core/ant.pyx":131
  *     cdef void increase_azimuth(self, double * d_teta):
  *         " C-implementation of property azimuth.setter "
  *         if d_teta[0]+ self._azimuth >= 360:             # <<<<<<<<<<<<<<
@@ -3850,7 +3913,7 @@ static void __pyx_f_8cythonic_4core_3ant_3Ant_increase_azimuth(struct __pyx_obj_
   __pyx_t_1 = ((((__pyx_v_d_teta[0]) + __pyx_v_self->_azimuth) >= 360.0) != 0);
   if (__pyx_t_1) {
 
-    /* "cythonic/core/ant.pyx":128
+    /* "cythonic/core/ant.pyx":132
  *         " C-implementation of property azimuth.setter "
  *         if d_teta[0]+ self._azimuth >= 360:
  *             self._azimuth += d_teta[0]-360.             # <<<<<<<<<<<<<<
@@ -3859,7 +3922,7 @@ static void __pyx_f_8cythonic_4core_3ant_3Ant_increase_azimuth(struct __pyx_obj_
  */
     __pyx_v_self->_azimuth = (__pyx_v_self->_azimuth + ((__pyx_v_d_teta[0]) - 360.));
 
-    /* "cythonic/core/ant.pyx":127
+    /* "cythonic/core/ant.pyx":131
  *     cdef void increase_azimuth(self, double * d_teta):
  *         " C-implementation of property azimuth.setter "
  *         if d_teta[0]+ self._azimuth >= 360:             # <<<<<<<<<<<<<<
@@ -3869,7 +3932,7 @@ static void __pyx_f_8cythonic_4core_3ant_3Ant_increase_azimuth(struct __pyx_obj_
     goto __pyx_L3;
   }
 
-  /* "cythonic/core/ant.pyx":129
+  /* "cythonic/core/ant.pyx":133
  *         if d_teta[0]+ self._azimuth >= 360:
  *             self._azimuth += d_teta[0]-360.
  *         elif d_teta[0] + self._azimuth < 0:             # <<<<<<<<<<<<<<
@@ -3879,7 +3942,7 @@ static void __pyx_f_8cythonic_4core_3ant_3Ant_increase_azimuth(struct __pyx_obj_
   __pyx_t_1 = ((((__pyx_v_d_teta[0]) + __pyx_v_self->_azimuth) < 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "cythonic/core/ant.pyx":130
+    /* "cythonic/core/ant.pyx":134
  *             self._azimuth += d_teta[0]-360.
  *         elif d_teta[0] + self._azimuth < 0:
  *             self._azimuth += d_teta[0] + 360.             # <<<<<<<<<<<<<<
@@ -3888,7 +3951,7 @@ static void __pyx_f_8cythonic_4core_3ant_3Ant_increase_azimuth(struct __pyx_obj_
  */
     __pyx_v_self->_azimuth = (__pyx_v_self->_azimuth + ((__pyx_v_d_teta[0]) + 360.));
 
-    /* "cythonic/core/ant.pyx":129
+    /* "cythonic/core/ant.pyx":133
  *         if d_teta[0]+ self._azimuth >= 360:
  *             self._azimuth += d_teta[0]-360.
  *         elif d_teta[0] + self._azimuth < 0:             # <<<<<<<<<<<<<<
@@ -3898,7 +3961,7 @@ static void __pyx_f_8cythonic_4core_3ant_3Ant_increase_azimuth(struct __pyx_obj_
     goto __pyx_L3;
   }
 
-  /* "cythonic/core/ant.pyx":132
+  /* "cythonic/core/ant.pyx":136
  *             self._azimuth += d_teta[0] + 360.
  *         else:
  *             self._azimuth += d_teta[0]             # <<<<<<<<<<<<<<
@@ -3910,7 +3973,7 @@ static void __pyx_f_8cythonic_4core_3ant_3Ant_increase_azimuth(struct __pyx_obj_
   }
   __pyx_L3:;
 
-  /* "cythonic/core/ant.pyx":125
+  /* "cythonic/core/ant.pyx":129
  * 
  * 
  *     cdef void increase_azimuth(self, double * d_teta):             # <<<<<<<<<<<<<<
@@ -3922,7 +3985,7 @@ static void __pyx_f_8cythonic_4core_3ant_3Ant_increase_azimuth(struct __pyx_obj_
   __Pyx_RefNannyFinishContext();
 }
 
-/* "cythonic/core/ant.pyx":136
+/* "cythonic/core/ant.pyx":140
  *     " some legacy properties "
  *     @property
  *     def pos(self):             # <<<<<<<<<<<<<<
@@ -3951,7 +4014,7 @@ static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_3pos___get__(struct __pyx_ob
   PyObject *__pyx_t_3 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "cythonic/core/ant.pyx":137
+  /* "cythonic/core/ant.pyx":141
  *     @property
  *     def pos(self):
  *         return (self._pos.x, self._pos.y)             # <<<<<<<<<<<<<<
@@ -3959,11 +4022,11 @@ static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_3pos___get__(struct __pyx_ob
  *     def left(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_pos.x); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 137, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_pos.x); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 141, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->_pos.y); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 137, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->_pos.y); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 141, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 137, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 141, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
@@ -3975,7 +4038,7 @@ static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_3pos___get__(struct __pyx_ob
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "cythonic/core/ant.pyx":136
+  /* "cythonic/core/ant.pyx":140
  *     " some legacy properties "
  *     @property
  *     def pos(self):             # <<<<<<<<<<<<<<
@@ -3996,7 +4059,7 @@ static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_3pos___get__(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "cythonic/core/ant.pyx":139
+/* "cythonic/core/ant.pyx":143
  *         return (self._pos.x, self._pos.y)
  *     @property
  *     def left(self):             # <<<<<<<<<<<<<<
@@ -4025,7 +4088,7 @@ static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_4left___get__(struct __pyx_o
   PyObject *__pyx_t_3 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "cythonic/core/ant.pyx":140
+  /* "cythonic/core/ant.pyx":144
  *     @property
  *     def left(self):
  *         return (self._left.x, self._left.y)             # <<<<<<<<<<<<<<
@@ -4033,11 +4096,11 @@ static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_4left___get__(struct __pyx_o
  *     def right(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_left.x); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 140, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_left.x); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 144, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->_left.y); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 140, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->_left.y); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 144, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 140, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 144, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
@@ -4049,7 +4112,7 @@ static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_4left___get__(struct __pyx_o
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "cythonic/core/ant.pyx":139
+  /* "cythonic/core/ant.pyx":143
  *         return (self._pos.x, self._pos.y)
  *     @property
  *     def left(self):             # <<<<<<<<<<<<<<
@@ -4070,7 +4133,7 @@ static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_4left___get__(struct __pyx_o
   return __pyx_r;
 }
 
-/* "cythonic/core/ant.pyx":142
+/* "cythonic/core/ant.pyx":146
  *         return (self._left.x, self._left.y)
  *     @property
  *     def right(self):             # <<<<<<<<<<<<<<
@@ -4099,7 +4162,7 @@ static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_5right___get__(struct __pyx_
   PyObject *__pyx_t_3 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "cythonic/core/ant.pyx":143
+  /* "cythonic/core/ant.pyx":147
  *     @property
  *     def right(self):
  *         return (self._right.x, self._right.y)             # <<<<<<<<<<<<<<
@@ -4107,11 +4170,11 @@ static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_5right___get__(struct __pyx_
  *     def azimuth(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_right.x); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 143, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_right.x); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 147, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->_right.y); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 143, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->_right.y); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 147, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 143, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 147, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
@@ -4123,7 +4186,7 @@ static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_5right___get__(struct __pyx_
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "cythonic/core/ant.pyx":142
+  /* "cythonic/core/ant.pyx":146
  *         return (self._left.x, self._left.y)
  *     @property
  *     def right(self):             # <<<<<<<<<<<<<<
@@ -4144,7 +4207,7 @@ static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_5right___get__(struct __pyx_
   return __pyx_r;
 }
 
-/* "cythonic/core/ant.pyx":145
+/* "cythonic/core/ant.pyx":149
  *         return (self._right.x, self._right.y)
  *     @property
  *     def azimuth(self):             # <<<<<<<<<<<<<<
@@ -4171,7 +4234,7 @@ static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_7azimuth___get__(struct __py
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "cythonic/core/ant.pyx":146
+  /* "cythonic/core/ant.pyx":150
  *     @property
  *     def azimuth(self):
  *         return self._azimuth             # <<<<<<<<<<<<<<
@@ -4179,13 +4242,13 @@ static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_7azimuth___get__(struct __py
  *     def azimuth(self,double x):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_azimuth); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 146, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_azimuth); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 150, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "cythonic/core/ant.pyx":145
+  /* "cythonic/core/ant.pyx":149
  *         return (self._right.x, self._right.y)
  *     @property
  *     def azimuth(self):             # <<<<<<<<<<<<<<
@@ -4204,7 +4267,7 @@ static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_7azimuth___get__(struct __py
   return __pyx_r;
 }
 
-/* "cythonic/core/ant.pyx":148
+/* "cythonic/core/ant.pyx":152
  *         return self._azimuth
  *     @azimuth.setter
  *     def azimuth(self,double x):             # <<<<<<<<<<<<<<
@@ -4220,7 +4283,7 @@ static int __pyx_pw_8cythonic_4core_3ant_3Ant_7azimuth_3__set__(PyObject *__pyx_
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
   assert(__pyx_arg_x); {
-    __pyx_v_x = __pyx_PyFloat_AsDouble(__pyx_arg_x); if (unlikely((__pyx_v_x == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 148, __pyx_L3_error)
+    __pyx_v_x = __pyx_PyFloat_AsDouble(__pyx_arg_x); if (unlikely((__pyx_v_x == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 152, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -4241,7 +4304,7 @@ static int __pyx_pf_8cythonic_4core_3ant_3Ant_7azimuth_2__set__(struct __pyx_obj
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "cythonic/core/ant.pyx":149
+  /* "cythonic/core/ant.pyx":153
  *     @azimuth.setter
  *     def azimuth(self,double x):
  *         if x >= 360.0:             # <<<<<<<<<<<<<<
@@ -4251,7 +4314,7 @@ static int __pyx_pf_8cythonic_4core_3ant_3Ant_7azimuth_2__set__(struct __pyx_obj
   __pyx_t_1 = ((__pyx_v_x >= 360.0) != 0);
   if (__pyx_t_1) {
 
-    /* "cythonic/core/ant.pyx":150
+    /* "cythonic/core/ant.pyx":154
  *     def azimuth(self,double x):
  *         if x >= 360.0:
  *             self._azimuth = x-360.0             # <<<<<<<<<<<<<<
@@ -4260,7 +4323,7 @@ static int __pyx_pf_8cythonic_4core_3ant_3Ant_7azimuth_2__set__(struct __pyx_obj
  */
     __pyx_v_self->_azimuth = (__pyx_v_x - 360.0);
 
-    /* "cythonic/core/ant.pyx":149
+    /* "cythonic/core/ant.pyx":153
  *     @azimuth.setter
  *     def azimuth(self,double x):
  *         if x >= 360.0:             # <<<<<<<<<<<<<<
@@ -4270,7 +4333,7 @@ static int __pyx_pf_8cythonic_4core_3ant_3Ant_7azimuth_2__set__(struct __pyx_obj
     goto __pyx_L3;
   }
 
-  /* "cythonic/core/ant.pyx":152
+  /* "cythonic/core/ant.pyx":156
  *             self._azimuth = x-360.0
  *         else:
  *             self._azimuth = x             # <<<<<<<<<<<<<<
@@ -4282,7 +4345,7 @@ static int __pyx_pf_8cythonic_4core_3ant_3Ant_7azimuth_2__set__(struct __pyx_obj
   }
   __pyx_L3:;
 
-  /* "cythonic/core/ant.pyx":148
+  /* "cythonic/core/ant.pyx":152
  *         return self._azimuth
  *     @azimuth.setter
  *     def azimuth(self,double x):             # <<<<<<<<<<<<<<
@@ -4296,7 +4359,7 @@ static int __pyx_pf_8cythonic_4core_3ant_3Ant_7azimuth_2__set__(struct __pyx_obj
   return __pyx_r;
 }
 
-/* "cythonic/core/ant.pyx":154
+/* "cythonic/core/ant.pyx":158
  *             self._azimuth = x
  * 
  *     def __enter__(self):             # <<<<<<<<<<<<<<
@@ -4323,7 +4386,7 @@ static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_4__enter__(struct __pyx_obj_
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__enter__", 0);
 
-  /* "cythonic/core/ant.pyx":156
+  /* "cythonic/core/ant.pyx":160
  *     def __enter__(self):
  *         """ return when class is casted in 'with Ant as ..:"""
  *         return self             # <<<<<<<<<<<<<<
@@ -4335,7 +4398,7 @@ static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_4__enter__(struct __pyx_obj_
   __pyx_r = ((PyObject *)__pyx_v_self);
   goto __pyx_L0;
 
-  /* "cythonic/core/ant.pyx":154
+  /* "cythonic/core/ant.pyx":158
  *             self._azimuth = x
  * 
  *     def __enter__(self):             # <<<<<<<<<<<<<<
@@ -4350,7 +4413,7 @@ static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_4__enter__(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "cythonic/core/ant.pyx":157
+/* "cythonic/core/ant.pyx":161
  *         """ return when class is casted in 'with Ant as ..:"""
  *         return self
  *     def __exit__(self, type, value, traceback):             # <<<<<<<<<<<<<<
@@ -4393,17 +4456,17 @@ static PyObject *__pyx_pw_8cythonic_4core_3ant_3Ant_7__exit__(PyObject *__pyx_v_
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_value)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__exit__", 1, 3, 3, 1); __PYX_ERR(1, 157, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__exit__", 1, 3, 3, 1); __PYX_ERR(1, 161, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_traceback)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__exit__", 1, 3, 3, 2); __PYX_ERR(1, 157, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__exit__", 1, 3, 3, 2); __PYX_ERR(1, 161, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__exit__") < 0)) __PYX_ERR(1, 157, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__exit__") < 0)) __PYX_ERR(1, 161, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -4418,7 +4481,7 @@ static PyObject *__pyx_pw_8cythonic_4core_3ant_3Ant_7__exit__(PyObject *__pyx_v_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__exit__", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 157, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__exit__", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 161, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("cythonic.core.ant.Ant.__exit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -22471,9 +22534,10 @@ static int __Pyx_modinit_type_init_code(void) {
   /*--- Type init code ---*/
   __pyx_vtabptr_8cythonic_4core_3ant_Ant = &__pyx_vtable_8cythonic_4core_3ant_Ant;
   __pyx_vtable_8cythonic_4core_3ant_Ant.gradient_step = (void (*)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, double, PyObject *, __Pyx_memviewslice, int __pyx_skip_dispatch))__pyx_f_8cythonic_4core_3ant_3Ant_gradient_step;
+  __pyx_vtable_8cythonic_4core_3ant_Ant.init_state = (void (*)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, struct __pyx_t_8cythonic_7plugins_9positions_ant_state *))__pyx_f_8cythonic_4core_3ant_3Ant_init_state;
   __pyx_vtable_8cythonic_4core_3ant_Ant.step = (void (*)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, double *))__pyx_f_8cythonic_4core_3ant_3Ant_step;
   __pyx_vtable_8cythonic_4core_3ant_Ant.init_positions = (void (*)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, __Pyx_memviewslice))__pyx_f_8cythonic_4core_3ant_3Ant_init_positions;
-  __pyx_vtable_8cythonic_4core_3ant_Ant.return_drop_quantity = (double (*)(struct __pyx_obj_8cythonic_4core_3ant_Ant *))__pyx_f_8cythonic_4core_3ant_3Ant_return_drop_quantity;
+  __pyx_vtable_8cythonic_4core_3ant_Ant.return_drop_quantity = (double (*)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, double *))__pyx_f_8cythonic_4core_3ant_3Ant_return_drop_quantity;
   __pyx_vtable_8cythonic_4core_3ant_Ant.increase_azimuth = (void (*)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, double *))__pyx_f_8cythonic_4core_3ant_3Ant_increase_azimuth;
   __pyx_vtable_8cythonic_4core_3ant_Ant.correct_bounds = (int (*)(struct __pyx_obj_8cythonic_4core_3ant_Ant *))__pyx_f_8cythonic_4core_3ant_3Ant_correct_bounds;
   __pyx_vtable_8cythonic_4core_3ant_Ant.set_sensors = (void (*)(struct __pyx_obj_8cythonic_4core_3ant_Ant *))__pyx_f_8cythonic_4core_3ant_3Ant_set_sensors;
@@ -22784,7 +22848,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "cythonic/core/ant.pyx":1
- * from cythonic.plugins.positions cimport point             # <<<<<<<<<<<<<<
+ * from cythonic.plugins.positions cimport point, ant_state             # <<<<<<<<<<<<<<
  * from cythonic.plugins.functions cimport transform
  * from cythonic.plugins.sens_functions cimport lin
  */
