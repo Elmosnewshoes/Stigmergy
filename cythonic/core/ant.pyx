@@ -1,4 +1,4 @@
-from cythonic.plugins.positions cimport point, ant_state
+from cythonic.plugins.positions cimport point, ant_state, full_state
 from cythonic.plugins.functions cimport transform
 from cythonic.plugins.sens_functions cimport lin
 from cythonic.plugins.drop_functions cimport exp_decay
@@ -20,7 +20,7 @@ cdef class Ant:
         " (virtual) hardware characteristics "
         self.id = id
         self.l = l
-        self.v = speed
+        # self.v = speed
         self.gain = gain
         self.sens_offset = sens_offset
 
@@ -41,6 +41,7 @@ cdef class Ant:
         self.foodbound = False
         self.out_of_bounds = False
         self.time = 0.
+        self.active = False
 
         " constraints "
         self.limits = point(limits[0], limits[1])
@@ -116,14 +117,17 @@ cdef class Ant:
         self._left = transform(self._azimuth+self.sens_offset,&self.l,&self._pos)
         self._right = transform(self._azimuth-self.sens_offset,&self.l,&self._pos)
 
-    cdef void init_positions(self,double[:] xy):
-        " call when initializing the ant, set the position "
-        self._pos = point(xy[0], xy[1])
-        self.set_sensors()
+    # cdef void init_positions(self, double x, double y):
+    #     " call when initializing the ant, setdouble[:] xy the position "
+    #     self._pos = point(x,y)
+    #     self.set_sensors()
 
-    cdef void init_state(self,ant_state * x):
-        self._pos = point(x[0].x, x[0].y)
-        self._azimuth = x[0].theta
+    cdef void activate(self,ant_state x):
+        " activate the ant and set the state "
+        self._pos = point(x.x, x.y)
+        self._azimuth = x.theta
+        self.set_sensors()
+        self.active = True
 
 
     cdef void increase_azimuth(self, double * d_teta):

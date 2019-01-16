@@ -907,6 +907,7 @@ struct __pyx_memoryviewslice_obj;
 struct __pyx_t_8cythonic_7plugins_9positions_point;
 struct __pyx_t_8cythonic_7plugins_9positions_index;
 struct __pyx_t_8cythonic_7plugins_9positions_ant_state;
+struct __pyx_t_8cythonic_7plugins_9positions_full_state;
 struct __pyx_t_8cythonic_7plugins_9positions_map_range;
 
 /* "cythonic/plugins/positions.pxd":1
@@ -944,7 +945,27 @@ struct __pyx_t_8cythonic_7plugins_9positions_ant_state {
   double theta;
 };
 
-/* "cythonic/plugins/positions.pxd":26
+/* "cythonic/plugins/positions.pxd":14
+ *     double theta
+ * 
+ * cdef struct full_state:             # <<<<<<<<<<<<<<
+ *     bint foodbound # flag for foodbound (alternative nestbound)
+ *     bint out_of_bounds # flag for being out of bounds
+ */
+struct __pyx_t_8cythonic_7plugins_9positions_full_state {
+  int foodbound;
+  int out_of_bounds;
+  int active;
+  double _azimuth;
+  double v;
+  struct __pyx_t_8cythonic_7plugins_9positions_point _pos;
+  struct __pyx_t_8cythonic_7plugins_9positions_point _left;
+  struct __pyx_t_8cythonic_7plugins_9positions_point _right;
+  double rng_time;
+  double time;
+};
+
+/* "cythonic/plugins/positions.pxd":39
  * #         readonly unsigned long cy(self)
  * 
  * cdef struct map_range:             # <<<<<<<<<<<<<<
