@@ -21,7 +21,7 @@ END: Cython Metadata */
 #else
 #define CYTHON_ABI "0_29_2"
 #define CYTHON_HEX_VERSION 0x001D02F0
-#define CYTHON_FUTURE_DIVISION 0
+#define CYTHON_FUTURE_DIVISION 1
 #include <stddef.h>
 #ifndef offsetof
   #define offsetof(type, member) ( (size_t) & ((type*)0) -> member )
@@ -833,8 +833,6 @@ static const char *__pyx_f[] = {
 /*--- Type declarations ---*/
 struct __pyx_t_8cythonic_7plugins_9positions_point;
 struct __pyx_t_8cythonic_7plugins_9positions_index;
-struct __pyx_t_8cythonic_7plugins_9positions_ant_state;
-struct __pyx_t_8cythonic_7plugins_9positions_full_state;
 struct __pyx_t_8cythonic_7plugins_9positions_map_range;
 
 /* "cythonic/plugins/positions.pxd":1
@@ -859,38 +857,7 @@ struct __pyx_t_8cythonic_7plugins_9positions_index {
   unsigned long y;
 };
 
-/* "cythonic/plugins/positions.pxd":9
- *     unsigned long y
- * 
- * cdef struct ant_state:             # <<<<<<<<<<<<<<
- *     double x
- *     double y
- */
-struct __pyx_t_8cythonic_7plugins_9positions_ant_state {
-  double x;
-  double y;
-  double theta;
-};
-
-/* "cythonic/plugins/positions.pxd":14
- *     double theta
- * 
- * cdef struct full_state:             # <<<<<<<<<<<<<<
- *     bint foodbound # flag for foodbound (alternative nestbound)
- *     bint out_of_bounds # flag for being out of bounds
- */
-struct __pyx_t_8cythonic_7plugins_9positions_full_state {
-  int foodbound;
-  int out_of_bounds;
-  int active;
-  double _azimuth;
-  double v;
-  struct __pyx_t_8cythonic_7plugins_9positions_point _pos;
-  double rng_time;
-  double time;
-};
-
-/* "cythonic/plugins/positions.pxd":37
+/* "cythonic/plugins/positions.pxd":32
  * #         readonly unsigned long cy(self)
  * 
  * cdef struct map_range:             # <<<<<<<<<<<<<<

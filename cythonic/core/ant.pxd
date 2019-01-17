@@ -1,49 +1,56 @@
-from cythonic.plugins.positions cimport point, ant_state
-from cythonic.plugins.rng cimport RNG
+from cythonic.plugins.positions cimport point
+from cythonic.plugins.sens_structs cimport fun_args, observations
 
 #defining NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
+ctypedef readonly void (*f_obs)(ant_state*,fun_args*, observations*) #type definition for sensing functions
+
+cdef struct ant_state:
+    # " position and orientation "
+    unsigned int id
+    point pos #{x,y} in mm
+    point left #left sensor location
+    point right #right sensor location
+    double theta #azimuth in degrees
+    double omega #angular rotation in degrees/second
+    double v # mm/s
+    observations Q_obs
+
+    #" ant status "
+    bint foodbound
+    bint active
+    bint out_of_bounds
+
+    #" individual timers "
+    double rng_timer # for the random number generator
+    double time #time since last event
 
 
 cdef class Ant:
     " attributes "
+    cdef ant_state* state
     cdef:
-        #physical properties
-        readonly double l
-        readonly unsigned int id
-        readonly point limits
+        # " geometric properties "
+        double l
+        double sens_offset
 
-        # environment interaction
-        readonly double gain,sens_offset
+        # sensor properties
+        double gain
+        f_obs sens_fun
+        fun_args obs_fun_args
 
-        #states
-        readonly bint foodbound, out_of_bounds
-        readonly double _azimuth
-        readonly point _pos, _left, _right
-        readonly bint active
-        readonly double v
-        readonly double time #time since last visit of nest/food
-        readonly double rng_time #timer for the rng
+        # actuator properties
+        double drop_quantity
+        double return_factor
+        double drop_beta
 
-        # drop quantity related
-        readonly double[2] q_observed
-        readonly double _drop_quantity, return_factor,  drop_beta
-        readonly str drop_fun
-
-        # sensing related
-        readonly RNG rng
-
-    " CPython methods "
-    cpdef public void gradient_step(self,double dt, str observe_fun, double[:] Q)
-
-    " C-only methods "
-    # cdef readonly void init_state(self,ant_state * x)
-    cdef readonly void step(self,double * dt)
-    cdef readonly void activate(self, ant_state s)
-    # cdef readonly void init_positions(self, double[:])
-    cdef public double return_drop_quantity(self, double *dt)
-    cdef void increase_azimuth(self, double *)
-    cdef public bint correct_bounds(self)
-    cdef void set_sensors(self)
-    cdef void observe(self,str observe_fun, double[:] Q)
-    cdef void rotate(self, double * dt)
-    # cpdef void step(self,double)
+    " c-only methods (all readonly) "
+    cdef:
+        readonly void rotate(self,double* dt)
+        readonly void gradient_step(self, double *dt, observations Q)
+        readonly void observe(self, observations* Q)
+        readonly void step(self, double * dt)
+        readonly void out_of_bounds(self, bint oob)
+        readonly void set_sensors(self)
+        readonly void activate(self)
+        readonly void increase_azimuth(self, double * dt)
+        readonly void set_state(self,ant_state* s)

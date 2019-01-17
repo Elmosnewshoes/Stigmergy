@@ -6,20 +6,15 @@ cdef struct index:
     unsigned long x
     unsigned long y
 
-cdef struct ant_state:
-    double x
-    double y
-    double theta
-
-cdef struct full_state:
-    bint foodbound # flag for foodbound (alternative nestbound)
-    bint out_of_bounds # flag for being out of bounds
-    bint active # flag for being active in the simulation
-    double _azimuth # theta [degrees]
-    double v # ant speed [mm/s]
-    point _pos # ant position [x,y] in [mm]
-    double rng_time #timer for the random number generator
-    double time # timer for state based drop quantity
+# cdef struct full_state:
+#     bint foodbound # flag for foodbound (alternative nestbound)
+#     bint out_of_bounds # flag for being out of bounds
+#     bint active # flag for being active in the simulation
+#     double _azimuth # theta [degrees]
+#     double v # ant speed [mm/s]
+#     point _pos # ant position [x,y] in [mm]
+#     double rng_time #timer for the random number generator
+#     double time # timer for state based drop quantity
 
 
 # cdef class point:
