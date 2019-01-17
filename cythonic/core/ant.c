@@ -2817,7 +2817,16 @@ static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_2id___get__(struct __pyx_obj
 static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_6limits___get__(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_4gain___get__(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_11sens_offset___get__(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_9foodbound___get__(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_13out_of_bounds___get__(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_8_azimuth___get__(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_4_pos___get__(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_5_left___get__(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_6_right___get__(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_6active___get__(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_1v___get__(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_4time___get__(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_8rng_time___get__(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_10q_observed___get__(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_14_drop_quantity___get__(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_13return_factor___get__(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self); /* proto */
@@ -5095,12 +5104,270 @@ static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_11sens_offset___get__(struct
   return __pyx_r;
 }
 
+/* "cythonic/core/ant.pxd":19
+ * 
+ *         #states
+ *         readonly bint foodbound, out_of_bounds             # <<<<<<<<<<<<<<
+ *         readonly double _azimuth
+ *         readonly point _pos, _left, _right
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_8cythonic_4core_3ant_3Ant_9foodbound_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_8cythonic_4core_3ant_3Ant_9foodbound_1__get__(PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_8cythonic_4core_3ant_3Ant_9foodbound___get__(((struct __pyx_obj_8cythonic_4core_3ant_Ant *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_9foodbound___get__(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("__get__", 0);
+  __Pyx_TraceCall("__get__", __pyx_f[2], 19, 0, __PYX_ERR(2, 19, __pyx_L1_error));
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_v_self->foodbound); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 19, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("cythonic.core.ant.Ant.foodbound.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_8cythonic_4core_3ant_3Ant_13out_of_bounds_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_8cythonic_4core_3ant_3Ant_13out_of_bounds_1__get__(PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_8cythonic_4core_3ant_3Ant_13out_of_bounds___get__(((struct __pyx_obj_8cythonic_4core_3ant_Ant *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_13out_of_bounds___get__(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("__get__", 0);
+  __Pyx_TraceCall("__get__", __pyx_f[2], 19, 0, __PYX_ERR(2, 19, __pyx_L1_error));
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_v_self->out_of_bounds); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 19, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("cythonic.core.ant.Ant.out_of_bounds.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "cythonic/core/ant.pxd":20
+ *         #states
+ *         readonly bint foodbound, out_of_bounds
+ *         readonly double _azimuth             # <<<<<<<<<<<<<<
+ *         readonly point _pos, _left, _right
+ *         readonly bint active
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_8cythonic_4core_3ant_3Ant_8_azimuth_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_8cythonic_4core_3ant_3Ant_8_azimuth_1__get__(PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_8cythonic_4core_3ant_3Ant_8_azimuth___get__(((struct __pyx_obj_8cythonic_4core_3ant_Ant *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_8_azimuth___get__(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("__get__", 0);
+  __Pyx_TraceCall("__get__", __pyx_f[2], 20, 0, __PYX_ERR(2, 20, __pyx_L1_error));
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_azimuth); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 20, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("cythonic.core.ant.Ant._azimuth.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "cythonic/core/ant.pxd":21
+ *         readonly bint foodbound, out_of_bounds
+ *         readonly double _azimuth
+ *         readonly point _pos, _left, _right             # <<<<<<<<<<<<<<
+ *         readonly bint active
+ *         readonly double v
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_8cythonic_4core_3ant_3Ant_4_pos_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_8cythonic_4core_3ant_3Ant_4_pos_1__get__(PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_8cythonic_4core_3ant_3Ant_4_pos___get__(((struct __pyx_obj_8cythonic_4core_3ant_Ant *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_4_pos___get__(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("__get__", 0);
+  __Pyx_TraceCall("__get__", __pyx_f[2], 21, 0, __PYX_ERR(2, 21, __pyx_L1_error));
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_convert__to_py_struct____pyx_t_8cythonic_7plugins_9positions_point(__pyx_v_self->_pos); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 21, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("cythonic.core.ant.Ant._pos.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_8cythonic_4core_3ant_3Ant_5_left_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_8cythonic_4core_3ant_3Ant_5_left_1__get__(PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_8cythonic_4core_3ant_3Ant_5_left___get__(((struct __pyx_obj_8cythonic_4core_3ant_Ant *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_5_left___get__(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("__get__", 0);
+  __Pyx_TraceCall("__get__", __pyx_f[2], 21, 0, __PYX_ERR(2, 21, __pyx_L1_error));
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_convert__to_py_struct____pyx_t_8cythonic_7plugins_9positions_point(__pyx_v_self->_left); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 21, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("cythonic.core.ant.Ant._left.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_8cythonic_4core_3ant_3Ant_6_right_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_8cythonic_4core_3ant_3Ant_6_right_1__get__(PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_8cythonic_4core_3ant_3Ant_6_right___get__(((struct __pyx_obj_8cythonic_4core_3ant_Ant *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_6_right___get__(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("__get__", 0);
+  __Pyx_TraceCall("__get__", __pyx_f[2], 21, 0, __PYX_ERR(2, 21, __pyx_L1_error));
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_convert__to_py_struct____pyx_t_8cythonic_7plugins_9positions_point(__pyx_v_self->_right); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 21, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("cythonic.core.ant.Ant._right.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
 /* "cythonic/core/ant.pxd":22
- *         double _azimuth
- *         point _pos, _left, _right
+ *         readonly double _azimuth
+ *         readonly point _pos, _left, _right
  *         readonly bint active             # <<<<<<<<<<<<<<
- *         double v
- *         double time #time since last visit of nest/food
+ *         readonly double v
+ *         readonly double time #time since last visit of nest/food
  */
 
 /* Python wrapper */
@@ -5134,6 +5401,147 @@ static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_6active___get__(struct __pyx
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_AddTraceback("cythonic.core.ant.Ant.active.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "cythonic/core/ant.pxd":23
+ *         readonly point _pos, _left, _right
+ *         readonly bint active
+ *         readonly double v             # <<<<<<<<<<<<<<
+ *         readonly double time #time since last visit of nest/food
+ *         readonly double rng_time #timer for the rng
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_8cythonic_4core_3ant_3Ant_1v_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_8cythonic_4core_3ant_3Ant_1v_1__get__(PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_8cythonic_4core_3ant_3Ant_1v___get__(((struct __pyx_obj_8cythonic_4core_3ant_Ant *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_1v___get__(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("__get__", 0);
+  __Pyx_TraceCall("__get__", __pyx_f[2], 23, 0, __PYX_ERR(2, 23, __pyx_L1_error));
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->v); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 23, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("cythonic.core.ant.Ant.v.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "cythonic/core/ant.pxd":24
+ *         readonly bint active
+ *         readonly double v
+ *         readonly double time #time since last visit of nest/food             # <<<<<<<<<<<<<<
+ *         readonly double rng_time #timer for the rng
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_8cythonic_4core_3ant_3Ant_4time_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_8cythonic_4core_3ant_3Ant_4time_1__get__(PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_8cythonic_4core_3ant_3Ant_4time___get__(((struct __pyx_obj_8cythonic_4core_3ant_Ant *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_4time___get__(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("__get__", 0);
+  __Pyx_TraceCall("__get__", __pyx_f[2], 24, 0, __PYX_ERR(2, 24, __pyx_L1_error));
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->time); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 24, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("cythonic.core.ant.Ant.time.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "cythonic/core/ant.pxd":25
+ *         readonly double v
+ *         readonly double time #time since last visit of nest/food
+ *         readonly double rng_time #timer for the rng             # <<<<<<<<<<<<<<
+ * 
+ *         # drop quantity related
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_8cythonic_4core_3ant_3Ant_8rng_time_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_8cythonic_4core_3ant_3Ant_8rng_time_1__get__(PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_8cythonic_4core_3ant_3Ant_8rng_time___get__(((struct __pyx_obj_8cythonic_4core_3ant_Ant *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_8cythonic_4core_3ant_3Ant_8rng_time___get__(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("__get__", 0);
+  __Pyx_TraceCall("__get__", __pyx_f[2], 25, 0, __PYX_ERR(2, 25, __pyx_L1_error));
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->rng_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 25, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("cythonic.core.ant.Ant.rng_time.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -21415,8 +21823,44 @@ static PyObject *__pyx_getprop_8cythonic_4core_3ant_3Ant_sens_offset(PyObject *o
   return __pyx_pw_8cythonic_4core_3ant_3Ant_11sens_offset_1__get__(o);
 }
 
+static PyObject *__pyx_getprop_8cythonic_4core_3ant_3Ant_foodbound(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_8cythonic_4core_3ant_3Ant_9foodbound_1__get__(o);
+}
+
+static PyObject *__pyx_getprop_8cythonic_4core_3ant_3Ant_out_of_bounds(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_8cythonic_4core_3ant_3Ant_13out_of_bounds_1__get__(o);
+}
+
+static PyObject *__pyx_getprop_8cythonic_4core_3ant_3Ant__azimuth(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_8cythonic_4core_3ant_3Ant_8_azimuth_1__get__(o);
+}
+
+static PyObject *__pyx_getprop_8cythonic_4core_3ant_3Ant__pos(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_8cythonic_4core_3ant_3Ant_4_pos_1__get__(o);
+}
+
+static PyObject *__pyx_getprop_8cythonic_4core_3ant_3Ant__left(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_8cythonic_4core_3ant_3Ant_5_left_1__get__(o);
+}
+
+static PyObject *__pyx_getprop_8cythonic_4core_3ant_3Ant__right(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_8cythonic_4core_3ant_3Ant_6_right_1__get__(o);
+}
+
 static PyObject *__pyx_getprop_8cythonic_4core_3ant_3Ant_active(PyObject *o, CYTHON_UNUSED void *x) {
   return __pyx_pw_8cythonic_4core_3ant_3Ant_6active_1__get__(o);
+}
+
+static PyObject *__pyx_getprop_8cythonic_4core_3ant_3Ant_v(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_8cythonic_4core_3ant_3Ant_1v_1__get__(o);
+}
+
+static PyObject *__pyx_getprop_8cythonic_4core_3ant_3Ant_time(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_8cythonic_4core_3ant_3Ant_4time_1__get__(o);
+}
+
+static PyObject *__pyx_getprop_8cythonic_4core_3ant_3Ant_rng_time(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_8cythonic_4core_3ant_3Ant_8rng_time_1__get__(o);
 }
 
 static PyObject *__pyx_getprop_8cythonic_4core_3ant_3Ant_q_observed(PyObject *o, CYTHON_UNUSED void *x) {
@@ -21462,7 +21906,16 @@ static struct PyGetSetDef __pyx_getsets_8cythonic_4core_3ant_Ant[] = {
   {(char *)"limits", __pyx_getprop_8cythonic_4core_3ant_3Ant_limits, 0, (char *)0, 0},
   {(char *)"gain", __pyx_getprop_8cythonic_4core_3ant_3Ant_gain, 0, (char *)0, 0},
   {(char *)"sens_offset", __pyx_getprop_8cythonic_4core_3ant_3Ant_sens_offset, 0, (char *)0, 0},
+  {(char *)"foodbound", __pyx_getprop_8cythonic_4core_3ant_3Ant_foodbound, 0, (char *)0, 0},
+  {(char *)"out_of_bounds", __pyx_getprop_8cythonic_4core_3ant_3Ant_out_of_bounds, 0, (char *)0, 0},
+  {(char *)"_azimuth", __pyx_getprop_8cythonic_4core_3ant_3Ant__azimuth, 0, (char *)0, 0},
+  {(char *)"_pos", __pyx_getprop_8cythonic_4core_3ant_3Ant__pos, 0, (char *)0, 0},
+  {(char *)"_left", __pyx_getprop_8cythonic_4core_3ant_3Ant__left, 0, (char *)0, 0},
+  {(char *)"_right", __pyx_getprop_8cythonic_4core_3ant_3Ant__right, 0, (char *)0, 0},
   {(char *)"active", __pyx_getprop_8cythonic_4core_3ant_3Ant_active, 0, (char *)0, 0},
+  {(char *)"v", __pyx_getprop_8cythonic_4core_3ant_3Ant_v, 0, (char *)0, 0},
+  {(char *)"time", __pyx_getprop_8cythonic_4core_3ant_3Ant_time, 0, (char *)0, 0},
+  {(char *)"rng_time", __pyx_getprop_8cythonic_4core_3ant_3Ant_rng_time, 0, (char *)0, 0},
   {(char *)"q_observed", __pyx_getprop_8cythonic_4core_3ant_3Ant_q_observed, 0, (char *)0, 0},
   {(char *)"_drop_quantity", __pyx_getprop_8cythonic_4core_3ant_3Ant__drop_quantity, 0, (char *)0, 0},
   {(char *)"return_factor", __pyx_getprop_8cythonic_4core_3ant_3Ant_return_factor, 0, (char *)0, 0},

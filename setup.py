@@ -11,4 +11,5 @@ setup(name = 'stigmergy',
                                                    'nonecheck': False,
                                                    'cdivision': True,
                                                    'initializedcheck': False,
-                                                   'profile': True}))
+                                                   'profile': True,
+                                                   'language_level':3}))

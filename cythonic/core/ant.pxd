@@ -16,13 +16,13 @@ cdef class Ant:
         readonly double gain,sens_offset
 
         #states
-        bint foodbound, out_of_bounds
-        double _azimuth
-        point _pos, _left, _right
+        readonly bint foodbound, out_of_bounds
+        readonly double _azimuth
+        readonly point _pos, _left, _right
         readonly bint active
-        double v
-        double time #time since last visit of nest/food
-        double rng_time #timer for the rng
+        readonly double v
+        readonly double time #time since last visit of nest/food
+        readonly double rng_time #timer for the rng
 
         # drop quantity related
         readonly double[2] q_observed
