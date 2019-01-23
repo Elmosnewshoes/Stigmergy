@@ -28,6 +28,7 @@ cdef class Queen:
         readonly double dt
         readonly double default_speed
     # methods
+    cdef readonly void step(self, double * dt)
     cdef readonly ant_state generate_state(self, point p, double theta)
     cpdef readonly void initialize_states(self,double[::,:] xy, double[:] theta)
     cdef readonly void deploy(self, unsigned int ant_id)

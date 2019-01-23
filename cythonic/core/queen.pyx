@@ -27,6 +27,9 @@ cdef class Queen:
         for i in range(self.n):
             self.pheromone_vec.push_back(O)
 
+    cdef readonly void step(self, double * dt):
+        " perform step on active agent "
+        self.agent.gradient_step(dt, &self.pheromone_vec[self.agent.state[0].id])
 
     cdef readonly ant_state generate_state(self, point p, double theta):
         " generate a state struct for an ant "
