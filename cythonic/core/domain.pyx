@@ -12,6 +12,12 @@ cimport cython
 cdef class Domain:
     " playground of the simulation "
 
+    cdef readonly void fill_observations(self, observations * O, point * pos_left, point * pos_right):
+        " do a  probe phermone on left and right point, store results in relayed observations struct "
+        O[0].lft = self.probe_pheromone(pos_left)
+        O[0].rght = self.probe_pheromone(pos_right)
+
+
     cdef readonly void init_gaussian(self, double sigma, double significancy):
         " initialize a gaussian meshmap "
         cdef double R = cceil(sigma*csqrt(2*cln(significancy)))
