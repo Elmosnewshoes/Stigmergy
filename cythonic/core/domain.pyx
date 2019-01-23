@@ -9,7 +9,7 @@ cimport cython
 @cython.wraparound(False)
 @cython.boundscheck(False)
 @cython.nonecheck(False)
-cdef class domain:
+cdef class Domain:
     " playground of the simulation "
 
     cdef readonly void init_gaussian(self, double sigma, double significancy):

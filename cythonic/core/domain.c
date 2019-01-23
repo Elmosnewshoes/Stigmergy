@@ -1191,7 +1191,7 @@ static CYTHON_INLINE __pyx_t_double_complex __pyx_t_double_complex_from_parts(do
 struct __pyx_obj_8cythonic_4core_3map_Map;
 struct __pyx_obj_8cythonic_4core_3map_MeshMap;
 struct __pyx_obj_8cythonic_4core_3map_GaussMap;
-struct __pyx_obj_8cythonic_4core_6domain_domain;
+struct __pyx_obj_8cythonic_4core_6domain_Domain;
 struct __pyx_array_obj;
 struct __pyx_MemviewEnum_obj;
 struct __pyx_memoryview_obj;
@@ -1319,13 +1319,13 @@ struct __pyx_obj_8cythonic_4core_3map_GaussMap {
 /* "cythonic/core/domain.pxd":3
  * from cythonic.plugins.positions cimport point, index
  * from cythonic.core.map cimport MeshMap, GaussMap
- * cdef class domain:             # <<<<<<<<<<<<<<
+ * cdef class Domain:             # <<<<<<<<<<<<<<
  *     " attributes "
  *     cdef:
  */
-struct __pyx_obj_8cythonic_4core_6domain_domain {
+struct __pyx_obj_8cythonic_4core_6domain_Domain {
   PyObject_HEAD
-  struct __pyx_vtabstruct_8cythonic_4core_6domain_domain *__pyx_vtab;
+  struct __pyx_vtabstruct_8cythonic_4core_6domain_Domain *__pyx_vtab;
   struct __pyx_t_8cythonic_7plugins_9positions_point size;
   struct __pyx_t_8cythonic_7plugins_9positions_point nest_location;
   struct __pyx_t_8cythonic_7plugins_9positions_point food_location;
@@ -1465,21 +1465,21 @@ static struct __pyx_vtabstruct_8cythonic_4core_3map_GaussMap *__pyx_vtabptr_8cyt
 /* "cythonic/core/domain.pyx":12
  * @cython.boundscheck(False)
  * @cython.nonecheck(False)
- * cdef class domain:             # <<<<<<<<<<<<<<
+ * cdef class Domain:             # <<<<<<<<<<<<<<
  *     " playground of the simulation "
  * 
  */
 
-struct __pyx_vtabstruct_8cythonic_4core_6domain_domain {
-  void (*init_gaussian)(struct __pyx_obj_8cythonic_4core_6domain_domain *, double, double);
-  int (*check_bounds)(struct __pyx_obj_8cythonic_4core_6domain_domain *, double *, double *);
-  double (*probe_pheromone)(struct __pyx_obj_8cythonic_4core_6domain_domain *, struct __pyx_t_8cythonic_7plugins_9positions_point *);
-  void (*add_pheromone)(struct __pyx_obj_8cythonic_4core_6domain_domain *, struct __pyx_t_8cythonic_7plugins_9positions_point *, double *);
-  void (*pyvaporate)(struct __pyx_obj_8cythonic_4core_6domain_domain *);
-  void (*cvaporate)(struct __pyx_obj_8cythonic_4core_6domain_domain *);
-  void (*set_target_pheromone)(struct __pyx_obj_8cythonic_4core_6domain_domain *, double);
+struct __pyx_vtabstruct_8cythonic_4core_6domain_Domain {
+  void (*init_gaussian)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, double, double);
+  int (*check_bounds)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, double *, double *);
+  double (*probe_pheromone)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_9positions_point *);
+  void (*add_pheromone)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_9positions_point *, double *);
+  void (*pyvaporate)(struct __pyx_obj_8cythonic_4core_6domain_Domain *);
+  void (*cvaporate)(struct __pyx_obj_8cythonic_4core_6domain_Domain *);
+  void (*set_target_pheromone)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, double);
 };
-static struct __pyx_vtabstruct_8cythonic_4core_6domain_domain *__pyx_vtabptr_8cythonic_4core_6domain_domain;
+static struct __pyx_vtabstruct_8cythonic_4core_6domain_Domain *__pyx_vtabptr_8cythonic_4core_6domain_Domain;
 
 
 /* "View.MemoryView":105
@@ -2456,13 +2456,13 @@ static int __Pyx_check_binary_version(void);
 /* InitStrings.proto */
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
-void __pyx_f_8cythonic_4core_6domain_6domain_init_gaussian(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self, double __pyx_v_sigma, double __pyx_v_significancy); /* proto*/
-static int __pyx_f_8cythonic_4core_6domain_6domain_check_bounds(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self, double *__pyx_v_x, double *__pyx_v_y); /* proto*/
-double __pyx_f_8cythonic_4core_6domain_6domain_probe_pheromone(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self, struct __pyx_t_8cythonic_7plugins_9positions_point *__pyx_v_p); /* proto*/
-void __pyx_f_8cythonic_4core_6domain_6domain_set_target_pheromone(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self, double __pyx_v_target); /* proto*/
-void __pyx_f_8cythonic_4core_6domain_6domain_cvaporate(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self); /* proto*/
-void __pyx_f_8cythonic_4core_6domain_6domain_pyvaporate(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self); /* proto*/
-void __pyx_f_8cythonic_4core_6domain_6domain_add_pheromone(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self, struct __pyx_t_8cythonic_7plugins_9positions_point *__pyx_v_p, double *__pyx_v_Q); /* proto*/
+void __pyx_f_8cythonic_4core_6domain_6Domain_init_gaussian(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, double __pyx_v_sigma, double __pyx_v_significancy); /* proto*/
+static int __pyx_f_8cythonic_4core_6domain_6Domain_check_bounds(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, double *__pyx_v_x, double *__pyx_v_y); /* proto*/
+double __pyx_f_8cythonic_4core_6domain_6Domain_probe_pheromone(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, struct __pyx_t_8cythonic_7plugins_9positions_point *__pyx_v_p); /* proto*/
+void __pyx_f_8cythonic_4core_6domain_6Domain_set_target_pheromone(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, double __pyx_v_target); /* proto*/
+void __pyx_f_8cythonic_4core_6domain_6Domain_cvaporate(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self); /* proto*/
+void __pyx_f_8cythonic_4core_6domain_6Domain_pyvaporate(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self); /* proto*/
+void __pyx_f_8cythonic_4core_6domain_6Domain_add_pheromone(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, struct __pyx_t_8cythonic_7plugins_9positions_point *__pyx_v_p, double *__pyx_v_Q); /* proto*/
 static PyObject *__pyx_array_get_memview(struct __pyx_array_obj *__pyx_v_self); /* proto*/
 static char *__pyx_memoryview_get_item_pointer(struct __pyx_memoryview_obj *__pyx_v_self, PyObject *__pyx_v_index); /* proto*/
 static PyObject *__pyx_memoryview_is_slice(struct __pyx_memoryview_obj *__pyx_v_self, PyObject *__pyx_v_obj); /* proto*/
@@ -2517,7 +2517,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *, cha
 /* Module declarations from 'cython' */
 
 /* Module declarations from 'cythonic.core.domain' */
-static PyTypeObject *__pyx_ptype_8cythonic_4core_6domain_domain = 0;
+static PyTypeObject *__pyx_ptype_8cythonic_4core_6domain_Domain = 0;
 static PyTypeObject *__pyx_array_type = 0;
 static PyTypeObject *__pyx_MemviewEnum_type = 0;
 static PyTypeObject *__pyx_memoryview_type = 0;
@@ -2613,7 +2613,7 @@ static const char __pyx_k_pitch[] = "pitch";
 static const char __pyx_k_range[] = "range";
 static const char __pyx_k_shape[] = "shape";
 static const char __pyx_k_start[] = "start";
-static const char __pyx_k_domain[] = "domain";
+static const char __pyx_k_Domain[] = "Domain";
 static const char __pyx_k_encode[] = "encode";
 static const char __pyx_k_format[] = "format";
 static const char __pyx_k_import[] = "__import__";
@@ -2698,6 +2698,7 @@ static PyObject *__pyx_kp_s_Can_only_create_a_buffer_that_is;
 static PyObject *__pyx_kp_s_Cannot_assign_to_read_only_memor;
 static PyObject *__pyx_kp_s_Cannot_create_writable_memory_vi;
 static PyObject *__pyx_kp_s_Cannot_index_with_type_s;
+static PyObject *__pyx_n_s_Domain;
 static PyObject *__pyx_n_s_Ellipsis;
 static PyObject *__pyx_kp_s_Empty_shape_tuple_for_cython_arr;
 static PyObject *__pyx_kp_u_Format_string_allocated_too_shor;
@@ -2733,7 +2734,6 @@ static PyObject *__pyx_kp_s_contiguous_and_indirect;
 static PyObject *__pyx_n_s_covariance;
 static PyObject *__pyx_n_s_dict;
 static PyObject *__pyx_n_s_dim;
-static PyObject *__pyx_n_s_domain;
 static PyObject *__pyx_n_s_dot;
 static PyObject *__pyx_n_s_dtype;
 static PyObject *__pyx_n_s_dtype_is_object;
@@ -2808,20 +2808,20 @@ static PyObject *__pyx_n_s_unpack;
 static PyObject *__pyx_n_s_update;
 static PyObject *__pyx_n_s_x;
 static PyObject *__pyx_n_s_y;
-static int __pyx_pf_8cythonic_4core_6domain_6domain___cinit__(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self, PyObject *__pyx_v_size, PyObject *__pyx_v_pitch, PyObject *__pyx_v_nest_loc, PyObject *__pyx_v_nest_rad, PyObject *__pyx_v_food_loc, PyObject *__pyx_v_food_rad, PyObject *__pyx_v_target_pheromone); /* proto */
-static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_4size___get__(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_13nest_location___get__(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_13food_location___get__(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_5pitch___get__(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_11nest_radius___get__(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_11food_radius___get__(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_3Map___get__(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_8Gaussian___get__(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_3dim___get__(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_16target_pheromone___get__(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self); /* proto */
-static int __pyx_pf_8cythonic_4core_6domain_6domain_16target_pheromone_2__set__(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_2__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_4__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
+static int __pyx_pf_8cythonic_4core_6domain_6Domain___cinit__(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, PyObject *__pyx_v_size, PyObject *__pyx_v_pitch, PyObject *__pyx_v_nest_loc, PyObject *__pyx_v_nest_rad, PyObject *__pyx_v_food_loc, PyObject *__pyx_v_food_rad, PyObject *__pyx_v_target_pheromone); /* proto */
+static PyObject *__pyx_pf_8cythonic_4core_6domain_6Domain_4size___get__(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8cythonic_4core_6domain_6Domain_13nest_location___get__(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8cythonic_4core_6domain_6Domain_13food_location___get__(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8cythonic_4core_6domain_6Domain_5pitch___get__(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8cythonic_4core_6domain_6Domain_11nest_radius___get__(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8cythonic_4core_6domain_6Domain_11food_radius___get__(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8cythonic_4core_6domain_6Domain_3Map___get__(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8cythonic_4core_6domain_6Domain_8Gaussian___get__(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8cythonic_4core_6domain_6Domain_3dim___get__(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8cythonic_4core_6domain_6Domain_16target_pheromone___get__(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self); /* proto */
+static int __pyx_pf_8cythonic_4core_6domain_6Domain_16target_pheromone_2__set__(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_8cythonic_4core_6domain_6Domain_2__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8cythonic_4core_6domain_6Domain_4__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
 static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __pyx_array_obj *__pyx_v_self, PyObject *__pyx_v_shape, Py_ssize_t __pyx_v_itemsize, PyObject *__pyx_v_format, PyObject *__pyx_v_mode, int __pyx_v_allocate_buffer); /* proto */
@@ -2866,7 +2866,7 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_16_memoryviewslice_4base___get__
 static PyObject *__pyx_pf___pyx_memoryviewslice___reduce_cython__(CYTHON_UNUSED struct __pyx_memoryviewslice_obj *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf___pyx_memoryviewslice_2__setstate_cython__(CYTHON_UNUSED struct __pyx_memoryviewslice_obj *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_15View_dot_MemoryView___pyx_unpickle_Enum(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_tp_new_8cythonic_4core_6domain_domain(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_8cythonic_4core_6domain_Domain(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_array(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_Enum(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_memoryview(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
@@ -2920,7 +2920,7 @@ static PyObject *__pyx_codeobj__28;
  *         cdef double R = cceil(sigma*csqrt(2*cln(significancy)))
  */
 
-void __pyx_f_8cythonic_4core_6domain_6domain_init_gaussian(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self, double __pyx_v_sigma, double __pyx_v_significancy) {
+void __pyx_f_8cythonic_4core_6domain_6Domain_init_gaussian(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, double __pyx_v_sigma, double __pyx_v_significancy) {
   double __pyx_v_R;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -2981,7 +2981,7 @@ void __pyx_f_8cythonic_4core_6domain_6domain_init_gaussian(struct __pyx_obj_8cyt
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_WriteUnraisable("cythonic.core.domain.domain.init_gaussian", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_WriteUnraisable("cythonic.core.domain.Domain.init_gaussian", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
@@ -2995,7 +2995,7 @@ void __pyx_f_8cythonic_4core_6domain_6domain_init_gaussian(struct __pyx_obj_8cyt
  *         if x[0] >=0 and y[0]>=0 and \
  */
 
-static int __pyx_f_8cythonic_4core_6domain_6domain_check_bounds(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self, double *__pyx_v_x, double *__pyx_v_y) {
+static int __pyx_f_8cythonic_4core_6domain_6Domain_check_bounds(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, double *__pyx_v_x, double *__pyx_v_y) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -3091,7 +3091,7 @@ static int __pyx_f_8cythonic_4core_6domain_6domain_check_bounds(struct __pyx_obj
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_WriteUnraisable("cythonic.core.domain.domain.check_bounds", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_WriteUnraisable("cythonic.core.domain.Domain.check_bounds", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -3107,7 +3107,7 @@ static int __pyx_f_8cythonic_4core_6domain_6domain_check_bounds(struct __pyx_obj
  *         cdef double Q
  */
 
-double __pyx_f_8cythonic_4core_6domain_6domain_probe_pheromone(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self, struct __pyx_t_8cythonic_7plugins_9positions_point *__pyx_v_p) {
+double __pyx_f_8cythonic_4core_6domain_6Domain_probe_pheromone(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, struct __pyx_t_8cythonic_7plugins_9positions_point *__pyx_v_p) {
   double __pyx_v_Q;
   double __pyx_r;
   __Pyx_TraceDeclarations
@@ -3125,7 +3125,7 @@ double __pyx_f_8cythonic_4core_6domain_6domain_probe_pheromone(struct __pyx_obj_
  *             " convert point to index "
  *             Q = self.Map.map[self.Map.to_grid(&p.y),self.Map.to_grid(&p.x)]
  */
-  __pyx_t_1 = (((struct __pyx_vtabstruct_8cythonic_4core_6domain_domain *)__pyx_v_self->__pyx_vtab)->check_bounds(__pyx_v_self, (&__pyx_v_p->x), (&__pyx_v_p->y)) != 0);
+  __pyx_t_1 = (((struct __pyx_vtabstruct_8cythonic_4core_6domain_Domain *)__pyx_v_self->__pyx_vtab)->check_bounds(__pyx_v_self, (&__pyx_v_p->x), (&__pyx_v_p->y)) != 0);
   if (__pyx_t_1) {
 
     /* "cythonic/core/domain.pyx":33
@@ -3189,7 +3189,7 @@ double __pyx_f_8cythonic_4core_6domain_6domain_probe_pheromone(struct __pyx_obj_
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_WriteUnraisable("cythonic.core.domain.domain.probe_pheromone", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_WriteUnraisable("cythonic.core.domain.Domain.probe_pheromone", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -3205,7 +3205,7 @@ double __pyx_f_8cythonic_4core_6domain_6domain_probe_pheromone(struct __pyx_obj_
  * 
  */
 
-void __pyx_f_8cythonic_4core_6domain_6domain_set_target_pheromone(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self, double __pyx_v_target) {
+void __pyx_f_8cythonic_4core_6domain_6Domain_set_target_pheromone(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, double __pyx_v_target) {
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("set_target_pheromone", 0);
@@ -3231,7 +3231,7 @@ void __pyx_f_8cythonic_4core_6domain_6domain_set_target_pheromone(struct __pyx_o
   /* function exit code */
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_WriteUnraisable("cythonic.core.domain.domain.set_target_pheromone", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_WriteUnraisable("cythonic.core.domain.Domain.set_target_pheromone", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
@@ -3245,7 +3245,7 @@ void __pyx_f_8cythonic_4core_6domain_6domain_set_target_pheromone(struct __pyx_o
  *         " parallel computed sum of map yields another 2-3x speed boost"
  */
 
-void __pyx_f_8cythonic_4core_6domain_6domain_cvaporate(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self) {
+void __pyx_f_8cythonic_4core_6domain_6Domain_cvaporate(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self) {
   double __pyx_v_x;
   unsigned int __pyx_v_i;
   unsigned int __pyx_v_j;
@@ -3339,7 +3339,7 @@ void __pyx_f_8cythonic_4core_6domain_6domain_cvaporate(struct __pyx_obj_8cythoni
   /* function exit code */
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_WriteUnraisable("cythonic.core.domain.domain.cvaporate", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_WriteUnraisable("cythonic.core.domain.Domain.cvaporate", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
@@ -3353,7 +3353,7 @@ void __pyx_f_8cythonic_4core_6domain_6domain_cvaporate(struct __pyx_obj_8cythoni
  *         self.Map.map = np.dot(self.Map.map,self.target_pheromone/np.array(self.Map.map).sum())
  */
 
-void __pyx_f_8cythonic_4core_6domain_6domain_pyvaporate(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self) {
+void __pyx_f_8cythonic_4core_6domain_6Domain_pyvaporate(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self) {
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -3508,7 +3508,7 @@ void __pyx_f_8cythonic_4core_6domain_6domain_pyvaporate(struct __pyx_obj_8cython
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_9);
   __PYX_XDEC_MEMVIEW(&__pyx_t_11, 1);
-  __Pyx_WriteUnraisable("cythonic.core.domain.domain.pyvaporate", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_WriteUnraisable("cythonic.core.domain.Domain.pyvaporate", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
@@ -3522,7 +3522,7 @@ void __pyx_f_8cythonic_4core_6domain_6domain_pyvaporate(struct __pyx_obj_8cython
  *         cdef index I = index(self.Map.to_grid(&p.x),self.Map.to_grid(&p.y))
  */
 
-void __pyx_f_8cythonic_4core_6domain_6domain_add_pheromone(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self, struct __pyx_t_8cythonic_7plugins_9positions_point *__pyx_v_p, double *__pyx_v_Q) {
+void __pyx_f_8cythonic_4core_6domain_6Domain_add_pheromone(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, struct __pyx_t_8cythonic_7plugins_9positions_point *__pyx_v_p, double *__pyx_v_Q) {
   struct __pyx_t_8cythonic_7plugins_9positions_index __pyx_v_I;
   struct __pyx_t_8cythonic_7plugins_9positions_map_range __pyx_v_s;
   long __pyx_v_offset_x;
@@ -3633,7 +3633,7 @@ void __pyx_f_8cythonic_4core_6domain_6domain_add_pheromone(struct __pyx_obj_8cyt
   /* function exit code */
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_WriteUnraisable("cythonic.core.domain.domain.add_pheromone", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_WriteUnraisable("cythonic.core.domain.Domain.add_pheromone", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
@@ -3648,8 +3648,8 @@ void __pyx_f_8cythonic_4core_6domain_6domain_add_pheromone(struct __pyx_obj_8cyt
  */
 
 /* Python wrapper */
-static int __pyx_pw_8cythonic_4core_6domain_6domain_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static int __pyx_pw_8cythonic_4core_6domain_6domain_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static int __pyx_pw_8cythonic_4core_6domain_6Domain_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static int __pyx_pw_8cythonic_4core_6domain_6Domain_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_size = 0;
   PyObject *__pyx_v_pitch = 0;
   PyObject *__pyx_v_nest_loc = 0;
@@ -3756,18 +3756,18 @@ static int __pyx_pw_8cythonic_4core_6domain_6domain_1__cinit__(PyObject *__pyx_v
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 6, 7, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 71, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("cythonic.core.domain.domain.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cythonic.core.domain.Domain.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8cythonic_4core_6domain_6domain___cinit__(((struct __pyx_obj_8cythonic_4core_6domain_domain *)__pyx_v_self), __pyx_v_size, __pyx_v_pitch, __pyx_v_nest_loc, __pyx_v_nest_rad, __pyx_v_food_loc, __pyx_v_food_rad, __pyx_v_target_pheromone);
+  __pyx_r = __pyx_pf_8cythonic_4core_6domain_6Domain___cinit__(((struct __pyx_obj_8cythonic_4core_6domain_Domain *)__pyx_v_self), __pyx_v_size, __pyx_v_pitch, __pyx_v_nest_loc, __pyx_v_nest_rad, __pyx_v_food_loc, __pyx_v_food_rad, __pyx_v_target_pheromone);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_8cythonic_4core_6domain_6domain___cinit__(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self, PyObject *__pyx_v_size, PyObject *__pyx_v_pitch, PyObject *__pyx_v_nest_loc, PyObject *__pyx_v_nest_rad, PyObject *__pyx_v_food_loc, PyObject *__pyx_v_food_rad, PyObject *__pyx_v_target_pheromone) {
+static int __pyx_pf_8cythonic_4core_6domain_6Domain___cinit__(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, PyObject *__pyx_v_size, PyObject *__pyx_v_pitch, PyObject *__pyx_v_nest_loc, PyObject *__pyx_v_nest_rad, PyObject *__pyx_v_food_loc, PyObject *__pyx_v_food_rad, PyObject *__pyx_v_target_pheromone) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -3941,7 +3941,7 @@ static int __pyx_pf_8cythonic_4core_6domain_6domain___cinit__(struct __pyx_obj_8
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_AddTraceback("cythonic.core.domain.domain.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cythonic.core.domain.Domain.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -3958,19 +3958,19 @@ static int __pyx_pf_8cythonic_4core_6domain_6domain___cinit__(struct __pyx_obj_8
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8cythonic_4core_6domain_6domain_4size_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_8cythonic_4core_6domain_6domain_4size_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_8cythonic_4core_6domain_6Domain_4size_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_8cythonic_4core_6domain_6Domain_4size_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8cythonic_4core_6domain_6domain_4size___get__(((struct __pyx_obj_8cythonic_4core_6domain_domain *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8cythonic_4core_6domain_6Domain_4size___get__(((struct __pyx_obj_8cythonic_4core_6domain_Domain *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_4size___get__(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self) {
+static PyObject *__pyx_pf_8cythonic_4core_6domain_6Domain_4size___get__(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -3987,7 +3987,7 @@ static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_4size___get__(struct _
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("cythonic.core.domain.domain.size.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cythonic.core.domain.Domain.size.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -3997,19 +3997,19 @@ static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_4size___get__(struct _
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8cythonic_4core_6domain_6domain_13nest_location_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_8cythonic_4core_6domain_6domain_13nest_location_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_8cythonic_4core_6domain_6Domain_13nest_location_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_8cythonic_4core_6domain_6Domain_13nest_location_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8cythonic_4core_6domain_6domain_13nest_location___get__(((struct __pyx_obj_8cythonic_4core_6domain_domain *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8cythonic_4core_6domain_6Domain_13nest_location___get__(((struct __pyx_obj_8cythonic_4core_6domain_Domain *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_13nest_location___get__(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self) {
+static PyObject *__pyx_pf_8cythonic_4core_6domain_6Domain_13nest_location___get__(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -4026,7 +4026,7 @@ static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_13nest_location___get_
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("cythonic.core.domain.domain.nest_location.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cythonic.core.domain.Domain.nest_location.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -4036,19 +4036,19 @@ static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_13nest_location___get_
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8cythonic_4core_6domain_6domain_13food_location_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_8cythonic_4core_6domain_6domain_13food_location_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_8cythonic_4core_6domain_6Domain_13food_location_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_8cythonic_4core_6domain_6Domain_13food_location_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8cythonic_4core_6domain_6domain_13food_location___get__(((struct __pyx_obj_8cythonic_4core_6domain_domain *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8cythonic_4core_6domain_6Domain_13food_location___get__(((struct __pyx_obj_8cythonic_4core_6domain_Domain *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_13food_location___get__(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self) {
+static PyObject *__pyx_pf_8cythonic_4core_6domain_6Domain_13food_location___get__(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -4065,7 +4065,7 @@ static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_13food_location___get_
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("cythonic.core.domain.domain.food_location.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cythonic.core.domain.Domain.food_location.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -4083,19 +4083,19 @@ static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_13food_location___get_
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8cythonic_4core_6domain_6domain_5pitch_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_8cythonic_4core_6domain_6domain_5pitch_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_8cythonic_4core_6domain_6Domain_5pitch_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_8cythonic_4core_6domain_6Domain_5pitch_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8cythonic_4core_6domain_6domain_5pitch___get__(((struct __pyx_obj_8cythonic_4core_6domain_domain *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8cythonic_4core_6domain_6Domain_5pitch___get__(((struct __pyx_obj_8cythonic_4core_6domain_Domain *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_5pitch___get__(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self) {
+static PyObject *__pyx_pf_8cythonic_4core_6domain_6Domain_5pitch___get__(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -4112,7 +4112,7 @@ static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_5pitch___get__(struct 
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("cythonic.core.domain.domain.pitch.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cythonic.core.domain.Domain.pitch.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -4122,19 +4122,19 @@ static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_5pitch___get__(struct 
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8cythonic_4core_6domain_6domain_11nest_radius_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_8cythonic_4core_6domain_6domain_11nest_radius_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_8cythonic_4core_6domain_6Domain_11nest_radius_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_8cythonic_4core_6domain_6Domain_11nest_radius_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8cythonic_4core_6domain_6domain_11nest_radius___get__(((struct __pyx_obj_8cythonic_4core_6domain_domain *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8cythonic_4core_6domain_6Domain_11nest_radius___get__(((struct __pyx_obj_8cythonic_4core_6domain_Domain *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_11nest_radius___get__(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self) {
+static PyObject *__pyx_pf_8cythonic_4core_6domain_6Domain_11nest_radius___get__(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -4151,7 +4151,7 @@ static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_11nest_radius___get__(
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("cythonic.core.domain.domain.nest_radius.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cythonic.core.domain.Domain.nest_radius.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -4161,19 +4161,19 @@ static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_11nest_radius___get__(
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8cythonic_4core_6domain_6domain_11food_radius_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_8cythonic_4core_6domain_6domain_11food_radius_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_8cythonic_4core_6domain_6Domain_11food_radius_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_8cythonic_4core_6domain_6Domain_11food_radius_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8cythonic_4core_6domain_6domain_11food_radius___get__(((struct __pyx_obj_8cythonic_4core_6domain_domain *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8cythonic_4core_6domain_6Domain_11food_radius___get__(((struct __pyx_obj_8cythonic_4core_6domain_Domain *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_11food_radius___get__(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self) {
+static PyObject *__pyx_pf_8cythonic_4core_6domain_6Domain_11food_radius___get__(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -4190,7 +4190,7 @@ static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_11food_radius___get__(
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("cythonic.core.domain.domain.food_radius.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cythonic.core.domain.Domain.food_radius.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -4208,19 +4208,19 @@ static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_11food_radius___get__(
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8cythonic_4core_6domain_6domain_3Map_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_8cythonic_4core_6domain_6domain_3Map_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_8cythonic_4core_6domain_6Domain_3Map_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_8cythonic_4core_6domain_6Domain_3Map_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8cythonic_4core_6domain_6domain_3Map___get__(((struct __pyx_obj_8cythonic_4core_6domain_domain *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8cythonic_4core_6domain_6Domain_3Map___get__(((struct __pyx_obj_8cythonic_4core_6domain_Domain *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_3Map___get__(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self) {
+static PyObject *__pyx_pf_8cythonic_4core_6domain_6Domain_3Map___get__(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -4233,7 +4233,7 @@ static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_3Map___get__(struct __
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_AddTraceback("cythonic.core.domain.domain.Map.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cythonic.core.domain.Domain.Map.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -4251,19 +4251,19 @@ static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_3Map___get__(struct __
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8cythonic_4core_6domain_6domain_8Gaussian_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_8cythonic_4core_6domain_6domain_8Gaussian_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_8cythonic_4core_6domain_6Domain_8Gaussian_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_8cythonic_4core_6domain_6Domain_8Gaussian_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8cythonic_4core_6domain_6domain_8Gaussian___get__(((struct __pyx_obj_8cythonic_4core_6domain_domain *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8cythonic_4core_6domain_6Domain_8Gaussian___get__(((struct __pyx_obj_8cythonic_4core_6domain_Domain *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_8Gaussian___get__(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self) {
+static PyObject *__pyx_pf_8cythonic_4core_6domain_6Domain_8Gaussian___get__(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -4276,7 +4276,7 @@ static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_8Gaussian___get__(stru
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_AddTraceback("cythonic.core.domain.domain.Gaussian.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cythonic.core.domain.Domain.Gaussian.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -4294,19 +4294,19 @@ static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_8Gaussian___get__(stru
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8cythonic_4core_6domain_6domain_3dim_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_8cythonic_4core_6domain_6domain_3dim_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_8cythonic_4core_6domain_6Domain_3dim_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_8cythonic_4core_6domain_6Domain_3dim_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8cythonic_4core_6domain_6domain_3dim___get__(((struct __pyx_obj_8cythonic_4core_6domain_domain *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8cythonic_4core_6domain_6Domain_3dim___get__(((struct __pyx_obj_8cythonic_4core_6domain_Domain *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_3dim___get__(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self) {
+static PyObject *__pyx_pf_8cythonic_4core_6domain_6Domain_3dim___get__(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -4323,7 +4323,7 @@ static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_3dim___get__(struct __
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("cythonic.core.domain.domain.dim.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cythonic.core.domain.Domain.dim.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -4341,19 +4341,19 @@ static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_3dim___get__(struct __
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8cythonic_4core_6domain_6domain_16target_pheromone_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_8cythonic_4core_6domain_6domain_16target_pheromone_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_8cythonic_4core_6domain_6Domain_16target_pheromone_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_8cythonic_4core_6domain_6Domain_16target_pheromone_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8cythonic_4core_6domain_6domain_16target_pheromone___get__(((struct __pyx_obj_8cythonic_4core_6domain_domain *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8cythonic_4core_6domain_6Domain_16target_pheromone___get__(((struct __pyx_obj_8cythonic_4core_6domain_Domain *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_16target_pheromone___get__(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self) {
+static PyObject *__pyx_pf_8cythonic_4core_6domain_6Domain_16target_pheromone___get__(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -4370,7 +4370,7 @@ static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_16target_pheromone___g
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("cythonic.core.domain.domain.target_pheromone.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cythonic.core.domain.Domain.target_pheromone.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -4380,19 +4380,19 @@ static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_16target_pheromone___g
 }
 
 /* Python wrapper */
-static int __pyx_pw_8cythonic_4core_6domain_6domain_16target_pheromone_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_8cythonic_4core_6domain_6domain_16target_pheromone_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_8cythonic_4core_6domain_6Domain_16target_pheromone_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_8cythonic_4core_6domain_6Domain_16target_pheromone_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8cythonic_4core_6domain_6domain_16target_pheromone_2__set__(((struct __pyx_obj_8cythonic_4core_6domain_domain *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_8cythonic_4core_6domain_6Domain_16target_pheromone_2__set__(((struct __pyx_obj_8cythonic_4core_6domain_Domain *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_8cythonic_4core_6domain_6domain_16target_pheromone_2__set__(struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_8cythonic_4core_6domain_6Domain_16target_pheromone_2__set__(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -4406,7 +4406,7 @@ static int __pyx_pf_8cythonic_4core_6domain_6domain_16target_pheromone_2__set__(
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("cythonic.core.domain.domain.target_pheromone.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cythonic.core.domain.Domain.target_pheromone.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -4421,20 +4421,20 @@ static int __pyx_pf_8cythonic_4core_6domain_6domain_16target_pheromone_2__set__(
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8cythonic_4core_6domain_6domain_3__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_8cythonic_4core_6domain_6domain_2__reduce_cython__[] = "domain.__reduce_cython__(self)";
-static PyObject *__pyx_pw_8cythonic_4core_6domain_6domain_3__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_8cythonic_4core_6domain_6Domain_3__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_8cythonic_4core_6domain_6Domain_2__reduce_cython__[] = "Domain.__reduce_cython__(self)";
+static PyObject *__pyx_pw_8cythonic_4core_6domain_6Domain_3__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8cythonic_4core_6domain_6domain_2__reduce_cython__(((struct __pyx_obj_8cythonic_4core_6domain_domain *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8cythonic_4core_6domain_6Domain_2__reduce_cython__(((struct __pyx_obj_8cythonic_4core_6domain_Domain *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_2__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self) {
+static PyObject *__pyx_pf_8cythonic_4core_6domain_6Domain_2__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -4463,7 +4463,7 @@ static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_2__reduce_cython__(CYT
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("cythonic.core.domain.domain.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cythonic.core.domain.Domain.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_TraceReturn(__pyx_r, 0);
@@ -4479,20 +4479,20 @@ static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_2__reduce_cython__(CYT
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8cythonic_4core_6domain_6domain_5__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static char __pyx_doc_8cythonic_4core_6domain_6domain_4__setstate_cython__[] = "domain.__setstate_cython__(self, __pyx_state)";
-static PyObject *__pyx_pw_8cythonic_4core_6domain_6domain_5__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pw_8cythonic_4core_6domain_6Domain_5__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static char __pyx_doc_8cythonic_4core_6domain_6Domain_4__setstate_cython__[] = "Domain.__setstate_cython__(self, __pyx_state)";
+static PyObject *__pyx_pw_8cythonic_4core_6domain_6Domain_5__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8cythonic_4core_6domain_6domain_4__setstate_cython__(((struct __pyx_obj_8cythonic_4core_6domain_domain *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+  __pyx_r = __pyx_pf_8cythonic_4core_6domain_6Domain_4__setstate_cython__(((struct __pyx_obj_8cythonic_4core_6domain_Domain *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_4__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_8cythonic_4core_6domain_domain *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_8cythonic_4core_6domain_6Domain_4__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -4521,7 +4521,7 @@ static PyObject *__pyx_pf_8cythonic_4core_6domain_6domain_4__setstate_cython__(C
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("cythonic.core.domain.domain.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cythonic.core.domain.Domain.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_TraceReturn(__pyx_r, 0);
@@ -20111,10 +20111,10 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static struct __pyx_vtabstruct_8cythonic_4core_6domain_domain __pyx_vtable_8cythonic_4core_6domain_domain;
+static struct __pyx_vtabstruct_8cythonic_4core_6domain_Domain __pyx_vtable_8cythonic_4core_6domain_Domain;
 
-static PyObject *__pyx_tp_new_8cythonic_4core_6domain_domain(PyTypeObject *t, PyObject *a, PyObject *k) {
-  struct __pyx_obj_8cythonic_4core_6domain_domain *p;
+static PyObject *__pyx_tp_new_8cythonic_4core_6domain_Domain(PyTypeObject *t, PyObject *a, PyObject *k) {
+  struct __pyx_obj_8cythonic_4core_6domain_Domain *p;
   PyObject *o;
   if (likely((t->tp_flags & Py_TPFLAGS_IS_ABSTRACT) == 0)) {
     o = (*t->tp_alloc)(t, 0);
@@ -20122,19 +20122,19 @@ static PyObject *__pyx_tp_new_8cythonic_4core_6domain_domain(PyTypeObject *t, Py
     o = (PyObject *) PyBaseObject_Type.tp_new(t, __pyx_empty_tuple, 0);
   }
   if (unlikely(!o)) return 0;
-  p = ((struct __pyx_obj_8cythonic_4core_6domain_domain *)o);
-  p->__pyx_vtab = __pyx_vtabptr_8cythonic_4core_6domain_domain;
+  p = ((struct __pyx_obj_8cythonic_4core_6domain_Domain *)o);
+  p->__pyx_vtab = __pyx_vtabptr_8cythonic_4core_6domain_Domain;
   p->Map = ((struct __pyx_obj_8cythonic_4core_3map_MeshMap *)Py_None); Py_INCREF(Py_None);
   p->Gaussian = ((struct __pyx_obj_8cythonic_4core_3map_GaussMap *)Py_None); Py_INCREF(Py_None);
-  if (unlikely(__pyx_pw_8cythonic_4core_6domain_6domain_1__cinit__(o, a, k) < 0)) goto bad;
+  if (unlikely(__pyx_pw_8cythonic_4core_6domain_6Domain_1__cinit__(o, a, k) < 0)) goto bad;
   return o;
   bad:
   Py_DECREF(o); o = 0;
   return NULL;
 }
 
-static void __pyx_tp_dealloc_8cythonic_4core_6domain_domain(PyObject *o) {
-  struct __pyx_obj_8cythonic_4core_6domain_domain *p = (struct __pyx_obj_8cythonic_4core_6domain_domain *)o;
+static void __pyx_tp_dealloc_8cythonic_4core_6domain_Domain(PyObject *o) {
+  struct __pyx_obj_8cythonic_4core_6domain_Domain *p = (struct __pyx_obj_8cythonic_4core_6domain_Domain *)o;
   #if CYTHON_USE_TP_FINALIZE
   if (unlikely(PyType_HasFeature(Py_TYPE(o), Py_TPFLAGS_HAVE_FINALIZE) && Py_TYPE(o)->tp_finalize) && !_PyGC_FINALIZED(o)) {
     if (PyObject_CallFinalizerFromDealloc(o)) return;
@@ -20146,9 +20146,9 @@ static void __pyx_tp_dealloc_8cythonic_4core_6domain_domain(PyObject *o) {
   (*Py_TYPE(o)->tp_free)(o);
 }
 
-static int __pyx_tp_traverse_8cythonic_4core_6domain_domain(PyObject *o, visitproc v, void *a) {
+static int __pyx_tp_traverse_8cythonic_4core_6domain_Domain(PyObject *o, visitproc v, void *a) {
   int e;
-  struct __pyx_obj_8cythonic_4core_6domain_domain *p = (struct __pyx_obj_8cythonic_4core_6domain_domain *)o;
+  struct __pyx_obj_8cythonic_4core_6domain_Domain *p = (struct __pyx_obj_8cythonic_4core_6domain_Domain *)o;
   if (p->Map) {
     e = (*v)(((PyObject *)p->Map), a); if (e) return e;
   }
@@ -20158,9 +20158,9 @@ static int __pyx_tp_traverse_8cythonic_4core_6domain_domain(PyObject *o, visitpr
   return 0;
 }
 
-static int __pyx_tp_clear_8cythonic_4core_6domain_domain(PyObject *o) {
+static int __pyx_tp_clear_8cythonic_4core_6domain_Domain(PyObject *o) {
   PyObject* tmp;
-  struct __pyx_obj_8cythonic_4core_6domain_domain *p = (struct __pyx_obj_8cythonic_4core_6domain_domain *)o;
+  struct __pyx_obj_8cythonic_4core_6domain_Domain *p = (struct __pyx_obj_8cythonic_4core_6domain_Domain *)o;
   tmp = ((PyObject*)p->Map);
   p->Map = ((struct __pyx_obj_8cythonic_4core_3map_MeshMap *)Py_None); Py_INCREF(Py_None);
   Py_XDECREF(tmp);
@@ -20170,49 +20170,49 @@ static int __pyx_tp_clear_8cythonic_4core_6domain_domain(PyObject *o) {
   return 0;
 }
 
-static PyObject *__pyx_getprop_8cythonic_4core_6domain_6domain_size(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_8cythonic_4core_6domain_6domain_4size_1__get__(o);
+static PyObject *__pyx_getprop_8cythonic_4core_6domain_6Domain_size(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_8cythonic_4core_6domain_6Domain_4size_1__get__(o);
 }
 
-static PyObject *__pyx_getprop_8cythonic_4core_6domain_6domain_nest_location(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_8cythonic_4core_6domain_6domain_13nest_location_1__get__(o);
+static PyObject *__pyx_getprop_8cythonic_4core_6domain_6Domain_nest_location(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_8cythonic_4core_6domain_6Domain_13nest_location_1__get__(o);
 }
 
-static PyObject *__pyx_getprop_8cythonic_4core_6domain_6domain_food_location(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_8cythonic_4core_6domain_6domain_13food_location_1__get__(o);
+static PyObject *__pyx_getprop_8cythonic_4core_6domain_6Domain_food_location(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_8cythonic_4core_6domain_6Domain_13food_location_1__get__(o);
 }
 
-static PyObject *__pyx_getprop_8cythonic_4core_6domain_6domain_pitch(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_8cythonic_4core_6domain_6domain_5pitch_1__get__(o);
+static PyObject *__pyx_getprop_8cythonic_4core_6domain_6Domain_pitch(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_8cythonic_4core_6domain_6Domain_5pitch_1__get__(o);
 }
 
-static PyObject *__pyx_getprop_8cythonic_4core_6domain_6domain_nest_radius(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_8cythonic_4core_6domain_6domain_11nest_radius_1__get__(o);
+static PyObject *__pyx_getprop_8cythonic_4core_6domain_6Domain_nest_radius(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_8cythonic_4core_6domain_6Domain_11nest_radius_1__get__(o);
 }
 
-static PyObject *__pyx_getprop_8cythonic_4core_6domain_6domain_food_radius(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_8cythonic_4core_6domain_6domain_11food_radius_1__get__(o);
+static PyObject *__pyx_getprop_8cythonic_4core_6domain_6Domain_food_radius(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_8cythonic_4core_6domain_6Domain_11food_radius_1__get__(o);
 }
 
-static PyObject *__pyx_getprop_8cythonic_4core_6domain_6domain_Map(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_8cythonic_4core_6domain_6domain_3Map_1__get__(o);
+static PyObject *__pyx_getprop_8cythonic_4core_6domain_6Domain_Map(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_8cythonic_4core_6domain_6Domain_3Map_1__get__(o);
 }
 
-static PyObject *__pyx_getprop_8cythonic_4core_6domain_6domain_Gaussian(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_8cythonic_4core_6domain_6domain_8Gaussian_1__get__(o);
+static PyObject *__pyx_getprop_8cythonic_4core_6domain_6Domain_Gaussian(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_8cythonic_4core_6domain_6Domain_8Gaussian_1__get__(o);
 }
 
-static PyObject *__pyx_getprop_8cythonic_4core_6domain_6domain_dim(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_8cythonic_4core_6domain_6domain_3dim_1__get__(o);
+static PyObject *__pyx_getprop_8cythonic_4core_6domain_6Domain_dim(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_8cythonic_4core_6domain_6Domain_3dim_1__get__(o);
 }
 
-static PyObject *__pyx_getprop_8cythonic_4core_6domain_6domain_target_pheromone(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_8cythonic_4core_6domain_6domain_16target_pheromone_1__get__(o);
+static PyObject *__pyx_getprop_8cythonic_4core_6domain_6Domain_target_pheromone(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_8cythonic_4core_6domain_6Domain_16target_pheromone_1__get__(o);
 }
 
-static int __pyx_setprop_8cythonic_4core_6domain_6domain_target_pheromone(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_8cythonic_4core_6domain_6Domain_target_pheromone(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_8cythonic_4core_6domain_6domain_16target_pheromone_3__set__(o, v);
+    return __pyx_pw_8cythonic_4core_6domain_6Domain_16target_pheromone_3__set__(o, v);
   }
   else {
     PyErr_SetString(PyExc_NotImplementedError, "__del__");
@@ -20220,32 +20220,32 @@ static int __pyx_setprop_8cythonic_4core_6domain_6domain_target_pheromone(PyObje
   }
 }
 
-static PyMethodDef __pyx_methods_8cythonic_4core_6domain_domain[] = {
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_8cythonic_4core_6domain_6domain_3__reduce_cython__, METH_NOARGS, __pyx_doc_8cythonic_4core_6domain_6domain_2__reduce_cython__},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_8cythonic_4core_6domain_6domain_5__setstate_cython__, METH_O, __pyx_doc_8cythonic_4core_6domain_6domain_4__setstate_cython__},
+static PyMethodDef __pyx_methods_8cythonic_4core_6domain_Domain[] = {
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_8cythonic_4core_6domain_6Domain_3__reduce_cython__, METH_NOARGS, __pyx_doc_8cythonic_4core_6domain_6Domain_2__reduce_cython__},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_8cythonic_4core_6domain_6Domain_5__setstate_cython__, METH_O, __pyx_doc_8cythonic_4core_6domain_6Domain_4__setstate_cython__},
   {0, 0, 0, 0}
 };
 
-static struct PyGetSetDef __pyx_getsets_8cythonic_4core_6domain_domain[] = {
-  {(char *)"size", __pyx_getprop_8cythonic_4core_6domain_6domain_size, 0, (char *)0, 0},
-  {(char *)"nest_location", __pyx_getprop_8cythonic_4core_6domain_6domain_nest_location, 0, (char *)0, 0},
-  {(char *)"food_location", __pyx_getprop_8cythonic_4core_6domain_6domain_food_location, 0, (char *)0, 0},
-  {(char *)"pitch", __pyx_getprop_8cythonic_4core_6domain_6domain_pitch, 0, (char *)0, 0},
-  {(char *)"nest_radius", __pyx_getprop_8cythonic_4core_6domain_6domain_nest_radius, 0, (char *)0, 0},
-  {(char *)"food_radius", __pyx_getprop_8cythonic_4core_6domain_6domain_food_radius, 0, (char *)0, 0},
-  {(char *)"Map", __pyx_getprop_8cythonic_4core_6domain_6domain_Map, 0, (char *)0, 0},
-  {(char *)"Gaussian", __pyx_getprop_8cythonic_4core_6domain_6domain_Gaussian, 0, (char *)0, 0},
-  {(char *)"dim", __pyx_getprop_8cythonic_4core_6domain_6domain_dim, 0, (char *)0, 0},
-  {(char *)"target_pheromone", __pyx_getprop_8cythonic_4core_6domain_6domain_target_pheromone, __pyx_setprop_8cythonic_4core_6domain_6domain_target_pheromone, (char *)"target_pheromone: 'double'", 0},
+static struct PyGetSetDef __pyx_getsets_8cythonic_4core_6domain_Domain[] = {
+  {(char *)"size", __pyx_getprop_8cythonic_4core_6domain_6Domain_size, 0, (char *)0, 0},
+  {(char *)"nest_location", __pyx_getprop_8cythonic_4core_6domain_6Domain_nest_location, 0, (char *)0, 0},
+  {(char *)"food_location", __pyx_getprop_8cythonic_4core_6domain_6Domain_food_location, 0, (char *)0, 0},
+  {(char *)"pitch", __pyx_getprop_8cythonic_4core_6domain_6Domain_pitch, 0, (char *)0, 0},
+  {(char *)"nest_radius", __pyx_getprop_8cythonic_4core_6domain_6Domain_nest_radius, 0, (char *)0, 0},
+  {(char *)"food_radius", __pyx_getprop_8cythonic_4core_6domain_6Domain_food_radius, 0, (char *)0, 0},
+  {(char *)"Map", __pyx_getprop_8cythonic_4core_6domain_6Domain_Map, 0, (char *)0, 0},
+  {(char *)"Gaussian", __pyx_getprop_8cythonic_4core_6domain_6Domain_Gaussian, 0, (char *)0, 0},
+  {(char *)"dim", __pyx_getprop_8cythonic_4core_6domain_6Domain_dim, 0, (char *)0, 0},
+  {(char *)"target_pheromone", __pyx_getprop_8cythonic_4core_6domain_6Domain_target_pheromone, __pyx_setprop_8cythonic_4core_6domain_6Domain_target_pheromone, (char *)"target_pheromone: 'double'", 0},
   {0, 0, 0, 0, 0}
 };
 
-static PyTypeObject __pyx_type_8cythonic_4core_6domain_domain = {
+static PyTypeObject __pyx_type_8cythonic_4core_6domain_Domain = {
   PyVarObject_HEAD_INIT(0, 0)
-  "cythonic.core.domain.domain", /*tp_name*/
-  sizeof(struct __pyx_obj_8cythonic_4core_6domain_domain), /*tp_basicsize*/
+  "cythonic.core.domain.Domain", /*tp_name*/
+  sizeof(struct __pyx_obj_8cythonic_4core_6domain_Domain), /*tp_basicsize*/
   0, /*tp_itemsize*/
-  __pyx_tp_dealloc_8cythonic_4core_6domain_domain, /*tp_dealloc*/
+  __pyx_tp_dealloc_8cythonic_4core_6domain_Domain, /*tp_dealloc*/
   0, /*tp_print*/
   0, /*tp_getattr*/
   0, /*tp_setattr*/
@@ -20267,15 +20267,15 @@ static PyTypeObject __pyx_type_8cythonic_4core_6domain_domain = {
   0, /*tp_as_buffer*/
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC, /*tp_flags*/
   " playground of the simulation ", /*tp_doc*/
-  __pyx_tp_traverse_8cythonic_4core_6domain_domain, /*tp_traverse*/
-  __pyx_tp_clear_8cythonic_4core_6domain_domain, /*tp_clear*/
+  __pyx_tp_traverse_8cythonic_4core_6domain_Domain, /*tp_traverse*/
+  __pyx_tp_clear_8cythonic_4core_6domain_Domain, /*tp_clear*/
   0, /*tp_richcompare*/
   0, /*tp_weaklistoffset*/
   0, /*tp_iter*/
   0, /*tp_iternext*/
-  __pyx_methods_8cythonic_4core_6domain_domain, /*tp_methods*/
+  __pyx_methods_8cythonic_4core_6domain_Domain, /*tp_methods*/
   0, /*tp_members*/
-  __pyx_getsets_8cythonic_4core_6domain_domain, /*tp_getset*/
+  __pyx_getsets_8cythonic_4core_6domain_Domain, /*tp_getset*/
   0, /*tp_base*/
   0, /*tp_dict*/
   0, /*tp_descr_get*/
@@ -20283,7 +20283,7 @@ static PyTypeObject __pyx_type_8cythonic_4core_6domain_domain = {
   0, /*tp_dictoffset*/
   0, /*tp_init*/
   0, /*tp_alloc*/
-  __pyx_tp_new_8cythonic_4core_6domain_domain, /*tp_new*/
+  __pyx_tp_new_8cythonic_4core_6domain_Domain, /*tp_new*/
   0, /*tp_free*/
   0, /*tp_is_gc*/
   0, /*tp_bases*/
@@ -21021,6 +21021,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_Cannot_assign_to_read_only_memor, __pyx_k_Cannot_assign_to_read_only_memor, sizeof(__pyx_k_Cannot_assign_to_read_only_memor), 0, 0, 1, 0},
   {&__pyx_kp_s_Cannot_create_writable_memory_vi, __pyx_k_Cannot_create_writable_memory_vi, sizeof(__pyx_k_Cannot_create_writable_memory_vi), 0, 0, 1, 0},
   {&__pyx_kp_s_Cannot_index_with_type_s, __pyx_k_Cannot_index_with_type_s, sizeof(__pyx_k_Cannot_index_with_type_s), 0, 0, 1, 0},
+  {&__pyx_n_s_Domain, __pyx_k_Domain, sizeof(__pyx_k_Domain), 0, 0, 1, 1},
   {&__pyx_n_s_Ellipsis, __pyx_k_Ellipsis, sizeof(__pyx_k_Ellipsis), 0, 0, 1, 1},
   {&__pyx_kp_s_Empty_shape_tuple_for_cython_arr, __pyx_k_Empty_shape_tuple_for_cython_arr, sizeof(__pyx_k_Empty_shape_tuple_for_cython_arr), 0, 0, 1, 0},
   {&__pyx_kp_u_Format_string_allocated_too_shor, __pyx_k_Format_string_allocated_too_shor, sizeof(__pyx_k_Format_string_allocated_too_shor), 0, 1, 0, 0},
@@ -21056,7 +21057,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_covariance, __pyx_k_covariance, sizeof(__pyx_k_covariance), 0, 0, 1, 1},
   {&__pyx_n_s_dict, __pyx_k_dict, sizeof(__pyx_k_dict), 0, 0, 1, 1},
   {&__pyx_n_s_dim, __pyx_k_dim, sizeof(__pyx_k_dim), 0, 0, 1, 1},
-  {&__pyx_n_s_domain, __pyx_k_domain, sizeof(__pyx_k_domain), 0, 0, 1, 1},
   {&__pyx_n_s_dot, __pyx_k_dot, sizeof(__pyx_k_dot), 0, 0, 1, 1},
   {&__pyx_n_s_dtype, __pyx_k_dtype, sizeof(__pyx_k_dtype), 0, 0, 1, 1},
   {&__pyx_n_s_dtype_is_object, __pyx_k_dtype_is_object, sizeof(__pyx_k_dtype_is_object), 0, 0, 1, 1},
@@ -21565,23 +21565,23 @@ static int __Pyx_modinit_type_init_code(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_init_code", 0);
   /*--- Type init code ---*/
-  __pyx_vtabptr_8cythonic_4core_6domain_domain = &__pyx_vtable_8cythonic_4core_6domain_domain;
-  __pyx_vtable_8cythonic_4core_6domain_domain.init_gaussian = (void (*)(struct __pyx_obj_8cythonic_4core_6domain_domain *, double, double))__pyx_f_8cythonic_4core_6domain_6domain_init_gaussian;
-  __pyx_vtable_8cythonic_4core_6domain_domain.check_bounds = (int (*)(struct __pyx_obj_8cythonic_4core_6domain_domain *, double *, double *))__pyx_f_8cythonic_4core_6domain_6domain_check_bounds;
-  __pyx_vtable_8cythonic_4core_6domain_domain.probe_pheromone = (double (*)(struct __pyx_obj_8cythonic_4core_6domain_domain *, struct __pyx_t_8cythonic_7plugins_9positions_point *))__pyx_f_8cythonic_4core_6domain_6domain_probe_pheromone;
-  __pyx_vtable_8cythonic_4core_6domain_domain.add_pheromone = (void (*)(struct __pyx_obj_8cythonic_4core_6domain_domain *, struct __pyx_t_8cythonic_7plugins_9positions_point *, double *))__pyx_f_8cythonic_4core_6domain_6domain_add_pheromone;
-  __pyx_vtable_8cythonic_4core_6domain_domain.pyvaporate = (void (*)(struct __pyx_obj_8cythonic_4core_6domain_domain *))__pyx_f_8cythonic_4core_6domain_6domain_pyvaporate;
-  __pyx_vtable_8cythonic_4core_6domain_domain.cvaporate = (void (*)(struct __pyx_obj_8cythonic_4core_6domain_domain *))__pyx_f_8cythonic_4core_6domain_6domain_cvaporate;
-  __pyx_vtable_8cythonic_4core_6domain_domain.set_target_pheromone = (void (*)(struct __pyx_obj_8cythonic_4core_6domain_domain *, double))__pyx_f_8cythonic_4core_6domain_6domain_set_target_pheromone;
-  if (PyType_Ready(&__pyx_type_8cythonic_4core_6domain_domain) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
-  __pyx_type_8cythonic_4core_6domain_domain.tp_print = 0;
-  if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_8cythonic_4core_6domain_domain.tp_dictoffset && __pyx_type_8cythonic_4core_6domain_domain.tp_getattro == PyObject_GenericGetAttr)) {
-    __pyx_type_8cythonic_4core_6domain_domain.tp_getattro = __Pyx_PyObject_GenericGetAttr;
+  __pyx_vtabptr_8cythonic_4core_6domain_Domain = &__pyx_vtable_8cythonic_4core_6domain_Domain;
+  __pyx_vtable_8cythonic_4core_6domain_Domain.init_gaussian = (void (*)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, double, double))__pyx_f_8cythonic_4core_6domain_6Domain_init_gaussian;
+  __pyx_vtable_8cythonic_4core_6domain_Domain.check_bounds = (int (*)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, double *, double *))__pyx_f_8cythonic_4core_6domain_6Domain_check_bounds;
+  __pyx_vtable_8cythonic_4core_6domain_Domain.probe_pheromone = (double (*)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_9positions_point *))__pyx_f_8cythonic_4core_6domain_6Domain_probe_pheromone;
+  __pyx_vtable_8cythonic_4core_6domain_Domain.add_pheromone = (void (*)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_9positions_point *, double *))__pyx_f_8cythonic_4core_6domain_6Domain_add_pheromone;
+  __pyx_vtable_8cythonic_4core_6domain_Domain.pyvaporate = (void (*)(struct __pyx_obj_8cythonic_4core_6domain_Domain *))__pyx_f_8cythonic_4core_6domain_6Domain_pyvaporate;
+  __pyx_vtable_8cythonic_4core_6domain_Domain.cvaporate = (void (*)(struct __pyx_obj_8cythonic_4core_6domain_Domain *))__pyx_f_8cythonic_4core_6domain_6Domain_cvaporate;
+  __pyx_vtable_8cythonic_4core_6domain_Domain.set_target_pheromone = (void (*)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, double))__pyx_f_8cythonic_4core_6domain_6Domain_set_target_pheromone;
+  if (PyType_Ready(&__pyx_type_8cythonic_4core_6domain_Domain) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_type_8cythonic_4core_6domain_Domain.tp_print = 0;
+  if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_8cythonic_4core_6domain_Domain.tp_dictoffset && __pyx_type_8cythonic_4core_6domain_Domain.tp_getattro == PyObject_GenericGetAttr)) {
+    __pyx_type_8cythonic_4core_6domain_Domain.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_8cythonic_4core_6domain_domain.tp_dict, __pyx_vtabptr_8cythonic_4core_6domain_domain) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_domain, (PyObject *)&__pyx_type_8cythonic_4core_6domain_domain) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_8cythonic_4core_6domain_domain) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
-  __pyx_ptype_8cythonic_4core_6domain_domain = &__pyx_type_8cythonic_4core_6domain_domain;
+  if (__Pyx_SetVtable(__pyx_type_8cythonic_4core_6domain_Domain.tp_dict, __pyx_vtabptr_8cythonic_4core_6domain_Domain) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Domain, (PyObject *)&__pyx_type_8cythonic_4core_6domain_Domain) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_8cythonic_4core_6domain_Domain) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_ptype_8cythonic_4core_6domain_Domain = &__pyx_type_8cythonic_4core_6domain_Domain;
   __pyx_vtabptr_array = &__pyx_vtable_array;
   __pyx_vtable_array.get_memview = (PyObject *(*)(struct __pyx_array_obj *))__pyx_array_get_memview;
   if (PyType_Ready(&__pyx_type___pyx_array) < 0) __PYX_ERR(1, 105, __pyx_L1_error)

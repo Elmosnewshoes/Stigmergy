@@ -1016,7 +1016,7 @@ struct __pyx_vtabstruct_8cythonic_4core_3ant_Ant {
 static struct __pyx_vtabstruct_8cythonic_4core_3ant_Ant *__pyx_vtabptr_8cythonic_4core_3ant_Ant;
 
 
-/* "cythonic/core/queen.pyx":10
+/* "cythonic/core/queen.pyx":12
  *     It is encouraged to play 'Master of Puppets' while executing this class
  *     ============ """
  * cdef class Queen:             # <<<<<<<<<<<<<<
@@ -1809,7 +1809,7 @@ static PyObject *__pyx_tuple__18;
 static PyObject *__pyx_tuple__19;
 /* Late includes */
 
-/* "cythonic/core/queen.pyx":11
+/* "cythonic/core/queen.pyx":13
  *     ============ """
  * cdef class Queen:
  *     def __cinit__(self,unsigned int n, ant_dict, double dt):             # <<<<<<<<<<<<<<
@@ -1851,17 +1851,17 @@ static int __pyx_pw_8cythonic_4core_5queen_5Queen_1__cinit__(PyObject *__pyx_v_s
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_ant_dict)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 3, 3, 1); __PYX_ERR(0, 11, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 3, 3, 1); __PYX_ERR(0, 13, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_dt)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 3, 3, 2); __PYX_ERR(0, 11, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 3, 3, 2); __PYX_ERR(0, 13, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 11, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 13, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -1870,13 +1870,13 @@ static int __pyx_pw_8cythonic_4core_5queen_5Queen_1__cinit__(PyObject *__pyx_v_s
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
-    __pyx_v_n = __Pyx_PyInt_As_unsigned_int(values[0]); if (unlikely((__pyx_v_n == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 11, __pyx_L3_error)
+    __pyx_v_n = __Pyx_PyInt_As_unsigned_int(values[0]); if (unlikely((__pyx_v_n == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 13, __pyx_L3_error)
     __pyx_v_ant_dict = values[1];
-    __pyx_v_dt = __pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_dt == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 11, __pyx_L3_error)
+    __pyx_v_dt = __pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_dt == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 13, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 11, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 13, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("cythonic.core.queen.Queen.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -1898,9 +1898,9 @@ static int __pyx_pf_8cythonic_4core_5queen_5Queen___cinit__(struct __pyx_obj_8cy
   PyObject *__pyx_t_2 = NULL;
   PyObject *__pyx_t_3 = NULL;
   __Pyx_RefNannySetupContext("__cinit__", 0);
-  __Pyx_TraceCall("__cinit__", __pyx_f[0], 11, 0, __PYX_ERR(0, 11, __pyx_L1_error));
+  __Pyx_TraceCall("__cinit__", __pyx_f[0], 13, 0, __PYX_ERR(0, 13, __pyx_L1_error));
 
-  /* "cythonic/core/queen.pyx":13
+  /* "cythonic/core/queen.pyx":15
  *     def __cinit__(self,unsigned int n, ant_dict, double dt):
  *         " initialize the controller (Queen) "
  *         self.n = n # total number of agents             # <<<<<<<<<<<<<<
@@ -1909,7 +1909,7 @@ static int __pyx_pf_8cythonic_4core_5queen_5Queen___cinit__(struct __pyx_obj_8cy
  */
   __pyx_v_self->n = __pyx_v_n;
 
-  /* "cythonic/core/queen.pyx":14
+  /* "cythonic/core/queen.pyx":16
  *         " initialize the controller (Queen) "
  *         self.n = n # total number of agents
  *         state_list = new vector[ant_state](n) # reserve memory for a vector of states             # <<<<<<<<<<<<<<
@@ -1920,11 +1920,11 @@ static int __pyx_pf_8cythonic_4core_5queen_5Queen___cinit__(struct __pyx_obj_8cy
     __pyx_t_1 = new std::vector<struct __pyx_t_8cythonic_4core_3ant_ant_state> (__pyx_v_n);
   } catch(...) {
     __Pyx_CppExn2PyErr();
-    __PYX_ERR(0, 14, __pyx_L1_error)
+    __PYX_ERR(0, 16, __pyx_L1_error)
   }
   __pyx_v_state_list = __pyx_t_1;
 
-  /* "cythonic/core/queen.pyx":17
+  /* "cythonic/core/queen.pyx":19
  * 
  *         " sim settings "
  *         self.dt = dt             # <<<<<<<<<<<<<<
@@ -1933,7 +1933,7 @@ static int __pyx_pf_8cythonic_4core_5queen_5Queen___cinit__(struct __pyx_obj_8cy
  */
   __pyx_v_self->dt = __pyx_v_dt;
 
-  /* "cythonic/core/queen.pyx":20
+  /* "cythonic/core/queen.pyx":22
  * 
  *         " deploy a model for the agent, which accepts and modifies a state "
  *         self.agent = Ant(**ant_dict)             # <<<<<<<<<<<<<<
@@ -1942,16 +1942,16 @@ static int __pyx_pf_8cythonic_4core_5queen_5Queen___cinit__(struct __pyx_obj_8cy
  */
   if (unlikely(__pyx_v_ant_dict == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "argument after ** must be a mapping, not NoneType");
-    __PYX_ERR(0, 20, __pyx_L1_error)
+    __PYX_ERR(0, 22, __pyx_L1_error)
   }
   if (likely(PyDict_CheckExact(__pyx_v_ant_dict))) {
-    __pyx_t_2 = PyDict_Copy(__pyx_v_ant_dict); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 20, __pyx_L1_error)
+    __pyx_t_2 = PyDict_Copy(__pyx_v_ant_dict); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 22, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
   } else {
-    __pyx_t_2 = PyObject_CallFunctionObjArgs((PyObject*)&PyDict_Type, __pyx_v_ant_dict, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 20, __pyx_L1_error)
+    __pyx_t_2 = PyObject_CallFunctionObjArgs((PyObject*)&PyDict_Type, __pyx_v_ant_dict, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 22, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
   }
-  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_8cythonic_4core_3ant_Ant), __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_8cythonic_4core_3ant_Ant), __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_GIVEREF(__pyx_t_3);
@@ -1960,7 +1960,7 @@ static int __pyx_pf_8cythonic_4core_5queen_5Queen___cinit__(struct __pyx_obj_8cy
   __pyx_v_self->agent = ((struct __pyx_obj_8cythonic_4core_3ant_Ant *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "cythonic/core/queen.pyx":11
+  /* "cythonic/core/queen.pyx":13
  *     ============ """
  * cdef class Queen:
  *     def __cinit__(self,unsigned int n, ant_dict, double dt):             # <<<<<<<<<<<<<<
@@ -1982,7 +1982,7 @@ static int __pyx_pf_8cythonic_4core_5queen_5Queen___cinit__(struct __pyx_obj_8cy
   return __pyx_r;
 }
 
-/* "cythonic/core/queen.pyx":22
+/* "cythonic/core/queen.pyx":24
  *         self.agent = Ant(**ant_dict)
  * 
  *     cpdef readonly void deploy(self, ant_state s):             # <<<<<<<<<<<<<<
@@ -2000,7 +2000,7 @@ void __pyx_f_8cythonic_4core_5queen_5Queen_deploy(struct __pyx_obj_8cythonic_4co
   PyObject *__pyx_t_4 = NULL;
   PyObject *__pyx_t_5 = NULL;
   __Pyx_RefNannySetupContext("deploy", 0);
-  __Pyx_TraceCall("deploy", __pyx_f[0], 22, 0, __PYX_ERR(0, 22, __pyx_L1_error));
+  __Pyx_TraceCall("deploy", __pyx_f[0], 24, 0, __PYX_ERR(0, 24, __pyx_L1_error));
   /* Check if called by wrapper */
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
@@ -2011,10 +2011,10 @@ void __pyx_f_8cythonic_4core_5queen_5Queen_deploy(struct __pyx_obj_8cythonic_4co
     else {
       PY_UINT64_T type_dict_guard = (likely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dict)) ? __PYX_GET_DICT_VERSION(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dict) : 0;
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_deploy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 22, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_deploy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 24, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_8cythonic_4core_5queen_5Queen_3deploy)) {
-        __pyx_t_3 = __pyx_convert__to_py_struct____pyx_t_8cythonic_4core_3ant_ant_state(__pyx_v_s); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 22, __pyx_L1_error)
+        __pyx_t_3 = __pyx_convert__to_py_struct____pyx_t_8cythonic_4core_3ant_ant_state(__pyx_v_s); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 24, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_INCREF(__pyx_t_1);
         __pyx_t_4 = __pyx_t_1; __pyx_t_5 = NULL;
@@ -2030,7 +2030,7 @@ void __pyx_f_8cythonic_4core_5queen_5Queen_deploy(struct __pyx_obj_8cythonic_4co
         __pyx_t_2 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_3);
         __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 22, __pyx_L1_error)
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 24, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -2050,7 +2050,7 @@ void __pyx_f_8cythonic_4core_5queen_5Queen_deploy(struct __pyx_obj_8cythonic_4co
     #endif
   }
 
-  /* "cythonic/core/queen.pyx":24
+  /* "cythonic/core/queen.pyx":26
  *     cpdef readonly void deploy(self, ant_state s):
  *         " activate an ant "
  *         s.active = True # activate the ant             # <<<<<<<<<<<<<<
@@ -2059,7 +2059,7 @@ void __pyx_f_8cythonic_4core_5queen_5Queen_deploy(struct __pyx_obj_8cythonic_4co
  */
   __pyx_v_s.active = 1;
 
-  /* "cythonic/core/queen.pyx":25
+  /* "cythonic/core/queen.pyx":27
  *         " activate an ant "
  *         s.active = True # activate the ant
  *         self.state_list.push_back(s) # store the ant state             # <<<<<<<<<<<<<<
@@ -2070,10 +2070,10 @@ void __pyx_f_8cythonic_4core_5queen_5Queen_deploy(struct __pyx_obj_8cythonic_4co
     __pyx_v_self->state_list.push_back(__pyx_v_s);
   } catch(...) {
     __Pyx_CppExn2PyErr();
-    __PYX_ERR(0, 25, __pyx_L1_error)
+    __PYX_ERR(0, 27, __pyx_L1_error)
   }
 
-  /* "cythonic/core/queen.pyx":26
+  /* "cythonic/core/queen.pyx":28
  *         s.active = True # activate the ant
  *         self.state_list.push_back(s) # store the ant state
  *         self.count_active += 1 # count active ants             # <<<<<<<<<<<<<<
@@ -2082,7 +2082,7 @@ void __pyx_f_8cythonic_4core_5queen_5Queen_deploy(struct __pyx_obj_8cythonic_4co
  */
   __pyx_v_self->count_active = (__pyx_v_self->count_active + 1);
 
-  /* "cythonic/core/queen.pyx":22
+  /* "cythonic/core/queen.pyx":24
  *         self.agent = Ant(**ant_dict)
  * 
  *     cpdef readonly void deploy(self, ant_state s):             # <<<<<<<<<<<<<<
@@ -2113,7 +2113,7 @@ static PyObject *__pyx_pw_8cythonic_4core_5queen_5Queen_3deploy(PyObject *__pyx_
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("deploy (wrapper)", 0);
   assert(__pyx_arg_s); {
-    __pyx_v_s = __pyx_convert__from_py_struct____pyx_t_8cythonic_4core_3ant_ant_state(__pyx_arg_s); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 22, __pyx_L3_error)
+    __pyx_v_s = __pyx_convert__from_py_struct____pyx_t_8cythonic_4core_3ant_ant_state(__pyx_arg_s); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 24, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -2134,9 +2134,9 @@ static PyObject *__pyx_pf_8cythonic_4core_5queen_5Queen_2deploy(struct __pyx_obj
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("deploy", 0);
-  __Pyx_TraceCall("deploy (wrapper)", __pyx_f[0], 22, 0, __PYX_ERR(0, 22, __pyx_L1_error));
+  __Pyx_TraceCall("deploy (wrapper)", __pyx_f[0], 24, 0, __PYX_ERR(0, 24, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_void_to_None(__pyx_f_8cythonic_4core_5queen_5Queen_deploy(__pyx_v_self, __pyx_v_s, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_void_to_None(__pyx_f_8cythonic_4core_5queen_5Queen_deploy(__pyx_v_self, __pyx_v_s, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2154,7 +2154,7 @@ static PyObject *__pyx_pf_8cythonic_4core_5queen_5Queen_2deploy(struct __pyx_obj
   return __pyx_r;
 }
 
-/* "cythonic/core/queen.pyx":28
+/* "cythonic/core/queen.pyx":30
  *         self.count_active += 1 # count active ants
  * 
  *     cdef readonly void step_all(self,):             # <<<<<<<<<<<<<<
@@ -2170,9 +2170,9 @@ void __pyx_f_8cythonic_4core_5queen_5Queen_step_all(struct __pyx_obj_8cythonic_4
   unsigned int __pyx_t_2;
   unsigned int __pyx_t_3;
   __Pyx_RefNannySetupContext("step_all", 0);
-  __Pyx_TraceCall("step_all", __pyx_f[0], 28, 0, __PYX_ERR(0, 28, __pyx_L1_error));
+  __Pyx_TraceCall("step_all", __pyx_f[0], 30, 0, __PYX_ERR(0, 30, __pyx_L1_error));
 
-  /* "cythonic/core/queen.pyx":30
+  /* "cythonic/core/queen.pyx":32
  *     cdef readonly void step_all(self,):
  *         " step all, else step specified "
  *         for i in range(self.count_active):             # <<<<<<<<<<<<<<
@@ -2184,7 +2184,7 @@ void __pyx_f_8cythonic_4core_5queen_5Queen_step_all(struct __pyx_obj_8cythonic_4
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "cythonic/core/queen.pyx":32
+    /* "cythonic/core/queen.pyx":34
  *         for i in range(self.count_active):
  *             " todo: sense on map"
  *             self.gradient_step(i, &self.pheromone_vec[i])             # <<<<<<<<<<<<<<
@@ -2194,7 +2194,7 @@ void __pyx_f_8cythonic_4core_5queen_5Queen_step_all(struct __pyx_obj_8cythonic_4
     ((struct __pyx_vtabstruct_8cythonic_4core_5queen_Queen *)__pyx_v_self->__pyx_vtab)->gradient_step(__pyx_v_self, __pyx_v_i, (&(__pyx_v_self->pheromone_vec[__pyx_v_i])));
   }
 
-  /* "cythonic/core/queen.pyx":28
+  /* "cythonic/core/queen.pyx":30
  *         self.count_active += 1 # count active ants
  * 
  *     cdef readonly void step_all(self,):             # <<<<<<<<<<<<<<
@@ -2211,7 +2211,7 @@ void __pyx_f_8cythonic_4core_5queen_5Queen_step_all(struct __pyx_obj_8cythonic_4
   __Pyx_RefNannyFinishContext();
 }
 
-/* "cythonic/core/queen.pyx":35
+/* "cythonic/core/queen.pyx":37
  * 
  * 
  *     cdef readonly void gradient_step(self, int ant_id, observations * Q):             # <<<<<<<<<<<<<<
@@ -2223,9 +2223,9 @@ void __pyx_f_8cythonic_4core_5queen_5Queen_gradient_step(struct __pyx_obj_8cytho
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("gradient_step", 0);
-  __Pyx_TraceCall("gradient_step", __pyx_f[0], 35, 0, __PYX_ERR(0, 35, __pyx_L1_error));
+  __Pyx_TraceCall("gradient_step", __pyx_f[0], 37, 0, __PYX_ERR(0, 37, __pyx_L1_error));
 
-  /* "cythonic/core/queen.pyx":37
+  /* "cythonic/core/queen.pyx":39
  *     cdef readonly void gradient_step(self, int ant_id, observations * Q):
  *         " do the gradient stepping on the agent "
  *         self.agent.set_state(&self.state_list[ant_id])             # <<<<<<<<<<<<<<
@@ -2234,7 +2234,7 @@ void __pyx_f_8cythonic_4core_5queen_5Queen_gradient_step(struct __pyx_obj_8cytho
  */
   ((struct __pyx_vtabstruct_8cythonic_4core_3ant_Ant *)__pyx_v_self->agent->__pyx_vtab)->set_state(__pyx_v_self->agent, (&(__pyx_v_self->state_list[__pyx_v_ant_id])));
 
-  /* "cythonic/core/queen.pyx":38
+  /* "cythonic/core/queen.pyx":40
  *         " do the gradient stepping on the agent "
  *         self.agent.set_state(&self.state_list[ant_id])
  *         self.agent.gradient_step(&self.dt, Q)             # <<<<<<<<<<<<<<
@@ -2243,7 +2243,7 @@ void __pyx_f_8cythonic_4core_5queen_5Queen_gradient_step(struct __pyx_obj_8cytho
  */
   ((struct __pyx_vtabstruct_8cythonic_4core_3ant_Ant *)__pyx_v_self->agent->__pyx_vtab)->gradient_step(__pyx_v_self->agent, (&__pyx_v_self->dt), __pyx_v_Q);
 
-  /* "cythonic/core/queen.pyx":35
+  /* "cythonic/core/queen.pyx":37
  * 
  * 
  *     cdef readonly void gradient_step(self, int ant_id, observations * Q):             # <<<<<<<<<<<<<<
@@ -2260,7 +2260,7 @@ void __pyx_f_8cythonic_4core_5queen_5Queen_gradient_step(struct __pyx_obj_8cytho
   __Pyx_RefNannyFinishContext();
 }
 
-/* "cythonic/core/queen.pyx":41
+/* "cythonic/core/queen.pyx":43
  * 
  * 
  *     cpdef readonly void print_pos(self):             # <<<<<<<<<<<<<<
@@ -2281,7 +2281,7 @@ void __pyx_f_8cythonic_4core_5queen_5Queen_print_pos(struct __pyx_obj_8cythonic_
   std::vector<struct __pyx_t_8cythonic_4core_3ant_ant_state> ::size_type __pyx_t_6;
   std::vector<struct __pyx_t_8cythonic_4core_3ant_ant_state> ::size_type __pyx_t_7;
   __Pyx_RefNannySetupContext("print_pos", 0);
-  __Pyx_TraceCall("print_pos", __pyx_f[0], 41, 0, __PYX_ERR(0, 41, __pyx_L1_error));
+  __Pyx_TraceCall("print_pos", __pyx_f[0], 43, 0, __PYX_ERR(0, 43, __pyx_L1_error));
   /* Check if called by wrapper */
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
@@ -2292,7 +2292,7 @@ void __pyx_f_8cythonic_4core_5queen_5Queen_print_pos(struct __pyx_obj_8cythonic_
     else {
       PY_UINT64_T type_dict_guard = (likely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dict)) ? __PYX_GET_DICT_VERSION(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dict) : 0;
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_print_pos); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_print_pos); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 43, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_8cythonic_4core_5queen_5Queen_5print_pos)) {
         __Pyx_INCREF(__pyx_t_1);
@@ -2308,7 +2308,7 @@ void __pyx_f_8cythonic_4core_5queen_5Queen_print_pos(struct __pyx_obj_8cythonic_
         }
         __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 41, __pyx_L1_error)
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 43, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -2328,7 +2328,7 @@ void __pyx_f_8cythonic_4core_5queen_5Queen_print_pos(struct __pyx_obj_8cythonic_
     #endif
   }
 
-  /* "cythonic/core/queen.pyx":43
+  /* "cythonic/core/queen.pyx":45
  *     cpdef readonly void print_pos(self):
  *         " print the position struct of all ant in the state vector "
  *         for i in range(self.state_list.size()):             # <<<<<<<<<<<<<<
@@ -2340,18 +2340,18 @@ void __pyx_f_8cythonic_4core_5queen_5Queen_print_pos(struct __pyx_obj_8cythonic_
   for (__pyx_t_7 = 0; __pyx_t_7 < __pyx_t_6; __pyx_t_7+=1) {
     __pyx_v_i = __pyx_t_7;
 
-    /* "cythonic/core/queen.pyx":44
+    /* "cythonic/core/queen.pyx":46
  *         " print the position struct of all ant in the state vector "
  *         for i in range(self.state_list.size()):
  *             print(self.state_list[i].id,self.state_list[i].pos)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-    __pyx_t_1 = __Pyx_PyInt_From_unsigned_int((__pyx_v_self->state_list[__pyx_v_i]).id); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyInt_From_unsigned_int((__pyx_v_self->state_list[__pyx_v_i]).id); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __pyx_convert__to_py_struct____pyx_t_8cythonic_7plugins_9positions_point((__pyx_v_self->state_list[__pyx_v_i]).pos); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L1_error)
+    __pyx_t_2 = __pyx_convert__to_py_struct____pyx_t_8cythonic_7plugins_9positions_point((__pyx_v_self->state_list[__pyx_v_i]).pos); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 46, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 44, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 46, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_1);
     PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
@@ -2359,13 +2359,13 @@ void __pyx_f_8cythonic_4core_5queen_5Queen_print_pos(struct __pyx_obj_8cythonic_
     PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_2);
     __pyx_t_1 = 0;
     __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 46, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
 
-  /* "cythonic/core/queen.pyx":41
+  /* "cythonic/core/queen.pyx":43
  * 
  * 
  *     cpdef readonly void print_pos(self):             # <<<<<<<<<<<<<<
@@ -2406,9 +2406,9 @@ static PyObject *__pyx_pf_8cythonic_4core_5queen_5Queen_4print_pos(struct __pyx_
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("print_pos", 0);
-  __Pyx_TraceCall("print_pos (wrapper)", __pyx_f[0], 41, 0, __PYX_ERR(0, 41, __pyx_L1_error));
+  __Pyx_TraceCall("print_pos (wrapper)", __pyx_f[0], 43, 0, __PYX_ERR(0, 43, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_void_to_None(__pyx_f_8cythonic_4core_5queen_5Queen_print_pos(__pyx_v_self, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_void_to_None(__pyx_f_8cythonic_4core_5queen_5Queen_print_pos(__pyx_v_self, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -5525,8 +5525,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 30, __pyx_L1_error)
-  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 32, __pyx_L1_error)
+  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(0, 46, __pyx_L1_error)
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(1, 2, __pyx_L1_error)
   __pyx_builtin_KeyError = __Pyx_GetBuiltinName(__pyx_n_s_KeyError); if (!__pyx_builtin_KeyError) __PYX_ERR(1, 18, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(1, 19, __pyx_L1_error)
@@ -5799,14 +5799,14 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_8cythonic_4core_5queen_Queen.step_all = (void (*)(struct __pyx_obj_8cythonic_4core_5queen_Queen *))__pyx_f_8cythonic_4core_5queen_5Queen_step_all;
   __pyx_vtable_8cythonic_4core_5queen_Queen.gradient_step = (void (*)(struct __pyx_obj_8cythonic_4core_5queen_Queen *, int, struct __pyx_t_8cythonic_7plugins_12sens_structs_observations *))__pyx_f_8cythonic_4core_5queen_5Queen_gradient_step;
   __pyx_vtable_8cythonic_4core_5queen_Queen.print_pos = (void (*)(struct __pyx_obj_8cythonic_4core_5queen_Queen *, int __pyx_skip_dispatch))__pyx_f_8cythonic_4core_5queen_5Queen_print_pos;
-  if (PyType_Ready(&__pyx_type_8cythonic_4core_5queen_Queen) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_8cythonic_4core_5queen_Queen) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
   __pyx_type_8cythonic_4core_5queen_Queen.tp_print = 0;
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_8cythonic_4core_5queen_Queen.tp_dictoffset && __pyx_type_8cythonic_4core_5queen_Queen.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_8cythonic_4core_5queen_Queen.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_8cythonic_4core_5queen_Queen.tp_dict, __pyx_vtabptr_8cythonic_4core_5queen_Queen) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Queen, (PyObject *)&__pyx_type_8cythonic_4core_5queen_Queen) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_8cythonic_4core_5queen_Queen) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_8cythonic_4core_5queen_Queen.tp_dict, __pyx_vtabptr_8cythonic_4core_5queen_Queen) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Queen, (PyObject *)&__pyx_type_8cythonic_4core_5queen_Queen) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_8cythonic_4core_5queen_Queen) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
   __pyx_ptype_8cythonic_4core_5queen_Queen = &__pyx_type_8cythonic_4core_5queen_Queen;
   __Pyx_RefNannyFinishContext();
   return 0;

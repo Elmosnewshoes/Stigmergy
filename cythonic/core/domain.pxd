@@ -1,6 +1,6 @@
 from cythonic.plugins.positions cimport point, index
 from cythonic.core.map cimport MeshMap, GaussMap
-cdef class domain:
+cdef class Domain:
     " attributes "
     cdef:
         readonly point size, nest_location, food_location
