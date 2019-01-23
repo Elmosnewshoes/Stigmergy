@@ -15,6 +15,7 @@
 #     cdef readonly void activate(self, ant_state s)
 from libcpp.vector cimport vector
 from cythonic.plugins.sens_structs cimport  observations
+from cythonic.plugins.positions cimport point
 
 from cythonic.core.ant cimport Ant, ant_state
 cdef class Queen:
@@ -25,8 +26,12 @@ cdef class Queen:
         readonly unsigned int n
         readonly unsigned int count_active
         readonly double dt
+        readonly double default_speed
     # methods
-    cpdef readonly void deploy(self, ant_state s)
+    cdef readonly ant_state generate_state(self, point p, double theta)
+    cpdef readonly void initialize_states(self,double[::,:] xy, double[:] theta)
+    cdef readonly void deploy(self, unsigned int ant_id)
     cdef readonly void step_all(self,)
-    cdef readonly void gradient_step(self, int ant_id, observations * Q)
+    cdef readonly void assign_state(self,unsigned int *ant_id)
+    cdef readonly void gradient_step(self, observations * Q)
     cpdef readonly void print_pos(self)
