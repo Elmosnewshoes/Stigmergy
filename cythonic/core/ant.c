@@ -1175,7 +1175,7 @@ typedef npy_clongdouble __pyx_t_5numpy_clongdouble_t;
 typedef npy_cdouble __pyx_t_5numpy_complex_t;
 struct __pyx_t_8cythonic_4core_3ant_ant_state;
 
-/* "cythonic/core/ant.pxd":6
+/* "cythonic/core/ant.pxd":5
  * 
  * #defining NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
  * ctypedef readonly void (*f_obs)(ant_state*,fun_args*, observations*) #type definition for sensing functions             # <<<<<<<<<<<<<<
@@ -1184,7 +1184,7 @@ struct __pyx_t_8cythonic_4core_3ant_ant_state;
  */
 typedef void (*f_obs)(struct __pyx_t_8cythonic_4core_3ant_ant_state *, struct __pyx_t_8cythonic_7plugins_12sens_structs_fun_args *, struct __pyx_t_8cythonic_7plugins_12sens_structs_observations *);
 
-/* "cythonic/core/ant.pxd":8
+/* "cythonic/core/ant.pxd":7
  * ctypedef readonly void (*f_obs)(ant_state*,fun_args*, observations*) #type definition for sensing functions
  * 
  * cdef struct ant_state:             # <<<<<<<<<<<<<<
@@ -1207,7 +1207,7 @@ struct __pyx_t_8cythonic_4core_3ant_ant_state {
   double time;
 };
 
-/* "cythonic/core/ant.pxd":29
+/* "cythonic/core/ant.pxd":28
  * 
  * 
  * cdef class Ant:             # <<<<<<<<<<<<<<
@@ -1240,7 +1240,7 @@ struct __pyx_obj_8cythonic_4core_3ant_Ant {
 
 struct __pyx_vtabstruct_8cythonic_4core_3ant_Ant {
   void (*rotate)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, double *);
-  void (*gradient_step)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, double *, struct __pyx_t_8cythonic_7plugins_12sens_structs_observations);
+  void (*gradient_step)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, double *, struct __pyx_t_8cythonic_7plugins_12sens_structs_observations *);
   void (*observe)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, struct __pyx_t_8cythonic_7plugins_12sens_structs_observations *);
   void (*step)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, double *);
   void (*out_of_bounds)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, int);
@@ -1876,7 +1876,7 @@ static int __Pyx_ImportFunction(PyObject *module, const char *funcname, void (**
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 void __pyx_f_8cythonic_4core_3ant_3Ant_rotate(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self, double *__pyx_v_dt); /* proto*/
-void __pyx_f_8cythonic_4core_3ant_3Ant_gradient_step(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self, double *__pyx_v_dt, struct __pyx_t_8cythonic_7plugins_12sens_structs_observations __pyx_v_Q); /* proto*/
+void __pyx_f_8cythonic_4core_3ant_3Ant_gradient_step(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self, double *__pyx_v_dt, struct __pyx_t_8cythonic_7plugins_12sens_structs_observations *__pyx_v_Q); /* proto*/
 void __pyx_f_8cythonic_4core_3ant_3Ant_observe(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self, struct __pyx_t_8cythonic_7plugins_12sens_structs_observations *__pyx_v_Q); /* proto*/
 void __pyx_f_8cythonic_4core_3ant_3Ant_step(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self, double *__pyx_v_dt); /* proto*/
 void __pyx_f_8cythonic_4core_3ant_3Ant_out_of_bounds(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self, int __pyx_v_oob); /* proto*/
@@ -1888,9 +1888,6 @@ void __pyx_f_8cythonic_4core_3ant_3Ant_set_state(struct __pyx_obj_8cythonic_4cor
 /* Module declarations from 'cythonic.plugins.positions' */
 
 /* Module declarations from 'cythonic.plugins.sens_structs' */
-
-/* Module declarations from 'cythonic.plugins.sens_functions' */
-static void (*__pyx_f_8cythonic_7plugins_14sens_functions_observe_linear)(struct __pyx_t_8cythonic_4core_3ant_ant_state *, struct __pyx_t_8cythonic_7plugins_12sens_structs_fun_args *, struct __pyx_t_8cythonic_7plugins_12sens_structs_observations *); /*proto*/
 
 /* Module declarations from 'cpython.buffer' */
 
@@ -1923,6 +1920,9 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *, cha
 
 /* Module declarations from 'cythonic.plugins.functions' */
 static struct __pyx_t_8cythonic_7plugins_9positions_point (*__pyx_f_8cythonic_7plugins_9functions_transform)(double, double *, struct __pyx_t_8cythonic_7plugins_9positions_point *); /*proto*/
+
+/* Module declarations from 'cythonic.plugins.sens_functions' */
+static void (*__pyx_f_8cythonic_7plugins_14sens_functions_observe_linear)(struct __pyx_t_8cythonic_4core_3ant_ant_state *, struct __pyx_t_8cythonic_7plugins_12sens_structs_fun_args *, struct __pyx_t_8cythonic_7plugins_12sens_structs_observations *); /*proto*/
 
 /* Module declarations from 'libc.math' */
 
@@ -2024,7 +2024,7 @@ static PyObject *__pyx_tuple__9;
  * cdef class Ant:
  *     def __cinit__(self, double l, double sens_offset, double gain, double drop_quantity, double return_factor,             # <<<<<<<<<<<<<<
  *                  double drop_beta):
- *         self.l = l
+ *         " set global ant constants "
  */
 
 /* Python wrapper */
@@ -2139,17 +2139,17 @@ static int __pyx_pf_8cythonic_4core_3ant_3Ant___cinit__(struct __pyx_obj_8cython
   __Pyx_RefNannySetupContext("__cinit__", 0);
   __Pyx_TraceCall("__cinit__", __pyx_f[1], 9, 0, __PYX_ERR(1, 9, __pyx_L1_error));
 
-  /* "cythonic/core/ant.pyx":11
- *     def __cinit__(self, double l, double sens_offset, double gain, double drop_quantity, double return_factor,
+  /* "cythonic/core/ant.pyx":12
  *                  double drop_beta):
+ *         " set global ant constants "
  *         self.l = l             # <<<<<<<<<<<<<<
  *         self.sens_offset = sens_offset
  *         self.gain = gain
  */
   __pyx_v_self->l = __pyx_v_l;
 
-  /* "cythonic/core/ant.pyx":12
- *                  double drop_beta):
+  /* "cythonic/core/ant.pyx":13
+ *         " set global ant constants "
  *         self.l = l
  *         self.sens_offset = sens_offset             # <<<<<<<<<<<<<<
  *         self.gain = gain
@@ -2157,7 +2157,7 @@ static int __pyx_pf_8cythonic_4core_3ant_3Ant___cinit__(struct __pyx_obj_8cython
  */
   __pyx_v_self->sens_offset = __pyx_v_sens_offset;
 
-  /* "cythonic/core/ant.pyx":13
+  /* "cythonic/core/ant.pyx":14
  *         self.l = l
  *         self.sens_offset = sens_offset
  *         self.gain = gain             # <<<<<<<<<<<<<<
@@ -2166,7 +2166,7 @@ static int __pyx_pf_8cythonic_4core_3ant_3Ant___cinit__(struct __pyx_obj_8cython
  */
   __pyx_v_self->gain = __pyx_v_gain;
 
-  /* "cythonic/core/ant.pyx":14
+  /* "cythonic/core/ant.pyx":15
  *         self.sens_offset = sens_offset
  *         self.gain = gain
  *         self.drop_quantity = drop_quantity             # <<<<<<<<<<<<<<
@@ -2175,39 +2175,39 @@ static int __pyx_pf_8cythonic_4core_3ant_3Ant___cinit__(struct __pyx_obj_8cython
  */
   __pyx_v_self->drop_quantity = __pyx_v_drop_quantity;
 
-  /* "cythonic/core/ant.pyx":15
+  /* "cythonic/core/ant.pyx":16
  *         self.gain = gain
  *         self.drop_quantity = drop_quantity
  *         self.return_factor = return_factor             # <<<<<<<<<<<<<<
  *         self.drop_beta = drop_beta
- *         self.sens_fun = observe_linear
+ * 
  */
   __pyx_v_self->return_factor = __pyx_v_return_factor;
 
-  /* "cythonic/core/ant.pyx":16
+  /* "cythonic/core/ant.pyx":17
  *         self.drop_quantity = drop_quantity
  *         self.return_factor = return_factor
  *         self.drop_beta = drop_beta             # <<<<<<<<<<<<<<
- *         self.sens_fun = observe_linear
- *         self.obs_fun_args.gain = 1
+ * 
+ *         " initialize sensing specific arguments "
  */
   __pyx_v_self->drop_beta = __pyx_v_drop_beta;
 
-  /* "cythonic/core/ant.pyx":17
- *         self.return_factor = return_factor
- *         self.drop_beta = drop_beta
+  /* "cythonic/core/ant.pyx":20
+ * 
+ *         " initialize sensing specific arguments "
  *         self.sens_fun = observe_linear             # <<<<<<<<<<<<<<
  *         self.obs_fun_args.gain = 1
  * 
  */
   __pyx_v_self->sens_fun = __pyx_f_8cythonic_7plugins_14sens_functions_observe_linear;
 
-  /* "cythonic/core/ant.pyx":18
- *         self.drop_beta = drop_beta
+  /* "cythonic/core/ant.pyx":21
+ *         " initialize sensing specific arguments "
  *         self.sens_fun = observe_linear
  *         self.obs_fun_args.gain = 1             # <<<<<<<<<<<<<<
  * 
- *     cdef void rotate(self,double* dt):
+ *         " initialize pheromone dropping specific arguments "
  */
   __pyx_v_self->obs_fun_args.gain = 1.0;
 
@@ -2216,7 +2216,7 @@ static int __pyx_pf_8cythonic_4core_3ant_3Ant___cinit__(struct __pyx_obj_8cython
  * cdef class Ant:
  *     def __cinit__(self, double l, double sens_offset, double gain, double drop_quantity, double return_factor,             # <<<<<<<<<<<<<<
  *                  double drop_beta):
- *         self.l = l
+ *         " set global ant constants "
  */
 
   /* function exit code */
@@ -2231,44 +2231,44 @@ static int __pyx_pf_8cythonic_4core_3ant_3Ant___cinit__(struct __pyx_obj_8cython
   return __pyx_r;
 }
 
-/* "cythonic/core/ant.pyx":20
- *         self.obs_fun_args.gain = 1
+/* "cythonic/core/ant.pyx":25
+ *         " initialize pheromone dropping specific arguments "
  * 
  *     cdef void rotate(self,double* dt):             # <<<<<<<<<<<<<<
+ *         " rotate the ant based on angular velocity omega "
  *         " compute the angular speed (degrees/second) based on sensing "
- *         self.state[0].omega = self.gain*180./PI*(
  */
 
 void __pyx_f_8cythonic_4core_3ant_3Ant_rotate(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self, double *__pyx_v_dt) {
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("rotate", 0);
-  __Pyx_TraceCall("rotate", __pyx_f[1], 20, 0, __PYX_ERR(1, 20, __pyx_L1_error));
+  __Pyx_TraceCall("rotate", __pyx_f[1], 25, 0, __PYX_ERR(1, 25, __pyx_L1_error));
 
-  /* "cythonic/core/ant.pyx":22
- *     cdef void rotate(self,double* dt):
+  /* "cythonic/core/ant.pyx":28
+ *         " rotate the ant based on angular velocity omega "
  *         " compute the angular speed (degrees/second) based on sensing "
  *         self.state[0].omega = self.gain*180./PI*(             # <<<<<<<<<<<<<<
  *             self.state[0].Q_obs.lft-self.state[0].Q_obs.rght)
- *         self.increase_azimuth(dt)
+ *         self.increase_azimuth(dt) # state is known, no need to pass it
  */
   (__pyx_v_self->state[0]).omega = (((__pyx_v_self->gain * 180.) / ((double)M_PI)) * ((__pyx_v_self->state[0]).Q_obs.lft - (__pyx_v_self->state[0]).Q_obs.rght));
 
-  /* "cythonic/core/ant.pyx":24
+  /* "cythonic/core/ant.pyx":30
  *         self.state[0].omega = self.gain*180./PI*(
  *             self.state[0].Q_obs.lft-self.state[0].Q_obs.rght)
- *         self.increase_azimuth(dt)             # <<<<<<<<<<<<<<
+ *         self.increase_azimuth(dt) # state is known, no need to pass it             # <<<<<<<<<<<<<<
  * 
- *     cdef void gradient_step(self, double *dt, observations Q):
+ *     cdef void gradient_step(self, double *dt, observations * Q):
  */
   ((struct __pyx_vtabstruct_8cythonic_4core_3ant_Ant *)__pyx_v_self->__pyx_vtab)->increase_azimuth(__pyx_v_self, __pyx_v_dt);
 
-  /* "cythonic/core/ant.pyx":20
- *         self.obs_fun_args.gain = 1
+  /* "cythonic/core/ant.pyx":25
+ *         " initialize pheromone dropping specific arguments "
  * 
  *     cdef void rotate(self,double* dt):             # <<<<<<<<<<<<<<
+ *         " rotate the ant based on angular velocity omega "
  *         " compute the angular speed (degrees/second) based on sensing "
- *         self.state[0].omega = self.gain*180./PI*(
  */
 
   /* function exit code */
@@ -2280,40 +2280,40 @@ void __pyx_f_8cythonic_4core_3ant_3Ant_rotate(struct __pyx_obj_8cythonic_4core_3
   __Pyx_RefNannyFinishContext();
 }
 
-/* "cythonic/core/ant.pyx":26
- *         self.increase_azimuth(dt)
+/* "cythonic/core/ant.pyx":32
+ *         self.increase_azimuth(dt) # state is known, no need to pass it
  * 
- *     cdef void gradient_step(self, double *dt, observations Q):             # <<<<<<<<<<<<<<
+ *     cdef void gradient_step(self, double *dt, observations * Q):             # <<<<<<<<<<<<<<
  *         " execute the sequence for differential based stepping "
  *         " sniff pheromone -> rotate -> step -> update sensors "
  */
 
-void __pyx_f_8cythonic_4core_3ant_3Ant_gradient_step(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self, double *__pyx_v_dt, struct __pyx_t_8cythonic_7plugins_12sens_structs_observations __pyx_v_Q) {
+void __pyx_f_8cythonic_4core_3ant_3Ant_gradient_step(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self, double *__pyx_v_dt, struct __pyx_t_8cythonic_7plugins_12sens_structs_observations *__pyx_v_Q) {
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("gradient_step", 0);
-  __Pyx_TraceCall("gradient_step", __pyx_f[1], 26, 0, __PYX_ERR(1, 26, __pyx_L1_error));
+  __Pyx_TraceCall("gradient_step", __pyx_f[1], 32, 0, __PYX_ERR(1, 32, __pyx_L1_error));
 
-  /* "cythonic/core/ant.pyx":30
+  /* "cythonic/core/ant.pyx":35
+ *         " execute the sequence for differential based stepping "
  *         " sniff pheromone -> rotate -> step -> update sensors "
- * 
- *         self.observe(&Q)             # <<<<<<<<<<<<<<
+ *         self.observe(Q)             # <<<<<<<<<<<<<<
  *         self.rotate(dt)
  *         self.step(dt)
  */
-  ((struct __pyx_vtabstruct_8cythonic_4core_3ant_Ant *)__pyx_v_self->__pyx_vtab)->observe(__pyx_v_self, (&__pyx_v_Q));
+  ((struct __pyx_vtabstruct_8cythonic_4core_3ant_Ant *)__pyx_v_self->__pyx_vtab)->observe(__pyx_v_self, __pyx_v_Q);
 
-  /* "cythonic/core/ant.pyx":31
- * 
- *         self.observe(&Q)
+  /* "cythonic/core/ant.pyx":36
+ *         " sniff pheromone -> rotate -> step -> update sensors "
+ *         self.observe(Q)
  *         self.rotate(dt)             # <<<<<<<<<<<<<<
  *         self.step(dt)
  *         self.set_sensors()
  */
   ((struct __pyx_vtabstruct_8cythonic_4core_3ant_Ant *)__pyx_v_self->__pyx_vtab)->rotate(__pyx_v_self, __pyx_v_dt);
 
-  /* "cythonic/core/ant.pyx":32
- *         self.observe(&Q)
+  /* "cythonic/core/ant.pyx":37
+ *         self.observe(Q)
  *         self.rotate(dt)
  *         self.step(dt)             # <<<<<<<<<<<<<<
  *         self.set_sensors()
@@ -2321,7 +2321,7 @@ void __pyx_f_8cythonic_4core_3ant_3Ant_gradient_step(struct __pyx_obj_8cythonic_
  */
   ((struct __pyx_vtabstruct_8cythonic_4core_3ant_Ant *)__pyx_v_self->__pyx_vtab)->step(__pyx_v_self, __pyx_v_dt);
 
-  /* "cythonic/core/ant.pyx":33
+  /* "cythonic/core/ant.pyx":38
  *         self.rotate(dt)
  *         self.step(dt)
  *         self.set_sensors()             # <<<<<<<<<<<<<<
@@ -2330,10 +2330,10 @@ void __pyx_f_8cythonic_4core_3ant_3Ant_gradient_step(struct __pyx_obj_8cythonic_
  */
   ((struct __pyx_vtabstruct_8cythonic_4core_3ant_Ant *)__pyx_v_self->__pyx_vtab)->set_sensors(__pyx_v_self);
 
-  /* "cythonic/core/ant.pyx":26
- *         self.increase_azimuth(dt)
+  /* "cythonic/core/ant.pyx":32
+ *         self.increase_azimuth(dt) # state is known, no need to pass it
  * 
- *     cdef void gradient_step(self, double *dt, observations Q):             # <<<<<<<<<<<<<<
+ *     cdef void gradient_step(self, double *dt, observations * Q):             # <<<<<<<<<<<<<<
  *         " execute the sequence for differential based stepping "
  *         " sniff pheromone -> rotate -> step -> update sensors "
  */
@@ -2347,11 +2347,11 @@ void __pyx_f_8cythonic_4core_3ant_3Ant_gradient_step(struct __pyx_obj_8cythonic_
   __Pyx_RefNannyFinishContext();
 }
 
-/* "cythonic/core/ant.pyx":35
+/* "cythonic/core/ant.pyx":40
  *         self.set_sensors()
  * 
  *     cdef void observe(self, observations* Q):             # <<<<<<<<<<<<<<
- *         # fill Q_obs(lft, right)
+ *         " fill Q_obs(lft, right) based on sensing function "
  *         self.sens_fun(self.state, &self.obs_fun_args, Q)
  */
 
@@ -2359,22 +2359,22 @@ void __pyx_f_8cythonic_4core_3ant_3Ant_observe(struct __pyx_obj_8cythonic_4core_
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("observe", 0);
-  __Pyx_TraceCall("observe", __pyx_f[1], 35, 0, __PYX_ERR(1, 35, __pyx_L1_error));
+  __Pyx_TraceCall("observe", __pyx_f[1], 40, 0, __PYX_ERR(1, 40, __pyx_L1_error));
 
-  /* "cythonic/core/ant.pyx":37
+  /* "cythonic/core/ant.pyx":42
  *     cdef void observe(self, observations* Q):
- *         # fill Q_obs(lft, right)
+ *         " fill Q_obs(lft, right) based on sensing function "
  *         self.sens_fun(self.state, &self.obs_fun_args, Q)             # <<<<<<<<<<<<<<
  * 
  *     cdef void step(self, double * dt):
  */
   __pyx_v_self->sens_fun(__pyx_v_self->state, (&__pyx_v_self->obs_fun_args), __pyx_v_Q);
 
-  /* "cythonic/core/ant.pyx":35
+  /* "cythonic/core/ant.pyx":40
  *         self.set_sensors()
  * 
  *     cdef void observe(self, observations* Q):             # <<<<<<<<<<<<<<
- *         # fill Q_obs(lft, right)
+ *         " fill Q_obs(lft, right) based on sensing function "
  *         self.sens_fun(self.state, &self.obs_fun_args, Q)
  */
 
@@ -2387,7 +2387,7 @@ void __pyx_f_8cythonic_4core_3ant_3Ant_observe(struct __pyx_obj_8cythonic_4core_
   __Pyx_RefNannyFinishContext();
 }
 
-/* "cythonic/core/ant.pyx":39
+/* "cythonic/core/ant.pyx":44
  *         self.sens_fun(self.state, &self.obs_fun_args, Q)
  * 
  *     cdef void step(self, double * dt):             # <<<<<<<<<<<<<<
@@ -2401,29 +2401,29 @@ void __pyx_f_8cythonic_4core_3ant_3Ant_step(struct __pyx_obj_8cythonic_4core_3an
   __Pyx_RefNannyDeclarations
   long __pyx_t_1;
   __Pyx_RefNannySetupContext("step", 0);
-  __Pyx_TraceCall("step", __pyx_f[1], 39, 0, __PYX_ERR(1, 39, __pyx_L1_error));
+  __Pyx_TraceCall("step", __pyx_f[1], 44, 0, __PYX_ERR(1, 44, __pyx_L1_error));
 
-  /* "cythonic/core/ant.pyx":41
+  /* "cythonic/core/ant.pyx":46
  *     cdef void step(self, double * dt):
  *         " do a step in the current direction ,do boundary check as well "
  *         self.state[0].time += dt[0] # update internal timer             # <<<<<<<<<<<<<<
  * 
- *         # update position
+ *         " update position "
  */
   __pyx_t_1 = 0;
   (__pyx_v_self->state[__pyx_t_1]).time = ((__pyx_v_self->state[__pyx_t_1]).time + (__pyx_v_dt[0]));
 
-  /* "cythonic/core/ant.pyx":44
+  /* "cythonic/core/ant.pyx":49
  * 
- *         # update position
+ *         " update position "
  *         cdef double step_size = self.state[0].v*dt[0]             # <<<<<<<<<<<<<<
  *         self.state[0].pos = transform(self.state[0].theta, &step_size, &self.state.pos)
  * 
  */
   __pyx_v_step_size = ((__pyx_v_self->state[0]).v * (__pyx_v_dt[0]));
 
-  /* "cythonic/core/ant.pyx":45
- *         # update position
+  /* "cythonic/core/ant.pyx":50
+ *         " update position "
  *         cdef double step_size = self.state[0].v*dt[0]
  *         self.state[0].pos = transform(self.state[0].theta, &step_size, &self.state.pos)             # <<<<<<<<<<<<<<
  * 
@@ -2431,7 +2431,7 @@ void __pyx_f_8cythonic_4core_3ant_3Ant_step(struct __pyx_obj_8cythonic_4core_3an
  */
   (__pyx_v_self->state[0]).pos = __pyx_f_8cythonic_7plugins_9functions_transform((__pyx_v_self->state[0]).theta, (&__pyx_v_step_size), (&__pyx_v_self->state->pos));
 
-  /* "cythonic/core/ant.pyx":39
+  /* "cythonic/core/ant.pyx":44
  *         self.sens_fun(self.state, &self.obs_fun_args, Q)
  * 
  *     cdef void step(self, double * dt):             # <<<<<<<<<<<<<<
@@ -2448,7 +2448,7 @@ void __pyx_f_8cythonic_4core_3ant_3Ant_step(struct __pyx_obj_8cythonic_4core_3an
   __Pyx_RefNannyFinishContext();
 }
 
-/* "cythonic/core/ant.pyx":47
+/* "cythonic/core/ant.pyx":52
  *         self.state[0].pos = transform(self.state[0].theta, &step_size, &self.state.pos)
  * 
  *     cdef void out_of_bounds(self, bint oob):             # <<<<<<<<<<<<<<
@@ -2460,9 +2460,9 @@ void __pyx_f_8cythonic_4core_3ant_3Ant_out_of_bounds(struct __pyx_obj_8cythonic_
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("out_of_bounds", 0);
-  __Pyx_TraceCall("out_of_bounds", __pyx_f[1], 47, 0, __PYX_ERR(1, 47, __pyx_L1_error));
+  __Pyx_TraceCall("out_of_bounds", __pyx_f[1], 52, 0, __PYX_ERR(1, 52, __pyx_L1_error));
 
-  /* "cythonic/core/ant.pyx":49
+  /* "cythonic/core/ant.pyx":54
  *     cdef void out_of_bounds(self, bint oob):
  *         " toggle out of bounds status "
  *         self.state[0].out_of_bounds = oob             # <<<<<<<<<<<<<<
@@ -2471,7 +2471,7 @@ void __pyx_f_8cythonic_4core_3ant_3Ant_out_of_bounds(struct __pyx_obj_8cythonic_
  */
   (__pyx_v_self->state[0]).out_of_bounds = __pyx_v_oob;
 
-  /* "cythonic/core/ant.pyx":47
+  /* "cythonic/core/ant.pyx":52
  *         self.state[0].pos = transform(self.state[0].theta, &step_size, &self.state.pos)
  * 
  *     cdef void out_of_bounds(self, bint oob):             # <<<<<<<<<<<<<<
@@ -2488,7 +2488,7 @@ void __pyx_f_8cythonic_4core_3ant_3Ant_out_of_bounds(struct __pyx_obj_8cythonic_
   __Pyx_RefNannyFinishContext();
 }
 
-/* "cythonic/core/ant.pyx":51
+/* "cythonic/core/ant.pyx":56
  *         self.state[0].out_of_bounds = oob
  * 
  *     cdef void set_sensors(self):             # <<<<<<<<<<<<<<
@@ -2500,9 +2500,9 @@ void __pyx_f_8cythonic_4core_3ant_3Ant_set_sensors(struct __pyx_obj_8cythonic_4c
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("set_sensors", 0);
-  __Pyx_TraceCall("set_sensors", __pyx_f[1], 51, 0, __PYX_ERR(1, 51, __pyx_L1_error));
+  __Pyx_TraceCall("set_sensors", __pyx_f[1], 56, 0, __PYX_ERR(1, 56, __pyx_L1_error));
 
-  /* "cythonic/core/ant.pyx":53
+  /* "cythonic/core/ant.pyx":58
  *     cdef void set_sensors(self):
  *         " calculate the position of the left and right sensor antennas "
  *         self.state[0].left = transform(self.state[0].theta + self.sens_offset, &self.l, &self.state.pos)             # <<<<<<<<<<<<<<
@@ -2511,7 +2511,7 @@ void __pyx_f_8cythonic_4core_3ant_3Ant_set_sensors(struct __pyx_obj_8cythonic_4c
  */
   (__pyx_v_self->state[0]).left = __pyx_f_8cythonic_7plugins_9functions_transform(((__pyx_v_self->state[0]).theta + __pyx_v_self->sens_offset), (&__pyx_v_self->l), (&__pyx_v_self->state->pos));
 
-  /* "cythonic/core/ant.pyx":54
+  /* "cythonic/core/ant.pyx":59
  *         " calculate the position of the left and right sensor antennas "
  *         self.state[0].left = transform(self.state[0].theta + self.sens_offset, &self.l, &self.state.pos)
  *         self.state[0].right = transform(self.state[0].theta - self.sens_offset, &self.l, &self.state.pos)             # <<<<<<<<<<<<<<
@@ -2520,7 +2520,7 @@ void __pyx_f_8cythonic_4core_3ant_3Ant_set_sensors(struct __pyx_obj_8cythonic_4c
  */
   (__pyx_v_self->state[0]).right = __pyx_f_8cythonic_7plugins_9functions_transform(((__pyx_v_self->state[0]).theta - __pyx_v_self->sens_offset), (&__pyx_v_self->l), (&__pyx_v_self->state->pos));
 
-  /* "cythonic/core/ant.pyx":51
+  /* "cythonic/core/ant.pyx":56
  *         self.state[0].out_of_bounds = oob
  * 
  *     cdef void set_sensors(self):             # <<<<<<<<<<<<<<
@@ -2537,7 +2537,7 @@ void __pyx_f_8cythonic_4core_3ant_3Ant_set_sensors(struct __pyx_obj_8cythonic_4c
   __Pyx_RefNannyFinishContext();
 }
 
-/* "cythonic/core/ant.pyx":56
+/* "cythonic/core/ant.pyx":61
  *         self.state[0].right = transform(self.state[0].theta - self.sens_offset, &self.l, &self.state.pos)
  * 
  *     cdef void activate(self):             # <<<<<<<<<<<<<<
@@ -2549,9 +2549,9 @@ void __pyx_f_8cythonic_4core_3ant_3Ant_activate(struct __pyx_obj_8cythonic_4core
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("activate", 0);
-  __Pyx_TraceCall("activate", __pyx_f[1], 56, 0, __PYX_ERR(1, 56, __pyx_L1_error));
+  __Pyx_TraceCall("activate", __pyx_f[1], 61, 0, __PYX_ERR(1, 61, __pyx_L1_error));
 
-  /* "cythonic/core/ant.pyx":58
+  /* "cythonic/core/ant.pyx":63
  *     cdef void activate(self):
  *         " mark the ant as active "
  *         self.state[0].active = True             # <<<<<<<<<<<<<<
@@ -2560,7 +2560,7 @@ void __pyx_f_8cythonic_4core_3ant_3Ant_activate(struct __pyx_obj_8cythonic_4core
  */
   (__pyx_v_self->state[0]).active = 1;
 
-  /* "cythonic/core/ant.pyx":56
+  /* "cythonic/core/ant.pyx":61
  *         self.state[0].right = transform(self.state[0].theta - self.sens_offset, &self.l, &self.state.pos)
  * 
  *     cdef void activate(self):             # <<<<<<<<<<<<<<
@@ -2577,7 +2577,7 @@ void __pyx_f_8cythonic_4core_3ant_3Ant_activate(struct __pyx_obj_8cythonic_4core
   __Pyx_RefNannyFinishContext();
 }
 
-/* "cythonic/core/ant.pyx":60
+/* "cythonic/core/ant.pyx":65
  *         self.state[0].active = True
  * 
  *     cdef void increase_azimuth(self, double * dt):             # <<<<<<<<<<<<<<
@@ -2589,9 +2589,9 @@ void __pyx_f_8cythonic_4core_3ant_3Ant_increase_azimuth(struct __pyx_obj_8cython
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("increase_azimuth", 0);
-  __Pyx_TraceCall("increase_azimuth", __pyx_f[1], 60, 0, __PYX_ERR(1, 60, __pyx_L1_error));
+  __Pyx_TraceCall("increase_azimuth", __pyx_f[1], 65, 0, __PYX_ERR(1, 65, __pyx_L1_error));
 
-  /* "cythonic/core/ant.pyx":63
+  /* "cythonic/core/ant.pyx":68
  *         " ensure azimuth stays within [0,360) interval "
  *         " increase azimuth based on the angular speed and the time interval "
  *         self.state[0].theta = (self.state[0].theta+self.state[0].omega*dt[0])%360             # <<<<<<<<<<<<<<
@@ -2600,7 +2600,7 @@ void __pyx_f_8cythonic_4core_3ant_3Ant_increase_azimuth(struct __pyx_obj_8cython
  */
   (__pyx_v_self->state[0]).theta = fmod(((__pyx_v_self->state[0]).theta + ((__pyx_v_self->state[0]).omega * (__pyx_v_dt[0]))), 360.0);
 
-  /* "cythonic/core/ant.pyx":60
+  /* "cythonic/core/ant.pyx":65
  *         self.state[0].active = True
  * 
  *     cdef void increase_azimuth(self, double * dt):             # <<<<<<<<<<<<<<
@@ -2617,10 +2617,11 @@ void __pyx_f_8cythonic_4core_3ant_3Ant_increase_azimuth(struct __pyx_obj_8cython
   __Pyx_RefNannyFinishContext();
 }
 
-/* "cythonic/core/ant.pyx":65
+/* "cythonic/core/ant.pyx":70
  *         self.state[0].theta = (self.state[0].theta+self.state[0].omega*dt[0])%360
  * 
  *     cdef void set_state(self,ant_state* s):             # <<<<<<<<<<<<<<
+ *         " assign the ant a state "
  *         self.state = s
  */
 
@@ -2628,19 +2629,20 @@ void __pyx_f_8cythonic_4core_3ant_3Ant_set_state(struct __pyx_obj_8cythonic_4cor
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("set_state", 0);
-  __Pyx_TraceCall("set_state", __pyx_f[1], 65, 0, __PYX_ERR(1, 65, __pyx_L1_error));
+  __Pyx_TraceCall("set_state", __pyx_f[1], 70, 0, __PYX_ERR(1, 70, __pyx_L1_error));
 
-  /* "cythonic/core/ant.pyx":66
- * 
+  /* "cythonic/core/ant.pyx":72
  *     cdef void set_state(self,ant_state* s):
+ *         " assign the ant a state "
  *         self.state = s             # <<<<<<<<<<<<<<
  */
   __pyx_v_self->state = __pyx_v_s;
 
-  /* "cythonic/core/ant.pyx":65
+  /* "cythonic/core/ant.pyx":70
  *         self.state[0].theta = (self.state[0].theta+self.state[0].omega*dt[0])%360
  * 
  *     cdef void set_state(self,ant_state* s):             # <<<<<<<<<<<<<<
+ *         " assign the ant a state "
  *         self.state = s
  */
 
@@ -5576,7 +5578,7 @@ static int __Pyx_modinit_type_init_code(void) {
   /*--- Type init code ---*/
   __pyx_vtabptr_8cythonic_4core_3ant_Ant = &__pyx_vtable_8cythonic_4core_3ant_Ant;
   __pyx_vtable_8cythonic_4core_3ant_Ant.rotate = (void (*)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, double *))__pyx_f_8cythonic_4core_3ant_3Ant_rotate;
-  __pyx_vtable_8cythonic_4core_3ant_Ant.gradient_step = (void (*)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, double *, struct __pyx_t_8cythonic_7plugins_12sens_structs_observations))__pyx_f_8cythonic_4core_3ant_3Ant_gradient_step;
+  __pyx_vtable_8cythonic_4core_3ant_Ant.gradient_step = (void (*)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, double *, struct __pyx_t_8cythonic_7plugins_12sens_structs_observations *))__pyx_f_8cythonic_4core_3ant_3Ant_gradient_step;
   __pyx_vtable_8cythonic_4core_3ant_Ant.observe = (void (*)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, struct __pyx_t_8cythonic_7plugins_12sens_structs_observations *))__pyx_f_8cythonic_4core_3ant_3Ant_observe;
   __pyx_vtable_8cythonic_4core_3ant_Ant.step = (void (*)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, double *))__pyx_f_8cythonic_4core_3ant_3Ant_step;
   __pyx_vtable_8cythonic_4core_3ant_Ant.out_of_bounds = (void (*)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, int))__pyx_f_8cythonic_4core_3ant_3Ant_out_of_bounds;
@@ -5651,11 +5653,11 @@ static int __Pyx_modinit_function_import_code(void) {
   PyObject *__pyx_t_2 = NULL;
   __Pyx_RefNannySetupContext("__Pyx_modinit_function_import_code", 0);
   /*--- Function import code ---*/
-  __pyx_t_1 = PyImport_ImportModule("cythonic.plugins.sens_functions"); if (!__pyx_t_1) __PYX_ERR(1, 1, __pyx_L1_error)
-  if (__Pyx_ImportFunction(__pyx_t_1, "observe_linear", (void (**)(void))&__pyx_f_8cythonic_7plugins_14sens_functions_observe_linear, "void (struct __pyx_t_8cythonic_4core_3ant_ant_state *, struct __pyx_t_8cythonic_7plugins_12sens_structs_fun_args *, struct __pyx_t_8cythonic_7plugins_12sens_structs_observations *)") < 0) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("cythonic.plugins.functions"); if (!__pyx_t_1) __PYX_ERR(1, 1, __pyx_L1_error)
+  if (__Pyx_ImportFunction(__pyx_t_1, "transform", (void (**)(void))&__pyx_f_8cythonic_7plugins_9functions_transform, "struct __pyx_t_8cythonic_7plugins_9positions_point (double, double *, struct __pyx_t_8cythonic_7plugins_9positions_point *)") < 0) __PYX_ERR(1, 1, __pyx_L1_error)
   Py_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_2 = PyImport_ImportModule("cythonic.plugins.functions"); if (!__pyx_t_2) __PYX_ERR(1, 1, __pyx_L1_error)
-  if (__Pyx_ImportFunction(__pyx_t_2, "transform", (void (**)(void))&__pyx_f_8cythonic_7plugins_9functions_transform, "struct __pyx_t_8cythonic_7plugins_9positions_point (double, double *, struct __pyx_t_8cythonic_7plugins_9positions_point *)") < 0) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_t_2 = PyImport_ImportModule("cythonic.plugins.sens_functions"); if (!__pyx_t_2) __PYX_ERR(1, 1, __pyx_L1_error)
+  if (__Pyx_ImportFunction(__pyx_t_2, "observe_linear", (void (**)(void))&__pyx_f_8cythonic_7plugins_14sens_functions_observe_linear, "void (struct __pyx_t_8cythonic_4core_3ant_ant_state *, struct __pyx_t_8cythonic_7plugins_12sens_structs_fun_args *, struct __pyx_t_8cythonic_7plugins_12sens_structs_observations *)") < 0) __PYX_ERR(1, 1, __pyx_L1_error)
   Py_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_RefNannyFinishContext();
   return 0;

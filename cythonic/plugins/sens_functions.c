@@ -896,7 +896,7 @@ struct __pyx_t_8cythonic_7plugins_9positions_map_range {
 };
 struct __pyx_t_8cythonic_4core_3ant_ant_state;
 
-/* "cythonic/core/ant.pxd":6
+/* "cythonic/core/ant.pxd":5
  * 
  * #defining NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
  * ctypedef readonly void (*f_obs)(ant_state*,fun_args*, observations*) #type definition for sensing functions             # <<<<<<<<<<<<<<
@@ -905,7 +905,7 @@ struct __pyx_t_8cythonic_4core_3ant_ant_state;
  */
 typedef void (*f_obs)(struct __pyx_t_8cythonic_4core_3ant_ant_state *, struct __pyx_t_8cythonic_7plugins_12sens_structs_fun_args *, struct __pyx_t_8cythonic_7plugins_12sens_structs_observations *);
 
-/* "cythonic/core/ant.pxd":8
+/* "cythonic/core/ant.pxd":7
  * ctypedef readonly void (*f_obs)(ant_state*,fun_args*, observations*) #type definition for sensing functions
  * 
  * cdef struct ant_state:             # <<<<<<<<<<<<<<
@@ -928,7 +928,7 @@ struct __pyx_t_8cythonic_4core_3ant_ant_state {
   double time;
 };
 
-/* "cythonic/core/ant.pxd":29
+/* "cythonic/core/ant.pxd":28
  * 
  * 
  * cdef class Ant:             # <<<<<<<<<<<<<<
@@ -953,7 +953,7 @@ struct __pyx_obj_8cythonic_4core_3ant_Ant {
 
 struct __pyx_vtabstruct_8cythonic_4core_3ant_Ant {
   void (*rotate)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, double *);
-  void (*gradient_step)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, double *, struct __pyx_t_8cythonic_7plugins_12sens_structs_observations);
+  void (*gradient_step)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, double *, struct __pyx_t_8cythonic_7plugins_12sens_structs_observations *);
   void (*observe)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, struct __pyx_t_8cythonic_7plugins_12sens_structs_observations *);
   void (*step)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, double *);
   void (*out_of_bounds)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, int);
@@ -1580,11 +1580,11 @@ static int __Pyx_modinit_type_import_code(void) {
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_import_code", 0);
   /*--- Type import code ---*/
-  __pyx_t_1 = PyImport_ImportModule("cythonic.core.ant"); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 29, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("cythonic.core.ant"); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 28, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_8cythonic_4core_3ant_Ant = __Pyx_ImportType(__pyx_t_1, "cythonic.core.ant", "Ant", sizeof(struct __pyx_obj_8cythonic_4core_3ant_Ant), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_8cythonic_4core_3ant_Ant) __PYX_ERR(1, 29, __pyx_L1_error)
-  __pyx_vtabptr_8cythonic_4core_3ant_Ant = (struct __pyx_vtabstruct_8cythonic_4core_3ant_Ant*)__Pyx_GetVtable(__pyx_ptype_8cythonic_4core_3ant_Ant->tp_dict); if (unlikely(!__pyx_vtabptr_8cythonic_4core_3ant_Ant)) __PYX_ERR(1, 29, __pyx_L1_error)
+   if (!__pyx_ptype_8cythonic_4core_3ant_Ant) __PYX_ERR(1, 28, __pyx_L1_error)
+  __pyx_vtabptr_8cythonic_4core_3ant_Ant = (struct __pyx_vtabstruct_8cythonic_4core_3ant_Ant*)__Pyx_GetVtable(__pyx_ptype_8cythonic_4core_3ant_Ant->tp_dict); if (unlikely(!__pyx_vtabptr_8cythonic_4core_3ant_Ant)) __PYX_ERR(1, 28, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_RefNannyFinishContext();
   return 0;

@@ -46,7 +46,7 @@ cdef class Ant:
     " c-only methods (all readonly) "
     cdef:
         readonly void rotate(self,double* dt)
-        readonly void gradient_step(self, double *dt, observations Q)
+        readonly void gradient_step(self, double *dt, observations * Q)
         readonly void observe(self, observations* Q)
         readonly void step(self, double * dt)
         readonly void out_of_bounds(self, bint oob)

@@ -8,39 +8,44 @@ from libc.math cimport M_PI as PI
 cdef class Ant:
     def __cinit__(self, double l, double sens_offset, double gain, double drop_quantity, double return_factor,
                  double drop_beta):
+        " set global ant constants "
         self.l = l
         self.sens_offset = sens_offset
         self.gain = gain
         self.drop_quantity = drop_quantity
         self.return_factor = return_factor
         self.drop_beta = drop_beta
+
+        " initialize sensing specific arguments "
         self.sens_fun = observe_linear
         self.obs_fun_args.gain = 1
 
+        " initialize pheromone dropping specific arguments "
+
     cdef void rotate(self,double* dt):
+        " rotate the ant based on angular velocity omega "
         " compute the angular speed (degrees/second) based on sensing "
         self.state[0].omega = self.gain*180./PI*(
             self.state[0].Q_obs.lft-self.state[0].Q_obs.rght)
-        self.increase_azimuth(dt)
+        self.increase_azimuth(dt) # state is known, no need to pass it
 
-    cdef void gradient_step(self, double *dt, observations Q):
+    cdef void gradient_step(self, double *dt, observations * Q):
         " execute the sequence for differential based stepping "
         " sniff pheromone -> rotate -> step -> update sensors "
-
-        self.observe(&Q)
+        self.observe(Q)
         self.rotate(dt)
         self.step(dt)
         self.set_sensors()
 
     cdef void observe(self, observations* Q):
-        # fill Q_obs(lft, right)
+        " fill Q_obs(lft, right) based on sensing function "
         self.sens_fun(self.state, &self.obs_fun_args, Q)
 
     cdef void step(self, double * dt):
         " do a step in the current direction ,do boundary check as well "
         self.state[0].time += dt[0] # update internal timer
 
-        # update position
+        " update position "
         cdef double step_size = self.state[0].v*dt[0]
         self.state[0].pos = transform(self.state[0].theta, &step_size, &self.state.pos)
 
@@ -63,4 +68,5 @@ cdef class Ant:
         self.state[0].theta = (self.state[0].theta+self.state[0].omega*dt[0])%360
 
     cdef void set_state(self,ant_state* s):
+        " assign the ant a state "
         self.state = s
