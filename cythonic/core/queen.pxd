@@ -27,6 +27,7 @@ cdef class Queen:
         readonly unsigned int count_active
         readonly double dt
         readonly double default_speed
+        readonly double[:] drop_quantity
     # methods
     cdef readonly void step(self, double * dt)
     cdef readonly ant_state generate_state(self, point p, double theta)

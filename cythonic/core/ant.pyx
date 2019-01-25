@@ -1,27 +1,46 @@
 from cythonic.plugins.functions cimport transform
 from cythonic.plugins.sens_functions cimport observe_linear
+from cythonic.plugins.dep_functions cimport dep_constant
 # from cythonic.plugins.drop_functions cimport exp_decay
 # import numpy as np
 from libc.math cimport M_PI as PI
 # from cythonic.plugins.rng cimport RNG
 
 cdef class Ant:
-    def __cinit__(self, double l, double sens_offset, double gain, double drop_quantity, double return_factor,
-                 double drop_beta):
+    def __cinit__(self, double l, double sens_offset, double gain):
         " set global ant constants "
         self.l = l
         self.sens_offset = sens_offset
         self.gain = gain
-        self.drop_quantity = drop_quantity
-        self.return_factor = return_factor
-        self.drop_beta = drop_beta
 
         " initialize sensing specific arguments "
         self.sens_fun = observe_linear
         self.obs_fun_args.gain = 1
 
-        " initialize pheromone dropping specific arguments "
 
+    """ ================ Deposit related methods ================== """
+    cdef void set_actuator_args(self, str fun, dep_fun_args x, ):
+        " setup the actuator (pheromone deposit) specific parameters "
+        self.dep_args = x
+        if fun == 'constant':
+            self.dep_fun = dep_constant
+        # elif fun == 'exp_decay':
+            # implement decay function
+
+    cdef void calc_quantity(self,double * q):
+        " fill the pheromone-dropped-quantity memory location "
+        # q is the placeholder for the returned quantity
+        # self.dep_fun(double * x, ant_state* s, dep_fun_args* x)
+        # x == pointer to mem location of q (q is already a pointer)
+        # self.state == already pointer to ant_state
+        self.dep_fun(q, self.state, &self.dep_args )
+
+    """ ================ observation related methods ================ """
+    cdef void observe(self, observations* Q):
+        " fill Q_obs(lft, right) based on sensing function "
+        self.sens_fun(self.state, &self.obs_fun_args, Q)
+
+    """ ================ step related methods ================ """
     cdef void rotate(self,double* dt):
         " rotate the ant based on angular velocity omega "
         " compute the angular speed (degrees/second) based on sensing "
@@ -37,10 +56,6 @@ cdef class Ant:
         self.step(dt)
         self.set_sensors()
 
-    cdef void observe(self, observations* Q):
-        " fill Q_obs(lft, right) based on sensing function "
-        self.sens_fun(self.state, &self.obs_fun_args, Q)
-
     cdef void step(self, double * dt):
         " do a step in the current direction ,do boundary check as well "
         self.state[0].time += dt[0] # update internal timer
@@ -49,23 +64,34 @@ cdef class Ant:
         cdef double step_size = self.state[0].v*dt[0]
         self.state[0].pos = transform(self.state[0].theta, &step_size, &self.state.pos)
 
-    cdef void out_of_bounds(self, bint oob):
-        " toggle out of bounds status "
-        self.state[0].out_of_bounds = oob
-
     cdef void set_sensors(self):
         " calculate the position of the left and right sensor antennas "
         self.state[0].left = transform(self.state[0].theta + self.sens_offset, &self.l, &self.state.pos)
         self.state[0].right = transform(self.state[0].theta - self.sens_offset, &self.l, &self.state.pos)
 
-    cdef void activate(self):
-        " mark the ant as active "
-        self.state[0].active = True
-
     cdef void increase_azimuth(self, double * dt):
         " ensure azimuth stays within [0,360) interval "
         " increase azimuth based on the angular speed and the time interval "
         self.state[0].theta = (self.state[0].theta+self.state[0].omega*dt[0])%360
+
+    cdef void reverse(self):
+        " turn around "
+        self.state[0].theta += 180
+        self.set_sensors()
+
+    """ ================ State sensing methods ================ """
+    cdef void out_of_bounds(self, bint oob):
+        " toggle out of bounds status "
+        self.state[0].out_of_bounds = oob
+
+    cdef readonly void foodbound(self):
+        self.state[0].foodbound = True
+    cdef readonly void nestbound(self):
+        self.state[0].foodbound = False
+
+    cdef void activate(self):
+        " mark the ant as active "
+        self.state[0].active = True
 
     cdef void set_state(self,ant_state* s):
         " assign the ant a state "

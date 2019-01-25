@@ -23,18 +23,42 @@ cdef class Domain:
         cdef double R = cceil(sigma*csqrt(2*cln(significancy)))
         self.Gaussian = GaussMap(resolution = self.Map.pitch, R = R, covariance = sigma)
 
-    cdef bint check_bounds(self, double* x, double* y):
+    cdef readonly bint check_bounds(self, point * p):
         " check if point is within the domain limits"
-        if x[0] >=0 and y[0]>=0 and \
-            x[0]<=self.size.x and y[0]<= self.size.y:
+        if p[0].x >=0 and p[0].y>=0 and \
+            p[0].x<=self.size.x and p[0].y<= self.size.y:
             return True
         else:
             return False
 
+    cdef readonly void constraint(self, point *p):
+        " correct points outside the domain to be on the domain limit "
+        if p[0].x <0:
+            p[0].x = 0
+        if p[0].x > self.size.x:
+            p[0].x = self.size.x
+        if p[0].y <0:
+            p[0].y = 0
+        if p[0].y > self.size.y:
+            p[0].y = self.size.y
+
+    cdef readonly bint check_pos(self, point * p, bint nest):
+        " check wheter point is at nest(nest==True)/food(nest==False)"
+        if nest:
+            if (p[0].x-self.nest_location.x)**2+(p[0].y-self.nest_location.y)**2<= self.nest_radius**2:
+                return True
+            else:
+                return False
+        else:
+            if (p[0].x-self.food_location.x)**2+(p[0].y-self.food_location.y)**2<= self.food_radius**2:
+                return True
+            else:
+                return False
+
     cdef readonly double probe_pheromone(self,point * p):
         " return the pheromone quantity at a location on the map "
         cdef double Q
-        if self.check_bounds(&p.x, &p.y):
+        if self.check_bounds(p):
             " convert point to index "
             Q = self.Map.map[self.Map.to_grid(&p.y),self.Map.to_grid(&p.x)]
         else:

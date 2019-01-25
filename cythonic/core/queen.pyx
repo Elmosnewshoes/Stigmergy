@@ -3,7 +3,7 @@ cimport cython
 from libcpp.vector cimport vector
 from cythonic.plugins.sens_structs cimport observations
 from cythonic.core.ant cimport Ant, ant_state
-
+import numpy as np
 
 """ ============
     The queen is the controller of the ants (agents)
@@ -26,6 +26,9 @@ cdef class Queen:
         cdef observations O = {'lft': 0.,'rght':0.}
         for i in range(self.n):
             self.pheromone_vec.push_back(O)
+
+        " populate a memview for quantity pheromone dropped "
+        self.drop_quantity = np.ones(n,dtype = np.float)
 
     cdef readonly void step(self, double * dt):
         " perform step on active agent "

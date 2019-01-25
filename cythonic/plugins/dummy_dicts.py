@@ -2,13 +2,13 @@ ant_dict = {
     'l': 5.,
     'sens_offset': 45.,
     'gain': 1.,
-    'drop_quantity': 1.,
-    'return_factor': 1,
-    'drop_beta':.2
+}
+
+ant_state_dict = {
+    
 }
 
 queen_dict = {
-    'n': 10,
     'dt': .5,
     'ant_dict': ant_dict
 }
@@ -21,4 +21,19 @@ domain_dict = {
     'food_loc': [750,500],
     'food_rad': 50,
     'target_pheromone': 1.
+}
+
+sim_dict = {
+    'n_agents': 10,
+    'dt': 1.,
+    'steps': 1000,
+    'deploy_style': 'nest_radian',
+    'deploy_timing': 'gamma_dist',
+    'deploy_timing_args': {'k':4.,'teta': 2.},
+
+}
+deposit_dict = {
+        'q': 1.,
+        'return_factor': 1,
+        'beta':.2
 }

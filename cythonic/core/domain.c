@@ -1495,9 +1495,11 @@ static struct __pyx_vtabstruct_8cythonic_4core_3map_GaussMap *__pyx_vtabptr_8cyt
  */
 
 struct __pyx_vtabstruct_8cythonic_4core_6domain_Domain {
+  void (*constraint)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_9positions_point *);
+  int (*check_pos)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_9positions_point *, int);
   void (*init_gaussian)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, double, double);
   void (*fill_observations)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_12sens_structs_observations *, struct __pyx_t_8cythonic_7plugins_9positions_point *, struct __pyx_t_8cythonic_7plugins_9positions_point *);
-  int (*check_bounds)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, double *, double *);
+  int (*check_bounds)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_9positions_point *);
   double (*probe_pheromone)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_9positions_point *);
   void (*add_pheromone)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_9positions_point *, double *);
   void (*pyvaporate)(struct __pyx_obj_8cythonic_4core_6domain_Domain *);
@@ -2483,7 +2485,9 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 void __pyx_f_8cythonic_4core_6domain_6Domain_fill_observations(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, struct __pyx_t_8cythonic_7plugins_12sens_structs_observations *__pyx_v_O, struct __pyx_t_8cythonic_7plugins_9positions_point *__pyx_v_pos_left, struct __pyx_t_8cythonic_7plugins_9positions_point *__pyx_v_pos_right); /* proto*/
 void __pyx_f_8cythonic_4core_6domain_6Domain_init_gaussian(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, double __pyx_v_sigma, double __pyx_v_significancy); /* proto*/
-static int __pyx_f_8cythonic_4core_6domain_6Domain_check_bounds(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, double *__pyx_v_x, double *__pyx_v_y); /* proto*/
+int __pyx_f_8cythonic_4core_6domain_6Domain_check_bounds(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, struct __pyx_t_8cythonic_7plugins_9positions_point *__pyx_v_p); /* proto*/
+void __pyx_f_8cythonic_4core_6domain_6Domain_constraint(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, struct __pyx_t_8cythonic_7plugins_9positions_point *__pyx_v_p); /* proto*/
+int __pyx_f_8cythonic_4core_6domain_6Domain_check_pos(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, struct __pyx_t_8cythonic_7plugins_9positions_point *__pyx_v_p, int __pyx_v_nest); /* proto*/
 double __pyx_f_8cythonic_4core_6domain_6Domain_probe_pheromone(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, struct __pyx_t_8cythonic_7plugins_9positions_point *__pyx_v_p); /* proto*/
 void __pyx_f_8cythonic_4core_6domain_6Domain_set_target_pheromone(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, double __pyx_v_target); /* proto*/
 void __pyx_f_8cythonic_4core_6domain_6Domain_cvaporate(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self); /* proto*/
@@ -3020,7 +3024,7 @@ void __pyx_f_8cythonic_4core_6domain_6Domain_init_gaussian(struct __pyx_obj_8cyt
  *         cdef double R = cceil(sigma*csqrt(2*cln(significancy)))
  *         self.Gaussian = GaussMap(resolution = self.Map.pitch, R = R, covariance = sigma)             # <<<<<<<<<<<<<<
  * 
- *     cdef bint check_bounds(self, double* x, double* y):
+ *     cdef readonly bint check_bounds(self, point * p):
  */
   __pyx_t_1 = __Pyx_PyDict_NewPresized(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -3067,12 +3071,12 @@ void __pyx_f_8cythonic_4core_6domain_6Domain_init_gaussian(struct __pyx_obj_8cyt
 /* "cythonic/core/domain.pyx":26
  *         self.Gaussian = GaussMap(resolution = self.Map.pitch, R = R, covariance = sigma)
  * 
- *     cdef bint check_bounds(self, double* x, double* y):             # <<<<<<<<<<<<<<
+ *     cdef readonly bint check_bounds(self, point * p):             # <<<<<<<<<<<<<<
  *         " check if point is within the domain limits"
- *         if x[0] >=0 and y[0]>=0 and \
+ *         if p[0].x >=0 and p[0].y>=0 and \
  */
 
-static int __pyx_f_8cythonic_4core_6domain_6Domain_check_bounds(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, double *__pyx_v_x, double *__pyx_v_y) {
+int __pyx_f_8cythonic_4core_6domain_6Domain_check_bounds(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, struct __pyx_t_8cythonic_7plugins_9positions_point *__pyx_v_p) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -3082,19 +3086,19 @@ static int __pyx_f_8cythonic_4core_6domain_6Domain_check_bounds(struct __pyx_obj
   __Pyx_TraceCall("check_bounds", __pyx_f[0], 26, 0, __PYX_ERR(0, 26, __pyx_L1_error));
 
   /* "cythonic/core/domain.pyx":28
- *     cdef bint check_bounds(self, double* x, double* y):
+ *     cdef readonly bint check_bounds(self, point * p):
  *         " check if point is within the domain limits"
- *         if x[0] >=0 and y[0]>=0 and \             # <<<<<<<<<<<<<<
- *             x[0]<=self.size.x and y[0]<= self.size.y:
+ *         if p[0].x >=0 and p[0].y>=0 and \             # <<<<<<<<<<<<<<
+ *             p[0].x<=self.size.x and p[0].y<= self.size.y:
  *             return True
  */
-  __pyx_t_2 = (((__pyx_v_x[0]) >= 0.0) != 0);
+  __pyx_t_2 = (((__pyx_v_p[0]).x >= 0.0) != 0);
   if (__pyx_t_2) {
   } else {
     __pyx_t_1 = __pyx_t_2;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_2 = (((__pyx_v_y[0]) >= 0.0) != 0);
+  __pyx_t_2 = (((__pyx_v_p[0]).y >= 0.0) != 0);
   if (__pyx_t_2) {
   } else {
     __pyx_t_1 = __pyx_t_2;
@@ -3103,33 +3107,33 @@ static int __pyx_f_8cythonic_4core_6domain_6Domain_check_bounds(struct __pyx_obj
 
   /* "cythonic/core/domain.pyx":29
  *         " check if point is within the domain limits"
- *         if x[0] >=0 and y[0]>=0 and \
- *             x[0]<=self.size.x and y[0]<= self.size.y:             # <<<<<<<<<<<<<<
+ *         if p[0].x >=0 and p[0].y>=0 and \
+ *             p[0].x<=self.size.x and p[0].y<= self.size.y:             # <<<<<<<<<<<<<<
  *             return True
  *         else:
  */
-  __pyx_t_2 = (((__pyx_v_x[0]) <= __pyx_v_self->size.x) != 0);
+  __pyx_t_2 = (((__pyx_v_p[0]).x <= __pyx_v_self->size.x) != 0);
   if (__pyx_t_2) {
   } else {
     __pyx_t_1 = __pyx_t_2;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_2 = (((__pyx_v_y[0]) <= __pyx_v_self->size.y) != 0);
+  __pyx_t_2 = (((__pyx_v_p[0]).y <= __pyx_v_self->size.y) != 0);
   __pyx_t_1 = __pyx_t_2;
   __pyx_L4_bool_binop_done:;
 
   /* "cythonic/core/domain.pyx":28
- *     cdef bint check_bounds(self, double* x, double* y):
+ *     cdef readonly bint check_bounds(self, point * p):
  *         " check if point is within the domain limits"
- *         if x[0] >=0 and y[0]>=0 and \             # <<<<<<<<<<<<<<
- *             x[0]<=self.size.x and y[0]<= self.size.y:
+ *         if p[0].x >=0 and p[0].y>=0 and \             # <<<<<<<<<<<<<<
+ *             p[0].x<=self.size.x and p[0].y<= self.size.y:
  *             return True
  */
   if (__pyx_t_1) {
 
     /* "cythonic/core/domain.pyx":30
- *         if x[0] >=0 and y[0]>=0 and \
- *             x[0]<=self.size.x and y[0]<= self.size.y:
+ *         if p[0].x >=0 and p[0].y>=0 and \
+ *             p[0].x<=self.size.x and p[0].y<= self.size.y:
  *             return True             # <<<<<<<<<<<<<<
  *         else:
  *             return False
@@ -3138,10 +3142,10 @@ static int __pyx_f_8cythonic_4core_6domain_6Domain_check_bounds(struct __pyx_obj
     goto __pyx_L0;
 
     /* "cythonic/core/domain.pyx":28
- *     cdef bint check_bounds(self, double* x, double* y):
+ *     cdef readonly bint check_bounds(self, point * p):
  *         " check if point is within the domain limits"
- *         if x[0] >=0 and y[0]>=0 and \             # <<<<<<<<<<<<<<
- *             x[0]<=self.size.x and y[0]<= self.size.y:
+ *         if p[0].x >=0 and p[0].y>=0 and \             # <<<<<<<<<<<<<<
+ *             p[0].x<=self.size.x and p[0].y<= self.size.y:
  *             return True
  */
   }
@@ -3151,7 +3155,7 @@ static int __pyx_f_8cythonic_4core_6domain_6Domain_check_bounds(struct __pyx_obj
  *         else:
  *             return False             # <<<<<<<<<<<<<<
  * 
- *     cdef readonly double probe_pheromone(self,point * p):
+ *     cdef readonly void constraint(self, point *p):
  */
   /*else*/ {
     __pyx_r = 0;
@@ -3161,9 +3165,9 @@ static int __pyx_f_8cythonic_4core_6domain_6Domain_check_bounds(struct __pyx_obj
   /* "cythonic/core/domain.pyx":26
  *         self.Gaussian = GaussMap(resolution = self.Map.pitch, R = R, covariance = sigma)
  * 
- *     cdef bint check_bounds(self, double* x, double* y):             # <<<<<<<<<<<<<<
+ *     cdef readonly bint check_bounds(self, point * p):             # <<<<<<<<<<<<<<
  *         " check if point is within the domain limits"
- *         if x[0] >=0 and y[0]>=0 and \
+ *         if p[0].x >=0 and p[0].y>=0 and \
  */
 
   /* function exit code */
@@ -3179,6 +3183,290 @@ static int __pyx_f_8cythonic_4core_6domain_6Domain_check_bounds(struct __pyx_obj
 /* "cythonic/core/domain.pyx":34
  *             return False
  * 
+ *     cdef readonly void constraint(self, point *p):             # <<<<<<<<<<<<<<
+ *         " correct points outside the domain to be on the domain limit "
+ *         if p[0].x <0:
+ */
+
+void __pyx_f_8cythonic_4core_6domain_6Domain_constraint(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, struct __pyx_t_8cythonic_7plugins_9positions_point *__pyx_v_p) {
+  __Pyx_TraceDeclarations
+  __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  double __pyx_t_2;
+  __Pyx_RefNannySetupContext("constraint", 0);
+  __Pyx_TraceCall("constraint", __pyx_f[0], 34, 0, __PYX_ERR(0, 34, __pyx_L1_error));
+
+  /* "cythonic/core/domain.pyx":36
+ *     cdef readonly void constraint(self, point *p):
+ *         " correct points outside the domain to be on the domain limit "
+ *         if p[0].x <0:             # <<<<<<<<<<<<<<
+ *             p[0].x = 0
+ *         if p[0].x > self.size.x:
+ */
+  __pyx_t_1 = (((__pyx_v_p[0]).x < 0.0) != 0);
+  if (__pyx_t_1) {
+
+    /* "cythonic/core/domain.pyx":37
+ *         " correct points outside the domain to be on the domain limit "
+ *         if p[0].x <0:
+ *             p[0].x = 0             # <<<<<<<<<<<<<<
+ *         if p[0].x > self.size.x:
+ *             p[0].x = self.size.x
+ */
+    (__pyx_v_p[0]).x = 0.0;
+
+    /* "cythonic/core/domain.pyx":36
+ *     cdef readonly void constraint(self, point *p):
+ *         " correct points outside the domain to be on the domain limit "
+ *         if p[0].x <0:             # <<<<<<<<<<<<<<
+ *             p[0].x = 0
+ *         if p[0].x > self.size.x:
+ */
+  }
+
+  /* "cythonic/core/domain.pyx":38
+ *         if p[0].x <0:
+ *             p[0].x = 0
+ *         if p[0].x > self.size.x:             # <<<<<<<<<<<<<<
+ *             p[0].x = self.size.x
+ *         if p[0].y <0:
+ */
+  __pyx_t_1 = (((__pyx_v_p[0]).x > __pyx_v_self->size.x) != 0);
+  if (__pyx_t_1) {
+
+    /* "cythonic/core/domain.pyx":39
+ *             p[0].x = 0
+ *         if p[0].x > self.size.x:
+ *             p[0].x = self.size.x             # <<<<<<<<<<<<<<
+ *         if p[0].y <0:
+ *             p[0].y = 0
+ */
+    __pyx_t_2 = __pyx_v_self->size.x;
+    (__pyx_v_p[0]).x = __pyx_t_2;
+
+    /* "cythonic/core/domain.pyx":38
+ *         if p[0].x <0:
+ *             p[0].x = 0
+ *         if p[0].x > self.size.x:             # <<<<<<<<<<<<<<
+ *             p[0].x = self.size.x
+ *         if p[0].y <0:
+ */
+  }
+
+  /* "cythonic/core/domain.pyx":40
+ *         if p[0].x > self.size.x:
+ *             p[0].x = self.size.x
+ *         if p[0].y <0:             # <<<<<<<<<<<<<<
+ *             p[0].y = 0
+ *         if p[0].y > self.size.y:
+ */
+  __pyx_t_1 = (((__pyx_v_p[0]).y < 0.0) != 0);
+  if (__pyx_t_1) {
+
+    /* "cythonic/core/domain.pyx":41
+ *             p[0].x = self.size.x
+ *         if p[0].y <0:
+ *             p[0].y = 0             # <<<<<<<<<<<<<<
+ *         if p[0].y > self.size.y:
+ *             p[0].y = self.size.y
+ */
+    (__pyx_v_p[0]).y = 0.0;
+
+    /* "cythonic/core/domain.pyx":40
+ *         if p[0].x > self.size.x:
+ *             p[0].x = self.size.x
+ *         if p[0].y <0:             # <<<<<<<<<<<<<<
+ *             p[0].y = 0
+ *         if p[0].y > self.size.y:
+ */
+  }
+
+  /* "cythonic/core/domain.pyx":42
+ *         if p[0].y <0:
+ *             p[0].y = 0
+ *         if p[0].y > self.size.y:             # <<<<<<<<<<<<<<
+ *             p[0].y = self.size.y
+ * 
+ */
+  __pyx_t_1 = (((__pyx_v_p[0]).y > __pyx_v_self->size.y) != 0);
+  if (__pyx_t_1) {
+
+    /* "cythonic/core/domain.pyx":43
+ *             p[0].y = 0
+ *         if p[0].y > self.size.y:
+ *             p[0].y = self.size.y             # <<<<<<<<<<<<<<
+ * 
+ *     cdef readonly bint check_pos(self, point * p, bint nest):
+ */
+    __pyx_t_2 = __pyx_v_self->size.y;
+    (__pyx_v_p[0]).y = __pyx_t_2;
+
+    /* "cythonic/core/domain.pyx":42
+ *         if p[0].y <0:
+ *             p[0].y = 0
+ *         if p[0].y > self.size.y:             # <<<<<<<<<<<<<<
+ *             p[0].y = self.size.y
+ * 
+ */
+  }
+
+  /* "cythonic/core/domain.pyx":34
+ *             return False
+ * 
+ *     cdef readonly void constraint(self, point *p):             # <<<<<<<<<<<<<<
+ *         " correct points outside the domain to be on the domain limit "
+ *         if p[0].x <0:
+ */
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_WriteUnraisable("cythonic.core.domain.Domain.constraint", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __pyx_L0:;
+  __Pyx_TraceReturn(Py_None, 0);
+  __Pyx_RefNannyFinishContext();
+}
+
+/* "cythonic/core/domain.pyx":45
+ *             p[0].y = self.size.y
+ * 
+ *     cdef readonly bint check_pos(self, point * p, bint nest):             # <<<<<<<<<<<<<<
+ *         " check wheter point is at nest(nest==True)/food(nest==False)"
+ *         if nest:
+ */
+
+int __pyx_f_8cythonic_4core_6domain_6Domain_check_pos(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, struct __pyx_t_8cythonic_7plugins_9positions_point *__pyx_v_p, int __pyx_v_nest) {
+  int __pyx_r;
+  __Pyx_TraceDeclarations
+  __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  __Pyx_RefNannySetupContext("check_pos", 0);
+  __Pyx_TraceCall("check_pos", __pyx_f[0], 45, 0, __PYX_ERR(0, 45, __pyx_L1_error));
+
+  /* "cythonic/core/domain.pyx":47
+ *     cdef readonly bint check_pos(self, point * p, bint nest):
+ *         " check wheter point is at nest(nest==True)/food(nest==False)"
+ *         if nest:             # <<<<<<<<<<<<<<
+ *             if (p[0].x-self.nest_location.x)**2+(p[0].y-self.nest_location.y)**2<= self.nest_radius**2:
+ *                 return True
+ */
+  __pyx_t_1 = (__pyx_v_nest != 0);
+  if (__pyx_t_1) {
+
+    /* "cythonic/core/domain.pyx":48
+ *         " check wheter point is at nest(nest==True)/food(nest==False)"
+ *         if nest:
+ *             if (p[0].x-self.nest_location.x)**2+(p[0].y-self.nest_location.y)**2<= self.nest_radius**2:             # <<<<<<<<<<<<<<
+ *                 return True
+ *             else:
+ */
+    __pyx_t_1 = (((pow(((__pyx_v_p[0]).x - __pyx_v_self->nest_location.x), 2.0) + pow(((__pyx_v_p[0]).y - __pyx_v_self->nest_location.y), 2.0)) <= pow(__pyx_v_self->nest_radius, 2.0)) != 0);
+    if (__pyx_t_1) {
+
+      /* "cythonic/core/domain.pyx":49
+ *         if nest:
+ *             if (p[0].x-self.nest_location.x)**2+(p[0].y-self.nest_location.y)**2<= self.nest_radius**2:
+ *                 return True             # <<<<<<<<<<<<<<
+ *             else:
+ *                 return False
+ */
+      __pyx_r = 1;
+      goto __pyx_L0;
+
+      /* "cythonic/core/domain.pyx":48
+ *         " check wheter point is at nest(nest==True)/food(nest==False)"
+ *         if nest:
+ *             if (p[0].x-self.nest_location.x)**2+(p[0].y-self.nest_location.y)**2<= self.nest_radius**2:             # <<<<<<<<<<<<<<
+ *                 return True
+ *             else:
+ */
+    }
+
+    /* "cythonic/core/domain.pyx":51
+ *                 return True
+ *             else:
+ *                 return False             # <<<<<<<<<<<<<<
+ *         else:
+ *             if (p[0].x-self.food_location.x)**2+(p[0].y-self.food_location.y)**2<= self.food_radius**2:
+ */
+    /*else*/ {
+      __pyx_r = 0;
+      goto __pyx_L0;
+    }
+
+    /* "cythonic/core/domain.pyx":47
+ *     cdef readonly bint check_pos(self, point * p, bint nest):
+ *         " check wheter point is at nest(nest==True)/food(nest==False)"
+ *         if nest:             # <<<<<<<<<<<<<<
+ *             if (p[0].x-self.nest_location.x)**2+(p[0].y-self.nest_location.y)**2<= self.nest_radius**2:
+ *                 return True
+ */
+  }
+
+  /* "cythonic/core/domain.pyx":53
+ *                 return False
+ *         else:
+ *             if (p[0].x-self.food_location.x)**2+(p[0].y-self.food_location.y)**2<= self.food_radius**2:             # <<<<<<<<<<<<<<
+ *                 return True
+ *             else:
+ */
+  /*else*/ {
+    __pyx_t_1 = (((pow(((__pyx_v_p[0]).x - __pyx_v_self->food_location.x), 2.0) + pow(((__pyx_v_p[0]).y - __pyx_v_self->food_location.y), 2.0)) <= pow(__pyx_v_self->food_radius, 2.0)) != 0);
+    if (__pyx_t_1) {
+
+      /* "cythonic/core/domain.pyx":54
+ *         else:
+ *             if (p[0].x-self.food_location.x)**2+(p[0].y-self.food_location.y)**2<= self.food_radius**2:
+ *                 return True             # <<<<<<<<<<<<<<
+ *             else:
+ *                 return False
+ */
+      __pyx_r = 1;
+      goto __pyx_L0;
+
+      /* "cythonic/core/domain.pyx":53
+ *                 return False
+ *         else:
+ *             if (p[0].x-self.food_location.x)**2+(p[0].y-self.food_location.y)**2<= self.food_radius**2:             # <<<<<<<<<<<<<<
+ *                 return True
+ *             else:
+ */
+    }
+
+    /* "cythonic/core/domain.pyx":56
+ *                 return True
+ *             else:
+ *                 return False             # <<<<<<<<<<<<<<
+ * 
+ *     cdef readonly double probe_pheromone(self,point * p):
+ */
+    /*else*/ {
+      __pyx_r = 0;
+      goto __pyx_L0;
+    }
+  }
+
+  /* "cythonic/core/domain.pyx":45
+ *             p[0].y = self.size.y
+ * 
+ *     cdef readonly bint check_pos(self, point * p, bint nest):             # <<<<<<<<<<<<<<
+ *         " check wheter point is at nest(nest==True)/food(nest==False)"
+ *         if nest:
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_WriteUnraisable("cythonic.core.domain.Domain.check_pos", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_TraceReturn(Py_None, 0);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "cythonic/core/domain.pyx":58
+ *                 return False
+ * 
  *     cdef readonly double probe_pheromone(self,point * p):             # <<<<<<<<<<<<<<
  *         " return the pheromone quantity at a location on the map "
  *         cdef double Q
@@ -3193,20 +3481,20 @@ double __pyx_f_8cythonic_4core_6domain_6Domain_probe_pheromone(struct __pyx_obj_
   size_t __pyx_t_2;
   size_t __pyx_t_3;
   __Pyx_RefNannySetupContext("probe_pheromone", 0);
-  __Pyx_TraceCall("probe_pheromone", __pyx_f[0], 34, 0, __PYX_ERR(0, 34, __pyx_L1_error));
+  __Pyx_TraceCall("probe_pheromone", __pyx_f[0], 58, 0, __PYX_ERR(0, 58, __pyx_L1_error));
 
-  /* "cythonic/core/domain.pyx":37
+  /* "cythonic/core/domain.pyx":61
  *         " return the pheromone quantity at a location on the map "
  *         cdef double Q
- *         if self.check_bounds(&p.x, &p.y):             # <<<<<<<<<<<<<<
+ *         if self.check_bounds(p):             # <<<<<<<<<<<<<<
  *             " convert point to index "
  *             Q = self.Map.map[self.Map.to_grid(&p.y),self.Map.to_grid(&p.x)]
  */
-  __pyx_t_1 = (((struct __pyx_vtabstruct_8cythonic_4core_6domain_Domain *)__pyx_v_self->__pyx_vtab)->check_bounds(__pyx_v_self, (&__pyx_v_p->x), (&__pyx_v_p->y)) != 0);
+  __pyx_t_1 = (((struct __pyx_vtabstruct_8cythonic_4core_6domain_Domain *)__pyx_v_self->__pyx_vtab)->check_bounds(__pyx_v_self, __pyx_v_p) != 0);
   if (__pyx_t_1) {
 
-    /* "cythonic/core/domain.pyx":39
- *         if self.check_bounds(&p.x, &p.y):
+    /* "cythonic/core/domain.pyx":63
+ *         if self.check_bounds(p):
  *             " convert point to index "
  *             Q = self.Map.map[self.Map.to_grid(&p.y),self.Map.to_grid(&p.x)]             # <<<<<<<<<<<<<<
  *         else:
@@ -3216,17 +3504,17 @@ double __pyx_f_8cythonic_4core_6domain_6Domain_probe_pheromone(struct __pyx_obj_
     __pyx_t_3 = ((struct __pyx_vtabstruct_8cythonic_4core_3map_MeshMap *)__pyx_v_self->Map->__pyx_base.__pyx_vtab)->__pyx_base.to_grid(((struct __pyx_obj_8cythonic_4core_3map_Map *)__pyx_v_self->Map), (&__pyx_v_p->x));
     __pyx_v_Q = (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->Map->__pyx_base.map.data + __pyx_t_2 * __pyx_v_self->Map->__pyx_base.map.strides[0]) )) + __pyx_t_3)) )));
 
-    /* "cythonic/core/domain.pyx":37
+    /* "cythonic/core/domain.pyx":61
  *         " return the pheromone quantity at a location on the map "
  *         cdef double Q
- *         if self.check_bounds(&p.x, &p.y):             # <<<<<<<<<<<<<<
+ *         if self.check_bounds(p):             # <<<<<<<<<<<<<<
  *             " convert point to index "
  *             Q = self.Map.map[self.Map.to_grid(&p.y),self.Map.to_grid(&p.x)]
  */
     goto __pyx_L3;
   }
 
-  /* "cythonic/core/domain.pyx":41
+  /* "cythonic/core/domain.pyx":65
  *             Q = self.Map.map[self.Map.to_grid(&p.y),self.Map.to_grid(&p.x)]
  *         else:
  *             " out of bounds, return zero "             # <<<<<<<<<<<<<<
@@ -3235,7 +3523,7 @@ double __pyx_f_8cythonic_4core_6domain_6Domain_probe_pheromone(struct __pyx_obj_
  */
   /*else*/ {
 
-    /* "cythonic/core/domain.pyx":42
+    /* "cythonic/core/domain.pyx":66
  *         else:
  *             " out of bounds, return zero "
  *             Q = 0.             # <<<<<<<<<<<<<<
@@ -3246,7 +3534,7 @@ double __pyx_f_8cythonic_4core_6domain_6Domain_probe_pheromone(struct __pyx_obj_
   }
   __pyx_L3:;
 
-  /* "cythonic/core/domain.pyx":43
+  /* "cythonic/core/domain.pyx":67
  *             " out of bounds, return zero "
  *             Q = 0.
  *         return Q             # <<<<<<<<<<<<<<
@@ -3256,8 +3544,8 @@ double __pyx_f_8cythonic_4core_6domain_6Domain_probe_pheromone(struct __pyx_obj_
   __pyx_r = __pyx_v_Q;
   goto __pyx_L0;
 
-  /* "cythonic/core/domain.pyx":34
- *             return False
+  /* "cythonic/core/domain.pyx":58
+ *                 return False
  * 
  *     cdef readonly double probe_pheromone(self,point * p):             # <<<<<<<<<<<<<<
  *         " return the pheromone quantity at a location on the map "
@@ -3274,7 +3562,7 @@ double __pyx_f_8cythonic_4core_6domain_6Domain_probe_pheromone(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "cythonic/core/domain.pyx":45
+/* "cythonic/core/domain.pyx":69
  *         return Q
  * 
  *     cdef readonly void set_target_pheromone(self, double target):             # <<<<<<<<<<<<<<
@@ -3286,9 +3574,9 @@ void __pyx_f_8cythonic_4core_6domain_6Domain_set_target_pheromone(struct __pyx_o
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("set_target_pheromone", 0);
-  __Pyx_TraceCall("set_target_pheromone", __pyx_f[0], 45, 0, __PYX_ERR(0, 45, __pyx_L1_error));
+  __Pyx_TraceCall("set_target_pheromone", __pyx_f[0], 69, 0, __PYX_ERR(0, 69, __pyx_L1_error));
 
-  /* "cythonic/core/domain.pyx":46
+  /* "cythonic/core/domain.pyx":70
  * 
  *     cdef readonly void set_target_pheromone(self, double target):
  *         self.target_pheromone= target             # <<<<<<<<<<<<<<
@@ -3297,7 +3585,7 @@ void __pyx_f_8cythonic_4core_6domain_6Domain_set_target_pheromone(struct __pyx_o
  */
   __pyx_v_self->target_pheromone = __pyx_v_target;
 
-  /* "cythonic/core/domain.pyx":45
+  /* "cythonic/core/domain.pyx":69
  *         return Q
  * 
  *     cdef readonly void set_target_pheromone(self, double target):             # <<<<<<<<<<<<<<
@@ -3314,7 +3602,7 @@ void __pyx_f_8cythonic_4core_6domain_6Domain_set_target_pheromone(struct __pyx_o
   __Pyx_RefNannyFinishContext();
 }
 
-/* "cythonic/core/domain.pyx":49
+/* "cythonic/core/domain.pyx":73
  * 
  * 
  *     cdef readonly void cvaporate(self):             # <<<<<<<<<<<<<<
@@ -3339,9 +3627,9 @@ void __pyx_f_8cythonic_4core_6domain_6Domain_cvaporate(struct __pyx_obj_8cythoni
   size_t __pyx_t_7;
   size_t __pyx_t_8;
   __Pyx_RefNannySetupContext("cvaporate", 0);
-  __Pyx_TraceCall("cvaporate", __pyx_f[0], 49, 0, __PYX_ERR(0, 49, __pyx_L1_error));
+  __Pyx_TraceCall("cvaporate", __pyx_f[0], 73, 0, __PYX_ERR(0, 73, __pyx_L1_error));
 
-  /* "cythonic/core/domain.pyx":52
+  /* "cythonic/core/domain.pyx":76
  *         " hard coded version of pyvaporate, roughly 7-12 times faster "
  *         " parallel computed sum of map yields another 2-3x speed boost"
  *         cdef double x = self.target_pheromone/self.Map.sum()             # <<<<<<<<<<<<<<
@@ -3350,7 +3638,7 @@ void __pyx_f_8cythonic_4core_6domain_6Domain_cvaporate(struct __pyx_obj_8cythoni
  */
   __pyx_v_x = (__pyx_v_self->target_pheromone / ((struct __pyx_vtabstruct_8cythonic_4core_3map_MeshMap *)__pyx_v_self->Map->__pyx_base.__pyx_vtab)->__pyx_base.sum(((struct __pyx_obj_8cythonic_4core_3map_Map *)__pyx_v_self->Map)));
 
-  /* "cythonic/core/domain.pyx":54
+  /* "cythonic/core/domain.pyx":78
  *         cdef double x = self.target_pheromone/self.Map.sum()
  *         cdef unsigned int i,j,I,J
  *         I = self.Map.map.shape[0]             # <<<<<<<<<<<<<<
@@ -3359,7 +3647,7 @@ void __pyx_f_8cythonic_4core_6domain_6Domain_cvaporate(struct __pyx_obj_8cythoni
  */
   __pyx_v_I = (__pyx_v_self->Map->__pyx_base.map.shape[0]);
 
-  /* "cythonic/core/domain.pyx":55
+  /* "cythonic/core/domain.pyx":79
  *         cdef unsigned int i,j,I,J
  *         I = self.Map.map.shape[0]
  *         J = self.Map.map.shape[1]             # <<<<<<<<<<<<<<
@@ -3368,7 +3656,7 @@ void __pyx_f_8cythonic_4core_6domain_6Domain_cvaporate(struct __pyx_obj_8cythoni
  */
   __pyx_v_J = (__pyx_v_self->Map->__pyx_base.map.shape[1]);
 
-  /* "cythonic/core/domain.pyx":56
+  /* "cythonic/core/domain.pyx":80
  *         I = self.Map.map.shape[0]
  *         J = self.Map.map.shape[1]
  *         for i in range(I):             # <<<<<<<<<<<<<<
@@ -3380,7 +3668,7 @@ void __pyx_f_8cythonic_4core_6domain_6Domain_cvaporate(struct __pyx_obj_8cythoni
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "cythonic/core/domain.pyx":57
+    /* "cythonic/core/domain.pyx":81
  *         J = self.Map.map.shape[1]
  *         for i in range(I):
  *             for j in range(J):             # <<<<<<<<<<<<<<
@@ -3392,7 +3680,7 @@ void __pyx_f_8cythonic_4core_6domain_6Domain_cvaporate(struct __pyx_obj_8cythoni
     for (__pyx_t_6 = 0; __pyx_t_6 < __pyx_t_5; __pyx_t_6+=1) {
       __pyx_v_j = __pyx_t_6;
 
-      /* "cythonic/core/domain.pyx":58
+      /* "cythonic/core/domain.pyx":82
  *         for i in range(I):
  *             for j in range(J):
  *                 self.Map.map[i,j] *=x             # <<<<<<<<<<<<<<
@@ -3405,7 +3693,7 @@ void __pyx_f_8cythonic_4core_6domain_6Domain_cvaporate(struct __pyx_obj_8cythoni
     }
   }
 
-  /* "cythonic/core/domain.pyx":49
+  /* "cythonic/core/domain.pyx":73
  * 
  * 
  *     cdef readonly void cvaporate(self):             # <<<<<<<<<<<<<<
@@ -3422,7 +3710,7 @@ void __pyx_f_8cythonic_4core_6domain_6Domain_cvaporate(struct __pyx_obj_8cythoni
   __Pyx_RefNannyFinishContext();
 }
 
-/* "cythonic/core/domain.pyx":60
+/* "cythonic/core/domain.pyx":84
  *                 self.Map.map[i,j] *=x
  * 
  *     cdef readonly void pyvaporate(self):             # <<<<<<<<<<<<<<
@@ -3445,30 +3733,30 @@ void __pyx_f_8cythonic_4core_6domain_6Domain_pyvaporate(struct __pyx_obj_8cython
   int __pyx_t_10;
   __Pyx_memviewslice __pyx_t_11 = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_RefNannySetupContext("pyvaporate", 0);
-  __Pyx_TraceCall("pyvaporate", __pyx_f[0], 60, 0, __PYX_ERR(0, 60, __pyx_L1_error));
+  __Pyx_TraceCall("pyvaporate", __pyx_f[0], 84, 0, __PYX_ERR(0, 84, __pyx_L1_error));
 
-  /* "cythonic/core/domain.pyx":62
+  /* "cythonic/core/domain.pyx":86
  *     cdef readonly void pyvaporate(self):
  *         " evaporate the python way with constant volume"
  *         self.Map.map = np.dot(self.Map.map,self.target_pheromone/np.array(self.Map.map).sum())             # <<<<<<<<<<<<<<
  * 
  *     cdef readonly void add_pheromone(self,point *p, double *Q):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_dot); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_dot); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_self->Map->__pyx_base.map, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_self->Map->__pyx_base.map, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_self->target_pheromone); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_self->target_pheromone); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_array); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_array); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = __pyx_memoryview_fromslice(__pyx_v_self->Map->__pyx_base.map, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_t_7 = __pyx_memoryview_fromslice(__pyx_v_self->Map->__pyx_base.map, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __pyx_t_9 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_8))) {
@@ -3483,10 +3771,10 @@ void __pyx_f_8cythonic_4core_6domain_6Domain_pyvaporate(struct __pyx_obj_8cython
   __pyx_t_6 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_9, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_7);
   __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 62, __pyx_L1_error)
+  if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_sum); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_sum); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = NULL;
@@ -3501,10 +3789,10 @@ void __pyx_f_8cythonic_4core_6domain_6Domain_pyvaporate(struct __pyx_obj_8cython
   }
   __pyx_t_5 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 62, __pyx_L1_error)
+  if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_8 = __Pyx_PyNumber_Divide(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyNumber_Divide(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -3523,7 +3811,7 @@ void __pyx_f_8cythonic_4core_6domain_6Domain_pyvaporate(struct __pyx_obj_8cython
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_2, __pyx_t_8};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 62, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 86, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -3533,7 +3821,7 @@ void __pyx_f_8cythonic_4core_6domain_6Domain_pyvaporate(struct __pyx_obj_8cython
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_2, __pyx_t_8};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 62, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 86, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -3541,7 +3829,7 @@ void __pyx_f_8cythonic_4core_6domain_6Domain_pyvaporate(struct __pyx_obj_8cython
   } else
   #endif
   {
-    __pyx_t_4 = PyTuple_New(2+__pyx_t_10); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 62, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_New(2+__pyx_t_10); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 86, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     if (__pyx_t_5) {
       __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5); __pyx_t_5 = NULL;
@@ -3552,19 +3840,19 @@ void __pyx_f_8cythonic_4core_6domain_6Domain_pyvaporate(struct __pyx_obj_8cython
     PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_10, __pyx_t_8);
     __pyx_t_2 = 0;
     __pyx_t_8 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 62, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 86, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_11 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_11.memview)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_t_11 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_11.memview)) __PYX_ERR(0, 86, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->Map->__pyx_base.map, 0);
   __pyx_v_self->Map->__pyx_base.map = __pyx_t_11;
   __pyx_t_11.memview = NULL;
   __pyx_t_11.data = NULL;
 
-  /* "cythonic/core/domain.pyx":60
+  /* "cythonic/core/domain.pyx":84
  *                 self.Map.map[i,j] *=x
  * 
  *     cdef readonly void pyvaporate(self):             # <<<<<<<<<<<<<<
@@ -3591,7 +3879,7 @@ void __pyx_f_8cythonic_4core_6domain_6Domain_pyvaporate(struct __pyx_obj_8cython
   __Pyx_RefNannyFinishContext();
 }
 
-/* "cythonic/core/domain.pyx":64
+/* "cythonic/core/domain.pyx":88
  *         self.Map.map = np.dot(self.Map.map,self.target_pheromone/np.array(self.Map.map).sum())
  * 
  *     cdef readonly void add_pheromone(self,point *p, double *Q):             # <<<<<<<<<<<<<<
@@ -3620,9 +3908,9 @@ void __pyx_f_8cythonic_4core_6domain_6Domain_add_pheromone(struct __pyx_obj_8cyt
   Py_ssize_t __pyx_t_10;
   Py_ssize_t __pyx_t_11;
   __Pyx_RefNannySetupContext("add_pheromone", 0);
-  __Pyx_TraceCall("add_pheromone", __pyx_f[0], 64, 0, __PYX_ERR(0, 64, __pyx_L1_error));
+  __Pyx_TraceCall("add_pheromone", __pyx_f[0], 88, 0, __PYX_ERR(0, 88, __pyx_L1_error));
 
-  /* "cythonic/core/domain.pyx":66
+  /* "cythonic/core/domain.pyx":90
  *     cdef readonly void add_pheromone(self,point *p, double *Q):
  *         " add quantity Q pheromone at gaussian centered around p "
  *         cdef index I = index(self.Map.to_grid(&p.x),self.Map.to_grid(&p.y))             # <<<<<<<<<<<<<<
@@ -3633,7 +3921,7 @@ void __pyx_f_8cythonic_4core_6domain_6Domain_add_pheromone(struct __pyx_obj_8cyt
   __pyx_t_1.y = ((struct __pyx_vtabstruct_8cythonic_4core_3map_MeshMap *)__pyx_v_self->Map->__pyx_base.__pyx_vtab)->__pyx_base.to_grid(((struct __pyx_obj_8cythonic_4core_3map_Map *)__pyx_v_self->Map), (&__pyx_v_p->y));
   __pyx_v_I = __pyx_t_1;
 
-  /* "cythonic/core/domain.pyx":67
+  /* "cythonic/core/domain.pyx":91
  *         " add quantity Q pheromone at gaussian centered around p "
  *         cdef index I = index(self.Map.to_grid(&p.x),self.Map.to_grid(&p.y))
  *         cdef map_range s = self.Map.span(&I.x,&I.y,&self.Gaussian.radius)             # <<<<<<<<<<<<<<
@@ -3642,7 +3930,7 @@ void __pyx_f_8cythonic_4core_6domain_6Domain_add_pheromone(struct __pyx_obj_8cyt
  */
   __pyx_v_s = ((struct __pyx_vtabstruct_8cythonic_4core_3map_MeshMap *)__pyx_v_self->Map->__pyx_base.__pyx_vtab)->__pyx_base.span(((struct __pyx_obj_8cythonic_4core_3map_Map *)__pyx_v_self->Map), (&__pyx_v_I.x), (&__pyx_v_I.y), (&__pyx_v_self->Gaussian->radius));
 
-  /* "cythonic/core/domain.pyx":68
+  /* "cythonic/core/domain.pyx":92
  *         cdef index I = index(self.Map.to_grid(&p.x),self.Map.to_grid(&p.y))
  *         cdef map_range s = self.Map.span(&I.x,&I.y,&self.Gaussian.radius)
  *         cdef long offset_x = self.Map.to_grid(&p.x)-s.x[1]+s.x[0]             # <<<<<<<<<<<<<<
@@ -3651,7 +3939,7 @@ void __pyx_f_8cythonic_4core_6domain_6Domain_add_pheromone(struct __pyx_obj_8cyt
  */
   __pyx_v_offset_x = ((((struct __pyx_vtabstruct_8cythonic_4core_3map_MeshMap *)__pyx_v_self->Map->__pyx_base.__pyx_vtab)->__pyx_base.to_grid(((struct __pyx_obj_8cythonic_4core_3map_Map *)__pyx_v_self->Map), (&__pyx_v_p->x)) - (__pyx_v_s.x[1])) + (__pyx_v_s.x[0]));
 
-  /* "cythonic/core/domain.pyx":69
+  /* "cythonic/core/domain.pyx":93
  *         cdef map_range s = self.Map.span(&I.x,&I.y,&self.Gaussian.radius)
  *         cdef long offset_x = self.Map.to_grid(&p.x)-s.x[1]+s.x[0]
  *         cdef long offset_y = self.Map.to_grid(&p.y)-s.y[1]+s.y[0]             # <<<<<<<<<<<<<<
@@ -3660,7 +3948,7 @@ void __pyx_f_8cythonic_4core_6domain_6Domain_add_pheromone(struct __pyx_obj_8cyt
  */
   __pyx_v_offset_y = ((((struct __pyx_vtabstruct_8cythonic_4core_3map_MeshMap *)__pyx_v_self->Map->__pyx_base.__pyx_vtab)->__pyx_base.to_grid(((struct __pyx_obj_8cythonic_4core_3map_Map *)__pyx_v_self->Map), (&__pyx_v_p->y)) - (__pyx_v_s.y[1])) + (__pyx_v_s.y[0]));
 
-  /* "cythonic/core/domain.pyx":71
+  /* "cythonic/core/domain.pyx":95
  *         cdef long offset_y = self.Map.to_grid(&p.y)-s.y[1]+s.y[0]
  *         cdef long i,j
  *         for i in range(s.y[2]-s.y[0]):             # <<<<<<<<<<<<<<
@@ -3672,7 +3960,7 @@ void __pyx_f_8cythonic_4core_6domain_6Domain_add_pheromone(struct __pyx_obj_8cyt
   for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
     __pyx_v_i = __pyx_t_4;
 
-    /* "cythonic/core/domain.pyx":72
+    /* "cythonic/core/domain.pyx":96
  *         cdef long i,j
  *         for i in range(s.y[2]-s.y[0]):
  *             for j in range(s.x[2]-s.x[0]):             # <<<<<<<<<<<<<<
@@ -3684,7 +3972,7 @@ void __pyx_f_8cythonic_4core_6domain_6Domain_add_pheromone(struct __pyx_obj_8cyt
     for (__pyx_t_7 = 0; __pyx_t_7 < __pyx_t_6; __pyx_t_7+=1) {
       __pyx_v_j = __pyx_t_7;
 
-      /* "cythonic/core/domain.pyx":73
+      /* "cythonic/core/domain.pyx":97
  *         for i in range(s.y[2]-s.y[0]):
  *             for j in range(s.x[2]-s.x[0]):
  *                 self.Map.map[offset_y+i,offset_x+j]+=Q[0]*self.Gaussian.map[i+s.y[0], j+s.x[0]]             # <<<<<<<<<<<<<<
@@ -3699,7 +3987,7 @@ void __pyx_f_8cythonic_4core_6domain_6Domain_add_pheromone(struct __pyx_obj_8cyt
     }
   }
 
-  /* "cythonic/core/domain.pyx":64
+  /* "cythonic/core/domain.pyx":88
  *         self.Map.map = np.dot(self.Map.map,self.target_pheromone/np.array(self.Map.map).sum())
  * 
  *     cdef readonly void add_pheromone(self,point *p, double *Q):             # <<<<<<<<<<<<<<
@@ -3716,7 +4004,7 @@ void __pyx_f_8cythonic_4core_6domain_6Domain_add_pheromone(struct __pyx_obj_8cyt
   __Pyx_RefNannyFinishContext();
 }
 
-/* "cythonic/core/domain.pyx":77
+/* "cythonic/core/domain.pyx":101
  * 
  * 
  *     def __cinit__(self,size,pitch,nest_loc, nest_rad, food_loc, food_rad, target_pheromone = 1.):             # <<<<<<<<<<<<<<
@@ -3771,31 +4059,31 @@ static int __pyx_pw_8cythonic_4core_6domain_6Domain_1__cinit__(PyObject *__pyx_v
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_pitch)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 6, 7, 1); __PYX_ERR(0, 77, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 6, 7, 1); __PYX_ERR(0, 101, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_nest_loc)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 6, 7, 2); __PYX_ERR(0, 77, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 6, 7, 2); __PYX_ERR(0, 101, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_nest_rad)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 6, 7, 3); __PYX_ERR(0, 77, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 6, 7, 3); __PYX_ERR(0, 101, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
         if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_food_loc)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 6, 7, 4); __PYX_ERR(0, 77, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 6, 7, 4); __PYX_ERR(0, 101, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  5:
         if (likely((values[5] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_food_rad)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 6, 7, 5); __PYX_ERR(0, 77, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 6, 7, 5); __PYX_ERR(0, 101, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  6:
@@ -3805,7 +4093,7 @@ static int __pyx_pw_8cythonic_4core_6domain_6Domain_1__cinit__(PyObject *__pyx_v
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 77, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 101, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -3831,7 +4119,7 @@ static int __pyx_pw_8cythonic_4core_6domain_6Domain_1__cinit__(PyObject *__pyx_v
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 6, 7, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 77, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 6, 7, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 101, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("cythonic.core.domain.Domain.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -3858,122 +4146,122 @@ static int __pyx_pf_8cythonic_4core_6domain_6Domain___cinit__(struct __pyx_obj_8
   PyObject *__pyx_t_8 = NULL;
   struct __pyx_t_8cythonic_7plugins_9positions_index __pyx_t_9;
   __Pyx_RefNannySetupContext("__cinit__", 0);
-  __Pyx_TraceCall("__cinit__", __pyx_f[0], 77, 0, __PYX_ERR(0, 77, __pyx_L1_error));
+  __Pyx_TraceCall("__cinit__", __pyx_f[0], 101, 0, __PYX_ERR(0, 101, __pyx_L1_error));
 
-  /* "cythonic/core/domain.pyx":78
+  /* "cythonic/core/domain.pyx":102
  * 
  *     def __cinit__(self,size,pitch,nest_loc, nest_rad, food_loc, food_rad, target_pheromone = 1.):
  *         self.size = point(size[0],size[1])             # <<<<<<<<<<<<<<
  *         self.nest_location = point(nest_loc[0],nest_loc[1])
  *         self.food_location = point(food_loc[0],food_loc[1])
  */
-  __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_size, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_size, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_1.x = __pyx_t_3;
-  __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_size, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_size, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_1.y = __pyx_t_3;
   __pyx_v_self->size = __pyx_t_1;
 
-  /* "cythonic/core/domain.pyx":79
+  /* "cythonic/core/domain.pyx":103
  *     def __cinit__(self,size,pitch,nest_loc, nest_rad, food_loc, food_rad, target_pheromone = 1.):
  *         self.size = point(size[0],size[1])
  *         self.nest_location = point(nest_loc[0],nest_loc[1])             # <<<<<<<<<<<<<<
  *         self.food_location = point(food_loc[0],food_loc[1])
  *         self.nest_radius = nest_rad
  */
-  __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_nest_loc, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_nest_loc, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 103, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 103, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_1.x = __pyx_t_3;
-  __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_nest_loc, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_nest_loc, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 103, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 103, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_1.y = __pyx_t_3;
   __pyx_v_self->nest_location = __pyx_t_1;
 
-  /* "cythonic/core/domain.pyx":80
+  /* "cythonic/core/domain.pyx":104
  *         self.size = point(size[0],size[1])
  *         self.nest_location = point(nest_loc[0],nest_loc[1])
  *         self.food_location = point(food_loc[0],food_loc[1])             # <<<<<<<<<<<<<<
  *         self.nest_radius = nest_rad
  *         self.food_radius = food_rad
  */
-  __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_food_loc, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_food_loc, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 104, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 104, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_1.x = __pyx_t_3;
-  __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_food_loc, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_food_loc, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 104, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 104, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_1.y = __pyx_t_3;
   __pyx_v_self->food_location = __pyx_t_1;
 
-  /* "cythonic/core/domain.pyx":81
+  /* "cythonic/core/domain.pyx":105
  *         self.nest_location = point(nest_loc[0],nest_loc[1])
  *         self.food_location = point(food_loc[0],food_loc[1])
  *         self.nest_radius = nest_rad             # <<<<<<<<<<<<<<
  *         self.food_radius = food_rad
  * 
  */
-  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_v_nest_rad); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 81, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_v_nest_rad); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 105, __pyx_L1_error)
   __pyx_v_self->nest_radius = __pyx_t_3;
 
-  /* "cythonic/core/domain.pyx":82
+  /* "cythonic/core/domain.pyx":106
  *         self.food_location = point(food_loc[0],food_loc[1])
  *         self.nest_radius = nest_rad
  *         self.food_radius = food_rad             # <<<<<<<<<<<<<<
  * 
  *         self.Map = MeshMap(dim = np.array(size, dtype = np.float_), resolution = pitch)
  */
-  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_v_food_rad); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 82, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_v_food_rad); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 106, __pyx_L1_error)
   __pyx_v_self->food_radius = __pyx_t_3;
 
-  /* "cythonic/core/domain.pyx":84
+  /* "cythonic/core/domain.pyx":108
  *         self.food_radius = food_rad
  * 
  *         self.Map = MeshMap(dim = np.array(size, dtype = np.float_), resolution = pitch)             # <<<<<<<<<<<<<<
  *         self.dim = index(self.Map.map.shape[0],self.Map.map.shape[1])
  *         self.target_pheromone = target_pheromone
  */
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 84, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 108, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 84, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 108, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_array); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 84, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_array); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 108, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 84, __pyx_L1_error)
+  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 108, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_INCREF(__pyx_v_size);
   __Pyx_GIVEREF(__pyx_v_size);
   PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_v_size);
-  __pyx_t_6 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 84, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 108, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 84, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 108, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_float); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 84, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_float); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 108, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_dtype, __pyx_t_8) < 0) __PYX_ERR(0, 84, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_dtype, __pyx_t_8) < 0) __PYX_ERR(0, 108, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 84, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 108, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dim, __pyx_t_8) < 0) __PYX_ERR(0, 84, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dim, __pyx_t_8) < 0) __PYX_ERR(0, 108, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_resolution, __pyx_v_pitch) < 0) __PYX_ERR(0, 84, __pyx_L1_error)
-  __pyx_t_8 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_8cythonic_4core_3map_MeshMap), __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 84, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_resolution, __pyx_v_pitch) < 0) __PYX_ERR(0, 108, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_8cythonic_4core_3map_MeshMap), __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 108, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_GIVEREF(__pyx_t_8);
@@ -3982,7 +4270,7 @@ static int __pyx_pf_8cythonic_4core_6domain_6Domain___cinit__(struct __pyx_obj_8
   __pyx_v_self->Map = ((struct __pyx_obj_8cythonic_4core_3map_MeshMap *)__pyx_t_8);
   __pyx_t_8 = 0;
 
-  /* "cythonic/core/domain.pyx":85
+  /* "cythonic/core/domain.pyx":109
  * 
  *         self.Map = MeshMap(dim = np.array(size, dtype = np.float_), resolution = pitch)
  *         self.dim = index(self.Map.map.shape[0],self.Map.map.shape[1])             # <<<<<<<<<<<<<<
@@ -3992,15 +4280,15 @@ static int __pyx_pf_8cythonic_4core_6domain_6Domain___cinit__(struct __pyx_obj_8
   __pyx_t_9.y = (__pyx_v_self->Map->__pyx_base.map.shape[1]);
   __pyx_v_self->dim = __pyx_t_9;
 
-  /* "cythonic/core/domain.pyx":86
+  /* "cythonic/core/domain.pyx":110
  *         self.Map = MeshMap(dim = np.array(size, dtype = np.float_), resolution = pitch)
  *         self.dim = index(self.Map.map.shape[0],self.Map.map.shape[1])
  *         self.target_pheromone = target_pheromone             # <<<<<<<<<<<<<<
  */
-  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_v_target_pheromone); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 86, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_v_target_pheromone); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 110, __pyx_L1_error)
   __pyx_v_self->target_pheromone = __pyx_t_3;
 
-  /* "cythonic/core/domain.pyx":77
+  /* "cythonic/core/domain.pyx":101
  * 
  * 
  *     def __cinit__(self,size,pitch,nest_loc, nest_rad, food_loc, food_rad, target_pheromone = 1.):             # <<<<<<<<<<<<<<
@@ -21211,7 +21499,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 56, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 80, __pyx_L1_error)
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(1, 2, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(3, 272, __pyx_L1_error)
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(3, 856, __pyx_L1_error)
@@ -21643,9 +21931,11 @@ static int __Pyx_modinit_type_init_code(void) {
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_init_code", 0);
   /*--- Type init code ---*/
   __pyx_vtabptr_8cythonic_4core_6domain_Domain = &__pyx_vtable_8cythonic_4core_6domain_Domain;
+  __pyx_vtable_8cythonic_4core_6domain_Domain.constraint = (void (*)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_9positions_point *))__pyx_f_8cythonic_4core_6domain_6Domain_constraint;
+  __pyx_vtable_8cythonic_4core_6domain_Domain.check_pos = (int (*)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_9positions_point *, int))__pyx_f_8cythonic_4core_6domain_6Domain_check_pos;
   __pyx_vtable_8cythonic_4core_6domain_Domain.init_gaussian = (void (*)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, double, double))__pyx_f_8cythonic_4core_6domain_6Domain_init_gaussian;
   __pyx_vtable_8cythonic_4core_6domain_Domain.fill_observations = (void (*)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_12sens_structs_observations *, struct __pyx_t_8cythonic_7plugins_9positions_point *, struct __pyx_t_8cythonic_7plugins_9positions_point *))__pyx_f_8cythonic_4core_6domain_6Domain_fill_observations;
-  __pyx_vtable_8cythonic_4core_6domain_Domain.check_bounds = (int (*)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, double *, double *))__pyx_f_8cythonic_4core_6domain_6Domain_check_bounds;
+  __pyx_vtable_8cythonic_4core_6domain_Domain.check_bounds = (int (*)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_9positions_point *))__pyx_f_8cythonic_4core_6domain_6Domain_check_bounds;
   __pyx_vtable_8cythonic_4core_6domain_Domain.probe_pheromone = (double (*)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_9positions_point *))__pyx_f_8cythonic_4core_6domain_6Domain_probe_pheromone;
   __pyx_vtable_8cythonic_4core_6domain_Domain.add_pheromone = (void (*)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_9positions_point *, double *))__pyx_f_8cythonic_4core_6domain_6Domain_add_pheromone;
   __pyx_vtable_8cythonic_4core_6domain_Domain.pyvaporate = (void (*)(struct __pyx_obj_8cythonic_4core_6domain_Domain *))__pyx_f_8cythonic_4core_6domain_6Domain_pyvaporate;
