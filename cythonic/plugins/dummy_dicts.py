@@ -4,10 +4,6 @@ ant_dict = {
     'gain': 1.,
 }
 
-ant_state_dict = {
-    
-}
-
 queen_dict = {
     'dt': .5,
     'ant_dict': ant_dict
@@ -21,6 +17,11 @@ domain_dict = {
     'food_loc': [750,500],
     'food_rad': 50,
     'target_pheromone': 1.
+}
+
+gauss_dict = {
+    'significancy': 1e2,
+    'covariance': 15.
 }
 
 sim_dict = {

@@ -10,7 +10,7 @@ import numpy as np
     It is encouraged to play 'Master of Puppets' while executing this class
     ============ """
 cdef class Queen:
-    def __cinit__(self,unsigned int n, ant_dict, double dt,default_speed = 5.):
+    def __cinit__(self,unsigned int n, ant_dict, double dt, default_speed = 5.):
         " initialize the controller (Queen) "
         self.n = n # total number of agents
         self.count_active = 0 #keep track of activated ants
@@ -22,6 +22,7 @@ cdef class Queen:
         " deploy a model for the agent, which accepts and modifies a state "
         self.agent = Ant(**ant_dict)
 
+
         " populate the pheromone vector "
         cdef observations O = {'lft': 0.,'rght':0.}
         for i in range(self.n):
@@ -29,6 +30,14 @@ cdef class Queen:
 
         " populate a memview for quantity pheromone dropped "
         self.drop_quantity = np.ones(n,dtype = np.float)
+
+    cdef void setup_ant_depositing(self,str fun_type, dep_fun_args args ):
+        """ set the dropping function and its arguments, initialize the
+            drop quantity q=f(t) -> f(0)==q <- drop_quantity"""
+        self.agent.set_actuator_args(fun = fun_type, args = args )
+        for element in self.drop_quantity:
+            element = args.q
+
 
     cdef readonly void step(self, double * dt):
         " perform step on active agent "

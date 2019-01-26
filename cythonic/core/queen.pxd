@@ -16,6 +16,7 @@
 from libcpp.vector cimport vector
 from cythonic.plugins.sens_structs cimport  observations
 from cythonic.plugins.positions cimport point
+from cythonic.plugins.dep_structs cimport dep_fun_args
 
 from cythonic.core.ant cimport Ant, ant_state
 cdef class Queen:
@@ -29,6 +30,7 @@ cdef class Queen:
         readonly double default_speed
         readonly double[:] drop_quantity
     # methods
+    cdef readonly void setup_ant_depositing(self,str fun_type, dep_fun_args args)
     cdef readonly void step(self, double * dt)
     cdef readonly ant_state generate_state(self, point p, double theta)
     cpdef readonly void initialize_states(self,double[::,:] xy, double[:] theta)

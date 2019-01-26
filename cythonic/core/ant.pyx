@@ -19,9 +19,9 @@ cdef class Ant:
 
 
     """ ================ Deposit related methods ================== """
-    cdef void set_actuator_args(self, str fun, dep_fun_args x, ):
+    cdef void set_actuator_args(self, str fun, dep_fun_args args, ):
         " setup the actuator (pheromone deposit) specific parameters "
-        self.dep_args = x
+        self.dep_args = args
         if fun == 'constant':
             self.dep_fun = dep_constant
         # elif fun == 'exp_decay':

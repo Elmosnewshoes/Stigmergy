@@ -5,10 +5,6 @@ import numpy as np
 from libc.math cimport ceil as cceil, sqrt as csqrt, log as cln
 cimport cython
 
-@cython.cdivision(True)
-@cython.wraparound(False)
-@cython.boundscheck(False)
-@cython.nonecheck(False)
 cdef class Domain:
     " playground of the simulation "
 

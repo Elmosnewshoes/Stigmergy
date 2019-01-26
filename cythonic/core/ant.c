@@ -1909,7 +1909,7 @@ static int __Pyx_ImportFunction(PyObject *module, const char *funcname, void (**
 /* InitStrings.proto */
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
-void __pyx_f_8cythonic_4core_3ant_3Ant_set_actuator_args(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self, PyObject *__pyx_v_fun, struct __pyx_t_8cythonic_7plugins_11dep_structs_dep_fun_args __pyx_v_x); /* proto*/
+void __pyx_f_8cythonic_4core_3ant_3Ant_set_actuator_args(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self, PyObject *__pyx_v_fun, struct __pyx_t_8cythonic_7plugins_11dep_structs_dep_fun_args __pyx_v_args); /* proto*/
 void __pyx_f_8cythonic_4core_3ant_3Ant_calc_quantity(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self, double *__pyx_v_q); /* proto*/
 void __pyx_f_8cythonic_4core_3ant_3Ant_observe(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self, struct __pyx_t_8cythonic_7plugins_12sens_structs_observations *__pyx_v_Q); /* proto*/
 void __pyx_f_8cythonic_4core_3ant_3Ant_rotate(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self, double *__pyx_v_dt); /* proto*/
@@ -2214,12 +2214,12 @@ static int __pyx_pf_8cythonic_4core_3ant_3Ant___cinit__(struct __pyx_obj_8cython
 /* "cythonic/core/ant.pyx":22
  * 
  *     """ ================ Deposit related methods ================== """
- *     cdef void set_actuator_args(self, str fun, dep_fun_args x, ):             # <<<<<<<<<<<<<<
+ *     cdef void set_actuator_args(self, str fun, dep_fun_args args, ):             # <<<<<<<<<<<<<<
  *         " setup the actuator (pheromone deposit) specific parameters "
- *         self.dep_args = x
+ *         self.dep_args = args
  */
 
-void __pyx_f_8cythonic_4core_3ant_3Ant_set_actuator_args(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self, PyObject *__pyx_v_fun, struct __pyx_t_8cythonic_7plugins_11dep_structs_dep_fun_args __pyx_v_x) {
+void __pyx_f_8cythonic_4core_3ant_3Ant_set_actuator_args(struct __pyx_obj_8cythonic_4core_3ant_Ant *__pyx_v_self, PyObject *__pyx_v_fun, struct __pyx_t_8cythonic_7plugins_11dep_structs_dep_fun_args __pyx_v_args) {
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
@@ -2228,17 +2228,17 @@ void __pyx_f_8cythonic_4core_3ant_3Ant_set_actuator_args(struct __pyx_obj_8cytho
   __Pyx_TraceCall("set_actuator_args", __pyx_f[1], 22, 0, __PYX_ERR(1, 22, __pyx_L1_error));
 
   /* "cythonic/core/ant.pyx":24
- *     cdef void set_actuator_args(self, str fun, dep_fun_args x, ):
+ *     cdef void set_actuator_args(self, str fun, dep_fun_args args, ):
  *         " setup the actuator (pheromone deposit) specific parameters "
- *         self.dep_args = x             # <<<<<<<<<<<<<<
+ *         self.dep_args = args             # <<<<<<<<<<<<<<
  *         if fun == 'constant':
  *             self.dep_fun = dep_constant
  */
-  __pyx_v_self->dep_args = __pyx_v_x;
+  __pyx_v_self->dep_args = __pyx_v_args;
 
   /* "cythonic/core/ant.pyx":25
  *         " setup the actuator (pheromone deposit) specific parameters "
- *         self.dep_args = x
+ *         self.dep_args = args
  *         if fun == 'constant':             # <<<<<<<<<<<<<<
  *             self.dep_fun = dep_constant
  *         # elif fun == 'exp_decay':
@@ -2248,7 +2248,7 @@ void __pyx_f_8cythonic_4core_3ant_3Ant_set_actuator_args(struct __pyx_obj_8cytho
   if (__pyx_t_2) {
 
     /* "cythonic/core/ant.pyx":26
- *         self.dep_args = x
+ *         self.dep_args = args
  *         if fun == 'constant':
  *             self.dep_fun = dep_constant             # <<<<<<<<<<<<<<
  *         # elif fun == 'exp_decay':
@@ -2258,7 +2258,7 @@ void __pyx_f_8cythonic_4core_3ant_3Ant_set_actuator_args(struct __pyx_obj_8cytho
 
     /* "cythonic/core/ant.pyx":25
  *         " setup the actuator (pheromone deposit) specific parameters "
- *         self.dep_args = x
+ *         self.dep_args = args
  *         if fun == 'constant':             # <<<<<<<<<<<<<<
  *             self.dep_fun = dep_constant
  *         # elif fun == 'exp_decay':
@@ -2268,9 +2268,9 @@ void __pyx_f_8cythonic_4core_3ant_3Ant_set_actuator_args(struct __pyx_obj_8cytho
   /* "cythonic/core/ant.pyx":22
  * 
  *     """ ================ Deposit related methods ================== """
- *     cdef void set_actuator_args(self, str fun, dep_fun_args x, ):             # <<<<<<<<<<<<<<
+ *     cdef void set_actuator_args(self, str fun, dep_fun_args args, ):             # <<<<<<<<<<<<<<
  *         " setup the actuator (pheromone deposit) specific parameters "
- *         self.dep_args = x
+ *         self.dep_args = args
  */
 
   /* function exit code */

@@ -54,7 +54,7 @@ cdef class Ant:
         readonly void step(self, double * dt)
         readonly void out_of_bounds(self, bint oob)
         readonly void set_sensors(self)
-        readonly void set_actuator_args(self, str fun, dep_fun_args x, )
+        readonly void set_actuator_args(self, str fun, dep_fun_args args, )
         readonly void calc_quantity(self,double * q)
         readonly void activate(self)
         readonly void increase_azimuth(self, double * dt)
