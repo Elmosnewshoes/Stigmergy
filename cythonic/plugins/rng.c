@@ -852,9 +852,9 @@ struct __pyx_obj_8cythonic_7plugins_3rng_RNG {
 
 
 
-/* "cythonic/plugins/rng.pyx":9
- * @cython.boundscheck(False)
- * @cython.nonecheck(False)
+/* "cythonic/plugins/rng.pyx":5
+ * from libc.math cimport exp as cexp, log as cln
+ * 
  * cdef class RNG():             # <<<<<<<<<<<<<<
  *     " random number generator, approx 40-50x faster than numpy "
  *     cdef double rand(self):
@@ -975,208 +975,6 @@ static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject 
 #define __Pyx_ErrFetchInState(tstate, type, value, tb)  PyErr_Fetch(type, value, tb)
 #define __Pyx_ErrRestore(type, value, tb)  PyErr_Restore(type, value, tb)
 #define __Pyx_ErrFetch(type, value, tb)  PyErr_Fetch(type, value, tb)
-#endif
-
-/* Profile.proto */
-#ifndef CYTHON_PROFILE
-#if CYTHON_COMPILING_IN_PYPY || CYTHON_COMPILING_IN_PYSTON
-  #define CYTHON_PROFILE 0
-#else
-  #define CYTHON_PROFILE 1
-#endif
-#endif
-#ifndef CYTHON_TRACE_NOGIL
-  #define CYTHON_TRACE_NOGIL 0
-#else
-  #if CYTHON_TRACE_NOGIL && !defined(CYTHON_TRACE)
-    #define CYTHON_TRACE 1
-  #endif
-#endif
-#ifndef CYTHON_TRACE
-  #define CYTHON_TRACE 0
-#endif
-#if CYTHON_TRACE
-  #undef CYTHON_PROFILE_REUSE_FRAME
-#endif
-#ifndef CYTHON_PROFILE_REUSE_FRAME
-  #define CYTHON_PROFILE_REUSE_FRAME 0
-#endif
-#if CYTHON_PROFILE || CYTHON_TRACE
-  #include "compile.h"
-  #include "frameobject.h"
-  #include "traceback.h"
-  #if CYTHON_PROFILE_REUSE_FRAME
-    #define CYTHON_FRAME_MODIFIER static
-    #define CYTHON_FRAME_DEL(frame)
-  #else
-    #define CYTHON_FRAME_MODIFIER
-    #define CYTHON_FRAME_DEL(frame) Py_CLEAR(frame)
-  #endif
-  #define __Pyx_TraceDeclarations\
-  static PyCodeObject *__pyx_frame_code = NULL;\
-  CYTHON_FRAME_MODIFIER PyFrameObject *__pyx_frame = NULL;\
-  int __Pyx_use_tracing = 0;
-  #define __Pyx_TraceFrameInit(codeobj)\
-  if (codeobj) __pyx_frame_code = (PyCodeObject*) codeobj;
-  #ifdef WITH_THREAD
-  #define __Pyx_TraceCall(funcname, srcfile, firstlineno, nogil, goto_error)\
-  if (nogil) {\
-      if (CYTHON_TRACE_NOGIL) {\
-          PyThreadState *tstate;\
-          PyGILState_STATE state = PyGILState_Ensure();\
-          tstate = __Pyx_PyThreadState_Current;\
-          if (unlikely(tstate->use_tracing) && !tstate->tracing &&\
-                  (tstate->c_profilefunc || (CYTHON_TRACE && tstate->c_tracefunc))) {\
-              __Pyx_use_tracing = __Pyx_TraceSetupAndCall(&__pyx_frame_code, &__pyx_frame, tstate, funcname, srcfile, firstlineno);\
-          }\
-          PyGILState_Release(state);\
-          if (unlikely(__Pyx_use_tracing < 0)) goto_error;\
-      }\
-  } else {\
-      PyThreadState* tstate = PyThreadState_GET();\
-      if (unlikely(tstate->use_tracing) && !tstate->tracing &&\
-              (tstate->c_profilefunc || (CYTHON_TRACE && tstate->c_tracefunc))) {\
-          __Pyx_use_tracing = __Pyx_TraceSetupAndCall(&__pyx_frame_code, &__pyx_frame, tstate, funcname, srcfile, firstlineno);\
-          if (unlikely(__Pyx_use_tracing < 0)) goto_error;\
-      }\
-  }
-  #else
-  #define __Pyx_TraceCall(funcname, srcfile, firstlineno, nogil, goto_error)\
-  {   PyThreadState* tstate = PyThreadState_GET();\
-      if (unlikely(tstate->use_tracing) && !tstate->tracing &&\
-              (tstate->c_profilefunc || (CYTHON_TRACE && tstate->c_tracefunc))) {\
-          __Pyx_use_tracing = __Pyx_TraceSetupAndCall(&__pyx_frame_code, &__pyx_frame, tstate, funcname, srcfile, firstlineno);\
-          if (unlikely(__Pyx_use_tracing < 0)) goto_error;\
-      }\
-  }
-  #endif
-  #define __Pyx_TraceException()\
-  if (likely(!__Pyx_use_tracing)); else {\
-      PyThreadState* tstate = __Pyx_PyThreadState_Current;\
-      if (tstate->use_tracing &&\
-              (tstate->c_profilefunc || (CYTHON_TRACE && tstate->c_tracefunc))) {\
-          tstate->tracing++;\
-          tstate->use_tracing = 0;\
-          PyObject *exc_info = __Pyx_GetExceptionTuple(tstate);\
-          if (exc_info) {\
-              if (CYTHON_TRACE && tstate->c_tracefunc)\
-                  tstate->c_tracefunc(\
-                      tstate->c_traceobj, __pyx_frame, PyTrace_EXCEPTION, exc_info);\
-              tstate->c_profilefunc(\
-                  tstate->c_profileobj, __pyx_frame, PyTrace_EXCEPTION, exc_info);\
-              Py_DECREF(exc_info);\
-          }\
-          tstate->use_tracing = 1;\
-          tstate->tracing--;\
-      }\
-  }
-  static void __Pyx_call_return_trace_func(PyThreadState *tstate, PyFrameObject *frame, PyObject *result) {
-      PyObject *type, *value, *traceback;
-      __Pyx_ErrFetchInState(tstate, &type, &value, &traceback);
-      tstate->tracing++;
-      tstate->use_tracing = 0;
-      if (CYTHON_TRACE && tstate->c_tracefunc)
-          tstate->c_tracefunc(tstate->c_traceobj, frame, PyTrace_RETURN, result);
-      if (tstate->c_profilefunc)
-          tstate->c_profilefunc(tstate->c_profileobj, frame, PyTrace_RETURN, result);
-      CYTHON_FRAME_DEL(frame);
-      tstate->use_tracing = 1;
-      tstate->tracing--;
-      __Pyx_ErrRestoreInState(tstate, type, value, traceback);
-  }
-  #ifdef WITH_THREAD
-  #define __Pyx_TraceReturn(result, nogil)\
-  if (likely(!__Pyx_use_tracing)); else {\
-      if (nogil) {\
-          if (CYTHON_TRACE_NOGIL) {\
-              PyThreadState *tstate;\
-              PyGILState_STATE state = PyGILState_Ensure();\
-              tstate = __Pyx_PyThreadState_Current;\
-              if (tstate->use_tracing) {\
-                  __Pyx_call_return_trace_func(tstate, __pyx_frame, (PyObject*)result);\
-              }\
-              PyGILState_Release(state);\
-          }\
-      } else {\
-          PyThreadState* tstate = __Pyx_PyThreadState_Current;\
-          if (tstate->use_tracing) {\
-              __Pyx_call_return_trace_func(tstate, __pyx_frame, (PyObject*)result);\
-          }\
-      }\
-  }
-  #else
-  #define __Pyx_TraceReturn(result, nogil)\
-  if (likely(!__Pyx_use_tracing)); else {\
-      PyThreadState* tstate = __Pyx_PyThreadState_Current;\
-      if (tstate->use_tracing) {\
-          __Pyx_call_return_trace_func(tstate, __pyx_frame, (PyObject*)result);\
-      }\
-  }
-  #endif
-  static PyCodeObject *__Pyx_createFrameCodeObject(const char *funcname, const char *srcfile, int firstlineno);
-  static int __Pyx_TraceSetupAndCall(PyCodeObject** code, PyFrameObject** frame, PyThreadState* tstate, const char *funcname, const char *srcfile, int firstlineno);
-#else
-  #define __Pyx_TraceDeclarations
-  #define __Pyx_TraceFrameInit(codeobj)
-  #define __Pyx_TraceCall(funcname, srcfile, firstlineno, nogil, goto_error)   if ((1)); else goto_error;
-  #define __Pyx_TraceException()
-  #define __Pyx_TraceReturn(result, nogil)
-#endif
-#if CYTHON_TRACE
-  static int __Pyx_call_line_trace_func(PyThreadState *tstate, PyFrameObject *frame, int lineno) {
-      int ret;
-      PyObject *type, *value, *traceback;
-      __Pyx_ErrFetchInState(tstate, &type, &value, &traceback);
-      __Pyx_PyFrame_SetLineNumber(frame, lineno);
-      tstate->tracing++;
-      tstate->use_tracing = 0;
-      ret = tstate->c_tracefunc(tstate->c_traceobj, frame, PyTrace_LINE, NULL);
-      tstate->use_tracing = 1;
-      tstate->tracing--;
-      if (likely(!ret)) {
-          __Pyx_ErrRestoreInState(tstate, type, value, traceback);
-      } else {
-          Py_XDECREF(type);
-          Py_XDECREF(value);
-          Py_XDECREF(traceback);
-      }
-      return ret;
-  }
-  #ifdef WITH_THREAD
-  #define __Pyx_TraceLine(lineno, nogil, goto_error)\
-  if (likely(!__Pyx_use_tracing)); else {\
-      if (nogil) {\
-          if (CYTHON_TRACE_NOGIL) {\
-              int ret = 0;\
-              PyThreadState *tstate;\
-              PyGILState_STATE state = PyGILState_Ensure();\
-              tstate = __Pyx_PyThreadState_Current;\
-              if (unlikely(tstate->use_tracing && tstate->c_tracefunc && __pyx_frame->f_trace)) {\
-                  ret = __Pyx_call_line_trace_func(tstate, __pyx_frame, lineno);\
-              }\
-              PyGILState_Release(state);\
-              if (unlikely(ret)) goto_error;\
-          }\
-      } else {\
-          PyThreadState* tstate = __Pyx_PyThreadState_Current;\
-          if (unlikely(tstate->use_tracing && tstate->c_tracefunc && __pyx_frame->f_trace)) {\
-              int ret = __Pyx_call_line_trace_func(tstate, __pyx_frame, lineno);\
-              if (unlikely(ret)) goto_error;\
-          }\
-      }\
-  }
-  #else
-  #define __Pyx_TraceLine(lineno, nogil, goto_error)\
-  if (likely(!__Pyx_use_tracing)); else {\
-      PyThreadState* tstate = __Pyx_PyThreadState_Current;\
-      if (unlikely(tstate->use_tracing && tstate->c_tracefunc && __pyx_frame->f_trace)) {\
-          int ret = __Pyx_call_line_trace_func(tstate, __pyx_frame, lineno);\
-          if (unlikely(ret)) goto_error;\
-      }\
-  }
-  #endif
-#else
-  #define __Pyx_TraceLine(lineno, nogil, goto_error)   if ((1)); else goto_error;
 #endif
 
 /* WriteUnraisableException.proto */
@@ -1338,7 +1136,7 @@ static PyObject *__pyx_tuple_;
 static PyObject *__pyx_tuple__2;
 /* Late includes */
 
-/* "cythonic/plugins/rng.pyx":11
+/* "cythonic/plugins/rng.pyx":7
  * cdef class RNG():
  *     " random number generator, approx 40-50x faster than numpy "
  *     cdef double rand(self):             # <<<<<<<<<<<<<<
@@ -1348,22 +1146,28 @@ static PyObject *__pyx_tuple__2;
 
 double __pyx_f_8cythonic_7plugins_3rng_3RNG_rand(CYTHON_UNUSED struct __pyx_obj_8cythonic_7plugins_3rng_RNG *__pyx_v_self) {
   double __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
+  double __pyx_t_1;
+  double __pyx_t_2;
   __Pyx_RefNannySetupContext("rand", 0);
-  __Pyx_TraceCall("rand", __pyx_f[1], 11, 0, __PYX_ERR(1, 11, __pyx_L1_error));
 
-  /* "cythonic/plugins/rng.pyx":12
+  /* "cythonic/plugins/rng.pyx":8
  *     " random number generator, approx 40-50x faster than numpy "
  *     cdef double rand(self):
  *         return <double>crand()/(<double>RAND_MAX+1.)             # <<<<<<<<<<<<<<
  * 
  *     cdef readonly void add_t(self,double dt):
  */
-  __pyx_r = (((double)rand()) / (((double)RAND_MAX) + 1.));
+  __pyx_t_1 = ((double)rand());
+  __pyx_t_2 = (((double)RAND_MAX) + 1.);
+  if (unlikely(__pyx_t_2 == 0)) {
+    PyErr_SetString(PyExc_ZeroDivisionError, "float division");
+    __PYX_ERR(1, 8, __pyx_L1_error)
+  }
+  __pyx_r = (__pyx_t_1 / __pyx_t_2);
   goto __pyx_L0;
 
-  /* "cythonic/plugins/rng.pyx":11
+  /* "cythonic/plugins/rng.pyx":7
  * cdef class RNG():
  *     " random number generator, approx 40-50x faster than numpy "
  *     cdef double rand(self):             # <<<<<<<<<<<<<<
@@ -1376,12 +1180,11 @@ double __pyx_f_8cythonic_7plugins_3rng_3RNG_rand(CYTHON_UNUSED struct __pyx_obj_
   __Pyx_WriteUnraisable("cythonic.plugins.rng.RNG.rand", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "cythonic/plugins/rng.pyx":14
+/* "cythonic/plugins/rng.pyx":10
  *         return <double>crand()/(<double>RAND_MAX+1.)
  * 
  *     cdef readonly void add_t(self,double dt):             # <<<<<<<<<<<<<<
@@ -1390,12 +1193,10 @@ double __pyx_f_8cythonic_7plugins_3rng_3RNG_rand(CYTHON_UNUSED struct __pyx_obj_
  */
 
 void __pyx_f_8cythonic_7plugins_3rng_3RNG_add_t(struct __pyx_obj_8cythonic_7plugins_3rng_RNG *__pyx_v_self, double __pyx_v_dt) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("add_t", 0);
-  __Pyx_TraceCall("add_t", __pyx_f[1], 14, 0, __PYX_ERR(1, 14, __pyx_L1_error));
 
-  /* "cythonic/plugins/rng.pyx":15
+  /* "cythonic/plugins/rng.pyx":11
  * 
  *     cdef readonly void add_t(self,double dt):
  *         self.t-=dt             # <<<<<<<<<<<<<<
@@ -1404,7 +1205,7 @@ void __pyx_f_8cythonic_7plugins_3rng_3RNG_add_t(struct __pyx_obj_8cythonic_7plug
  */
   __pyx_v_self->t = (__pyx_v_self->t - __pyx_v_dt);
 
-  /* "cythonic/plugins/rng.pyx":14
+  /* "cythonic/plugins/rng.pyx":10
  *         return <double>crand()/(<double>RAND_MAX+1.)
  * 
  *     cdef readonly void add_t(self,double dt):             # <<<<<<<<<<<<<<
@@ -1413,15 +1214,10 @@ void __pyx_f_8cythonic_7plugins_3rng_3RNG_add_t(struct __pyx_obj_8cythonic_7plug
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("cythonic.plugins.rng.RNG.add_t", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
-/* "cythonic/plugins/rng.pyx":17
+/* "cythonic/plugins/rng.pyx":13
  *         self.t-=dt
  * 
  *     cdef readonly double exp_rand(self):             # <<<<<<<<<<<<<<
@@ -1431,12 +1227,10 @@ void __pyx_f_8cythonic_7plugins_3rng_3RNG_add_t(struct __pyx_obj_8cythonic_7plug
 
 double __pyx_f_8cythonic_7plugins_3rng_3RNG_exp_rand(struct __pyx_obj_8cythonic_7plugins_3rng_RNG *__pyx_v_self) {
   double __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("exp_rand", 0);
-  __Pyx_TraceCall("exp_rand", __pyx_f[1], 17, 0, __PYX_ERR(1, 17, __pyx_L1_error));
 
-  /* "cythonic/plugins/rng.pyx":19
+  /* "cythonic/plugins/rng.pyx":15
  *     cdef readonly double exp_rand(self):
  *         " beta = 1/gamma --> CDF^-1 := -1/gamma*log(1-X)"
  *         return -self.beta*cln(1.-self.rand())             # <<<<<<<<<<<<<<
@@ -1446,7 +1240,7 @@ double __pyx_f_8cythonic_7plugins_3rng_3RNG_exp_rand(struct __pyx_obj_8cythonic_
   __pyx_r = ((-__pyx_v_self->beta) * log((1. - ((struct __pyx_vtabstruct_8cythonic_7plugins_3rng_RNG *)__pyx_v_self->__pyx_vtab)->rand(__pyx_v_self))));
   goto __pyx_L0;
 
-  /* "cythonic/plugins/rng.pyx":17
+  /* "cythonic/plugins/rng.pyx":13
  *         self.t-=dt
  * 
  *     cdef readonly double exp_rand(self):             # <<<<<<<<<<<<<<
@@ -1455,16 +1249,12 @@ double __pyx_f_8cythonic_7plugins_3rng_3RNG_exp_rand(struct __pyx_obj_8cythonic_
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("cythonic.plugins.rng.RNG.exp_rand", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "cythonic/plugins/rng.pyx":21
+/* "cythonic/plugins/rng.pyx":17
  *         return -self.beta*cln(1.-self.rand())
  * 
  *     def __cinit__(self,double gamma = 1):             # <<<<<<<<<<<<<<
@@ -1500,7 +1290,7 @@ static int __pyx_pw_8cythonic_7plugins_3rng_3RNG_1__cinit__(PyObject *__pyx_v_se
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(1, 21, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(1, 17, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -1511,14 +1301,14 @@ static int __pyx_pw_8cythonic_7plugins_3rng_3RNG_1__cinit__(PyObject *__pyx_v_se
       }
     }
     if (values[0]) {
-      __pyx_v_gamma = __pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_gamma == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 21, __pyx_L3_error)
+      __pyx_v_gamma = __pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_gamma == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 17, __pyx_L3_error)
     } else {
       __pyx_v_gamma = ((double)1.0);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 21, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 17, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("cythonic.plugins.rng.RNG.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -1533,12 +1323,10 @@ static int __pyx_pw_8cythonic_7plugins_3rng_3RNG_1__cinit__(PyObject *__pyx_v_se
 
 static int __pyx_pf_8cythonic_7plugins_3rng_3RNG___cinit__(struct __pyx_obj_8cythonic_7plugins_3rng_RNG *__pyx_v_self, double __pyx_v_gamma) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__cinit__", 0);
-  __Pyx_TraceCall("__cinit__", __pyx_f[1], 21, 0, __PYX_ERR(1, 21, __pyx_L1_error));
 
-  /* "cythonic/plugins/rng.pyx":22
+  /* "cythonic/plugins/rng.pyx":18
  * 
  *     def __cinit__(self,double gamma = 1):
  *         self.t = 0 #countdown timer             # <<<<<<<<<<<<<<
@@ -1546,14 +1334,18 @@ static int __pyx_pf_8cythonic_7plugins_3rng_3RNG___cinit__(struct __pyx_obj_8cyt
  */
   __pyx_v_self->t = 0.0;
 
-  /* "cythonic/plugins/rng.pyx":23
+  /* "cythonic/plugins/rng.pyx":19
  *     def __cinit__(self,double gamma = 1):
  *         self.t = 0 #countdown timer
  *         self.beta = 1/gamma #preload devisor             # <<<<<<<<<<<<<<
  */
+  if (unlikely(__pyx_v_gamma == 0)) {
+    PyErr_SetString(PyExc_ZeroDivisionError, "float division");
+    __PYX_ERR(1, 19, __pyx_L1_error)
+  }
   __pyx_v_self->beta = (1.0 / __pyx_v_gamma);
 
-  /* "cythonic/plugins/rng.pyx":21
+  /* "cythonic/plugins/rng.pyx":17
  *         return -self.beta*cln(1.-self.rand())
  * 
  *     def __cinit__(self,double gamma = 1):             # <<<<<<<<<<<<<<
@@ -1568,7 +1360,6 @@ static int __pyx_pf_8cythonic_7plugins_3rng_3RNG___cinit__(struct __pyx_obj_8cyt
   __Pyx_AddTraceback("cythonic.plugins.rng.RNG.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -1581,7 +1372,6 @@ static int __pyx_pf_8cythonic_7plugins_3rng_3RNG___cinit__(struct __pyx_obj_8cyt
 
 /* Python wrapper */
 static PyObject *__pyx_pw_8cythonic_7plugins_3rng_3RNG_3__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_8cythonic_7plugins_3rng_3RNG_2__reduce_cython__[] = "RNG.__reduce_cython__(self)";
 static PyObject *__pyx_pw_8cythonic_7plugins_3rng_3RNG_3__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
@@ -1595,11 +1385,9 @@ static PyObject *__pyx_pw_8cythonic_7plugins_3rng_3RNG_3__reduce_cython__(PyObje
 
 static PyObject *__pyx_pf_8cythonic_7plugins_3rng_3RNG_2__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_8cythonic_7plugins_3rng_RNG *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__reduce_cython__", 0);
-  __Pyx_TraceCall("__reduce_cython__", __pyx_f[0], 1, 0, __PYX_ERR(0, 1, __pyx_L1_error));
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -1625,7 +1413,6 @@ static PyObject *__pyx_pf_8cythonic_7plugins_3rng_3RNG_2__reduce_cython__(CYTHON
   __Pyx_AddTraceback("cythonic.plugins.rng.RNG.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -1639,7 +1426,6 @@ static PyObject *__pyx_pf_8cythonic_7plugins_3rng_3RNG_2__reduce_cython__(CYTHON
 
 /* Python wrapper */
 static PyObject *__pyx_pw_8cythonic_7plugins_3rng_3RNG_5__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static char __pyx_doc_8cythonic_7plugins_3rng_3RNG_4__setstate_cython__[] = "RNG.__setstate_cython__(self, __pyx_state)";
 static PyObject *__pyx_pw_8cythonic_7plugins_3rng_3RNG_5__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
@@ -1653,11 +1439,9 @@ static PyObject *__pyx_pw_8cythonic_7plugins_3rng_3RNG_5__setstate_cython__(PyOb
 
 static PyObject *__pyx_pf_8cythonic_7plugins_3rng_3RNG_4__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_8cythonic_7plugins_3rng_RNG *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-  __Pyx_TraceCall("__setstate_cython__", __pyx_f[0], 3, 0, __PYX_ERR(0, 3, __pyx_L1_error));
 
   /* "(tree fragment)":4
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
@@ -1683,7 +1467,6 @@ static PyObject *__pyx_pf_8cythonic_7plugins_3rng_3RNG_4__setstate_cython__(CYTH
   __Pyx_AddTraceback("cythonic.plugins.rng.RNG.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -1717,8 +1500,8 @@ static void __pyx_tp_dealloc_8cythonic_7plugins_3rng_RNG(PyObject *o) {
 }
 
 static PyMethodDef __pyx_methods_8cythonic_7plugins_3rng_RNG[] = {
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_8cythonic_7plugins_3rng_3RNG_3__reduce_cython__, METH_NOARGS, __pyx_doc_8cythonic_7plugins_3rng_3RNG_2__reduce_cython__},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_8cythonic_7plugins_3rng_3RNG_5__setstate_cython__, METH_O, __pyx_doc_8cythonic_7plugins_3rng_3RNG_4__setstate_cython__},
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_8cythonic_7plugins_3rng_3RNG_3__reduce_cython__, METH_NOARGS, 0},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_8cythonic_7plugins_3rng_3RNG_5__setstate_cython__, METH_O, 0},
   {0, 0, 0, 0}
 };
 
@@ -1926,14 +1709,14 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_8cythonic_7plugins_3rng_RNG.rand = (double (*)(struct __pyx_obj_8cythonic_7plugins_3rng_RNG *))__pyx_f_8cythonic_7plugins_3rng_3RNG_rand;
   __pyx_vtable_8cythonic_7plugins_3rng_RNG.add_t = (void (*)(struct __pyx_obj_8cythonic_7plugins_3rng_RNG *, double))__pyx_f_8cythonic_7plugins_3rng_3RNG_add_t;
   __pyx_vtable_8cythonic_7plugins_3rng_RNG.exp_rand = (double (*)(struct __pyx_obj_8cythonic_7plugins_3rng_RNG *))__pyx_f_8cythonic_7plugins_3rng_3RNG_exp_rand;
-  if (PyType_Ready(&__pyx_type_8cythonic_7plugins_3rng_RNG) < 0) __PYX_ERR(1, 9, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_8cythonic_7plugins_3rng_RNG) < 0) __PYX_ERR(1, 5, __pyx_L1_error)
   __pyx_type_8cythonic_7plugins_3rng_RNG.tp_print = 0;
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_8cythonic_7plugins_3rng_RNG.tp_dictoffset && __pyx_type_8cythonic_7plugins_3rng_RNG.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_8cythonic_7plugins_3rng_RNG.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_8cythonic_7plugins_3rng_RNG.tp_dict, __pyx_vtabptr_8cythonic_7plugins_3rng_RNG) < 0) __PYX_ERR(1, 9, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_RNG, (PyObject *)&__pyx_type_8cythonic_7plugins_3rng_RNG) < 0) __PYX_ERR(1, 9, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_8cythonic_7plugins_3rng_RNG) < 0) __PYX_ERR(1, 9, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_8cythonic_7plugins_3rng_RNG.tp_dict, __pyx_vtabptr_8cythonic_7plugins_3rng_RNG) < 0) __PYX_ERR(1, 5, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_RNG, (PyObject *)&__pyx_type_8cythonic_7plugins_3rng_RNG) < 0) __PYX_ERR(1, 5, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_8cythonic_7plugins_3rng_RNG) < 0) __PYX_ERR(1, 5, __pyx_L1_error)
   __pyx_ptype_8cythonic_7plugins_3rng_RNG = &__pyx_type_8cythonic_7plugins_3rng_RNG;
   __Pyx_RefNannyFinishContext();
   return 0;
@@ -2058,7 +1841,6 @@ static CYTHON_SMALL_CODE int __pyx_pymod_exec_rng(PyObject *__pyx_pyinit_module)
 #endif
 #endif
 {
-  __Pyx_TraceDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannyDeclarations
   #if CYTHON_PEP489_MULTI_PHASE_INIT
@@ -2164,7 +1946,6 @@ if (!__Pyx_RefNanny) {
   #if defined(__Pyx_Generator_USED) || defined(__Pyx_Coroutine_USED)
   if (__Pyx_patch_abc() < 0) __PYX_ERR(1, 1, __pyx_L1_error)
   #endif
-  __Pyx_TraceCall("__Pyx_PyMODINIT_FUNC PyInit_rng(void)", __pyx_f[1], 1, 0, __PYX_ERR(1, 1, __pyx_L1_error));
 
   /* "cythonic/plugins/rng.pyx":1
  * cimport cython             # <<<<<<<<<<<<<<
@@ -2175,7 +1956,6 @@ if (!__Pyx_RefNanny) {
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_1) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_TraceReturn(Py_None, 0);
 
   /*--- Wrapped vars code ---*/
 
@@ -2268,99 +2048,6 @@ static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject 
     tstate->curexc_type = 0;
     tstate->curexc_value = 0;
     tstate->curexc_traceback = 0;
-}
-#endif
-
-/* Profile */
-#if CYTHON_PROFILE
-static int __Pyx_TraceSetupAndCall(PyCodeObject** code,
-                                   PyFrameObject** frame,
-                                   PyThreadState* tstate,
-                                   const char *funcname,
-                                   const char *srcfile,
-                                   int firstlineno) {
-    PyObject *type, *value, *traceback;
-    int retval;
-    if (*frame == NULL || !CYTHON_PROFILE_REUSE_FRAME) {
-        if (*code == NULL) {
-            *code = __Pyx_createFrameCodeObject(funcname, srcfile, firstlineno);
-            if (*code == NULL) return 0;
-        }
-        *frame = PyFrame_New(
-            tstate,                          /*PyThreadState *tstate*/
-            *code,                           /*PyCodeObject *code*/
-            __pyx_d,                  /*PyObject *globals*/
-            0                                /*PyObject *locals*/
-        );
-        if (*frame == NULL) return 0;
-        if (CYTHON_TRACE && (*frame)->f_trace == NULL) {
-            Py_INCREF(Py_None);
-            (*frame)->f_trace = Py_None;
-        }
-#if PY_VERSION_HEX < 0x030400B1
-    } else {
-        (*frame)->f_tstate = tstate;
-#endif
-    }
-      __Pyx_PyFrame_SetLineNumber(*frame, firstlineno);
-    retval = 1;
-    tstate->tracing++;
-    tstate->use_tracing = 0;
-    __Pyx_ErrFetchInState(tstate, &type, &value, &traceback);
-    #if CYTHON_TRACE
-    if (tstate->c_tracefunc)
-        retval = tstate->c_tracefunc(tstate->c_traceobj, *frame, PyTrace_CALL, NULL) == 0;
-    if (retval && tstate->c_profilefunc)
-    #endif
-        retval = tstate->c_profilefunc(tstate->c_profileobj, *frame, PyTrace_CALL, NULL) == 0;
-    tstate->use_tracing = (tstate->c_profilefunc ||
-                           (CYTHON_TRACE && tstate->c_tracefunc));
-    tstate->tracing--;
-    if (retval) {
-        __Pyx_ErrRestoreInState(tstate, type, value, traceback);
-        return tstate->use_tracing && retval;
-    } else {
-        Py_XDECREF(type);
-        Py_XDECREF(value);
-        Py_XDECREF(traceback);
-        return -1;
-    }
-}
-static PyCodeObject *__Pyx_createFrameCodeObject(const char *funcname, const char *srcfile, int firstlineno) {
-    PyObject *py_srcfile = 0;
-    PyObject *py_funcname = 0;
-    PyCodeObject *py_code = 0;
-    #if PY_MAJOR_VERSION < 3
-    py_funcname = PyString_FromString(funcname);
-    py_srcfile = PyString_FromString(srcfile);
-    #else
-    py_funcname = PyUnicode_FromString(funcname);
-    py_srcfile = PyUnicode_FromString(srcfile);
-    #endif
-    if (!py_funcname | !py_srcfile) goto bad;
-    py_code = PyCode_New(
-        0,
-        #if PY_MAJOR_VERSION >= 3
-        0,
-        #endif
-        0,
-        0,
-        CO_OPTIMIZED | CO_NEWLOCALS,
-        __pyx_empty_bytes,     /*PyObject *code,*/
-        __pyx_empty_tuple,     /*PyObject *consts,*/
-        __pyx_empty_tuple,     /*PyObject *names,*/
-        __pyx_empty_tuple,     /*PyObject *varnames,*/
-        __pyx_empty_tuple,     /*PyObject *freevars,*/
-        __pyx_empty_tuple,     /*PyObject *cellvars,*/
-        py_srcfile,       /*PyObject *filename,*/
-        py_funcname,      /*PyObject *name,*/
-        firstlineno,
-        __pyx_empty_bytes      /*PyObject *lnotab*/
-    );
-bad:
-    Py_XDECREF(py_srcfile);
-    Py_XDECREF(py_funcname);
-    return py_code;
 }
 #endif
 

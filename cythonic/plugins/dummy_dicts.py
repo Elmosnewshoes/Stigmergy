@@ -16,7 +16,7 @@ domain_dict = {
     'nest_rad': 50,
     'food_loc': [750,500],
     'food_rad': 50,
-    'target_pheromone': 1.
+    'target_pheromone': 1e6
 }
 
 gauss_dict = {
@@ -31,8 +31,9 @@ sim_dict = {
     'deploy_style': 'nest_radian',
     'deploy_timing': 'gamma_dist',
     'deploy_timing_args': {'k':4.,'teta': 2.},
-
+    'evap_rate': -1.
 }
+
 deposit_dict = {
         'q': 1.,
         'return_factor': 1,

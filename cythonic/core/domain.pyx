@@ -66,9 +66,26 @@ cdef class Domain:
         self.target_pheromone= target
 
 
+    cdef void evaporate(self, double * tau):
+        " evaporate, with rate tau "
+        " if tau < 0 (typically -1 is used), use constant pheromone method "
+        if tau[0] < 0.0:
+            " call constant pheromone method "
+            self.cvaporate()
+            return
+        " that return acts as if - else:"
+        " do X[k+1] = tau * X[k]"
+        cdef unsigned int i,j
+        cdef unsigned int I = self.Map.map.shape[0]
+        cdef unsigned int J = self.Map.map.shape[1]
+        for i in range():
+            for j in range(J):
+                self.Map.map[i,j] *=tau[0]
+
+
     cdef readonly void cvaporate(self):
         " hard coded version of pyvaporate, roughly 7-12 times faster "
-        " parallel computed sum of map yields another 2-3x speed boost"
+        " parallel computed sum of map yields another 2-3x speed boost "
         cdef double x = self.target_pheromone/self.Map.sum()
         cdef unsigned int i,j,I,J
         I = self.Map.map.shape[0]

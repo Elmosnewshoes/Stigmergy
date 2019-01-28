@@ -2,10 +2,6 @@ cimport cython
 from libc.stdlib cimport rand as crand, RAND_MAX
 from libc.math cimport exp as cexp, log as cln
 
-@cython.cdivision(True)
-@cython.wraparound(False)
-@cython.boundscheck(False)
-@cython.nonecheck(False)
 cdef class RNG():
     " random number generator, approx 40-50x faster than numpy "
     cdef double rand(self):

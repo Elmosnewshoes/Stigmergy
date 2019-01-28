@@ -54,7 +54,7 @@ cdef class Map:
         return s
 
     cdef readonly double max(self):
-        " manually find max of a map using multiple threads (faster than NumPy)"
+        " manually find max, omitting safety/sanity checks makes it faster than numpy"
         " assuming strictly nonnegative entries "
         cdef double m = 0
         cdef unsigned int i,j,I,J
