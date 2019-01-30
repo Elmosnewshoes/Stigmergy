@@ -77,7 +77,7 @@ cdef class Queen:
         self.count_active += 1 # count active ants
 
     cdef readonly void step_all(self,):
-        " step all, else step specified "
+        " step all ants "
         for i in range(self.count_active):
             " todo: sense on map"
             self.assign_state(&i)

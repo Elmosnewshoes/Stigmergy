@@ -49,7 +49,7 @@ def deploy_times(deploy_method, n, **kwargs):
     return np.sort(t-np.min(t))
 
 cdef class Sim:
-    def __cinit__(self, queen_args, domain_args, unsigned int n_agents, double dt, unsigned int steps,
+    def __init__(self, queen_args, domain_args, unsigned int n_agents, double dt, unsigned int steps,
                   deploy_style, deploy_timing,deploy_timing_args,  evap_rate):
         " bring the controller online "
         self.queen = Queen(n = n_agents, **queen_args)
@@ -70,9 +70,6 @@ cdef class Sim:
         xy, tetas = new_positions(deploy_style, n_agents,**{'R':self.domain.nest_radius, 'nest_loc':self.domain.nest_location})
         self.queen.initialize_states(xy,tetas)
 
-        "activate ants for the first time step if necessary"
-        self.expand_active()
-
         " check if the map needs manipulating "
         if evap_rate <0:
             self.domain.evaporate(&self.evap_rate)
@@ -91,6 +88,11 @@ cdef class Sim:
     """ ===================== Actual simulation ===================== """
     cdef readonly void sim_step(self):
         " do a step in the simulation, perform all simulation logic (boundary check e.g..)"
+        if self.queen.count_active < self.queen.n:
+            "not all ants have been deployed "
+            self.expand_active() #deploy more ants
+
+
         cdef unsigned int i
 
         " do a round of pheromone depositing prior to stepping"
@@ -116,6 +118,9 @@ cdef class Sim:
 
         #evaporate (domain)
         self.domain.evaporate(&self.evap_rate)
+
+        # update timestamp
+        self.t+=self.dt
 
 
     cdef void expand_active(self):
