@@ -1,6 +1,9 @@
+# distutils: language = c++
+
 from cythonic.plugins.positions cimport point
 from cythonic.plugins.sens_structs cimport fun_args, observations
 from cythonic.plugins.dep_structs cimport dep_fun_args
+from libcpp.vector cimport vector
 
 #defining NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
 ctypedef readonly void (*f_obs)(ant_state*,fun_args*, observations*) #type definition for sensing functions
@@ -16,6 +19,7 @@ cdef struct ant_state:
     double omega #angular rotation in degrees/second
     double v # mm/s
     observations Q_obs
+    vector[double] noise_vec #pre-populate the observation noise
 
     #" ant status "
     bint foodbound
@@ -23,7 +27,6 @@ cdef struct ant_state:
     bint out_of_bounds
 
     #" individual timers "
-    double rng_timer # for the random number generator
     double time #time since last event
 
 

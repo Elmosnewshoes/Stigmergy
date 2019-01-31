@@ -1,12 +1,17 @@
+dt = .5
+steps = 1000
 ant_dict = {
     'l': 5.,
     'sens_offset': 45.,
     'gain': 1.,
+    'noise_parameter': 2.
 }
 
 queen_dict = {
-    'dt': .5,
-    'ant_dict': ant_dict
+    'dt': dt,
+    'ant_dict': ant_dict,
+    'default_speed': 5.,
+    'total_steps': steps
 }
 
 domain_dict = {
@@ -26,8 +31,8 @@ gauss_dict = {
 
 sim_dict = {
     'n_agents': 10,
-    'dt': 1.,
-    'steps': 1000,
+    'dt': dt,
+    'steps': steps,
     'deploy_style': 'nest_radian',
     'deploy_timing': 'gamma_dist',
     'deploy_timing_args': {'k':4.,'teta': 2.},
@@ -38,4 +43,10 @@ deposit_dict = {
         'q': 1.,
         'return_factor': 1,
         'beta':.2
+}
+sens_dict = {
+    'gain': 1.,
+    'breakpoint': 1.,
+    'snr': 0.1,
+    'exp_lambda': 4
 }

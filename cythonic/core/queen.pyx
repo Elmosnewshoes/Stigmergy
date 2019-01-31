@@ -1,7 +1,7 @@
 # distutils: language = c++
 cimport cython
-from libcpp.vector cimport vector
 from cythonic.plugins.sens_structs cimport observations
+from cythonic.plugins.sens_functions cimport telegraph_noise
 from cythonic.core.ant cimport Ant, ant_state
 import numpy as np
 
@@ -10,14 +10,19 @@ import numpy as np
     It is encouraged to play 'Master of Puppets' while executing this class
     ============ """
 cdef class Queen:
-    def __cinit__(self,unsigned int n, ant_dict, double dt, default_speed = 5.):
+    def __cinit__(self,unsigned int n, dict ant_dict, double dt, double default_speed,
+        str noise_type, double noise_parameter, unsigned int total_steps):
         " initialize the controller (Queen) "
         self.n = n # total number of agents
         self.count_active = 0 #keep track of activated ants
+        self.current_step = 0 #current step in simulation
+        self.total_steps = total_steps
 
         " sim settings "
         self.dt = dt
         self.default_speed = default_speed
+        self.noise_type = noise_type
+        self.noise_parameter = noise_parameter
 
         " deploy a model for the agent, which accepts and modifies a state "
         self.agent = Ant(**ant_dict)
@@ -53,8 +58,8 @@ cdef class Queen:
         s.foodbound = True
         s.out_of_bounds = False
         s.active = False
-        s.rng_timer = 0.
         s.time = 0.
+        s.noise_vec = self.noise_vec()
 
         return s
 
@@ -79,10 +84,9 @@ cdef class Queen:
     cdef readonly void step_all(self,):
         " step all ants "
         for i in range(self.count_active):
-            " todo: sense on map"
             self.assign_state(&i)
             self.gradient_step( &self.pheromone_vec[i])
-
+        self.current_step+=1
 
     cdef readonly void assign_state(self,unsigned int *ant_id):
         " set the state of the agent "
@@ -92,6 +96,22 @@ cdef class Queen:
         " do the gradient stepping on the agent "
         self.agent.gradient_step(&self.dt, Q)
 
+    cdef vector[double] noise_vec(self):
+        " make noise vector for ant state at initialization "
+        cdef vector[double] noise
+        if self.noise_type == 'white':
+            " stream of white gaussian noise "
+            for element in np.random.normal(0,1,self.total_steps):
+                noise.push_back(element)
+
+        elif self.noise_type == 'uniform':
+            " stream of uniformly distributed noise from U(-1,1) "
+            for element in 2*(np.random.rand(self.total_steps)-.5):
+                noise.push_back(element)
+        elif self.noise_type == 'telegraph':
+            " telegraphic noise process bounded between [-1,1] "
+            noise = telegraph_noise(self.total_steps, dt = self.dt, beta = self.noise_parameter)
+        return noise
 
     cpdef readonly void print_pos(self):
         " print the position struct of all ant in the state vector "

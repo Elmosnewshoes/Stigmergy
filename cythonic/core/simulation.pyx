@@ -40,4 +40,3 @@ cdef class record_sim(Sim):
 
     cpdef void run_sim(self, unsigned int store_interval):
         " loop over all steps, store the xy locations at specified interval "
-        

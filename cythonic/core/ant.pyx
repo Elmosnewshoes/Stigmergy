@@ -1,3 +1,5 @@
+# distutils: language = c++
+
 from cythonic.plugins.functions cimport transform
 from cythonic.plugins.sens_functions cimport observe_linear
 from cythonic.plugins.dep_functions cimport dep_constant
@@ -7,14 +9,15 @@ from libc.math cimport M_PI as PI
 # from cythonic.plugins.rng cimport RNG
 
 cdef class Ant:
-    def __cinit__(self, double l, double sens_offset, double gain):
+    def __cinit__(self, double l, double sens_offset, double gain, str sens_fun):
         " set global ant constants "
         self.l = l
         self.sens_offset = sens_offset
         self.gain = gain
 
         " initialize sensing specific arguments "
-        self.sens_fun = observe_linear
+        if sens_fun =='linear':
+            self.sens_fun = observe_linear
         self.obs_fun_args.gain = 1
 
 
@@ -31,9 +34,12 @@ cdef class Ant:
         " fill the pheromone-dropped-quantity memory location "
         # q is the placeholder for the returned quantity
         # self.dep_fun(double * x, ant_state* s, dep_fun_args* x)
-        # x == pointer to mem location of q (q is already a pointer)
+        # q == pointer to mem location of quantity
         # self.state == already pointer to ant_state
-        self.dep_fun(q, self.state, &self.dep_args )
+        if self.state[0].out_of_bounds:
+            q[0] =0
+        else:
+            self.dep_fun(q, self.state, &self.dep_args )
 
     """ ================ observation related methods ================ """
     cdef void observe(self, observations* Q):
@@ -44,6 +50,7 @@ cdef class Ant:
     cdef void rotate(self,double* dt):
         " rotate the ant based on angular velocity omega "
         " compute the angular speed (degrees/second) based on sensing "
+        " perturb the sensed pheromone quantity with noise "
         self.state[0].omega = self.gain*180./PI*(
             self.state[0].Q_obs.lft-self.state[0].Q_obs.rght)
         self.increase_azimuth(dt) # state is known, no need to pass it

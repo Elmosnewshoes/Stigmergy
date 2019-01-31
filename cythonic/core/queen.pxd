@@ -24,11 +24,15 @@ cdef class Queen:
     cdef public vector[observations] pheromone_vec
     cdef readonly Ant agent #" ant template "
     cdef:
+        readonly unsigned int current_step
+        readonly unsigned int total_steps
         readonly unsigned int n
         readonly unsigned int count_active
         readonly double dt
         readonly double default_speed
         readonly double[:] drop_quantity
+        readonly str noise_type
+        readonly double noise_parameter #e.g. beta in case of exponential random variable
     # methods
     cdef readonly void setup_ant_depositing(self,str fun_type, dep_fun_args args)
     cdef readonly void step(self, double * dt)
@@ -39,3 +43,4 @@ cdef class Queen:
     cdef readonly void assign_state(self,unsigned int *ant_id)
     cdef readonly void gradient_step(self, observations * Q)
     cpdef readonly void print_pos(self)
+    cdef vector[double] noise_vec(self)
