@@ -2561,6 +2561,7 @@ static const char __pyx_k_MemoryError[] = "MemoryError";
 static const char __pyx_k_PickleError[] = "PickleError";
 static const char __pyx_k_domain_args[] = "domain_args";
 static const char __pyx_k_nest_radian[] = "nest_radian";
+static const char __pyx_k_total_steps[] = "total_steps";
 static const char __pyx_k_deploy_style[] = "deploy_style";
 static const char __pyx_k_deploy_times[] = "deploy_times";
 static const char __pyx_k_pyx_checksum[] = "__pyx_checksum";
@@ -2755,6 +2756,7 @@ static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_teta;
 static PyObject *__pyx_n_u_teta;
 static PyObject *__pyx_n_s_tetas;
+static PyObject *__pyx_n_s_total_steps;
 static PyObject *__pyx_kp_s_unable_to_allocate_array_data;
 static PyObject *__pyx_kp_s_unable_to_allocate_shape_and_str;
 static PyObject *__pyx_n_u_uniform_dist;
@@ -3969,15 +3971,23 @@ static int __pyx_pf_8cythonic_4core_14sim_controller_3Sim___init__(struct __pyx_
   /* "cythonic/core/sim_controller.pyx":55
  *                   deploy_style, deploy_timing,deploy_timing_args,  evap_rate):
  *         " bring the controller online "
- *         self.queen = Queen(n = n_agents, **queen_args)             # <<<<<<<<<<<<<<
+ *         self.queen = Queen(n = n_agents, dt = dt, total_steps = steps, **queen_args)             # <<<<<<<<<<<<<<
  * 
  *         " initialize the domain"
  */
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 55, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = __Pyx_PyInt_From_unsigned_int(__pyx_v_n_agents); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_n, __pyx_t_3) < 0) __PYX_ERR(0, 55, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_dt); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 55, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dt, __pyx_t_3) < 0) __PYX_ERR(0, 55, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyInt_From_unsigned_int(__pyx_v_steps); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 55, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_total_steps, __pyx_t_3) < 0) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_1 = __pyx_t_2;
   __pyx_t_2 = 0;
@@ -20797,6 +20807,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_teta, __pyx_k_teta, sizeof(__pyx_k_teta), 0, 0, 1, 1},
   {&__pyx_n_u_teta, __pyx_k_teta, sizeof(__pyx_k_teta), 0, 1, 0, 1},
   {&__pyx_n_s_tetas, __pyx_k_tetas, sizeof(__pyx_k_tetas), 0, 0, 1, 1},
+  {&__pyx_n_s_total_steps, __pyx_k_total_steps, sizeof(__pyx_k_total_steps), 0, 0, 1, 1},
   {&__pyx_kp_s_unable_to_allocate_array_data, __pyx_k_unable_to_allocate_array_data, sizeof(__pyx_k_unable_to_allocate_array_data), 0, 0, 1, 0},
   {&__pyx_kp_s_unable_to_allocate_shape_and_str, __pyx_k_unable_to_allocate_shape_and_str, sizeof(__pyx_k_unable_to_allocate_shape_and_str), 0, 0, 1, 0},
   {&__pyx_n_u_uniform_dist, __pyx_k_uniform_dist, sizeof(__pyx_k_uniform_dist), 0, 1, 0, 1},

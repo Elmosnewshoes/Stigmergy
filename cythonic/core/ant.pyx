@@ -18,7 +18,7 @@ cdef class Ant:
         " initialize sensing specific arguments "
         if sens_fun =='linear':
             self.sens_fun = observe_linear
-        self.obs_fun_args.gain = 1
+        # self.obs_fun_args.gain = 1
 
 
     """ ================ Deposit related methods ================== """

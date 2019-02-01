@@ -52,7 +52,7 @@ cdef class Sim:
     def __init__(self, queen_args, domain_args, unsigned int n_agents, double dt, unsigned int steps,
                   deploy_style, deploy_timing,deploy_timing_args,  evap_rate):
         " bring the controller online "
-        self.queen = Queen(n = n_agents, **queen_args)
+        self.queen = Queen(n = n_agents, dt = dt, total_steps = steps, **queen_args)
 
         " initialize the domain"
         self.domain = Domain(**domain_args)
