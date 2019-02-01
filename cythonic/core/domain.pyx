@@ -78,7 +78,7 @@ cdef class Domain:
         cdef unsigned int i,j
         cdef unsigned int I = self.Map.map.shape[0]
         cdef unsigned int J = self.Map.map.shape[1]
-        for i in range():
+        for i in range(I):
             for j in range(J):
                 self.Map.map[i,j] *=tau[0]
 

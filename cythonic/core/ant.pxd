@@ -40,8 +40,10 @@ cdef class Ant:
 
         # sensor properties
         double gain
+        double noise_gain
         f_obs sens_fun
         fun_args obs_fun_args
+        unsigned int current_step
 
         # actuator properties
         f_dep dep_fun
@@ -63,3 +65,4 @@ cdef class Ant:
         readonly void increase_azimuth(self, double * dt)
         readonly void set_state(self,ant_state* s)
         readonly void reverse(self)
+        readonly void next_step(self)

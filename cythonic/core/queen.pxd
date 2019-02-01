@@ -24,7 +24,6 @@ cdef class Queen:
     cdef public vector[observations] pheromone_vec
     cdef readonly Ant agent #" ant template "
     cdef:
-        readonly unsigned int current_step
         readonly unsigned int total_steps
         readonly unsigned int n
         readonly unsigned int count_active

@@ -861,11 +861,10 @@ struct __pyx_t_8cythonic_7plugins_12sens_structs_observations;
 /* "cythonic/plugins/sens_structs.pxd":1
  * cdef struct fun_args:             # <<<<<<<<<<<<<<
  *     double breakpoint
- *     double snr # as in, fraction of noise_gain w.r.t. steering gain
+ *     # double snr # as in, fraction of noise_gain w.r.t. steering gain
  */
 struct __pyx_t_8cythonic_7plugins_12sens_structs_fun_args {
   double breakpoint;
-  double snr;
   double exp_lambda;
 };
 
@@ -986,8 +985,10 @@ struct __pyx_obj_8cythonic_4core_3ant_Ant {
   double l;
   double sens_offset;
   double gain;
+  double noise_gain;
   f_obs sens_fun;
   struct __pyx_t_8cythonic_7plugins_12sens_structs_fun_args obs_fun_args;
+  unsigned int current_step;
   f_dep dep_fun;
   struct __pyx_t_8cythonic_7plugins_11dep_structs_dep_fun_args dep_args;
 };
@@ -1009,6 +1010,7 @@ struct __pyx_vtabstruct_8cythonic_4core_3ant_Ant {
   void (*increase_azimuth)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, double *);
   void (*set_state)(struct __pyx_obj_8cythonic_4core_3ant_Ant *, struct __pyx_t_8cythonic_4core_3ant_ant_state *);
   void (*reverse)(struct __pyx_obj_8cythonic_4core_3ant_Ant *);
+  void (*next_step)(struct __pyx_obj_8cythonic_4core_3ant_Ant *);
 };
 static struct __pyx_vtabstruct_8cythonic_4core_3ant_Ant *__pyx_vtabptr_8cythonic_4core_3ant_Ant;
 

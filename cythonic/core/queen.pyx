@@ -15,7 +15,6 @@ cdef class Queen:
         " initialize the controller (Queen) "
         self.n = n # total number of agents
         self.count_active = 0 #keep track of activated ants
-        self.current_step = 0 #current step in simulation
         self.total_steps = total_steps
 
         " sim settings "
@@ -86,7 +85,7 @@ cdef class Queen:
         for i in range(self.count_active):
             self.assign_state(&i)
             self.gradient_step( &self.pheromone_vec[i])
-        self.current_step+=1
+        self.agent.next_step()
 
     cdef readonly void assign_state(self,unsigned int *ant_id):
         " set the state of the agent "

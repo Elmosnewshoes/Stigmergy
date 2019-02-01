@@ -9,11 +9,14 @@ from libc.math cimport M_PI as PI
 # from cythonic.plugins.rng cimport RNG
 
 cdef class Ant:
-    def __cinit__(self, double l, double sens_offset, double gain, str sens_fun):
+    def __cinit__(self, double l, double sens_offset, double gain, str sens_fun,
+        double noise_gain):
         " set global ant constants "
         self.l = l
         self.sens_offset = sens_offset
         self.gain = gain
+        self.noise_gain = noise_gain # fraction of self.gain
+        self.current_step = 0 #current step in simulation
 
         " initialize sensing specific arguments "
         if sens_fun =='linear':
@@ -47,12 +50,17 @@ cdef class Ant:
         self.sens_fun(self.state, &self.obs_fun_args, Q)
 
     """ ================ step related methods ================ """
+    cdef void next_step(self):
+        "simply increase the counter"
+        self.current_step+=1
+
     cdef void rotate(self,double* dt):
         " rotate the ant based on angular velocity omega "
         " compute the angular speed (degrees/second) based on sensing "
         " perturb the sensed pheromone quantity with noise "
         self.state[0].omega = self.gain*180./PI*(
-            self.state[0].Q_obs.lft-self.state[0].Q_obs.rght)
+            self.state[0].Q_obs.lft-self.state[0].Q_obs.rght
+             + self.state[0].noise_vec[self.current_step]*self.noise_gain)
         self.increase_azimuth(dt) # state is known, no need to pass it
 
     cdef void gradient_step(self, double *dt, observations * Q):

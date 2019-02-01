@@ -1,6 +1,7 @@
 # distutils: language = c++
 
 from cythonic.core.visualization import StigmergyPlot
+from time import time
 
 cdef class live_sim(Sim):
     " parent class Sim does not have the __cinit__(self,....) constructor "
@@ -25,6 +26,7 @@ cdef class live_sim(Sim):
 
     cpdef void run_sim(self, unsigned int stride):
         " loop over all steps, display the graph at specified interval "
+        cdef double tic = time()
         cdef unsigned int i
         self.chart.show()
         for i in range(self.steps):
@@ -32,6 +34,7 @@ cdef class live_sim(Sim):
             if i%self.interval == 0:
                 self.chart.draw_stigmergy(self.domain.Map.map[::stride,::stride])
                 self.chart.draw()
+        print(f'finished in {time()-tic} seconds')
         self.chart.hold_until_close()
 
 cdef class record_sim(Sim):

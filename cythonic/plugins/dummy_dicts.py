@@ -4,16 +4,15 @@ ant_dict = {
     'l': 5.,
     'sens_offset': 45.,
     'gain': 1.,
+    'noise_gain': 1.,
     'sens_fun': 'linear',
 }
 
 queen_dict = {
-    # 'dt': dt,
     'ant_dict': ant_dict,
     'default_speed': 5.,
-    'noise_type': 'white', # can use uniform/white/telegraph
+    'noise_type': 'telegraph', # can use uniform/white/telegraph
     'noise_parameter': 2.,
-    # 'total_steps': steps
 }
 
 domain_dict = {
@@ -47,8 +46,8 @@ deposit_dict = {
         'beta':.2
 }
 sens_dict = {
-    'gain': 1.,
+    # 'gain': 1.,
     'breakpoint': 1.,
-    'snr': 0.1,
+    # 'snr': 0.1,
     'exp_lambda': 4
 }
