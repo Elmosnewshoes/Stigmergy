@@ -1,11 +1,18 @@
 dt = .5
-steps = 1000
+steps = 10
+sens_dict = {
+    # 'gain': 1.,
+    'breakpoint': 1.,
+    # 'snr': 0.1,
+    'exp_lambda': 4
+}
 ant_dict = {
     'l': 5.,
     'sens_offset': 45.,
     'gain': 1.,
     'noise_gain': 1.,
     'sens_fun': 'linear',
+    'sens_dict': sens_dict
 }
 
 queen_dict = {
@@ -31,7 +38,7 @@ gauss_dict = {
 }
 
 sim_dict = {
-    'n_agents': 10,
+    'n_agents': 80,
     'dt': dt,
     'steps': steps,
     'deploy_style': 'nest_radian',
@@ -44,10 +51,4 @@ deposit_dict = {
         'q': 1.,
         'return_factor': 1,
         'beta':.2
-}
-sens_dict = {
-    # 'gain': 1.,
-    'breakpoint': 1.,
-    # 'snr': 0.1,
-    'exp_lambda': 4
 }

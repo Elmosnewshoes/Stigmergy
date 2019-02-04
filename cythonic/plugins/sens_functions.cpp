@@ -1752,14 +1752,23 @@ static std::vector<double>  __pyx_f_8cythonic_7plugins_14sens_functions_telegrap
  *     " s = sgn *0.5 + e -0.5 -> s between [-1,1] since random e from U[0,1]"
  *     cdef double time = 0., t_hop = 0.             # <<<<<<<<<<<<<<
  *     cdef vector[double] output
- *     cdef double sgn # can have values -1, 0 or 1
+ *     cdef double sgn = 0 # can have values -1, 0 or 1
  */
   __pyx_v_time = 0.;
   __pyx_v_t_hop = 0.;
 
+  /* "cythonic/plugins/sens_functions.pyx":22
+ *     cdef double time = 0., t_hop = 0.
+ *     cdef vector[double] output
+ *     cdef double sgn = 0 # can have values -1, 0 or 1             # <<<<<<<<<<<<<<
+ *     for i in range(sz):
+ *         " populate output vector "
+ */
+  __pyx_v_sgn = 0.0;
+
   /* "cythonic/plugins/sens_functions.pyx":23
  *     cdef vector[double] output
- *     cdef double sgn # can have values -1, 0 or 1
+ *     cdef double sgn = 0 # can have values -1, 0 or 1
  *     for i in range(sz):             # <<<<<<<<<<<<<<
  *         " populate output vector "
  *         if time >= t_hop:

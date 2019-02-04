@@ -10,7 +10,7 @@ from libc.math cimport M_PI as PI
 
 cdef class Ant:
     def __cinit__(self, double l, double sens_offset, double gain, str sens_fun,
-        double noise_gain):
+        double noise_gain, dict sens_dict):
         " set global ant constants "
         self.l = l
         self.sens_offset = sens_offset
@@ -21,6 +21,7 @@ cdef class Ant:
         " initialize sensing specific arguments "
         if sens_fun =='linear':
             self.sens_fun = observe_linear
+        self.obs_fun_args = sens_dict
         # self.obs_fun_args.gain = 1
 
 
@@ -95,6 +96,7 @@ cdef class Ant:
         self.set_sensors()
 
     """ ================ State sensing methods ================ """
+
     cdef void out_of_bounds(self, bint oob):
         " toggle out of bounds status "
         self.state[0].out_of_bounds = oob

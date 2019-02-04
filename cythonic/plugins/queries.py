@@ -6,50 +6,60 @@
 def insert(table):
     return f"INSERT INTO {table} "
 
-def insert_ant(l, sens_offset, gain, noise_gain, sens_fun, **kwargs):
-    output = insert('ant_settings') + "(l, sens_offset, gain, noise_gain, sens_fun) "
-    output += f" VALUES ({l}, {sens_offset}, {gain}, {noise_gain}, '{sens_fun}')"
+def insert_ant(sim_id, l, sens_offset, gain, noise_gain, sens_fun, **kwargs):
+    output = insert('ant_settings') + "(sim_id, l, sens_offset, gain, noise_gain, sens_fun) "
+    output += f" VALUES ({sim_id}, {l}, {sens_offset}, {gain}, {noise_gain}, '{sens_fun}')"
     return output
 
-def insert_queen(default_speed, noise_type, noise_parameter, **kwargs):
-    output = insert('queen_settings') + "(default_speed, noise_type, noise_parameter) "
-    output+= f"VALUES ({default_speed}, '{noise_type}', {noise_parameter})"
+def insert_queen(sim_id, default_speed, noise_type, noise_parameter, **kwargs):
+    output = insert('queen_settings') + "(sim_id, default_speed, noise_type, noise_parameter) "
+    output+= f"VALUES ({sim_id}, {default_speed}, '{noise_type}', {noise_parameter})"
     return output
 
-def insert_domain(size, pitch, nest_loc, nest_rad, food_loc, food_rad, target_pheromone, **kwargs):
-    output = insert('domain_settings') + "(size, pitch, nest_loc, nest_rad, food_loc, food_rad, target_pheromone) "
-    output+= f"VALUES ('{size}', {pitch}, '{nest_loc}', {nest_rad}, '{food_loc}', {food_rad}, {target_pheromone})"
+def insert_domain(sim_id, size, pitch, nest_loc, nest_rad, food_loc, food_rad, target_pheromone, **kwargs):
+    output = insert('domain_settings') + "(sim_id, size, pitch, nest_loc, nest_rad, food_loc, food_rad, target_pheromone) "
+    output+= f"VALUES ({sim_id}, '{size}', {pitch}, '{nest_loc}', {nest_rad}, '{food_loc}', {food_rad}, {target_pheromone})"
     return output
 
-def insert_gauss(significancy, covariance, **kwargs):
-    output = insert('gauss_settings') + "(significancy, covariance) "
-    output+= f"VALUES ({significancy}, {covariance})"
+def insert_gauss(sim_id, significancy, covariance, **kwargs):
+    output = insert('gauss_settings') + "(sim_id, significancy, covariance) "
+    output+= f"VALUES ({sim_id}, {significancy}, {covariance})"
     return output
 
-def insert_deposit(q, return_factor, beta, **kwargs):
-    output = insert('deposit_settings') + "(q, return_factor, beta) "
-    output+= f"VALUES ({q}, {return_factor}, {beta})"
+def insert_deposit(sim_id, q, return_factor, beta, **kwargs):
+    output = insert('deposit_settings') + "(sim_id, q, return_factor, beta) "
+    output+= f"VALUES ({sim_id}, {q}, {return_factor}, {beta})"
     return output
 
-def insert_results(entropy_vec = 'NULL', start_entropy = 'NULL',end_entropy = 'NULL',
+def insert_results(sim_id, entropy_vec = 'NULL', start_entropy = 'NULL',end_entropy = 'NULL',
                    foodcount = 'NULL', nestcount = 'NULL', **kwargs):
     if entropy_vec !='NULL':
         # add string identifiers!
         entropy_vec = f"'{entropy_vec}'"
-    output = insert('results') + "(entropy_vec, start_entropy, end_entropy, foodcount, nestcount) "
-    output+= f"VALUES ({entropy_vec}, {start_entropy}, {end_entropy}, {foodcount}, {nestcount})
+    output = insert('results') + "(sim_id, entropy_vec, start_entropy, end_entropy, foodcount, nestcount) "
+    output+= f"VALUES ({sim_id}, {entropy_vec}, {start_entropy}, {end_entropy}, {foodcount}, {nestcount})"
     return output
 
-def insert_sens(breakpoint, exp_lambda, **kwargs):
-    output = insert('sens_settings') + "(breakpoint,exp_lambda) "
-    output+= f"VALUES ({breakpoint},{exp_lambda}) "
+def insert_sens(sim_id, breakpoint, exp_lambda, **kwargs):
+    output = insert('sens_settings') + "(sim_id, breakpoint,exp_lambda) "
+    output+= f"VALUES ({sim_id}, {breakpoint},{exp_lambda}) "
     return output
 
-def sim_settings(n_agents, dt, steps, deploy_style, deploy_timing, deploy_timing_args, evap_rate, **kwargs):
-    output = insert('sim_settings') + "(n_agents, dt, steps, deploy_style, deploy_timing, deploy_timing_args, evap_rate) "
-    output+= f"VALUES ({n_agents}, {dt}, {steps}, '{deploy_style}', '{deploy_timing}', '{deploy_timing_args}', {evap_rate}) "
+def sim_settings(sim_id, n_agents, dt, steps, deploy_style, deploy_timing, deploy_timing_args, evap_rate, **kwargs):
+    output = insert('sim_settings') + "(sim_id, n_agents, dt, steps, deploy_style, deploy_timing, deploy_timing_args, evap_rate) "
+    output+= f"VALUES ({sim_id}, {n_agents}, {dt}, {steps}, '{deploy_style}', '{deploy_timing}', '{deploy_timing_args}', {evap_rate}) "
     return output
 
-from dummy_dicts import ant_dict, queen_dict, domain_dict
-print(insert_queen(**queen_dict))
-print(insert_domain(**domain_dict))
+def new_sim():
+    return insert("SIM") + " DEFAULT VALUES "
+
+def insert_stepupdates():
+    return "INSERT INTO STEP (SIM_ID, STEP_NR, ANT_ID, X, Y, THETA, Q) VALUES "
+
+def update_sim(sim_id, status = 'STARTED'):
+    return f"UPDATE SIM SET STATUS = '{status}' WHERE ID = {sim_id} "
+
+if __name__ == '__main__':
+    from dummy_dicts import ant_dict, queen_dict, domain_dict
+    print(insert_queen(1, **queen_dict))
+    print(insert_domain(1, **domain_dict))

@@ -19,7 +19,7 @@ cdef vector[double] telegraph_noise(unsigned int sz,double dt, double beta):
     " s = sgn *0.5 + e -0.5 -> s between [-1,1] since random e from U[0,1]"
     cdef double time = 0., t_hop = 0.
     cdef vector[double] output
-    cdef double sgn # can have values -1, 0 or 1
+    cdef double sgn = 0 # can have values -1, 0 or 1
     for i in range(sz):
         " populate output vector "
         if time >= t_hop:
