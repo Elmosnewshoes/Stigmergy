@@ -1421,7 +1421,7 @@ static struct __pyx_vtabstruct_8cythonic_4core_3map_GaussMap *__pyx_vtabptr_8cyt
 
 struct __pyx_vtabstruct_8cythonic_4core_6domain_Domain {
   void (*constraint)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_9positions_point *);
-  int (*check_pos)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_9positions_point *, int);
+  int (*check_pos)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_9positions_point *, int *);
   void (*init_gaussian)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, double, double);
   void (*fill_observations)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_12sens_structs_observations *, struct __pyx_t_8cythonic_7plugins_9positions_point *, struct __pyx_t_8cythonic_7plugins_9positions_point *);
   int (*check_bounds)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_9positions_point *);
@@ -4515,7 +4515,7 @@ void __pyx_f_8cythonic_4core_14sim_controller_3Sim_sim_step(struct __pyx_obj_8cy
  *             # deposit the pheromone
  * 
  *         for i in range(self.queen.count_active):             # <<<<<<<<<<<<<<
- *             #target ant
+ *             # target an ant
  *             self.queen.assign_state(&i)
  */
   __pyx_t_2 = __pyx_v_self->queen->count_active;
@@ -4525,7 +4525,7 @@ void __pyx_f_8cythonic_4core_14sim_controller_3Sim_sim_step(struct __pyx_obj_8cy
 
     /* "cythonic/core/sim_controller.pyx":105
  *         for i in range(self.queen.count_active):
- *             #target ant
+ *             # target an ant
  *             self.queen.assign_state(&i)             # <<<<<<<<<<<<<<
  * 
  *             #sense (queen/domain)
@@ -4704,8 +4704,8 @@ void __pyx_f_8cythonic_4core_14sim_controller_3Sim_check_target(struct __pyx_obj
  *         """
  *         " ===== WARNING: assumption, ant cannot go from out of bounds to nest/food in a single step ====="
  *         if self.queen.agent.state[0].foodbound and (             # <<<<<<<<<<<<<<
- *              self.domain.check_pos(&self.queen.agent.state.left, False) or
- *              self.domain.check_pos(&self.queen.agent.state.right, False)):
+ *              self.domain.check_pos(p = &self.queen.agent.state.left, foodbound = &self.queen.agent.state.foodbound) or
+ *              self.domain.check_pos(p = &self.queen.agent.state.right, foodbound = &self.queen.agent.state.foodbound)):
  */
   __pyx_t_2 = ((__pyx_v_self->queen->agent->state[0]).foodbound != 0);
   if (__pyx_t_2) {
@@ -4717,11 +4717,11 @@ void __pyx_f_8cythonic_4core_14sim_controller_3Sim_check_target(struct __pyx_obj
   /* "cythonic/core/sim_controller.pyx":143
  *         " ===== WARNING: assumption, ant cannot go from out of bounds to nest/food in a single step ====="
  *         if self.queen.agent.state[0].foodbound and (
- *              self.domain.check_pos(&self.queen.agent.state.left, False) or             # <<<<<<<<<<<<<<
- *              self.domain.check_pos(&self.queen.agent.state.right, False)):
- *             " found food!, reset the timer and count the event "
+ *              self.domain.check_pos(p = &self.queen.agent.state.left, foodbound = &self.queen.agent.state.foodbound) or             # <<<<<<<<<<<<<<
+ *              self.domain.check_pos(p = &self.queen.agent.state.right, foodbound = &self.queen.agent.state.foodbound)):
+ *             " found food!, reverse, reset the timer and count the event "
  */
-  __pyx_t_2 = (((struct __pyx_vtabstruct_8cythonic_4core_6domain_Domain *)__pyx_v_self->domain->__pyx_vtab)->check_pos(__pyx_v_self->domain, (&__pyx_v_self->queen->agent->state->left), 0) != 0);
+  __pyx_t_2 = (((struct __pyx_vtabstruct_8cythonic_4core_6domain_Domain *)__pyx_v_self->domain->__pyx_vtab)->check_pos(__pyx_v_self->domain, (&__pyx_v_self->queen->agent->state->left), (&__pyx_v_self->queen->agent->state->foodbound)) != 0);
   if (!__pyx_t_2) {
   } else {
     __pyx_t_1 = __pyx_t_2;
@@ -4730,12 +4730,12 @@ void __pyx_f_8cythonic_4core_14sim_controller_3Sim_check_target(struct __pyx_obj
 
   /* "cythonic/core/sim_controller.pyx":144
  *         if self.queen.agent.state[0].foodbound and (
- *              self.domain.check_pos(&self.queen.agent.state.left, False) or
- *              self.domain.check_pos(&self.queen.agent.state.right, False)):             # <<<<<<<<<<<<<<
- *             " found food!, reset the timer and count the event "
- *             self.queen.agent.reverse()
+ *              self.domain.check_pos(p = &self.queen.agent.state.left, foodbound = &self.queen.agent.state.foodbound) or
+ *              self.domain.check_pos(p = &self.queen.agent.state.right, foodbound = &self.queen.agent.state.foodbound)):             # <<<<<<<<<<<<<<
+ *             " found food!, reverse, reset the timer and count the event "
+ *             self.queen.agent.state[0].foodbound = False #toggle state
  */
-  __pyx_t_2 = (((struct __pyx_vtabstruct_8cythonic_4core_6domain_Domain *)__pyx_v_self->domain->__pyx_vtab)->check_pos(__pyx_v_self->domain, (&__pyx_v_self->queen->agent->state->right), 0) != 0);
+  __pyx_t_2 = (((struct __pyx_vtabstruct_8cythonic_4core_6domain_Domain *)__pyx_v_self->domain->__pyx_vtab)->check_pos(__pyx_v_self->domain, (&__pyx_v_self->queen->agent->state->right), (&__pyx_v_self->queen->agent->state->foodbound)) != 0);
   __pyx_t_1 = __pyx_t_2;
   __pyx_L4_bool_binop_done:;
 
@@ -4743,22 +4743,31 @@ void __pyx_f_8cythonic_4core_14sim_controller_3Sim_check_target(struct __pyx_obj
  *         """
  *         " ===== WARNING: assumption, ant cannot go from out of bounds to nest/food in a single step ====="
  *         if self.queen.agent.state[0].foodbound and (             # <<<<<<<<<<<<<<
- *              self.domain.check_pos(&self.queen.agent.state.left, False) or
- *              self.domain.check_pos(&self.queen.agent.state.right, False)):
+ *              self.domain.check_pos(p = &self.queen.agent.state.left, foodbound = &self.queen.agent.state.foodbound) or
+ *              self.domain.check_pos(p = &self.queen.agent.state.right, foodbound = &self.queen.agent.state.foodbound)):
  */
   if (__pyx_t_1) {
 
     /* "cythonic/core/sim_controller.pyx":146
- *              self.domain.check_pos(&self.queen.agent.state.right, False)):
- *             " found food!, reset the timer and count the event "
+ *              self.domain.check_pos(p = &self.queen.agent.state.right, foodbound = &self.queen.agent.state.foodbound)):
+ *             " found food!, reverse, reset the timer and count the event "
+ *             self.queen.agent.state[0].foodbound = False #toggle state             # <<<<<<<<<<<<<<
+ *             self.queen.agent.reverse()
+ *             self.foodcount+=1
+ */
+    (__pyx_v_self->queen->agent->state[0]).foodbound = 0;
+
+    /* "cythonic/core/sim_controller.pyx":147
+ *             " found food!, reverse, reset the timer and count the event "
+ *             self.queen.agent.state[0].foodbound = False #toggle state
  *             self.queen.agent.reverse()             # <<<<<<<<<<<<<<
  *             self.foodcount+=1
  *             self.queen.agent.state[0].time = 0.
  */
     ((struct __pyx_vtabstruct_8cythonic_4core_3ant_Ant *)__pyx_v_self->queen->agent->__pyx_vtab)->reverse(__pyx_v_self->queen->agent);
 
-    /* "cythonic/core/sim_controller.pyx":147
- *             " found food!, reset the timer and count the event "
+    /* "cythonic/core/sim_controller.pyx":148
+ *             self.queen.agent.state[0].foodbound = False #toggle state
  *             self.queen.agent.reverse()
  *             self.foodcount+=1             # <<<<<<<<<<<<<<
  *             self.queen.agent.state[0].time = 0.
@@ -4766,7 +4775,7 @@ void __pyx_f_8cythonic_4core_14sim_controller_3Sim_check_target(struct __pyx_obj
  */
     __pyx_v_self->foodcount = (__pyx_v_self->foodcount + 1);
 
-    /* "cythonic/core/sim_controller.pyx":148
+    /* "cythonic/core/sim_controller.pyx":149
  *             self.queen.agent.reverse()
  *             self.foodcount+=1
  *             self.queen.agent.state[0].time = 0.             # <<<<<<<<<<<<<<
@@ -4779,18 +4788,18 @@ void __pyx_f_8cythonic_4core_14sim_controller_3Sim_check_target(struct __pyx_obj
  *         """
  *         " ===== WARNING: assumption, ant cannot go from out of bounds to nest/food in a single step ====="
  *         if self.queen.agent.state[0].foodbound and (             # <<<<<<<<<<<<<<
- *              self.domain.check_pos(&self.queen.agent.state.left, False) or
- *              self.domain.check_pos(&self.queen.agent.state.right, False)):
+ *              self.domain.check_pos(p = &self.queen.agent.state.left, foodbound = &self.queen.agent.state.foodbound) or
+ *              self.domain.check_pos(p = &self.queen.agent.state.right, foodbound = &self.queen.agent.state.foodbound)):
  */
     goto __pyx_L3;
   }
 
-  /* "cythonic/core/sim_controller.pyx":150
+  /* "cythonic/core/sim_controller.pyx":151
  *             self.queen.agent.state[0].time = 0.
  * 
  *         elif (not self.queen.agent.state[0].foodbound) and (             # <<<<<<<<<<<<<<
- *             self.domain.check_pos(&self.queen.agent.state.left, True) or
- *             self.domain.check_pos(&self.queen.agent.state.right, True)):
+ *             self.domain.check_pos(p = &self.queen.agent.state.left, foodbound = &self.queen.agent.state.foodbound) or
+ *             self.domain.check_pos(p = &self.queen.agent.state.right, foodbound = &self.queen.agent.state.foodbound)):
  */
   __pyx_t_2 = ((!((__pyx_v_self->queen->agent->state[0]).foodbound != 0)) != 0);
   if (__pyx_t_2) {
@@ -4799,51 +4808,60 @@ void __pyx_f_8cythonic_4core_14sim_controller_3Sim_check_target(struct __pyx_obj
     goto __pyx_L7_bool_binop_done;
   }
 
-  /* "cythonic/core/sim_controller.pyx":151
+  /* "cythonic/core/sim_controller.pyx":152
  * 
  *         elif (not self.queen.agent.state[0].foodbound) and (
- *             self.domain.check_pos(&self.queen.agent.state.left, True) or             # <<<<<<<<<<<<<<
- *             self.domain.check_pos(&self.queen.agent.state.right, True)):
- *             " back at the nest, reset the timer and count the event "
+ *             self.domain.check_pos(p = &self.queen.agent.state.left, foodbound = &self.queen.agent.state.foodbound) or             # <<<<<<<<<<<<<<
+ *             self.domain.check_pos(p = &self.queen.agent.state.right, foodbound = &self.queen.agent.state.foodbound)):
+ *             " back at the nest, reverse, reset the timer and count the event "
  */
-  __pyx_t_2 = (((struct __pyx_vtabstruct_8cythonic_4core_6domain_Domain *)__pyx_v_self->domain->__pyx_vtab)->check_pos(__pyx_v_self->domain, (&__pyx_v_self->queen->agent->state->left), 1) != 0);
+  __pyx_t_2 = (((struct __pyx_vtabstruct_8cythonic_4core_6domain_Domain *)__pyx_v_self->domain->__pyx_vtab)->check_pos(__pyx_v_self->domain, (&__pyx_v_self->queen->agent->state->left), (&__pyx_v_self->queen->agent->state->foodbound)) != 0);
   if (!__pyx_t_2) {
   } else {
     __pyx_t_1 = __pyx_t_2;
     goto __pyx_L7_bool_binop_done;
   }
 
-  /* "cythonic/core/sim_controller.pyx":152
+  /* "cythonic/core/sim_controller.pyx":153
  *         elif (not self.queen.agent.state[0].foodbound) and (
- *             self.domain.check_pos(&self.queen.agent.state.left, True) or
- *             self.domain.check_pos(&self.queen.agent.state.right, True)):             # <<<<<<<<<<<<<<
- *             " back at the nest, reset the timer and count the event "
- *             self.queen.agent.reverse()
+ *             self.domain.check_pos(p = &self.queen.agent.state.left, foodbound = &self.queen.agent.state.foodbound) or
+ *             self.domain.check_pos(p = &self.queen.agent.state.right, foodbound = &self.queen.agent.state.foodbound)):             # <<<<<<<<<<<<<<
+ *             " back at the nest, reverse, reset the timer and count the event "
+ *             self.queen.agent.state[0].foodbound = True # toggle state
  */
-  __pyx_t_2 = (((struct __pyx_vtabstruct_8cythonic_4core_6domain_Domain *)__pyx_v_self->domain->__pyx_vtab)->check_pos(__pyx_v_self->domain, (&__pyx_v_self->queen->agent->state->right), 1) != 0);
+  __pyx_t_2 = (((struct __pyx_vtabstruct_8cythonic_4core_6domain_Domain *)__pyx_v_self->domain->__pyx_vtab)->check_pos(__pyx_v_self->domain, (&__pyx_v_self->queen->agent->state->right), (&__pyx_v_self->queen->agent->state->foodbound)) != 0);
   __pyx_t_1 = __pyx_t_2;
   __pyx_L7_bool_binop_done:;
 
-  /* "cythonic/core/sim_controller.pyx":150
+  /* "cythonic/core/sim_controller.pyx":151
  *             self.queen.agent.state[0].time = 0.
  * 
  *         elif (not self.queen.agent.state[0].foodbound) and (             # <<<<<<<<<<<<<<
- *             self.domain.check_pos(&self.queen.agent.state.left, True) or
- *             self.domain.check_pos(&self.queen.agent.state.right, True)):
+ *             self.domain.check_pos(p = &self.queen.agent.state.left, foodbound = &self.queen.agent.state.foodbound) or
+ *             self.domain.check_pos(p = &self.queen.agent.state.right, foodbound = &self.queen.agent.state.foodbound)):
  */
   if (__pyx_t_1) {
 
-    /* "cythonic/core/sim_controller.pyx":154
- *             self.domain.check_pos(&self.queen.agent.state.right, True)):
- *             " back at the nest, reset the timer and count the event "
+    /* "cythonic/core/sim_controller.pyx":155
+ *             self.domain.check_pos(p = &self.queen.agent.state.right, foodbound = &self.queen.agent.state.foodbound)):
+ *             " back at the nest, reverse, reset the timer and count the event "
+ *             self.queen.agent.state[0].foodbound = True # toggle state             # <<<<<<<<<<<<<<
+ *             self.queen.agent.reverse()
+ *             self.nestcount += 1
+ */
+    (__pyx_v_self->queen->agent->state[0]).foodbound = 1;
+
+    /* "cythonic/core/sim_controller.pyx":156
+ *             " back at the nest, reverse, reset the timer and count the event "
+ *             self.queen.agent.state[0].foodbound = True # toggle state
  *             self.queen.agent.reverse()             # <<<<<<<<<<<<<<
  *             self.nestcount += 1
  *             self.queen.agent.state[0].time = 0.
  */
     ((struct __pyx_vtabstruct_8cythonic_4core_3ant_Ant *)__pyx_v_self->queen->agent->__pyx_vtab)->reverse(__pyx_v_self->queen->agent);
 
-    /* "cythonic/core/sim_controller.pyx":155
- *             " back at the nest, reset the timer and count the event "
+    /* "cythonic/core/sim_controller.pyx":157
+ *             self.queen.agent.state[0].foodbound = True # toggle state
  *             self.queen.agent.reverse()
  *             self.nestcount += 1             # <<<<<<<<<<<<<<
  *             self.queen.agent.state[0].time = 0.
@@ -4851,7 +4869,7 @@ void __pyx_f_8cythonic_4core_14sim_controller_3Sim_check_target(struct __pyx_obj
  */
     __pyx_v_self->nestcount = (__pyx_v_self->nestcount + 1);
 
-    /* "cythonic/core/sim_controller.pyx":156
+    /* "cythonic/core/sim_controller.pyx":158
  *             self.queen.agent.reverse()
  *             self.nestcount += 1
  *             self.queen.agent.state[0].time = 0.             # <<<<<<<<<<<<<<
@@ -4860,17 +4878,17 @@ void __pyx_f_8cythonic_4core_14sim_controller_3Sim_check_target(struct __pyx_obj
  */
     (__pyx_v_self->queen->agent->state[0]).time = 0.;
 
-    /* "cythonic/core/sim_controller.pyx":150
+    /* "cythonic/core/sim_controller.pyx":151
  *             self.queen.agent.state[0].time = 0.
  * 
  *         elif (not self.queen.agent.state[0].foodbound) and (             # <<<<<<<<<<<<<<
- *             self.domain.check_pos(&self.queen.agent.state.left, True) or
- *             self.domain.check_pos(&self.queen.agent.state.right, True)):
+ *             self.domain.check_pos(p = &self.queen.agent.state.left, foodbound = &self.queen.agent.state.foodbound) or
+ *             self.domain.check_pos(p = &self.queen.agent.state.right, foodbound = &self.queen.agent.state.foodbound)):
  */
     goto __pyx_L3;
   }
 
-  /* "cythonic/core/sim_controller.pyx":158
+  /* "cythonic/core/sim_controller.pyx":160
  *             self.queen.agent.state[0].time = 0.
  * 
  *         elif not self.domain.check_bounds(&self.queen.agent.state.pos):             # <<<<<<<<<<<<<<
@@ -4880,34 +4898,34 @@ void __pyx_f_8cythonic_4core_14sim_controller_3Sim_check_target(struct __pyx_obj
   __pyx_t_1 = ((!(((struct __pyx_vtabstruct_8cythonic_4core_6domain_Domain *)__pyx_v_self->domain->__pyx_vtab)->check_bounds(__pyx_v_self->domain, (&__pyx_v_self->queen->agent->state->pos)) != 0)) != 0);
   if (__pyx_t_1) {
 
-    /* "cythonic/core/sim_controller.pyx":161
- *             " change this 'elif' to 'if' when ant can go from out of bounds to nest/food in a single step"
+    /* "cythonic/core/sim_controller.pyx":164
  *             " ant is out of bounds "
+ *             # make sure the ant position does not violate domain constraint
  *             self.domain.constraint(&self.queen.agent.state.pos)             # <<<<<<<<<<<<<<
- *             self.queen.agent.out_of_bounds(1)
- *             self.queen.agent.set_sensors()
+ * 
+ *             # set the ant state
  */
     ((struct __pyx_vtabstruct_8cythonic_4core_6domain_Domain *)__pyx_v_self->domain->__pyx_vtab)->constraint(__pyx_v_self->domain, (&__pyx_v_self->queen->agent->state->pos));
 
-    /* "cythonic/core/sim_controller.pyx":162
- *             " ant is out of bounds "
- *             self.domain.constraint(&self.queen.agent.state.pos)
- *             self.queen.agent.out_of_bounds(1)             # <<<<<<<<<<<<<<
- *             self.queen.agent.set_sensors()
+    /* "cythonic/core/sim_controller.pyx":167
  * 
+ *             # set the ant state
+ *             self.queen.agent.out_of_bounds(1)             # <<<<<<<<<<<<<<
+ * 
+ *             # update sensor locations
  */
     ((struct __pyx_vtabstruct_8cythonic_4core_3ant_Ant *)__pyx_v_self->queen->agent->__pyx_vtab)->out_of_bounds(__pyx_v_self->queen->agent, 1);
 
-    /* "cythonic/core/sim_controller.pyx":163
- *             self.domain.constraint(&self.queen.agent.state.pos)
- *             self.queen.agent.out_of_bounds(1)
+    /* "cythonic/core/sim_controller.pyx":170
+ * 
+ *             # update sensor locations
  *             self.queen.agent.set_sensors()             # <<<<<<<<<<<<<<
  * 
  *         else:
  */
     ((struct __pyx_vtabstruct_8cythonic_4core_3ant_Ant *)__pyx_v_self->queen->agent->__pyx_vtab)->set_sensors(__pyx_v_self->queen->agent);
 
-    /* "cythonic/core/sim_controller.pyx":158
+    /* "cythonic/core/sim_controller.pyx":160
  *             self.queen.agent.state[0].time = 0.
  * 
  *         elif not self.domain.check_bounds(&self.queen.agent.state.pos):             # <<<<<<<<<<<<<<
@@ -4917,7 +4935,7 @@ void __pyx_f_8cythonic_4core_14sim_controller_3Sim_check_target(struct __pyx_obj
     goto __pyx_L3;
   }
 
-  /* "cythonic/core/sim_controller.pyx":166
+  /* "cythonic/core/sim_controller.pyx":173
  * 
  *         else:
  *             " make sure out_of_bounds flag is false "             # <<<<<<<<<<<<<<
@@ -4925,7 +4943,7 @@ void __pyx_f_8cythonic_4core_14sim_controller_3Sim_check_target(struct __pyx_obj
  */
   /*else*/ {
 
-    /* "cythonic/core/sim_controller.pyx":167
+    /* "cythonic/core/sim_controller.pyx":174
  *         else:
  *             " make sure out_of_bounds flag is false "
  *             self.queen.agent.out_of_bounds(0)             # <<<<<<<<<<<<<<

@@ -11,6 +11,7 @@ database/
 
 # C extensions
 *.so
+*.c # for cython compiled files
 
 .project #dbeaver config file
 

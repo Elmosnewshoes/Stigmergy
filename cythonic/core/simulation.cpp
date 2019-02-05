@@ -1448,7 +1448,7 @@ static struct __pyx_vtabstruct_8cythonic_4core_3map_GaussMap *__pyx_vtabptr_8cyt
 
 struct __pyx_vtabstruct_8cythonic_4core_6domain_Domain {
   void (*constraint)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_9positions_point *);
-  int (*check_pos)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_9positions_point *, int);
+  int (*check_pos)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_9positions_point *, int *);
   void (*init_gaussian)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, double, double);
   void (*fill_observations)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_12sens_structs_observations *, struct __pyx_t_8cythonic_7plugins_9positions_point *, struct __pyx_t_8cythonic_7plugins_9positions_point *);
   int (*check_bounds)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_9positions_point *);

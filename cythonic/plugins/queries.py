@@ -54,7 +54,7 @@ def new_sim():
     return insert("SIM") + " DEFAULT VALUES "
 
 def insert_stepupdates():
-    return "INSERT INTO STEP (SIM_ID, STEP_NR, ANT_ID, X, Y, THETA, Q) VALUES "
+    return "INSERT INTO STEP (SIM_ID, STEP_NR, ANT_ID, X, Y, THETA, Q) VALUES {VALUES}"
 
 def update_sim(sim_id, status = 'STARTED'):
     return f"UPDATE SIM SET STATUS = '{status}' WHERE ID = {sim_id} "

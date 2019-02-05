@@ -1496,7 +1496,7 @@ static struct __pyx_vtabstruct_8cythonic_4core_3map_GaussMap *__pyx_vtabptr_8cyt
 
 struct __pyx_vtabstruct_8cythonic_4core_6domain_Domain {
   void (*constraint)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_9positions_point *);
-  int (*check_pos)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_9positions_point *, int);
+  int (*check_pos)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_9positions_point *, int *);
   void (*init_gaussian)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, double, double);
   void (*fill_observations)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_12sens_structs_observations *, struct __pyx_t_8cythonic_7plugins_9positions_point *, struct __pyx_t_8cythonic_7plugins_9positions_point *);
   int (*check_bounds)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_9positions_point *);
@@ -2488,7 +2488,7 @@ void __pyx_f_8cythonic_4core_6domain_6Domain_fill_observations(struct __pyx_obj_
 void __pyx_f_8cythonic_4core_6domain_6Domain_init_gaussian(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, double __pyx_v_sigma, double __pyx_v_significancy); /* proto*/
 int __pyx_f_8cythonic_4core_6domain_6Domain_check_bounds(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, struct __pyx_t_8cythonic_7plugins_9positions_point *__pyx_v_p); /* proto*/
 void __pyx_f_8cythonic_4core_6domain_6Domain_constraint(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, struct __pyx_t_8cythonic_7plugins_9positions_point *__pyx_v_p); /* proto*/
-int __pyx_f_8cythonic_4core_6domain_6Domain_check_pos(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, struct __pyx_t_8cythonic_7plugins_9positions_point *__pyx_v_p, int __pyx_v_nest); /* proto*/
+int __pyx_f_8cythonic_4core_6domain_6Domain_check_pos(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, struct __pyx_t_8cythonic_7plugins_9positions_point *__pyx_v_p, int *__pyx_v_foodbound); /* proto*/
 double __pyx_f_8cythonic_4core_6domain_6Domain_probe_pheromone(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, struct __pyx_t_8cythonic_7plugins_9positions_point *__pyx_v_p); /* proto*/
 void __pyx_f_8cythonic_4core_6domain_6Domain_set_target_pheromone(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, double __pyx_v_target); /* proto*/
 void __pyx_f_8cythonic_4core_6domain_6Domain_evaporate(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, double *__pyx_v_tau); /* proto*/
@@ -3298,7 +3298,7 @@ void __pyx_f_8cythonic_4core_6domain_6Domain_constraint(struct __pyx_obj_8cython
  *         if p[0].y > self.size.y:
  *             p[0].y = self.size.y             # <<<<<<<<<<<<<<
  * 
- *     cdef readonly bint check_pos(self, point * p, bint nest):
+ *     cdef readonly bint check_pos(self, point * p, bint * foodbound):
  */
     __pyx_t_2 = __pyx_v_self->size.y;
     (__pyx_v_p[0]).y = __pyx_t_2;
@@ -3332,12 +3332,12 @@ void __pyx_f_8cythonic_4core_6domain_6Domain_constraint(struct __pyx_obj_8cython
 /* "cythonic/core/domain.pyx":41
  *             p[0].y = self.size.y
  * 
- *     cdef readonly bint check_pos(self, point * p, bint nest):             # <<<<<<<<<<<<<<
+ *     cdef readonly bint check_pos(self, point * p, bint * foodbound):             # <<<<<<<<<<<<<<
  *         " check wheter point is at nest(nest==True)/food(nest==False)"
- *         if nest:
+ *         if not foodbound[0]: #e.g. nestbound
  */
 
-int __pyx_f_8cythonic_4core_6domain_6Domain_check_pos(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, struct __pyx_t_8cythonic_7plugins_9positions_point *__pyx_v_p, int __pyx_v_nest) {
+int __pyx_f_8cythonic_4core_6domain_6Domain_check_pos(struct __pyx_obj_8cythonic_4core_6domain_Domain *__pyx_v_self, struct __pyx_t_8cythonic_7plugins_9positions_point *__pyx_v_p, int *__pyx_v_foodbound) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -3346,18 +3346,18 @@ int __pyx_f_8cythonic_4core_6domain_6Domain_check_pos(struct __pyx_obj_8cythonic
   __Pyx_TraceCall("check_pos", __pyx_f[0], 41, 0, __PYX_ERR(0, 41, __pyx_L1_error));
 
   /* "cythonic/core/domain.pyx":43
- *     cdef readonly bint check_pos(self, point * p, bint nest):
+ *     cdef readonly bint check_pos(self, point * p, bint * foodbound):
  *         " check wheter point is at nest(nest==True)/food(nest==False)"
- *         if nest:             # <<<<<<<<<<<<<<
+ *         if not foodbound[0]: #e.g. nestbound             # <<<<<<<<<<<<<<
  *             if (p[0].x-self.nest_location.x)**2+(p[0].y-self.nest_location.y)**2<= self.nest_radius**2:
  *                 return True
  */
-  __pyx_t_1 = (__pyx_v_nest != 0);
+  __pyx_t_1 = ((!((__pyx_v_foodbound[0]) != 0)) != 0);
   if (__pyx_t_1) {
 
     /* "cythonic/core/domain.pyx":44
  *         " check wheter point is at nest(nest==True)/food(nest==False)"
- *         if nest:
+ *         if not foodbound[0]: #e.g. nestbound
  *             if (p[0].x-self.nest_location.x)**2+(p[0].y-self.nest_location.y)**2<= self.nest_radius**2:             # <<<<<<<<<<<<<<
  *                 return True
  *             else:
@@ -3366,7 +3366,7 @@ int __pyx_f_8cythonic_4core_6domain_6Domain_check_pos(struct __pyx_obj_8cythonic
     if (__pyx_t_1) {
 
       /* "cythonic/core/domain.pyx":45
- *         if nest:
+ *         if not foodbound[0]: #e.g. nestbound
  *             if (p[0].x-self.nest_location.x)**2+(p[0].y-self.nest_location.y)**2<= self.nest_radius**2:
  *                 return True             # <<<<<<<<<<<<<<
  *             else:
@@ -3377,7 +3377,7 @@ int __pyx_f_8cythonic_4core_6domain_6Domain_check_pos(struct __pyx_obj_8cythonic
 
       /* "cythonic/core/domain.pyx":44
  *         " check wheter point is at nest(nest==True)/food(nest==False)"
- *         if nest:
+ *         if not foodbound[0]: #e.g. nestbound
  *             if (p[0].x-self.nest_location.x)**2+(p[0].y-self.nest_location.y)**2<= self.nest_radius**2:             # <<<<<<<<<<<<<<
  *                 return True
  *             else:
@@ -3388,7 +3388,7 @@ int __pyx_f_8cythonic_4core_6domain_6Domain_check_pos(struct __pyx_obj_8cythonic
  *                 return True
  *             else:
  *                 return False             # <<<<<<<<<<<<<<
- *         else:
+ *         else: # e.g. foodbound
  *             if (p[0].x-self.food_location.x)**2+(p[0].y-self.food_location.y)**2<= self.food_radius**2:
  */
     /*else*/ {
@@ -3397,9 +3397,9 @@ int __pyx_f_8cythonic_4core_6domain_6Domain_check_pos(struct __pyx_obj_8cythonic
     }
 
     /* "cythonic/core/domain.pyx":43
- *     cdef readonly bint check_pos(self, point * p, bint nest):
+ *     cdef readonly bint check_pos(self, point * p, bint * foodbound):
  *         " check wheter point is at nest(nest==True)/food(nest==False)"
- *         if nest:             # <<<<<<<<<<<<<<
+ *         if not foodbound[0]: #e.g. nestbound             # <<<<<<<<<<<<<<
  *             if (p[0].x-self.nest_location.x)**2+(p[0].y-self.nest_location.y)**2<= self.nest_radius**2:
  *                 return True
  */
@@ -3407,7 +3407,7 @@ int __pyx_f_8cythonic_4core_6domain_6Domain_check_pos(struct __pyx_obj_8cythonic
 
   /* "cythonic/core/domain.pyx":49
  *                 return False
- *         else:
+ *         else: # e.g. foodbound
  *             if (p[0].x-self.food_location.x)**2+(p[0].y-self.food_location.y)**2<= self.food_radius**2:             # <<<<<<<<<<<<<<
  *                 return True
  *             else:
@@ -3417,7 +3417,7 @@ int __pyx_f_8cythonic_4core_6domain_6Domain_check_pos(struct __pyx_obj_8cythonic
     if (__pyx_t_1) {
 
       /* "cythonic/core/domain.pyx":50
- *         else:
+ *         else: # e.g. foodbound
  *             if (p[0].x-self.food_location.x)**2+(p[0].y-self.food_location.y)**2<= self.food_radius**2:
  *                 return True             # <<<<<<<<<<<<<<
  *             else:
@@ -3428,7 +3428,7 @@ int __pyx_f_8cythonic_4core_6domain_6Domain_check_pos(struct __pyx_obj_8cythonic
 
       /* "cythonic/core/domain.pyx":49
  *                 return False
- *         else:
+ *         else: # e.g. foodbound
  *             if (p[0].x-self.food_location.x)**2+(p[0].y-self.food_location.y)**2<= self.food_radius**2:             # <<<<<<<<<<<<<<
  *                 return True
  *             else:
@@ -3451,9 +3451,9 @@ int __pyx_f_8cythonic_4core_6domain_6Domain_check_pos(struct __pyx_obj_8cythonic
   /* "cythonic/core/domain.pyx":41
  *             p[0].y = self.size.y
  * 
- *     cdef readonly bint check_pos(self, point * p, bint nest):             # <<<<<<<<<<<<<<
+ *     cdef readonly bint check_pos(self, point * p, bint * foodbound):             # <<<<<<<<<<<<<<
  *         " check wheter point is at nest(nest==True)/food(nest==False)"
- *         if nest:
+ *         if not foodbound[0]: #e.g. nestbound
  */
 
   /* function exit code */
@@ -22070,7 +22070,7 @@ static int __Pyx_modinit_type_init_code(void) {
   /*--- Type init code ---*/
   __pyx_vtabptr_8cythonic_4core_6domain_Domain = &__pyx_vtable_8cythonic_4core_6domain_Domain;
   __pyx_vtable_8cythonic_4core_6domain_Domain.constraint = (void (*)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_9positions_point *))__pyx_f_8cythonic_4core_6domain_6Domain_constraint;
-  __pyx_vtable_8cythonic_4core_6domain_Domain.check_pos = (int (*)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_9positions_point *, int))__pyx_f_8cythonic_4core_6domain_6Domain_check_pos;
+  __pyx_vtable_8cythonic_4core_6domain_Domain.check_pos = (int (*)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_9positions_point *, int *))__pyx_f_8cythonic_4core_6domain_6Domain_check_pos;
   __pyx_vtable_8cythonic_4core_6domain_Domain.init_gaussian = (void (*)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, double, double))__pyx_f_8cythonic_4core_6domain_6Domain_init_gaussian;
   __pyx_vtable_8cythonic_4core_6domain_Domain.fill_observations = (void (*)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_12sens_structs_observations *, struct __pyx_t_8cythonic_7plugins_9positions_point *, struct __pyx_t_8cythonic_7plugins_9positions_point *))__pyx_f_8cythonic_4core_6domain_6Domain_fill_observations;
   __pyx_vtable_8cythonic_4core_6domain_Domain.check_bounds = (int (*)(struct __pyx_obj_8cythonic_4core_6domain_Domain *, struct __pyx_t_8cythonic_7plugins_9positions_point *))__pyx_f_8cythonic_4core_6domain_6Domain_check_bounds;

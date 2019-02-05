@@ -101,7 +101,7 @@ cdef class Sim:
             # deposit the pheromone
 
         for i in range(self.queen.count_active):
-            #target ant
+            # target an ant
             self.queen.assign_state(&i)
 
             #sense (queen/domain)
@@ -140,17 +140,19 @@ cdef class Sim:
         """
         " ===== WARNING: assumption, ant cannot go from out of bounds to nest/food in a single step ====="
         if self.queen.agent.state[0].foodbound and (
-             self.domain.check_pos(&self.queen.agent.state.left, False) or
-             self.domain.check_pos(&self.queen.agent.state.right, False)):
-            " found food!, reset the timer and count the event "
+             self.domain.check_pos(p = &self.queen.agent.state.left, foodbound = &self.queen.agent.state.foodbound) or
+             self.domain.check_pos(p = &self.queen.agent.state.right, foodbound = &self.queen.agent.state.foodbound)):
+            " found food!, reverse, reset the timer and count the event "
+            self.queen.agent.state[0].foodbound = False #toggle state
             self.queen.agent.reverse()
             self.foodcount+=1
             self.queen.agent.state[0].time = 0.
 
         elif (not self.queen.agent.state[0].foodbound) and (
-            self.domain.check_pos(&self.queen.agent.state.left, True) or
-            self.domain.check_pos(&self.queen.agent.state.right, True)):
-            " back at the nest, reset the timer and count the event "
+            self.domain.check_pos(p = &self.queen.agent.state.left, foodbound = &self.queen.agent.state.foodbound) or
+            self.domain.check_pos(p = &self.queen.agent.state.right, foodbound = &self.queen.agent.state.foodbound)):
+            " back at the nest, reverse, reset the timer and count the event "
+            self.queen.agent.state[0].foodbound = True # toggle state
             self.queen.agent.reverse()
             self.nestcount += 1
             self.queen.agent.state[0].time = 0.
@@ -158,8 +160,13 @@ cdef class Sim:
         elif not self.domain.check_bounds(&self.queen.agent.state.pos):
             " change this 'elif' to 'if' when ant can go from out of bounds to nest/food in a single step"
             " ant is out of bounds "
+            # make sure the ant position does not violate domain constraint
             self.domain.constraint(&self.queen.agent.state.pos)
+
+            # set the ant state
             self.queen.agent.out_of_bounds(1)
+
+            # update sensor locations
             self.queen.agent.set_sensors()
 
         else:

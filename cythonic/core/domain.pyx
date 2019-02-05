@@ -38,14 +38,14 @@ cdef class Domain:
         if p[0].y > self.size.y:
             p[0].y = self.size.y
 
-    cdef readonly bint check_pos(self, point * p, bint nest):
+    cdef readonly bint check_pos(self, point * p, bint * foodbound):
         " check wheter point is at nest(nest==True)/food(nest==False)"
-        if nest:
+        if not foodbound[0]: #e.g. nestbound
             if (p[0].x-self.nest_location.x)**2+(p[0].y-self.nest_location.y)**2<= self.nest_radius**2:
                 return True
             else:
                 return False
-        else:
+        else: # e.g. foodbound
             if (p[0].x-self.food_location.x)**2+(p[0].y-self.food_location.y)**2<= self.food_radius**2:
                 return True
             else:
