@@ -11,7 +11,10 @@ database/
 
 # C extensions
 *.so
-*.c # for cython compiled files
+
+ # ignore cython compiled c/c++ files
+*.c
+*.cpp
 
 .project #dbeaver config file
 
