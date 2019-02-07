@@ -75,7 +75,7 @@ cdef class sim_recorder(Sim):
         # === end loop ===
 
         result = {'sim_id': self.id,'foodcount': self.foodcount, 'nestcount': self.nestcount,
-               'entropy_vec': '', 'start_entropy': '', 'end_entropy': ''}
+               'entropy_vec': 'NULL', 'start_entropy': 'NULL', 'end_entropy': 'NULL'}
         self.db.execute(queries.insert_results(**result))
         self.db.execute(queries.update_sim(self.id, status = 'FINISHED'))
         return result

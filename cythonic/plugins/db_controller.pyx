@@ -46,6 +46,7 @@ cdef class db_controller():
             cursor.execute(qry)
             self.db.commit()
         except Exception as error:
+            print(qry)
             self.db.close()
             raise error
 
