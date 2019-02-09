@@ -1,14 +1,7 @@
 from cythonic.core.sim_recorder cimport sim_recorder
 from time import time
 cimport cython
-
-@cython.wraparound(True)
-def db_path():
-    " return the full path to the database "
-    import inspect
-    from cythonic.database.__init__ import dummy
-    path = inspect.getabsfile(dummy)
-    return '/'.join(path.split('/')[:-1])+'/'
+from cythonic.plugins.db_path import db_path
 
 cdef class recorder(sim_recorder):
     def __init__(self,queen_args, domain_args, sim_args):

@@ -104,7 +104,7 @@ class plotter:
         self.fig, self.axes = plt.subplots(n,1)
         self.figs = []
         self.fig.tight_layout()
-        plt.show()
+        self.fig.canvas.draw()
         for obj in obj_list:
             self.vecs.append([obj.weights,obj.weights])
             self.x.append(obj.opts)
@@ -119,9 +119,11 @@ class plotter:
                 # self.figs[i].remove()
             except:
                 pass
-            self.figs[i] = self.axes[i].imshow(self.vecs[i],vmin=0,extent=(self.x[i][0],self.x[i][-1],0,1))
+            self.figs[i] = self.axes[i].matshow(self.vecs[i],vmin=0,extent=(self.x[i][0],self.x[i][-1],0,1))
             self.axes[i].set_xlabel(obj_list[i].name)
-            self.fig.canvas.draw()
+            plt.pause(0.005)
+            # self.fig.canvas.draw()
+            # plt.draw()
 
 import time
 

@@ -55,23 +55,42 @@ cdef class sim_recorder(Sim):
                                   self.queen.state_list[i].pos.y, self.queen.state_list[i].theta,
                                   self.queen.drop_quantity[i]))
 
+    cdef void record_step(self, unsigned int stepnr):
+        " record the state at each step "
+        self.extract_antstate(stepnr) #append query with current ant_state
+        if i>0 and (i==self.steps-1 or i%self.update_interval ==0):
+            # check if results must be pushed to the database
+            self.db.executemany(self.pending_qry, self.qry_args)
+            self.flush_resultset() # start with a fresh query string
+
+
     cdef dict run_sim(self, bint record):
         " run the simulation "
-        cdef unsigned int i
+        cdef unsigned int i #stepcounter
+        cdef double start_entropy = self.domain.entropy()
+        cdef double end_entropy = 0
+        cdef unsigned int stepupdates = 0
+        cdef k_vec = np.arange(0,self.steps+1, int(np.ceil(self.steps/12)))
+        k_vec[len(k_vec)-1] = self.steps+1
         if record:
             self.db.execute(f"UPDATE sim SET RECORDING = 'TRUE' WHERE ID = {self.id}")
         self.db.execute(queries.update_sim(self.id, status = 'STARTED'))
 
         # === loop ===
         for i in range(self.steps+1):
-            self.sim_step()
+            self.sim_step() # do the stepping
             if record:
-                # check if the recording flag is true: store the ant state
-                self.extract_antstate(i)
-                if i>0 and (i == self.steps-1 or i%self.update_interval == 0):
-                    # check if results are to be pushed to the database
-                    self.db.executemany(self.pending_qry,self.qry_args)
-                    self.flush_resultset() # start with a fresh query
+                # do the recording
+                self.record_step(i)
+
+            # if record:
+            #     # check if the recording flag is true: store the ant state
+            #     self.extract_antstate(i)
+            #     stepupdates+=self.queen.count_active # keep track of total steps performed
+            #     if i>0 and (i == self.steps-1 or i%self.update_interval == 0):
+            #         # check if results are to be pushed to the database
+            #         self.db.executemany(self.pending_qry,self.qry_args)
+            #         self.flush_resultset() # start with a fresh query
         # === end loop ===
 
         result = {'sim_id': self.id,'foodcount': self.foodcount, 'nestcount': self.nestcount,

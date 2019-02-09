@@ -54,10 +54,24 @@ cdef class db_controller():
         " manually close the connection (useful when errors occur halfway a simulation)"
         self.db.close()
 
+    def return_all(self, str qry):
+        " return all rows from a select query "
+        cdef object cursor = self.db.cursor()
+        try:
+            cursor.execute(qry)
+            headers = [hdr[0] for hdr in cursor.description ]
+            rows = cursor.fetchall()
+            if len(rows) ==0:
+                raise ValueError('No rows returned')
+        except Exception as error:
+            print(qry)
+            self.db.close()
+            raise error
+        return rows, headers
+
     def print_all(self,str qry):
         " Print all results from a select qry "
-        cursor = self.db.cursor()
-        cursor.execute(qry)
-        rows = cursor.fetchall()
+        rows, headers = self.return_all(qry)
+        print(headers)
         for row in rows:
             print(row)

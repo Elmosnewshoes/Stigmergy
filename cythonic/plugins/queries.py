@@ -56,8 +56,11 @@ def new_sim():
 def insert_stepupdates():
     return "INSERT INTO STEP (SIM_ID, STEP_NR, ANT_ID, X, Y, THETA, Q) VALUES {VALUES}"
 
-def update_sim(sim_id, status = 'STARTED'):
-    return f"UPDATE SIM SET STATUS = '{status}' WHERE ID = {sim_id} "
+def update_sim(sim_id, status = 'STARTED', steps = 'NULL'):
+    return f"UPDATE SIM SET STATUS = '{status}', steps_recorded = {steps} WHERE ID = {sim_id} "
+
+def get_settings(sim_id, table):
+    return f"SELECT * FROM {table} WHERE {table}.sim_id = {sim_id}"
 
 if __name__ == '__main__':
     from dummy_dicts import ant_dict, queen_dict, domain_dict
