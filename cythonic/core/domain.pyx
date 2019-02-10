@@ -94,6 +94,10 @@ cdef class Domain:
             for j in range(J):
                 self.Map.map[i,j] *=x
 
+    cdef readonly double entropy(self):
+        " wraps Map.entropy method for easy coding "
+        return self.Map.entropy()
+
     cdef readonly void pyvaporate(self):
         " evaporate the python way with constant volume"
         self.Map.map = np.dot(self.Map.map,self.target_pheromone/np.array(self.Map.map).sum())

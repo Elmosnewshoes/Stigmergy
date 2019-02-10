@@ -5,12 +5,8 @@ cimport numpy as np
 import numpy as np
 from cythonic.plugins.positions cimport point, index, map_range
 from libc.math cimport lrint # round double, cast as long
-cimport cython
+from libc.math cimport log2 as clog2
 
-@cython.cdivision(True)
-@cython.wraparound(False)
-@cython.boundscheck(False)
-@cython.nonecheck(False)
 cdef class Map:
     """ base class for a meshgrid and some supporting functions """
     "map == 2D array map[x,y]"
@@ -65,6 +61,21 @@ cdef class Map:
                 if self.map[i,j]> m:
                     m=self.map[i,j]
         return m
+
+    cdef readonly double entropy(self):
+        cdef unsigned int i,j,I,J
+        (I,J) = self.map.shape[:2] # domain
+        cdef double h = 0. # entropy
+        cdef double T = self.sum() # sum of pheromones
+        if T <= 0.0:
+            raise ValueError('Sum of pheromone map <= 0')
+        for i in range(I):
+            for j in range(J):
+                if self.map[i,j]<= 1e-10:
+                    " check if nothing goes wrong here "
+                    raise ValueError('Error calculating the entropy of the map: log of nearzero number is ill-defined')
+                h-= self.map[i,j]/T*clog2(self.map[i,j]/T)
+        return h
 
     def __repr__(self):
         " print useful information "

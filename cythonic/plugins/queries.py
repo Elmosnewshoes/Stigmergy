@@ -32,12 +32,16 @@ def insert_deposit(sim_id, q, return_factor, beta, **kwargs):
     return output
 
 def insert_results(sim_id, entropy_vec = 'NULL', start_entropy = 'NULL',end_entropy = 'NULL',
-                   foodcount = 'NULL', nestcount = 'NULL', **kwargs):
+                   foodcount = 'NULL', nestcount = 'NULL',scorecard='NULL',step_vec='NULL', **kwargs):
     if entropy_vec !='NULL':
         # add string identifiers!
         entropy_vec = f"'{entropy_vec}'"
-    output = insert('results') + "(sim_id, entropy_vec, start_entropy, end_entropy, foodcount, nestcount) "
-    output+= f"VALUES ({sim_id}, {entropy_vec}, {start_entropy}, {end_entropy}, {foodcount}, {nestcount})"
+    if scorecard !='NULL':
+        scorecard = f"'{scorecard}'"
+    if step_vec  !='NULL':
+        step_vec = f"'{step_vec}'"
+    output = insert('results') + "(sim_id, entropy_vec, start_entropy, end_entropy, foodcount, nestcount, scorecard) "
+    output+= f"VALUES ({sim_id}, {entropy_vec}, {start_entropy}, {end_entropy}, {foodcount}, {nestcount},{scorecard})"
     return output
 
 def insert_sens(sim_id, breakpoint, exp_lambda, **kwargs):

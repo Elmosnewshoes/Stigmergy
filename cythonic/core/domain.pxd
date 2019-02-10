@@ -23,4 +23,5 @@ cdef class Domain:
         readonly void evaporate(self, double * tau)
         readonly void pyvaporate(self)
         readonly void cvaporate(self)
+        readonly double entropy(self)
         readonly void set_target_pheromone(self,double target)

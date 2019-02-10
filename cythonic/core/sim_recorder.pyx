@@ -1,5 +1,6 @@
 import json
 from cythonic.plugins import queries
+import numpy as np
 
 cdef class sim_recorder(Sim):
     def __init__(self,queen_args, domain_args, sim_args):
@@ -58,7 +59,7 @@ cdef class sim_recorder(Sim):
     cdef void record_step(self, unsigned int stepnr):
         " record the state at each step "
         self.extract_antstate(stepnr) #append query with current ant_state
-        if i>0 and (i==self.steps-1 or i%self.update_interval ==0):
+        if stepnr>0 and (stepnr==self.steps-1 or stepnr%self.update_interval ==0):
             # check if results must be pushed to the database
             self.db.executemany(self.pending_qry, self.qry_args)
             self.flush_resultset() # start with a fresh query string
@@ -68,10 +69,11 @@ cdef class sim_recorder(Sim):
         " run the simulation "
         cdef unsigned int i #stepcounter
         cdef double start_entropy = self.domain.entropy()
-        cdef double end_entropy = 0
-        cdef unsigned int stepupdates = 0
-        cdef k_vec = np.arange(0,self.steps+1, int(np.ceil(self.steps/12)))
-        k_vec[len(k_vec)-1] = self.steps+1
+        cdef double end_entropy = 0 #placeholder for resulting entropy
+        cdef unsigned int stepupdates = 0 #counter for storing the result
+        cdef unsigned int[:] k_vec = np.arange(0,self.steps+1, <unsigned int>int(np.ceil(self.steps/12)), dtype = np.uint32)
+        k_vec[len(k_vec)-1] = self.steps+1 #make sure the last performance sample is taken at the last step
+        cdef list entropy_vec = [], nestcount_vec = []
         if record:
             self.db.execute(f"UPDATE sim SET RECORDING = 'TRUE' WHERE ID = {self.id}")
         self.db.execute(queries.update_sim(self.id, status = 'STARTED'))
@@ -81,20 +83,21 @@ cdef class sim_recorder(Sim):
             self.sim_step() # do the stepping
             if record:
                 # do the recording
-                self.record_step(i)
+                if i == k_vec[stepupdates]:
+                    # this iteration the result vector is appended
+                    entropy_vec.append(round(self.domain.entropy(),3))
+                    nestcount_vec.append(self.nestcount)
+                    stepupdates+=1 # increase the vector index
 
-            # if record:
-            #     # check if the recording flag is true: store the ant state
-            #     self.extract_antstate(i)
-            #     stepupdates+=self.queen.count_active # keep track of total steps performed
-            #     if i>0 and (i == self.steps-1 or i%self.update_interval == 0):
-            #         # check if results are to be pushed to the database
-            #         self.db.executemany(self.pending_qry,self.qry_args)
-            #         self.flush_resultset() # start with a fresh query
+                self.record_step(i)
         # === end loop ===
 
+        # store results:
+        end_entropy = self.domain.entropy()
+
         result = {'sim_id': self.id,'foodcount': self.foodcount, 'nestcount': self.nestcount,
-               'entropy_vec': 'NULL', 'start_entropy': 'NULL', 'end_entropy': 'NULL'}
+               'entropy_vec': entropy_vec, 'start_entropy': round(start_entropy,3), 'end_entropy': round(end_entropy,3),
+                'scorecard':nestcount_vec, 'step_vec':np.asarray(k_vec).tolist()}
         self.db.execute(queries.insert_results(**result))
         self.db.execute(queries.update_sim(self.id, status = 'FINISHED'))
         return result
