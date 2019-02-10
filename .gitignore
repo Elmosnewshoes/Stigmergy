@@ -9,6 +9,9 @@ recordings/
 database/
 *.db
 
+# old files of the ANT project
+dev_null
+
 # C extensions
 *.so
 
