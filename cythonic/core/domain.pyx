@@ -115,7 +115,7 @@ cdef class Domain:
 #                 mp[offset_y+i,offset_x+j]+=Q[0]*gauss[i+s.y[0], j+s.x[0]]
 
 
-    def __cinit__(self,size,pitch,nest_loc, nest_rad, food_loc, food_rad, target_pheromone = 1.):
+    def __cinit__(self,size,pitch,nest_loc, nest_rad, food_loc, food_rad, target_pheromone = 1., **kwargs):
         self.size = point(size[0],size[1])
         self.nest_location = point(nest_loc[0],nest_loc[1])
         self.food_location = point(food_loc[0],food_loc[1])

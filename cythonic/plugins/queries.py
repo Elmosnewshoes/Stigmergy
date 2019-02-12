@@ -66,6 +66,14 @@ def update_sim(sim_id, status = 'STARTED', steps = 'NULL'):
 def get_settings(sim_id, table):
     return f"SELECT * FROM {table} WHERE {table}.sim_id = {sim_id}"
 
+def get_steps(sim_id):
+    qry = f"""select step.step_nr, step.ant_id, x,y,theta, Q
+                from sim
+                left join step on step.sim_id = sim.ID where sim.id = {sim_id}
+                order by
+                step.step_nr ASC, step.ant_id ASC"""
+    return qry
+
 if __name__ == '__main__':
     from dummy_dicts import ant_dict, queen_dict, domain_dict
     print(insert_queen(1, **queen_dict))

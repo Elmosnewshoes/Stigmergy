@@ -1,7 +1,7 @@
 import sqlite3
 from cythonic.plugins.queries import new_sim
 cimport cython
-
+from pandas import read_sql
 
 cdef class db_controller():
     @cython.wraparound(True) #else cannot use listindex:-1
@@ -14,6 +14,14 @@ cdef class db_controller():
 
         "connect to the database"
         self.db = sqlite3.connect(db_path+db_name)
+
+    def get_df(self,qry):
+        " return the qry result as dataframe"
+        try:
+            return read_sql(qry, self.db, )
+        except Exception as error:
+            self.db.close()
+            raise error
 
     cdef unsigned int new_sim_id(self,):
         " start logging of sim in sqlite database, get ID of simulation "

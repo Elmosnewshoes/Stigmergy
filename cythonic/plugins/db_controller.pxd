@@ -1,6 +1,6 @@
 cdef class db_controller():
     # class attribute
-    cdef object db
+    cdef readonly object db
 
     # class methods
     cdef readonly unsigned int new_sim_id(self,)
