@@ -25,3 +25,4 @@ cdef class Domain:
         readonly void cvaporate(self)
         readonly double entropy(self)
         readonly void set_target_pheromone(self,double target)
+        readonly void reset(self)

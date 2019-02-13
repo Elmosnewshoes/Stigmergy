@@ -40,8 +40,8 @@ def insert_results(sim_id, entropy_vec = 'NULL', start_entropy = 'NULL',end_entr
         scorecard = f"'{scorecard}'"
     if step_vec  !='NULL':
         step_vec = f"'{step_vec}'"
-    output = insert('results') + "(sim_id, entropy_vec, start_entropy, end_entropy, foodcount, nestcount, scorecard) "
-    output+= f"VALUES ({sim_id}, {entropy_vec}, {start_entropy}, {end_entropy}, {foodcount}, {nestcount},{scorecard})"
+    output = insert('results') + "(sim_id, entropy_vec, start_entropy, end_entropy, foodcount, nestcount, scorecard, step_vec) "
+    output+= f"VALUES ({sim_id}, {entropy_vec}, {start_entropy}, {end_entropy}, {foodcount}, {nestcount},{scorecard},{step_vec})"
     return output
 
 def insert_sens(sim_id, breakpoint, exp_lambda, **kwargs):

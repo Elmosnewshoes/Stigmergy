@@ -26,14 +26,15 @@ cdef class SimPlayer:
         self.db = db_controller(db_path, db_name)
         self.id = sim_id
 
-        d,h = self.db.return_all(get_settings(sim_id, 'sim_settings'))
+        # d,h = self.db.return_all(get_settings(sim_id, 'sim_settings'))
+        " extract settings yields a dictionary with parameter-value combinations"
         sim_settings = extract_settings(*self.db.return_all(get_settings(sim_id,'sim_settings')))
         ant_settings = extract_settings(*self.db.return_all(get_settings(sim_id,'ant_settings')))
-        dom_settings = extract_settings(*self.db.return_all(get_settings(sim_id,'domain_settings')))
         gauss_settings = extract_settings(*self.db.return_all(get_settings(sim_id,'gauss_settings')))
 
         self.evap_rate = sim_settings['evap_rate']
         self.n_agents = sim_settings['n_agents']
+        self.steps = sim_settings['steps']
         self.ant_size = ant_settings['l']
         self.sens_offset = ant_settings['sens_offset']
         self.positions = np.zeros([self.n_agents,2],dtype = np.float_)
@@ -43,12 +44,13 @@ cdef class SimPlayer:
 
 
         " initialize the objects "
-        self.init_domain(dom_settings)
+        self.init_domain()
         self.init_gaussian(gauss_settings)
         self.count_active = 0
 
-    def init_domain(self,dict domain_dict):
+    def init_domain(self,):
         " extract the query into useable initialization parameters "
+        domain_dict = extract_settings(*self.db.return_all(get_settings(self.id,'domain_settings')))
         del domain_dict['sim_id'] # remove sim_id from dict
         cdef dict dom_dict = {}
         for key, value in domain_dict.items():
@@ -66,11 +68,31 @@ cdef class SimPlayer:
     def get_steps(self ):
         " get dataframe from qry "
         qry = get_steps(self.id)
-        self.steps = self.db.get_df(qry)
+        self.ant_steps = self.db.get_df(qry)
+
+    def get_results(self,):
+        results = extract_settings(*self.db.return_all(get_settings(self.id,'results')))
+        " check if step_vec, scorecard and entropy_vec are not NULL, then store as object attribute "
+        if results['step_vec']:
+            self.steplist = np.asarray(eval(results['step_vec']),dtype=np.uint32)
+            if not results['scorecard']:
+                " no results in query "
+                self.nestcount = np.zeros(self.steplist.shape[0], dtype = np.uint32)
+            else:
+                self.nestcount = np.asarray(eval(results['scorecard']),dtype = np.uint32)
+            if not results['entropy_vec']:
+                " no results in query "
+                self.entropy = np.zeros(self.steplist.shape[0], dtype = np.float_)
+            else:
+                self.entropy = np.asarray(eval(results['entropy_vec']),dtype = np.float_)
 
     cpdef void next(self,):
         self.step(self.cur_step)
         self.cur_step+=1
+
+    cpdef void renew(self,):
+        self.cur_step = 0
+        self.domain.reset()
 
 
     cdef void step(self, unsigned int stepnr):
@@ -78,7 +100,7 @@ cdef class SimPlayer:
         cdef double x,y, theta, q
         cdef point pos
         cdef unsigned int i = 0 # iterator for positions, headings, lefts and rights
-        for row in self.steps[self.steps['STEP_NR']== stepnr].itertuples(index = False):
+        for row in self.ant_steps[self.ant_steps['STEP_NR']== stepnr].itertuples(index = False):
             pos.x = row.X
             pos.y = row.Y
             theta = row.THETA
@@ -94,13 +116,35 @@ cdef class SimPlayer:
 
             i+=1
         self.domain.evaporate(tau = &self.evap_rate)
-        self.count_active = i
+        self.count_active = i # keep track of how many ants are stepping each iteration
 
     def run_until(self, lim):
         " return the map at a certain stage "
         while self.cur_step < lim:
             self.next()
         return self.map
+
+    @property
+    def H(self ):
+        " return result entropy vector from k==0 up to and including K==cur_step "
+        return np.asarray(self.entropy)[np.asarray(self.steplist)<=self.cur_step]
+    @property
+    def K(self ):
+        " return result step vector from k==0 up to and including K==cur_step "
+        return np.asarray(self.steplist)[np.asarray(self.steplist)<=self.cur_step]
+    @property
+    def score(self ):
+        return np.asarray(self.nestcount)[np.asarray(self.steplist)<=self.cur_step]
+
+    @property
+    def H_vec(self):
+        return np.asarray(self.entropy)
+    @property
+    def K_vec(self):
+        return np.asarray(self.steplist)
+    @property
+    def score_vec(self):
+        return np.asarray(self.nestcount)
 
     @property
     def pos_x(self):

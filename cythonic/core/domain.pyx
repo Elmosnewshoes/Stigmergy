@@ -114,6 +114,9 @@ cdef class Domain:
                 self.Map.map[offset_y+i,offset_x+j]+=Q[0]*self.Gaussian.map[i+s.y[0], j+s.x[0]]
 #                 mp[offset_y+i,offset_x+j]+=Q[0]*gauss[i+s.y[0], j+s.x[0]]
 
+    cdef void reset(self):
+        " reset the map "
+        self.Map = MeshMap(dim=np.asarray([self.size.x,self.size.y], dtype = np.float_), resolution = self.Map.pitch)
 
     def __cinit__(self,size,pitch,nest_loc, nest_rad, food_loc, food_rad, target_pheromone = 1., **kwargs):
         self.size = point(size[0],size[1])
