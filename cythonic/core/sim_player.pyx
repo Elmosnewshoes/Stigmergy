@@ -33,6 +33,7 @@ cdef class SimPlayer:
         gauss_settings = extract_settings(*self.db.return_all(get_settings(sim_id,'gauss_settings')))
 
         self.evap_rate = sim_settings['evap_rate']
+        self.dt = sim_settings['dt']
         self.n_agents = sim_settings['n_agents']
         self.steps = sim_settings['steps']
         self.ant_size = ant_settings['l']
@@ -113,7 +114,7 @@ cdef class SimPlayer:
             self.domain.add_pheromone(p = &pos, Q = &q)
 
             i+=1
-        self.domain.evaporate(tau = &self.evap_rate)
+        self.domain.evaporate(tau = &self.evap_rate, dt = &self.dt)
         self.count_active = i # keep track of how many ants are stepping each iteration
 
     cdef void reset_vectors(self):

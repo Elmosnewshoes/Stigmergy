@@ -20,7 +20,7 @@ cdef class Domain:
         readonly bint check_bounds(self, point * p)
         readonly double probe_pheromone(self,point*)
         readonly void add_pheromone(self,point *p, double *Q)
-        readonly void evaporate(self, double * tau)
+        readonly void evaporate(self, double * tau, double * dt)
         readonly void pyvaporate(self)
         readonly void cvaporate(self)
         readonly double entropy(self)

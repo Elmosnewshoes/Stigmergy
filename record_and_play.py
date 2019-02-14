@@ -4,9 +4,9 @@ from cythonic.plugins.dummy_dicts import ant_dict, queen_dict, domain_dict, gaus
 
 sim_dict['steps'] = 1000
 # domain_dict['pitch']=2
-deposit_dict['q'] = 100
-ant_dict['gain'] = 2
-ant_dict['noise_gain']= .1
+deposit_dict['q'] = 1000
+ant_dict['gain'] = .1
+ant_dict['noise_gain']= 2
 sim_recorder = recorder(queen_args = queen_dict, domain_args = domain_dict, sim_args = sim_dict)
 result = sim_recorder.time_full_sim(record = True, deposit_style = 'constant', deposit_dict = deposit_dict,gauss_dict = gauss_dict, upload_interval = 500)
 print(result)

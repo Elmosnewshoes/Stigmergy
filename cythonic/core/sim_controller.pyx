@@ -72,7 +72,7 @@ cdef class Sim:
 
         " check if the map needs manipulating "
         if evap_rate <0:
-            self.domain.evaporate(&self.evap_rate)
+            self.domain.evaporate(&self.evap_rate, &self.dt)
 
 
     """ ===================== Additional initializations ===================== """
@@ -117,7 +117,7 @@ cdef class Sim:
             self.queen.agent.calc_quantity(&self.queen.drop_quantity[i])
 
         #evaporate (domain)
-        self.domain.evaporate(&self.evap_rate)
+        self.domain.evaporate(&self.evap_rate, &self.dt)
 
         # update timestamp
         self.t+=self.dt

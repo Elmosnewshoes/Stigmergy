@@ -66,7 +66,7 @@ cdef class Domain:
         self.target_pheromone= target
 
 
-    cdef void evaporate(self, double * tau):
+    cdef void evaporate(self, double * tau, double *dt):
         " evaporate, with rate tau "
         " if tau < 0 (typically -1 is used), use constant pheromone method "
         if tau[0] < 0.0:
@@ -80,7 +80,7 @@ cdef class Domain:
         cdef unsigned int J = self.Map.map.shape[1]
         for i in range(I):
             for j in range(J):
-                self.Map.map[i,j] *=tau[0]
+                self.Map.map[i,j] *=tau[0]**dt[0]
 
 
     cdef readonly void cvaporate(self):

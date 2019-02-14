@@ -5,7 +5,7 @@ cdef class SimPlayer:
         readonly object db, ant_steps
         readonly unsigned int n_agents, count_active
         readonly unsigned int id, cur_step,steps
-        double evap_rate
+        double evap_rate, dt
         Domain domain
 
         readonly double ant_size, sens_offset
