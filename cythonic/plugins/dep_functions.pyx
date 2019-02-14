@@ -9,4 +9,4 @@ cdef void dep_exdecay(double * x, ant_state* s, dep_fun_args* args):
     " exponential decay: dQ/dt=-lambda*Q -> Q(t) = Q(0)*exp(-lambda*t)"
     " halflife time == 1/lambda*ln(2) "
     " x== memory location to store the quantity "
-    x[0] = args[0].q*cexp(-beta*s[0].time)
+    x[0] = args[0].q*cexp(-args[0].beta*s[0].time)

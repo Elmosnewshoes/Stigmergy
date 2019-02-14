@@ -12,7 +12,8 @@ ant_dict = {
     'gain': .1,
     'noise_gain': 1.,
     'sens_fun': 'linear',
-    'sens_dict': sens_dict
+    'sens_dict': sens_dict,
+    'deposit_fun': 'exp_decay'
 }
 
 queen_dict = {
@@ -25,7 +26,7 @@ queen_dict = {
 domain_dict = {
     'size': [4000,2000],
     'pitch': 10,
-    'nest_loc': [1000,1000],
+    'nest_loc': [500,1000],
     'nest_rad': 150,
     'food_loc': [3500,1000],
     'food_rad': 150,
@@ -51,5 +52,5 @@ sim_dict = {
 deposit_dict = {
         'q': 1.,
         'return_factor': 1,
-        'beta':.2 #lambda in Q(t) = Q(0)*exp(-lambda*t) with lambda is protected name
+        'beta':.05 #lambda in Q(t) = Q(0)*exp(-lambda*t) with lambda is protected name
 }

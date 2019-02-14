@@ -14,10 +14,10 @@ cdef class sim_recorder(Sim):
     def init_connection(self,str path, str dbname):
         self.db = db_controller(path,dbname)
 
-    def setup_sim(self, str deposit_style, dict deposit_dict, dict gauss_dict, unsigned int upload_interval):
+    def setup_sim(self, dict deposit_dict, dict gauss_dict, unsigned int upload_interval):
         " prepare the simulation "
         self.update_interval = upload_interval
-        self.set_depositing(deposit_style, deposit_dict )
+        self.set_depositing(self.ant_dict['deposit_fun'], deposit_dict )
         self.set_gaussian(**gauss_dict)
         self.id = self.db.new_sim_id()
         self.push_settings(deposit_dict, gauss_dict)

@@ -10,7 +10,7 @@ from libc.math cimport M_PI as PI
 
 cdef class Ant:
     def __cinit__(self, double l, double sens_offset, double gain, str sens_fun,
-        double noise_gain, dict sens_dict):
+        double noise_gain, dict sens_dict, **kwargs):
         " set global ant constants "
         self.l = l
         self.sens_offset = sens_offset

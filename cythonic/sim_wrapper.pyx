@@ -18,10 +18,10 @@ cdef class recorder(sim_recorder):
     def pyrun_sim(self, bint record):
         self.run_sim(record = record)
 
-    def time_full_sim(self, bint record, str deposit_style, dict deposit_dict, dict gauss_dict, unsigned int upload_interval = 0, activator = ''):
+    def time_full_sim(self, bint record, dict deposit_dict, dict gauss_dict, unsigned int upload_interval = 0, activator = ''):
         cdef double toc, tic = time()
         self.init_connection(db_path(),'stigmergy.db')
-        self.setup_sim(deposit_style, deposit_dict, gauss_dict, upload_interval,)
+        self.setup_sim( deposit_dict, gauss_dict, upload_interval,)
         result = self.run_sim(record)
         if activator:
             self.db.execute(set_activator(self.id, status = 'FINISHED'))
