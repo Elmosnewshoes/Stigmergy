@@ -51,5 +51,5 @@ sim_dict = {
 deposit_dict = {
         'q': 1.,
         'return_factor': 1,
-        'beta':.2
+        'beta':.2 #lambda in Q(t) = Q(0)*exp(-lambda*t) with lambda is protected name
 }

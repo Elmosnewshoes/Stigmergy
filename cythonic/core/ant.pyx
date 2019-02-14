@@ -2,7 +2,7 @@
 
 from cythonic.plugins.functions cimport transform
 from cythonic.plugins.sens_functions cimport observe_linear
-from cythonic.plugins.dep_functions cimport dep_constant
+from cythonic.plugins.dep_functions cimport dep_constant, dep_exdecay
 # from cythonic.plugins.drop_functions cimport exp_decay
 # import numpy as np
 from libc.math cimport M_PI as PI
@@ -31,8 +31,8 @@ cdef class Ant:
         self.dep_args = args
         if fun == 'constant':
             self.dep_fun = dep_constant
-        # elif fun == 'exp_decay':
-            # implement decay function
+        elif fun == 'exp_decay':
+            self.dep_fun = dep_exdecay
 
     cdef void calc_quantity(self,double * q):
         " fill the pheromone-dropped-quantity memory location "
