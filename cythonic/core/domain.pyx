@@ -90,9 +90,12 @@ cdef class Domain:
         cdef unsigned int i,j,I,J
         I = self.Map.map.shape[0]
         J = self.Map.map.shape[1]
+        # print(f"Evaporation rate = {x}")
         for i in range(I):
             for j in range(J):
                 self.Map.map[i,j] *=x
+                if self.Map.map[i,j] < 0.:
+                    raise ValueError('Map element smaller than 0')
 
     cdef readonly double entropy(self):
         " wraps Map.entropy method for easy coding "
@@ -109,10 +112,15 @@ cdef class Domain:
         cdef long offset_x = self.Map.to_grid(&p.x)-s.x[1]+s.x[0]
         cdef long offset_y = self.Map.to_grid(&p.y)-s.y[1]+s.y[0]
         cdef long i,j
+        cdef double startsum = self.Map.sum()
         for i in range(s.y[2]-s.y[0]):
             for j in range(s.x[2]-s.x[0]):
+                # print(f"Map[{offset_y+i}, {offset_x+j}] of [{self.Map.lim.x}, {self.Map.lim.y}]; Gaussian: [{i+s.y[0]}, {j+s.x[0]}] of [{self.Gaussian.lim.x}, {self.Gaussian.lim.y}]")
+                # print(f"Adding {Q[0]*self.Gaussian.map[i+s.y[0], j+s.x[0]]}")
+                # print(f"Target location: [{I.x}, {I.y}]")
                 self.Map.map[offset_y+i,offset_x+j]+=Q[0]*self.Gaussian.map[i+s.y[0], j+s.x[0]]
 #                 mp[offset_y+i,offset_x+j]+=Q[0]*gauss[i+s.y[0], j+s.x[0]]
+        # print(f"Added {self.Map.sum()-startsum}: Q== {Q[0]}")
 
     cdef void reset(self):
         " reset the map "
@@ -127,4 +135,4 @@ cdef class Domain:
 
         self.Map = MeshMap(dim = np.array(size, dtype = np.float_), resolution = pitch)
         self.dim = index(self.Map.map.shape[0],self.Map.map.shape[1])
-        self.target_pheromone = target_pheromone
+        self.target_pheromone = target_pheromone * <double>self.dim.x*<double>self.dim.y

@@ -24,12 +24,12 @@ queen_dict = {
 
 domain_dict = {
     'size': [4000,2000],
-    'pitch': 5,
+    'pitch': 10,
     'nest_loc': [1000,1000],
     'nest_rad': 150,
     'food_loc': [3500,1000],
     'food_rad': 150,
-    'target_pheromone': (1e6)/4
+    'target_pheromone': 1.
 }
 
 gauss_dict = {
@@ -45,6 +45,7 @@ sim_dict = {
     'deploy_timing': 'gamma_dist',
     'deploy_timing_args': {'k':10.,'teta': 2.},
     'evap_rate': -1.
+    # 'evap_rate': 0.99,
 }
 
 deposit_dict = {
