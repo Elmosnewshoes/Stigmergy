@@ -60,7 +60,7 @@ cdef class Sim:
         " set simulation variables "
         self.t = 0.
         self.dt = dt
-        self.evap_rate = evap_rate
+        self.evap_rate = evap_rate**dt
         self.foodcount = 0
         self.nestcount = 0
         self.steps = steps
@@ -72,7 +72,7 @@ cdef class Sim:
 
         " check if the map needs manipulating "
         if evap_rate <0:
-            self.domain.evaporate(&self.evap_rate, &self.dt)
+            self.domain.evaporate(&self.evap_rate)
 
 
     """ ===================== Additional initializations ===================== """
@@ -117,7 +117,7 @@ cdef class Sim:
             self.queen.agent.calc_quantity(&self.queen.drop_quantity[i])
 
         #evaporate (domain)
-        self.domain.evaporate(&self.evap_rate, &self.dt)
+        self.domain.evaporate(&self.evap_rate)
 
         # update timestamp
         self.t+=self.dt

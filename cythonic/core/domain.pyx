@@ -4,6 +4,7 @@ cimport numpy as np
 import numpy as np
 from libc.math cimport ceil as cceil, sqrt as csqrt, log as cln
 cimport cython
+from cython.parallel cimport prange
 
 cdef class Domain:
     " playground of the simulation "
@@ -66,7 +67,7 @@ cdef class Domain:
         self.target_pheromone= target
 
 
-    cdef void evaporate(self, double * tau, double *dt):
+    cdef void evaporate(self, double * tau):
         " evaporate, with rate tau "
         " if tau < 0 (typically -1 is used), use constant pheromone method "
         if tau[0] < 0.0:
@@ -78,9 +79,10 @@ cdef class Domain:
         cdef unsigned int i,j
         cdef unsigned int I = self.Map.map.shape[0]
         cdef unsigned int J = self.Map.map.shape[1]
+        # for i in prange(I, nogil=True,schedule='static', chunksize=10):
         for i in range(I):
             for j in range(J):
-                self.Map.map[i,j] *=tau[0]**dt[0]
+                self.Map.map[i,j] *= tau[0]
 
 
     cdef readonly void cvaporate(self):
@@ -94,8 +96,8 @@ cdef class Domain:
         for i in range(I):
             for j in range(J):
                 self.Map.map[i,j] *=x
-                if self.Map.map[i,j] < 0.:
-                    raise ValueError('Map element smaller than 0')
+                # if self.Map.map[i,j] < 0.:
+                #     raise ValueError('Map element smaller than 0')
 
     cdef readonly double entropy(self):
         " wraps Map.entropy method for easy coding "

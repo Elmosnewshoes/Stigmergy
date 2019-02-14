@@ -15,13 +15,15 @@ import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 import matplotlib.animation as animation
 from matplotlib import cm
+
+from mpl_toolkits.axes_grid1 import make_axes_locatable
 cmaps = {'blue': 'PuBu',
          'grey_reverse': 'Greys_r',
          'grey': 'Greys',
          'plasma': 'plasma'
          }
 class SubplotAnimation(animation.TimedAnimation):
-    def __init__(self, sim_id = 88,db_name = 'stigmergy.db', colormap = 'plasma'):
+    def __init__(self, sim_id = 159,db_name = 'stigmergy.db', colormap = 'plasma'):
 
         self.replays = 0 # flag to see if a replay is being played
         self.player = SimPlayer(sim_id, db_name)
@@ -29,6 +31,7 @@ class SubplotAnimation(animation.TimedAnimation):
         self.player.get_results() # fetch the result summary vectors from database
 
         fig = plt.figure(figsize=(18, 9))
+        self.f = fig
         # ax1 = fig.add_subplot(1, 2, 1)
         ax_map = fig.add_subplot(1,2,1)
         ax_entropy = fig.add_subplot(2, 2, 2)
@@ -72,7 +75,6 @@ class SubplotAnimation(animation.TimedAnimation):
                                           repeat = True, repeat_delay=None)
 
 
-
     def _draw_frame(self, framedata):
         self.player.next()
         # i = framedata
@@ -83,7 +85,6 @@ class SubplotAnimation(animation.TimedAnimation):
         self.line_H.set_data(self.player.K,self.player.H)
         self.line_score.set_data(self.player.K,self.player.score)
         self._drawn_artists = [self.map,self.ants,self.nest,self.food, self.left, self.right, self.line_H, self.line_score]
-
     def new_frame_seq(self):
         return iter(range(self.player.steps))
 
@@ -111,3 +112,4 @@ if __name__=='__main__':
     ani = SubplotAnimation()
     # ani.save('test_sub.mp4')
     plt.show()
+    print(f"Max of domain: {ani.player.max}")

@@ -32,8 +32,8 @@ cdef class SimPlayer:
         ant_settings = extract_settings(*self.db.return_all(get_settings(sim_id,'ant_settings')))
         gauss_settings = extract_settings(*self.db.return_all(get_settings(sim_id,'gauss_settings')))
 
-        self.evap_rate = sim_settings['evap_rate']
         self.dt = sim_settings['dt']
+        self.evap_rate = sim_settings['evap_rate']**self.dt #compensate for time steps other than 1sec
         self.n_agents = sim_settings['n_agents']
         self.steps = sim_settings['steps']
         self.ant_size = ant_settings['l']
@@ -114,7 +114,7 @@ cdef class SimPlayer:
             self.domain.add_pheromone(p = &pos, Q = &q)
 
             i+=1
-        self.domain.evaporate(tau = &self.evap_rate, dt = &self.dt)
+        self.domain.evaporate(tau = &self.evap_rate)
         self.count_active = i # keep track of how many ants are stepping each iteration
 
     cdef void reset_vectors(self):
@@ -203,3 +203,7 @@ cdef class SimPlayer:
     @property
     def ylim(self):
         return self.domain.size.y
+
+    @property
+    def max(self):
+        return self.domain.Map.max()

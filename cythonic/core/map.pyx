@@ -101,16 +101,16 @@ cdef class MeshMap(Map):
 cdef class GaussMap(Map):
     def __cinit__(self,double resolution, double R, double covariance):
         self.radius = R
-        print(f'New gaussian with radius: {R}')
+        # print(f'New gaussian with radius: {R}')
         dim = np.array([np.ceil(self.radius/resolution)*resolution*2+resolution,np.ceil(self.radius/resolution)*resolution*2+resolution], dtype = np.float_)
         self.new(dim,resolution)
         self.map = self.bivariate_normal(sigmax=covariance,sigmay=covariance,
             mux = self.dim.x/2, muy=self.dim.y/2, sigmaxy=0)
-        print(f'Map shape is: {np.array(self.map).shape[0:2]}')
+        # print(f'Map shape is: {np.array(self.map).shape[0:2]}')
         self.volume = np.array(self.map).sum()*self.pitch**2
         self.peak = np.array(self.map).max()
-        print(f"Volume of the gaussian = {self.volume}")
-        print(f"Max of gaussian = {self.peak}")
+        # print(f"Volume of the gaussian = {self.volume}")
+        # print(f"Max of gaussian = {self.peak}")
 
     def bivariate_normal(self,sigmax=1.0, sigmay=1.0,
                          mux=0.0, muy=0.0, sigmaxy=0.0):
