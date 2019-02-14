@@ -81,6 +81,7 @@ cdef class Queen:
         self.count_active += 1 # count active ants
 
     cdef readonly void step_all(self,):
+        # warning, not being used in the sim, set next_step manually in the sim
         " step all ants "
         for i in range(self.count_active):
             self.assign_state(&i)

@@ -63,6 +63,9 @@ cdef class Ant:
             self.state[0].Q_obs.lft-self.state[0].Q_obs.rght
              + self.state[0].noise_vec[self.current_step]*self.noise_gain)
         self.increase_azimuth(dt) # state is known, no need to pass it
+        # self.state[0].theta += dt[0]*self.gain*180./PI* (
+        #         self.state[0].Q_obs.lft-self.state[0].Q_obs.rght +
+        #         self.state[0].noise_vec[self.current_step]*self.noise_gain)
 
     cdef void gradient_step(self, double *dt, observations * Q):
         " execute the sequence for differential based stepping "

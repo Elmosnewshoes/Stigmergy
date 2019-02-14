@@ -21,3 +21,4 @@ cdef class SimPlayer:
     cdef void step(self, unsigned int stepnr)
     cpdef void next(self,)
     cpdef void renew(self,)
+    cdef void reset_vectors(self)

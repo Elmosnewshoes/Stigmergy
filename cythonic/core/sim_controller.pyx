@@ -122,6 +122,9 @@ cdef class Sim:
         # update timestamp
         self.t+=self.dt
 
+        # set stepcounter on the ant
+        self.queen.agent.next_step()
+
 
     cdef void expand_active(self):
         " check if new agents are to be activated based on simulation time "

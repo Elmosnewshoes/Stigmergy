@@ -74,6 +74,9 @@ def get_steps(sim_id):
                 step.step_nr ASC, step.ant_id ASC"""
     return qry
 
+def set_activator(sim_id, activator):
+    return f" UPDATE SIM SET initializer = '{activator}' WHERE SIM.id = {sim_id}"
+
 if __name__ == '__main__':
     from dummy_dicts import ant_dict, queen_dict, domain_dict
     print(insert_queen(1, **queen_dict))

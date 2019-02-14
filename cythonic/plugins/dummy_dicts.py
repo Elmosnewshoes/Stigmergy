@@ -1,4 +1,4 @@
-dt = .5
+dt = .3
 steps = 10
 sens_dict = {
     # 'gain': 1.,
@@ -7,9 +7,9 @@ sens_dict = {
     'exp_lambda': 4
 }
 ant_dict = {
-    'l': 5.,
+    'l': 50.,
     'sens_offset': 45.,
-    'gain': 1.,
+    'gain': .1,
     'noise_gain': 1.,
     'sens_fun': 'linear',
     'sens_dict': sens_dict
@@ -17,19 +17,19 @@ ant_dict = {
 
 queen_dict = {
     'ant_dict': ant_dict,
-    'default_speed': 5.,
+    'default_speed': 125.,
     'noise_type': 'telegraph', # can use uniform/white/telegraph
-    'noise_parameter': 2.,
+    'noise_parameter': .5,
 }
 
 domain_dict = {
-    'size': [1000,1000],
-    'pitch': .5,
-    'nest_loc': [250,500],
-    'nest_rad': 50,
-    'food_loc': [750,500],
-    'food_rad': 50,
-    'target_pheromone': 1e6
+    'size': [4000,2000],
+    'pitch': 5,
+    'nest_loc': [1000,1000],
+    'nest_rad': 150,
+    'food_loc': [3500,1000],
+    'food_rad': 150,
+    'target_pheromone': (1e6)/4
 }
 
 gauss_dict = {
@@ -43,7 +43,7 @@ sim_dict = {
     'steps': steps,
     'deploy_style': 'nest_radian',
     'deploy_timing': 'gamma_dist',
-    'deploy_timing_args': {'k':4.,'teta': 2.},
+    'deploy_timing_args': {'k':10.,'teta': 2.},
     'evap_rate': -1.
 }
 

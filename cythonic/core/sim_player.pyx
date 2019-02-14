@@ -37,10 +37,7 @@ cdef class SimPlayer:
         self.steps = sim_settings['steps']
         self.ant_size = ant_settings['l']
         self.sens_offset = ant_settings['sens_offset']
-        self.positions = np.zeros([self.n_agents,2],dtype = np.float_)
-        self.headings = np.zeros(self.n_agents, dtype =np.float_)
-        self.lefts = np.zeros([self.n_agents,2],dtype = np.float_)
-        self.rights = np.zeros([self.n_agents,2],dtype = np.float_)
+        self.reset_vectors()
 
 
         " initialize the objects "
@@ -92,6 +89,7 @@ cdef class SimPlayer:
 
     cpdef void renew(self,):
         self.cur_step = 0
+        self.reset_vectors()
         self.domain.reset()
 
 
@@ -117,6 +115,12 @@ cdef class SimPlayer:
             i+=1
         self.domain.evaporate(tau = &self.evap_rate)
         self.count_active = i # keep track of how many ants are stepping each iteration
+
+    cdef void reset_vectors(self):
+        self.positions = -1000*np.ones([self.n_agents,2],dtype = np.float_)
+        self.headings = np.zeros(self.n_agents, dtype =np.float_)
+        self.lefts = -1000*np.ones([self.n_agents,2],dtype = np.float_)
+        self.rights = -1000*np.ones([self.n_agents,2],dtype = np.float_)
 
     def run_until(self, lim):
         " return the map at a certain stage "
@@ -145,6 +149,28 @@ cdef class SimPlayer:
     @property
     def score_vec(self):
         return np.asarray(self.nestcount)
+
+    @property
+    def pos(self):
+        return np.asarray(self.positions)
+    @property
+    def lft(self):
+        return np.asarray(self.lefts)
+    @property
+    def rght(self):
+        return np.asarray(self.rights)
+
+    @property
+    def nest(self):
+        return np.vstack([[self.domain.nest_location.x+rotate_x(l=self.domain.nest_radius, theta = theta),
+                         self.domain.nest_location.y+rotate_y(l=self.domain.nest_radius, theta = theta)]
+                         for theta in np.arange(0,2*M_PI,M_PI/10)])
+
+    @property
+    def food(self):
+        return np.vstack([[self.domain.food_location.x+rotate_x(l=self.domain.food_radius, theta = theta),
+                          self.domain.food_location.y+rotate_y(l=self.domain.food_radius, theta = theta)]
+                          for theta in np.arange(0,2*M_PI,M_PI/10)])
 
     @property
     def pos_x(self):

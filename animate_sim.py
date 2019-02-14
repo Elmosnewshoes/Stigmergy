@@ -21,7 +21,7 @@ cmaps = {'blue': 'PuBu',
          'plasma': 'plasma'
          }
 class SubplotAnimation(animation.TimedAnimation):
-    def __init__(self, sim_id = 84,db_name = 'stigmergy.db', colormap = 'plasma'):
+    def __init__(self, sim_id = 88,db_name = 'stigmergy.db', colormap = 'plasma'):
 
         self.replays = 0 # flag to see if a replay is being played
         self.player = SimPlayer(sim_id, db_name)
@@ -45,6 +45,11 @@ class SubplotAnimation(animation.TimedAnimation):
                                'origin':'bottom'}
         Z = self.player.map
         self.map = ax_map.imshow(Z, interpolation='None',**self.imshow_opts)
+        self.ants = ax_map.scatter([], [],marker = 'o', s=10, c='k', alpha=1.)
+        self.left = ax_map.scatter([], [],marker = '*', s=10, c='k', alpha=1.)
+        self.right = ax_map.scatter([], [],marker = '*', s=10, c='k', alpha=1.)
+        self.nest = ax_map.scatter([], [],marker = '.', s=10, c='k', alpha=1.)
+        self.food = ax_map.scatter([], [],marker = '.', s=10, c='k', alpha=1.)
         ax_map.set_xlabel('x')
         ax_map.set_ylabel('y')
         ax_map.set_title('Pheromone map')
@@ -72,9 +77,12 @@ class SubplotAnimation(animation.TimedAnimation):
         self.player.next()
         # i = framedata
         self.map.set_data(self.player.map)
+        self.ants.set_offsets(self.player.pos)
+        self.left.set_offsets(self.player.lft)
+        self.right.set_offsets(self.player.rght)
         self.line_H.set_data(self.player.K,self.player.H)
         self.line_score.set_data(self.player.K,self.player.score)
-        self._drawn_artists = [self.map, self.line_H, self.line_score]
+        self._drawn_artists = [self.map,self.ants,self.nest,self.food, self.left, self.right, self.line_H, self.line_score]
 
     def new_frame_seq(self):
         return iter(range(self.player.steps))
@@ -87,6 +95,11 @@ class SubplotAnimation(animation.TimedAnimation):
             self.replays +=1
         lines = [self.line_H, self.line_score]
         self.map.set_data( self.player.map)
+        self.ants.set_offsets(self.player.pos)
+        self.nest.set_offsets(self.player.nest)
+        self.food.set_offsets(self.player.food)
+        self.left.set_offsets(self.player.lft)
+        self.right.set_offsets(self.player.rght)
         for l in lines:
             l.set_data([], [])
 
