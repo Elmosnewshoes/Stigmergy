@@ -1,10 +1,10 @@
 dt = .3
-steps = 10
+steps = 1000
 sens_dict = {
     # 'gain': 1.,
     'breakpoint': 1.,
     # 'snr': 0.1,
-    'exp_lambda': 4
+    'exp_lambda': 4.
 }
 ant_dict = {
     'l': 50.,
@@ -24,11 +24,11 @@ queen_dict = {
 }
 
 domain_dict = {
-    'size': [4000,2000],
+    'size': [3000,2000],
     'pitch': 10,
     'nest_loc': [500,1000],
     'nest_rad': 150,
-    'food_loc': [3500,1000],
+    'food_loc': [2500,1000],
     'food_rad': 150,
     'target_pheromone': 1.
 }
@@ -51,6 +51,6 @@ sim_dict = {
 
 deposit_dict = {
         'q': 1.,
-        'return_factor': 1,
+        'return_factor': 1.,
         'beta':.05 #lambda in Q(t) = Q(0)*exp(-lambda*t) with lambda is protected name
 }

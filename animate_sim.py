@@ -112,4 +112,3 @@ if __name__=='__main__':
     ani = SubplotAnimation()
     # ani.save('test_sub.mp4')
     plt.show()
-    print(f"Max of domain: {ani.player.max}")

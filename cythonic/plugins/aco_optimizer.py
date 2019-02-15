@@ -140,6 +140,8 @@ class optimizer:
         self.scores = []
         self.t = []
         self.iter = 0
+        self.cost = [] # keep track of cost over iterations
+        self.segments = 0 # keep track of the amount of steps an ant has to perform
         for i in range(n_ants):
             self.ant_list.append(ant(i))
 
@@ -153,6 +155,7 @@ class optimizer:
     def add_par(self,choices, name):
         " add a parameter (dimension) to the list "
         self.fun_pars.append(opt(choices,name, self.k,self.beta))
+        self.segments+=1
 
     def get_route(self,mode='greedy'):
         " get the current optimal route "
@@ -188,8 +191,8 @@ class optimizer:
 
     def append_score(self,score, step):
         " append the pre-allocated scorekeeping vectors "
-        self.t[self.iter] = step
-        self.scores[self.iter] = score
+        self.t.append(step)
+        self.scores.append( score)
         self.iter+=1
 
     def iteration(self,step):
@@ -229,60 +232,57 @@ class optimizer:
     def elitist_update(self,best, q, tau, neighbours = False):
         if best < self.best:
             " elitist update strategy "
-            self.best = best.copy()
+            self.best = best
             for agent in self.ant_list:
                 " only update the best ants "
                 if agent.score == self.best:
                     self.best_route = agent.get_route # store the best route
                     self.add_pheromone(agent.get_route, q, neighbours)
 
-    def run(self,steps, q, tau,method='elitist', plot_interval = 0, neighbours = False):
-        " evaporation rate tau, deposit quantity q "
-        segments = len(self.fun_pars)
-        cost = np.zeros(steps, dtype = np.float_)
-        plot = plotter(segments, self.fun_pars)
-        self.scores = np.zeros(int(steps*len(self.ant_list)), dtype = np.float_) #  y-axis for scatterplot
-        self.t = np.zeros(int(steps*len(self.ant_list)), dtype = np.float_) # x-axis for scatter plot
 
-        #loop all steps`
-        for i in range(steps):
-            # scorekeeper:
-            iteration_best, iteration_worst = self.iteration(i)
-            if method =='elitist':
-                self.elitist_update(iteration_best,q, tau, neighbours)
-                self.evaporate(tau)
-            elif method == 'regular':
-                self.regular_update(best = iteration_best,worst = iteration_worst,q=q,tau=tau)
-                self.evaporate(tau)
+    def postrun(self):
+        # plt.close()
+        # self.t = np.zeros(int(steps*len(self.ant_list)), dtype = np.float_)
+        print(f" Best attempt evaluates now: {self.fun(*self.route2args(self.best_route))} with parameters {self.route2args(self.best_route))}")
+        print(f" Optimal parameters: {self.get_pars()} with cost {self.eval_fun()} at step {np.argmin(self.cost)+1}")
+        # return self.cost
 
-            cost[i]=self.eval_fun(mode='greedy')
-            print(f"Step {i}")
-            if i%plot_interval ==0 and plot_interval != 0:
-                plot.renew(self.fun_pars)
-        plt.close()
-        print(f" Best attempt whas: {self.fun(*self.route2args(self.best_route))}")
-        return cost
+    def step(self, method, q, tau, neighbours):
+        # scorekeeper:
+        iteration_best, iteration_worst = self.iteration(len(self.cost))
+        if method =='elitist':
+            self.elitist_update(iteration_best,q, tau, neighbours)
+            self.evaporate(tau)
+        elif method == 'regular':
+            self.regular_update(best = iteration_best,worst = iteration_worst,q=q,tau=tau)
+            self.evaporate(tau)
 
-k =.5 #normalizer
-beta = 1.6
+        self.cost.append(self.eval_fun(mode='greedy'))
+        print(f"Step {len(self.cost)}, Absolute best score: {self.best}, this iteration: {iteration_best}")
 
-steps = 50
-q = 1.5
-tau = .8 # evap rate
+if __name__=='__main__':
+    k =.5 #normalizer
+    beta = 1.6
 
-plot_interval = max(1,int(steps/25))
+    steps = 50
+    q = 1.5
+    tau = .8 # evap rate
 
-x_range = np.arange(-5,5.1,0.5)
-y_range = np.arange(-5,5.1,0.5)
-z_range = np.arange(-5,5.1,0.5)
-O = optimizer(dummy_fun, k,beta, n_ants = 25)
-O.add_par(x_range, 'x')
-O.add_par(y_range, 'y')
-O.add_par(z_range, 'z')
-result = O.run(steps, q=q, tau=tau, method='elitist', plot_interval = plot_interval, neighbours = True)
-print(f" Optimal parameters: {O.get_pars()} with cost {O.eval_fun()} at step {np.argmin(result)}")
-plt.figure(1, figsize=(9, 8))
-plt.plot(range(steps),result)
-plt.scatter(O.t,O.scores, alpha=.25,s=100, marker = 'D')
-plt.show(block=True)
-print(result.min())
+    plot_interval = max(1,int(steps/25))
+
+    x_range = np.arange(-5,5.1,0.25)
+    y_range = np.arange(-5,5.1,0.25)
+    z_range = np.arange(-5,5.1,0.25)
+    O = optimizer(dummy_fun, k,beta, n_ants = 25)
+    O.add_par(x_range, 'x')
+    O.add_par(y_range, 'y')
+    O.add_par(z_range, 'z')
+    for i in range(steps):
+        O.step( q=q, tau=tau, method='elitist',neighbours = True)
+    O.postrun()
+    print(f" Optimal parameters: {O.get_pars()} with cost {O.eval_fun()} at step {np.argmin(O.cost)+1}")
+    # plt.figure(1, figsize=(9, 8))
+    # plt.plot(range(steps),result)
+    # plt.scatter(O.t,O.scores, alpha=.25,s=100, marker = 'D')
+    # plt.show(block=True)
+    # print(result.min())

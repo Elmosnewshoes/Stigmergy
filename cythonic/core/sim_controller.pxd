@@ -4,8 +4,8 @@ from cythonic.core.domain cimport Domain
 
 cdef class Sim:
     # " class properties "
-    cdef Queen queen
-    cdef Domain domain
+    cdef readonly Queen queen
+    cdef readonly Domain domain
 
     cdef:
         readonly bint deployed #flag: all ants active == True

@@ -60,7 +60,11 @@ cdef class Sim:
         " set simulation variables "
         self.t = 0.
         self.dt = dt
-        self.evap_rate = evap_rate**dt
+        if evap_rate < 0:
+            "in case of constant evaporation, compensate for step duration "
+            self.evap_rate = evap_rate**dt
+        else:
+            self.evap_rate = evap_rate
         self.foodcount = 0
         self.nestcount = 0
         self.steps = steps
