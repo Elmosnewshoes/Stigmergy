@@ -72,7 +72,10 @@ class SubplotAnimation(animation.TimedAnimation):
             i+=1
 from cythonic.sim_wrapper import recorder
 from cythonic.plugins.dummy_dicts import ant_dict, queen_dict, domain_dict, gauss_dict, sim_dict, deposit_dict, sens_dict
-def sim_fun(q, gain, noise_gain,):
+
+initiator = 'ACO no.2'
+
+def sim_fun(q, gain, noise_gain,sens_offset, covariance):
     domain_dict = {
         'size': [2000,1500],
         'pitch': 10,
@@ -88,7 +91,8 @@ def sim_fun(q, gain, noise_gain,):
     deposit_dict['q'] = q # originally 1000
     ant_dict['gain'] = gain # originally .5
     ant_dict['noise_gain']= noise_gain # originally 2
-    gauss_dict['covariance']= 20
+    gauss_dict['covariance']= covariance # originally 20
+    ant_dict['sens_offset'] = sens_offset # originally 45
     queen_dict['default_speed'] = 125
     sim_dict['evap_rate'] = .97
     queen_dict['noise_type'] = 'telegraph'
@@ -99,7 +103,7 @@ def sim_fun(q, gain, noise_gain,):
     r = 0
     for i in range(3):
         sim_recorder = recorder(queen_args = queen_dict, domain_args = domain_dict, sim_args = sim_dict)
-        result = sim_recorder.time_full_sim(record = record, deposit_dict = deposit_dict,gauss_dict = gauss_dict, upload_interval = 500)
+        result = sim_recorder.time_full_sim(record = record, deposit_dict = deposit_dict,gauss_dict = gauss_dict, upload_interval = 500, initiator = initiator)
         r+= result['nestcount']
     return -1*r/3
 
@@ -113,12 +117,16 @@ if __name__=='__main__':
     neighbours = True
     steps = 25
 
+
+
     x_range = np.arange(-5,5,0.25)
     y_range = np.arange(-50,50,1)
 
-    pars = {'q': np.array([500,750,1000,1500,2000,2500,3000, 5000]),
-            'gain': np.array([0.01,0.05,0.1,0.2,0.3,0.5,0.75,1,1.25,1.5,2]),
-            'noise_gain': np.arange(0.25,5,0.25)}
+    pars = {'q': np.array([1500,2000,2500,3000, 5000, 7500, 10000]),
+            'gain': np.array([0.1,0.2,0.3,0.5,0.75,1,1.25,1.5,2]),
+            'noise_gain': np.arange(0.25,5,0.25),
+            'sens_offset': np.array([30,35,40,45, 50, 60]),
+            'covariance': np.array([20,25,30,35,40,50,60])}
     plotter = SubplotAnimation(sim_fun, k, beta, n_ants, pars, q, tau, method, neighbours, steps)
     plt.show()
     plotter.optimizer.postrun()

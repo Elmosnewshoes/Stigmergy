@@ -243,7 +243,7 @@ class optimizer:
     def postrun(self):
         # plt.close()
         # self.t = np.zeros(int(steps*len(self.ant_list)), dtype = np.float_)
-        print(f" Best attempt evaluates now: {self.fun(*self.route2args(self.best_route))} with parameters {self.route2args(self.best_route))}")
+        print(f" Best attempt evaluates now: {self.fun(*self.route2args(self.best_route))} with parameters {self.route2args(self.best_route)}")
         print(f" Optimal parameters: {self.get_pars()} with cost {self.eval_fun()} at step {np.argmin(self.cost)+1}")
         # return self.cost
 

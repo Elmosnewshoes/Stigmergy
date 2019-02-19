@@ -32,8 +32,9 @@ cdef class SimPlayer:
         ant_settings = extract_settings(*self.db.return_all(get_settings(sim_id,'ant_settings')))
         gauss_settings = extract_settings(*self.db.return_all(get_settings(sim_id,'gauss_settings')))
 
-        self.dt = sim_settings['dt']
-        self.evap_rate = sim_settings['evap_rate']**self.dt #compensate for time steps other than 1sec
+        self.dt = <double>sim_settings['dt']
+        cdef double rho = sim_settings['evap_rate']
+        self.evap_rate = rho**self.dt #compensate for time steps other than 1sec
         self.n_agents = sim_settings['n_agents']
         self.steps = sim_settings['steps']
         self.ant_size = ant_settings['l']

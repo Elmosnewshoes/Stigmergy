@@ -19,7 +19,7 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>521</width>
+      <width>547</width>
       <height>741</height>
      </rect>
     </property>
@@ -39,7 +39,18 @@
         <number>10</number>
        </property>
        <item>
-        <layout class="QGridLayout" name="gridLayout">
+        <widget class="QTextBrowser" name="textbox_status">
+         <property name="html">
+          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Noto Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;--placeholder--&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QGridLayout" name="sim_grid">
          <property name="leftMargin">
           <number>10</number>
          </property>
@@ -53,21 +64,27 @@
           <number>10</number>
          </property>
          <item row="0" column="0">
-          <widget class="QLineEdit" name="lineEdit">
+          <widget class="QLineEdit" name="sim_id_input">
            <property name="text">
             <string>86</string>
+           </property>
+           <property name="maxLength">
+            <number>5</number>
+           </property>
+           <property name="placeholderText">
+            <string>1</string>
            </property>
           </widget>
          </item>
          <item row="0" column="2">
-          <widget class="QPushButton" name="pushButton_2">
+          <widget class="QPushButton" name="copy_btn">
            <property name="text">
             <string>Copy</string>
            </property>
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QPushButton" name="pushButton_3">
+          <widget class="QPushButton" name="replay_btn">
            <property name="text">
             <string>Replay</string>
            </property>
@@ -83,7 +100,7 @@
         </widget>
        </item>
        <item>
-        <layout class="QGridLayout" name="gridLayout_2">
+        <layout class="QGridLayout" name="opts_grid">
          <property name="leftMargin">
           <number>10</number>
          </property>
@@ -96,66 +113,80 @@
          <property name="bottomMargin">
           <number>10</number>
          </property>
-         <item row="0" column="0">
-          <widget class="QPushButton" name="pushButton">
-           <property name="text">
-            <string>Run</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QCheckBox" name="checkBox">
-           <property name="text">
-            <string>Recording</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="2">
-          <widget class="QLabel" name="label_8">
-           <property name="text">
-            <string>nest location</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="2">
-          <widget class="QLabel" name="label_9">
-           <property name="text">
-            <string>nest_radius</string>
-           </property>
-          </widget>
-         </item>
          <item row="1" column="0">
-          <widget class="QLabel" name="label">
+          <widget class="QLabel" name="ant_size">
            <property name="text">
             <string>L (ant size)</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="3">
-          <widget class="QLineEdit" name="lineEdit_5">
+         <item row="2" column="1">
+          <widget class="QSpinBox" name="offset_spinbox">
+           <property name="value">
+            <number>50</number>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="3">
+          <widget class="QSpinBox" name="food_radius_spinbox">
+           <property name="value">
+            <number>50</number>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QLabel" name="domain_size">
            <property name="text">
-            <string>[1000,1000]</string>
+            <string>Domain size</string>
            </property>
           </widget>
          </item>
          <item row="3" column="0">
-          <widget class="QLabel" name="label_3">
+          <widget class="QLabel" name="sens_activation">
            <property name="text">
             <string>sensor activation</string>
            </property>
           </widget>
          </item>
+         <item row="4" column="2">
+          <widget class="QLabel" name="nest_radius">
+           <property name="text">
+            <string>nest_radius</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="QLineEdit" name="dep_dict_input">
+           <property name="text">
+            <string>{'q':1.,'return_factor':1.,'beta':0.05}</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="QLabel" name="pitch">
+           <property name="text">
+            <string>pitch</string>
+           </property>
+          </widget>
+         </item>
          <item row="2" column="0">
-          <widget class="QLabel" name="label_2">
+          <widget class="QLabel" name="sens_offset">
            <property name="text">
             <string>sensor offset</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="2">
-          <widget class="QLabel" name="label_6">
+         <item row="5" column="0">
+          <widget class="QLabel" name="dep_dict">
            <property name="text">
-            <string>Domain size</string>
+            <string>Deposit dict</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QPushButton" name="run_button">
+           <property name="text">
+            <string>Run</string>
            </property>
           </widget>
          </item>
@@ -179,85 +210,36 @@
            </item>
           </widget>
          </item>
-         <item row="2" column="2">
-          <widget class="QLabel" name="label_7">
-           <property name="text">
-            <string>pitch</string>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="1">
-          <widget class="QLineEdit" name="lineEdit_4">
-           <property name="text">
-            <string>{'q':1.,'return_factor':1.,'beta':0.05}</string>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="0">
-          <widget class="QLabel" name="label_5">
-           <property name="text">
-            <string>Deposit dict</string>
-           </property>
-          </widget>
-         </item>
-         <item row="6" column="1">
-          <widget class="QLineEdit" name="start_pheromone_text">
-           <property name="text">
-            <string>1.</string>
+         <item row="4" column="3">
+          <widget class="QSpinBox" name="nest_radius_spinbox">
+           <property name="value">
+            <number>50</number>
            </property>
           </widget>
          </item>
          <item row="5" column="2">
-          <widget class="QLabel" name="label_10">
+          <widget class="QLabel" name="food_location">
            <property name="text">
             <string>food_location</string>
            </property>
           </widget>
          </item>
          <item row="6" column="2">
-          <widget class="QLabel" name="label_11">
+          <widget class="QLabel" name="food_radius">
            <property name="text">
             <string>food_radius</string>
            </property>
           </widget>
          </item>
-         <item row="5" column="3">
-          <widget class="QLineEdit" name="lineEdit_7">
+         <item row="3" column="2">
+          <widget class="QLabel" name="nest_location">
            <property name="text">
-            <string>[750,500]</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QSpinBox" name="antsize_spinbox">
-           <property name="value">
-            <number>50</number>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="3">
-          <widget class="QLineEdit" name="lineEdit_6">
-           <property name="text">
-            <string>[250,500]</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QSpinBox" name="offset_spinbox">
-           <property name="value">
-            <number>50</number>
-           </property>
-          </widget>
-         </item>
-         <item row="6" column="3">
-          <widget class="QSpinBox" name="food_radius_spinbox">
-           <property name="value">
-            <number>50</number>
+            <string>nest location</string>
            </property>
           </widget>
          </item>
          <item row="6" column="0">
-          <widget class="QLabel" name="label_12">
+          <widget class="QLabel" name="start_pheromone">
            <property name="text">
             <string>Start pheromone level</string>
            </property>
@@ -281,34 +263,127 @@
           </widget>
          </item>
          <item row="4" column="0">
-          <widget class="QLabel" name="label_4">
+          <widget class="QLabel" name="dep_fun">
            <property name="text">
             <string>deposit function</string>
            </property>
           </widget>
          </item>
-         <item row="4" column="3">
-          <widget class="QSpinBox" name="nest_radius_spinbox">
+         <item row="1" column="1">
+          <widget class="QSpinBox" name="antsize_spinbox">
            <property name="value">
             <number>50</number>
            </property>
           </widget>
+         </item>
+         <item row="1" column="3">
+          <layout class="QHBoxLayout" name="dom_box">
+           <item>
+            <widget class="QSpinBox" name="dom_x_size">
+             <property name="value">
+              <number>50</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="dom_y_size">
+             <property name="value">
+              <number>50</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="3" column="3">
+          <layout class="QHBoxLayout" name="nest_box">
+           <item>
+            <widget class="QSpinBox" name="nest_x_size">
+             <property name="value">
+              <number>50</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="nest_y_size">
+             <property name="value">
+              <number>50</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="5" column="3">
+          <layout class="QHBoxLayout" name="food_box">
+           <item>
+            <widget class="QSpinBox" name="food_x_size">
+             <property name="maximum">
+              <number>10000</number>
+             </property>
+             <property name="singleStep">
+              <number>100</number>
+             </property>
+             <property name="value">
+              <number>3500</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="food_y_size">
+             <property name="maximum">
+              <number>10000</number>
+             </property>
+             <property name="singleStep">
+              <number>100</number>
+             </property>
+             <property name="value">
+              <number>2000</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
          <item row="2" column="3">
-          <widget class="QSpinBox" name="spinBox_2">
+          <widget class="QSpinBox" name="pitch_spinbox">
            <property name="value">
             <number>50</number>
            </property>
           </widget>
          </item>
-         <item row="7" column="1">
-          <widget class="Line" name="line_2">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+         <item row="6" column="1">
+          <widget class="QDoubleSpinBox" name="pheromone_spinbox">
+           <property name="minimum">
+            <double>-1.000000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.250000000000000</double>
+           </property>
+           <property name="value">
+            <double>1.000000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QCheckBox" name="check_visualize">
+           <property name="text">
+            <string>Visualize</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QCheckBox" name="check_recording">
+           <property name="text">
+            <string>Recording</string>
            </property>
           </widget>
          </item>
         </layout>
+       </item>
+       <item>
+        <widget class="Line" name="line_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
@@ -324,8 +399,20 @@
      <height>30</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuMenu">
+    <property name="title">
+     <string>&amp;Menu</string>
+    </property>
+    <addaction name="actionQuit"/>
+   </widget>
+   <addaction name="menuMenu"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionQuit">
+   <property name="text">
+    <string>Quit</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

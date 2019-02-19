@@ -23,7 +23,7 @@ cmaps = {'blue': 'PuBu',
          'plasma': 'plasma'
          }
 class SubplotAnimation(animation.TimedAnimation):
-    def __init__(self, sim_id = 159,db_name = 'stigmergy.db', colormap = 'plasma'):
+    def __init__(self, sim_id = 4872,db_name = 'stigmergy.db', colormap = 'plasma'):
 
         self.replays = 0 # flag to see if a replay is being played
         self.player = SimPlayer(sim_id, db_name)
@@ -48,7 +48,8 @@ class SubplotAnimation(animation.TimedAnimation):
                                'origin':'bottom'}
         Z = self.player.map
         self.map = ax_map.imshow(Z, interpolation='None',**self.imshow_opts)
-        self.ants = ax_map.scatter([], [],marker = 'o', s=10, c='k', alpha=1.)
+        # self.ants = ax_map.scatter([], [],marker = 'o', s=10, c='k', alpha=1.)
+        self.ants = ax_map.scatter([],[],marker = 'o',facecolors='white', edgecolors='black', s = 10, alpha = 1.)
         self.left = ax_map.scatter([], [],marker = '*', s=10, c='k', alpha=1.)
         self.right = ax_map.scatter([], [],marker = '*', s=10, c='k', alpha=1.)
         self.nest = ax_map.scatter([], [],marker = '.', s=10, c='k', alpha=1.)

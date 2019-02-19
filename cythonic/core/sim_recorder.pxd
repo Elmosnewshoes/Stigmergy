@@ -12,5 +12,5 @@ cdef class sim_recorder(Sim):
     cdef: # class methods
         readonly void flush_resultset(self,)
         readonly void extract_antstate(self, unsigned int step)
-        readonly dict run_sim(self, bint record)
+        readonly dict run_sim(self, bint record, str initiator)
         void record_step(self, unsigned int stepnr)

@@ -65,7 +65,7 @@ cdef class sim_recorder(Sim):
             self.flush_resultset() # start with a fresh query string
 
 
-    cdef dict run_sim(self, bint record):
+    cdef dict run_sim(self, bint record, str initiator ):
         " run the simulation "
         cdef unsigned int i #stepcounter
         cdef unsigned int action_counter = 0 #count all ant actions
@@ -77,6 +77,7 @@ cdef class sim_recorder(Sim):
         cdef list entropy_vec = [], nestcount_vec = []
         if record:
             self.db.execute(f"UPDATE sim SET RECORDING = 'TRUE' WHERE ID = {self.id}")
+        self.db.execute(f"UPDATE sim SET initializer = '{initiator}' WHERE ID = {self.id}")
         self.db.execute(queries.update_sim(self.id, status = 'STARTED'))
 
         # === loop ===
@@ -84,14 +85,14 @@ cdef class sim_recorder(Sim):
             self.sim_step() # do the stepping
             if record:
                 # do the recording
-                action_counter +=self.queen.count_active
-                if i == k_vec[stepupdates]:
-                    # this iteration the result vector is appended
-                    entropy_vec.append(round(self.domain.entropy(),3))
-                    nestcount_vec.append(self.nestcount)
-                    stepupdates+=1 # increase the vector index
-
                 self.record_step(i)
+            action_counter +=self.queen.count_active
+            if i == k_vec[stepupdates]:
+                # this iteration the result vector is appended
+                entropy_vec.append(round(self.domain.entropy(),3))
+                nestcount_vec.append(self.nestcount)
+                stepupdates+=1 # increase the vector index
+
         # === end loop ===
 
         # store results:
@@ -101,8 +102,5 @@ cdef class sim_recorder(Sim):
                'entropy_vec': entropy_vec, 'start_entropy': round(start_entropy,3), 'end_entropy': round(end_entropy,3),
                 'scorecard':nestcount_vec, 'step_vec':np.asarray(k_vec).tolist()}
         self.db.execute(queries.insert_results(**result))
-        if record:
-            self.db.execute(queries.update_sim(self.id, status = 'FINISHED', steps = action_counter))
-        else:
-            self.db.execute(queries.update_sim(self.id, status = 'FINISHED'))
+        self.db.execute(queries.update_sim(self.id, status = 'FINISHED', steps = action_counter))
         return result
