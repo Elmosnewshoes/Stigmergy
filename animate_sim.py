@@ -17,6 +17,19 @@ import matplotlib.animation as animation
 from matplotlib import cm
 
 from mpl_toolkits.axes_grid1 import make_axes_locatable
+from cythonic.plugins.db_controller import db_controller
+from cythonic.plugins.db_path import db_path
+from cythonic.core.sim_player import extract_settings
+
+def check_sim(sim_id, dbpath = db_path(), dbname='stigmergy.db'):
+    db = db_controller(dbpath, dbname)
+    q1 = f"SELECT count(ID) as counted FROM sim WHERE sim.id = {sim_id}"
+    q2 = f"SELECT IFNULL(steps_recorded,0)steps_recorded FROM sim WHERE sim.id = {sim_id}"
+    if extract_settings(*db.return_all(q1))['counted']==0:
+        return -1 # sim id does not exist in database
+    else:
+        return int(extract_settings(*db.return_all(q2))['steps_recorded'])
+
 cmaps = {'blue': 'PuBu',
          'grey_reverse': 'Greys_r',
          'grey': 'Greys',
@@ -24,7 +37,15 @@ cmaps = {'blue': 'PuBu',
          }
 class SubplotAnimation(animation.TimedAnimation):
     def __init__(self, sim_id = 4872,db_name = 'stigmergy.db', colormap = 'plasma'):
+        self.status = check_sim(sim_id, dbname = db_name)
+        if self.status >= 1:
+            self.new(sim_id, db_name,colormap) #continue
+        elif self.status == 0:
+            pass # future implementation, no steps/live sim but only results
+        else:
+            pass # abort
 
+    def new(self,sim_id, db_name, colormap):
         self.replays = 0 # flag to see if a replay is being played
         self.player = SimPlayer(sim_id, db_name)
         self.player.get_steps() # fetch all ant movements from database
@@ -107,7 +128,9 @@ class SubplotAnimation(animation.TimedAnimation):
 
 def show_plot(id, colormap = 'plasma'):
     ani = SubplotAnimation(sim_id = id, colormap = colormap)
-    plt.show()
+    if ani.status > 0:
+        plt.show()
+    return ani.status
 
 if __name__=='__main__':
     ani = SubplotAnimation()

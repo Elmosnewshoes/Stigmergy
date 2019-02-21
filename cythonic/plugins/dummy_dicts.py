@@ -44,7 +44,7 @@ sim_dict = {
     'steps': steps,
     'deploy_style': 'nest_radian',
     'deploy_timing': 'gamma_dist',
-    'deploy_timing_args': {'k':10.,'teta': 2.},
+    'deploy_timing_args': {'k':10.,'teta': 2., 't_max': 10},
     'evap_rate': -1.
     # 'evap_rate': 0.99,
 }
