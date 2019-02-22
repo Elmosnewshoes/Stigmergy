@@ -64,7 +64,7 @@ cdef class db_controller():
 
     def return_all(self, str qry):
         " return all rows from a select query "
-        cdef object cursor = self.db.cursor()
+        cursor = self.db.cursor()
         try:
             cursor.execute(qry)
             headers = [hdr[0] for hdr in cursor.description ]

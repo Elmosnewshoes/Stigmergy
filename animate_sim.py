@@ -41,9 +41,29 @@ class SubplotAnimation(animation.TimedAnimation):
         if self.status >= 1:
             self.new(sim_id, db_name,colormap) #continue
         elif self.status == 0:
-            pass # future implementation, no steps/live sim but only results
+            self.simple_plot(sim_id, db_name) #  no steps/live sim but only results
         else:
             pass # abort
+
+    def simple_plot(self, sim_id, db_name):
+        qry = f"SELECT entropy_vec, scorecard, step_vec from results where sim_id = {sim_id}"
+        data, headers = db_controller(db_path(), db_name).return_all(qry)
+        H, Y, K = [eval(x) for x in data[0]] #extract results
+
+        fig = plt.figure(figsize = (18,9))
+        ax_entropy = fig.add_subplot(2,1,1)
+        ax_score = fig.add_subplot(2,1,2)
+        ax_entropy.plot(K,H)
+        ax_score.plot(K,Y)
+        ax_entropy.set_xlabel('k')
+        ax_entropy.set_ylabel('H')
+        ax_entropy.set_ylim(0, max(self.player.H)*1.1)
+        ax_score.set_xlabel('k')
+        ax_score.set_ylabel('No. Nest returns')
+        ax_score.set_ylim(0, max(self.player.ax_score)*1.1)
+
+        plt.show()
+
 
     def new(self,sim_id, db_name, colormap):
         self.replays = 0 # flag to see if a replay is being played

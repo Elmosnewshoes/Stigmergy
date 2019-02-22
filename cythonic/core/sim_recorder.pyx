@@ -102,5 +102,9 @@ cdef class sim_recorder(Sim):
                'entropy_vec': entropy_vec, 'start_entropy': round(start_entropy,3), 'end_entropy': round(end_entropy,3),
                 'scorecard':nestcount_vec, 'step_vec':np.asarray(k_vec).tolist()}
         self.db.execute(queries.insert_results(**result))
-        self.db.execute(queries.update_sim(self.id, status = 'FINISHED', steps = action_counter))
+        if record:
+            self.db.execute(queries.update_sim(self.id, status = 'FINISHED', steps = action_counter))
+        else:
+            self.db.execute(queries.update_sim(self.id, status = 'FINISHED'))
+
         return result
