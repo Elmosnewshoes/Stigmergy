@@ -1,7 +1,0 @@
-<RCC>
-  <qresource prefix="/home/bram/ANTS">
-    <file>Notebooks/gauss_test.png</file>
-    <file>Notebooks/gauss_test.eps</file>
-    <file>Notebooks/gauss_test.pdf</file>
-  </qresource>
-</RCC>
