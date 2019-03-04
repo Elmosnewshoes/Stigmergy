@@ -9,7 +9,7 @@ recordings/
 *.db
 
 # Jupyter Notebook directory
-./Notebooks/
+Notebooks/
 
 # old files of the ANT project
 dev_null
