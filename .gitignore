@@ -6,8 +6,10 @@ __pycache__/
 recordings/
 
 # database files
-database/
 *.db
+
+# Jupyter Notebook directory
+./Notebooks/
 
 # old files of the ANT project
 dev_null

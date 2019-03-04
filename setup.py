@@ -1,3 +1,10 @@
+# =======================================
+# Created by: Bram Durieux
+#   as part of the master thesis at the Delft University of Technology
+#
+# Description: Cython compile instructions, when running into trouble, comment out the compiler_directives
+# =======================================
+
 from distutils.core import setup
 from Cython.Build import cythonize
 

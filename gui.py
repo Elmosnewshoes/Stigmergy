@@ -1,3 +1,9 @@
+# =======================================
+# Created by: Bram Durieux
+#   as part of the master thesis at the Delft University of Technology
+#
+# Description: Main file, launches the Graphical User Interface for theANT3000 simulator
+# =======================================
 from gui.sim_launcher import Ui_MainWindow
 import sys
 import animate_sim
@@ -35,20 +41,33 @@ class mywindow(QtWidgets.QMainWindow):
         self.ui.sim_id_input.setText(_translate("MainWindow", str(get_best(self.db))))
 
     def welcome_message(self):
-        self.set_text('--Welcome to ANT<span style=" vertical-align:super;">3000</span> &#8482; --')
+        self.set_text('--Welcome to theANT<span style=" vertical-align:super;">3000</span> &#8482; --')
 
     def run_sim(self,):
         record = self.ui.check_recording.isChecked()
         visualize = self.ui.check_visualize.isChecked()
+        dicts = simulation_args(self.ui)
+        input_status, msg = validate_settings(dicts)
+        if input_status < 0:
+            " checks do not compute, terminate function call "
+            self.set_text(msg)
+            return
+        elif input_status < 1:
+            " just warn "
+            self.set_text(msg)
 
-        if record:
+        if record and visualize:
             " first record the sim, then play the replay "
             store_interval = self.ui.spinbox_interval.value()
-            record_and_play(**simulation_args(self.ui), record= record, upload_interval = store_interval)
+            self.set_text('Preparing a new simulation')
+            record_and_play(**dicts, record= record, upload_interval = store_interval)
         elif visualize:
             " live simulation but do not write the results to the database "
+            self.set_text('Not implemented yet')
         else:
             " only print the result, no visualization, do not store to database "
+            self.set_text('Not implemented yet')
+
     def save_and_quit(self):
         " exit app gracefully but save the settigns first "
         self.store_settings()

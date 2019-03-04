@@ -74,6 +74,24 @@ def simulation_args(Gui):
         'gauss_dict': make_gauss_dict(Gui),
     }
 
+def validate_settings(dicts):
+    " do sanity checks, raise error "
+    status = 1
+    msg = ""
+    " check if food is in domain "
+    if (dicts['domain_dict']['food_loc'][0] > dicts['domain_dict']['size'][0]-dicts['domain_dict']['food_rad']
+        or dicts['domain_dict']['food_loc'][1] > dicts['domain_dict']['size'][1]-dicts['domain_dict']['food_rad']):
+        status = -1
+        msg = "Food location out of bounds"
+        return status, msg
+    if (dicts['domain_dict']['nest_loc'][0] > dicts['domain_dict']['size'][0]-dicts['domain_dict']['nest_rad']
+        or dicts['domain_dict']['nest_loc'][1] > dicts['domain_dict']['size'][1]-dicts['domain_dict']['nest_rad']):
+        status = -1
+        msg = "Food location out of bounds"
+        return status, msg
+
+    return status, msg
+
 def get_best(db):
     " return the id of the best sim "
     qry = "select sim.id from sim left join results as r on r.sim_id = sim.id where r.nestcount = (select max(r.nestcount) from sim left join results as r on r.sim_id = sim.id where sim.steps_recorded is not null and sim.steps_recorded > 100) limit 1"

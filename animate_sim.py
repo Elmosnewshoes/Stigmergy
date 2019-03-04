@@ -1,12 +1,10 @@
-"""
-=================
-Animated subplots
-=================
-
-Modification from: https://matplotlib.org/examples/animation/subplots.html
-
-"""
-
+# =======================================
+# Created by: Bram Durieux
+#   as part of the master thesis at the Delft University of Technology
+#
+# Description: Visualization of theANT3000 simulator.
+# Modification from: https://matplotlib.org/examples/animation/subplots.html
+# =======================================
 
 
 from cythonic.core.sim_player import SimPlayer
@@ -57,10 +55,10 @@ class SubplotAnimation(animation.TimedAnimation):
         ax_score.plot(K,Y)
         ax_entropy.set_xlabel('k')
         ax_entropy.set_ylabel('H')
-        ax_entropy.set_ylim(0, max(self.player.H)*1.1)
+        ax_entropy.set_ylim(0, max(H)*1.1)
         ax_score.set_xlabel('k')
         ax_score.set_ylabel('No. Nest returns')
-        ax_score.set_ylim(0, max(self.player.ax_score)*1.1)
+        ax_score.set_ylim(0, max(Y)*1.1)
 
         plt.show()
 

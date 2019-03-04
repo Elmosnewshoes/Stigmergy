@@ -1,5 +1,10 @@
+# =======================================
+# Created by: Bram Durieux
+#   as part of the master thesis at the Delft University of Technology
+#
+# Description: Standalone file used to record and then play an theANT3000 simulation
+# =======================================
 from animate_sim import show_plot
-# import matplotlib.pyplot as plt
 from cythonic.sim_wrapper import recorder
 
 

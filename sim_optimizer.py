@@ -1,3 +1,11 @@
+# =======================================
+# Created by: Bram Durieux
+#   as part of the master thesis at the Delft University of Technology
+#
+# Description: Simple ACO ( https://en.wikipedia.org/wiki/Ant_colony_optimization_algorithms )
+#   script to finetune some simulation parameters for the theANT3000 sim
+# =======================================
+
 from cythonic.plugins.aco_optimizer import optimizer
 import numpy as np
 import matplotlib.pyplot as plt

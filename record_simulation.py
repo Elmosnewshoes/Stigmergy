@@ -1,3 +1,9 @@
+# =======================================
+# Created by: Bram Durieux
+#   as part of the master thesis at the Delft University of Technology
+#
+# Description: Standalone file used to record an theANT3000 simulation
+# =======================================
 from cythonic.plugins.dummy_dicts import ant_dict, queen_dict, domain_dict, gauss_dict, sim_dict, deposit_dict, sens_dict
 print(sim_dict)
 print(domain_dict)
