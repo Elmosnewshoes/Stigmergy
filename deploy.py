@@ -7,6 +7,7 @@
 
 import sqlite3, sys
 from sqlite3 import Error
+from cythonic.plugins.db_path import db_path
 
 
 def create_connection(db_file, qrys):
@@ -34,5 +35,6 @@ if __name__ == '__main__':
     qry.append("CREATE TABLE `queen_settings` ( `sim_id` INTEGER NOT NULL UNIQUE, `default_speed` NUMERIC, `noise_type` TEXT, `noise_parameter` NUMERIC, FOREIGN KEY(`sim_id`) REFERENCES `sim`(`ID`) ON DELETE CASCADE, PRIMARY KEY(`sim_id`) )")
     qry.append("CREATE TABLE \"results\" ( `sim_id` INTEGER NOT NULL UNIQUE, `entropy_vec` text, `start_entropy` numeric, `end_entropy` numeric, `foodcount` integer, `nestcount` integer, `scorecard` TEXT, `step_vec` TEXT, FOREIGN KEY(`sim_id`) REFERENCES `sim`(`ID`) ON DELETE CASCADE, PRIMARY KEY(`sim_id`) )")
     qry.append("CREATE TABLE `sens_settings` ( `sim_id` INTEGER NOT NULL UNIQUE, `breakpoint` numeric, `exp_lambda` numeric, FOREIGN KEY(`sim_id`) REFERENCES `sim`(`ID`) ON DELETE CASCADE, PRIMARY KEY(`sim_id`) )")
-    path = '/'.join(sys.argv[0].split('/')[:-1])+'/'
-    create_connection(path+"cythonic/database/"+"stigmergy.db", qry)
+    path = db_path()+"stigmergy.db"
+    print(path)
+    create_connection(path, qry)
