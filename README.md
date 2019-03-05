@@ -39,14 +39,14 @@ Based on python3
 ## Troubleshooting
 ```shell
 cythonic/plugins/functions.c:606:10: fatal error: numpy/arrayobject.h: No such file or directory
- \#include "numpy/arrayobject.h"
+ #include "numpy/arrayobject.h"
           ^~~~~~~~~~~~~~~~~~~~~
 compilation terminated.
 error: command 'x86_64-linux-gnu-gcc' failed with exit status 1
 ```
 This is bad. Probably numpy is installed through pip, try: ``` sudo apt-get install python-numpy ``` then, recompile
 ```shell
-warning: \#warning "Using deprecated NumPy API, disable it by " "#defining NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION" [-Wcpp]
+warning: #warning "Using deprecated NumPy API, disable it by " "#defining NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION" [-Wcpp]
 ```
 This is normal and should not affect the working of the program
 ```shell
