@@ -20,10 +20,12 @@ Based on python3
  - The visualization module makes use of tkinter: ``` user@computer:~$ sudo apt install python3-tk ```
  - Install dependencies: ``` pip3 install ...```
  - Clone the project:
+
 ```shell
   user@computer:~$ git clone https://github.com/Elmosnewshoes/Stigmergy/ theANT3000
   user@computer:~$ cd theANT3000
-  ```
+```
+
  - Create the database: ``` user@computer:~/theANT3000$ python deploy.py ```
  - Let python compile the source code: ``` user@computer:~/theANT3000$ python setup.py build_ext -i ```
  - Launch! ``` user@computer:~/theANT3000$ python gui.py ```
