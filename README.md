@@ -15,7 +15,9 @@ Based on python3
  - (optional) make sure pip3 is installed: ```user@computer:~$ sudo apt-get install python3-pip```
  - (optional) use virtual environment, make sure virtualenv is available: ```user@computer:~$  sudo apt install virtualenv ```
  - (optional) DB browser for sqlite ```user@computer:~$  sudo apt install sqlitebrowser ```
- - (optional) Make a virtual environment ``` user@computer:~$ virtualenv pythonenvs/theANT3000 -p python3 ``` and ```user@computer:~$  source pythonenvs/theANT3000/bin/activate ```
+ - (optional) Make a virtual environment ``` user@computer:~$ virtualenv pythonenvs/theANT3000 -p python3 ``` and ```user@computer:~$  source
+  pythonenvs/theANT3000/bin/activate ```
+ - The visualization module makes use of tkinter: ``` user@computer:~$ sudo apt install python3-tk ```
  - Install dependencies: ``` pip3 install ...```
  - Clone the project:
 ```shell
