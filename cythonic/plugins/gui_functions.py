@@ -95,7 +95,10 @@ def validate_settings(dicts):
 def get_best(db):
     " return the id of the best sim "
     qry = "select sim.id from sim left join results as r on r.sim_id = sim.id where r.nestcount = (select max(r.nestcount) from sim left join results as r on r.sim_id = sim.id where sim.steps_recorded is not null and sim.steps_recorded > 100) limit 1"
-    row, _ = db.return_all(qry) # result should be a 2 dimensional row of length 1
+    try:
+        row, _ = db.return_all(qry) # result should be a 2 dimensional row of length 1
+    except:
+        row = [[0]]
     return row[0][0]
 
 def load_settings(Gui, sim_dict, queen_dict,

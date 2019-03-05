@@ -32,6 +32,7 @@ Based on python3
  - matplotlib
  - pyqt5
  - cython
+ - pandas
 
 ## Troubleshooting
 ```shell
