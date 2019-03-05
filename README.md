@@ -28,8 +28,9 @@ Based on python3
  - Let python compile the source code: ``` user@computer:~/theANT3000$ python setup.py build_ext -i ```
  - Launch! ``` user@computer:~/theANT3000$ python gui.py ```
  - Click the run button to populate the database for the first time
+ 
 ## Package dependencies
- - numpy
+ - numpy (install through apt-get: ``` sudo apt install python-numpy``` )
  - pysqlite3
  - matplotlib
  - pyqt5
