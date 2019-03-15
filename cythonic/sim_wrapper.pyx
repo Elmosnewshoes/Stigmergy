@@ -25,7 +25,7 @@ cdef class recorder(sim_recorder):
         self.init_connection(db_path(),'stigmergy.db')
         self.setup_sim( deposit_dict, gauss_dict, upload_interval,)
         result = self.run_sim(record, initiator = initiator )
-        self.db.close()
+        # self.db.close()
 
         toc = time()
         print(f" \n Simulation with ID: {self.id}")
