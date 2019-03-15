@@ -130,7 +130,7 @@ class mywindow(QtWidgets.QMainWindow):
         domain_dict['size'] = eval(domain_dict['size'])
         domain_dict['food_loc'] = eval(domain_dict['food_loc'])
         domain_dict['nest_loc'] = eval(domain_dict['nest_loc'])
-        gauss_dict['significancy'] = math.log10(gauss_dict['significancy'])
+        gauss_dict['significancy'] = round(math.log10(gauss_dict['significancy']),0)
         self.load_settings(sim_dict, queen_dict, domain_dict, gauss_dict, deposit_dict)
 
 app = QtWidgets.QApplication([])

@@ -24,4 +24,5 @@ cdef class Sim:
         readonly void sim_step(self)
         readonly void expand_active(self)
         readonly void check_target(self)
-        void check_outofbounds(self,bint* oob_flag, observations * O)
+        void check_outofbounds(self, observations * O)
+        void check_attractiveness(self,observations * O)

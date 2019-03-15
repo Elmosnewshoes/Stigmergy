@@ -1,3 +1,5 @@
 Noteworthy accomplishments:
 
-got some pretty decent result with just 80 ants in simulation 4916
+got some pretty decent result with just 80 ants in simulation 4917
+
+difference critical ant threshold: 4924 (80 ants) vs 4925 (160 ants)
