@@ -48,6 +48,7 @@ class mywindow(QtWidgets.QMainWindow):
         visualize = self.ui.check_visualize.isChecked()
         dicts = simulation_args(self.ui)
         input_status, msg = validate_settings(dicts)
+        store_interval = self.ui.spinbox_interval.value()
         if input_status < 0:
             " checks do not compute, terminate function call "
             self.set_text(msg)
@@ -56,17 +57,13 @@ class mywindow(QtWidgets.QMainWindow):
             " just warn "
             self.set_text(msg)
 
-        if record and visualize:
-            " first record the sim, then play the replay "
-            store_interval = self.ui.spinbox_interval.value()
-            self.set_text('Preparing a new simulation')
-            record_and_play(**dicts, record= record, upload_interval = store_interval)
-        elif visualize:
+        if visualize and not record:
             " live simulation but do not write the results to the database "
             self.set_text('Not implemented yet')
         else:
-            " only print the result, no visualization, do not store to database "
-            self.set_text('Not implemented yet')
+            self.set_text('Preparing a new simulation')
+            result = record_and_play(**dicts, record= record, upload_interval = store_interval)
+        self.set_text(f"Simulation # {result['sim_id']} yielded a nestcount score of {result['nestcount']} with {dicts['sim_dict']['n_agents']} ants ")
 
     def save_and_quit(self):
         " exit app gracefully but save the settigns first "
@@ -130,7 +127,7 @@ class mywindow(QtWidgets.QMainWindow):
         domain_dict['size'] = eval(domain_dict['size'])
         domain_dict['food_loc'] = eval(domain_dict['food_loc'])
         domain_dict['nest_loc'] = eval(domain_dict['nest_loc'])
-        gauss_dict['significancy'] = round(math.log10(gauss_dict['significancy']),0)
+        gauss_dict['significancy'] = math.log10(gauss_dict['significancy'])
         self.load_settings(sim_dict, queen_dict, domain_dict, gauss_dict, deposit_dict)
 
 app = QtWidgets.QApplication([])

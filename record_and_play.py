@@ -13,6 +13,9 @@ def record_and_play(sim_dict, queen_dict, domain_dict, deposit_dict, gauss_dict,
     result = sim_recorder.time_full_sim(record = record, deposit_dict = deposit_dict,gauss_dict = gauss_dict, upload_interval = upload_interval)
     if record and visualize:
         animation = show_plot(result['sim_id'], colormap = 'blue')
+    elif visualize:
+        pass
+    return result
 
 if __name__ == '__main__':
     from cythonic.plugins.dummy_dicts import ant_dict, queen_dict, domain_dict, gauss_dict, sim_dict, deposit_dict, sens_dict

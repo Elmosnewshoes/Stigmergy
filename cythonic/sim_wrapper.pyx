@@ -31,6 +31,7 @@ cdef class recorder(sim_recorder):
         print(f" \n Simulation with ID: {self.id}")
         print(f" \n It took a whopping {(toc-tic)*1000} msec \n")
         return result
+        
 cdef class controller(Sim):
     def __init__(self,queen_args,domain_args,sim_args):
         "wrap constructor "
