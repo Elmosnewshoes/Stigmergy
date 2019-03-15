@@ -60,8 +60,7 @@ cdef class Domain:
             Q = self.Map.map[self.Map.to_grid(&p.y),self.Map.to_grid(&p.x)]
         else:
             " out of bounds, return zero "
-            # Q = 0.
-            Q = -1 # make deflect off walls
+            Q = 0.
         return Q
 
     cdef readonly void set_target_pheromone(self, double target):

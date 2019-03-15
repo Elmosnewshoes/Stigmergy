@@ -1,6 +1,7 @@
 from cythonic.core.queen cimport Queen
 from cythonic.core.ant cimport Ant, ant_state
 from cythonic.core.domain cimport Domain
+from cythonic.plugins.sens_structs cimport observations
 
 cdef class Sim:
     # " class properties "
@@ -23,3 +24,4 @@ cdef class Sim:
         readonly void sim_step(self)
         readonly void expand_active(self)
         readonly void check_target(self)
+        void check_outofbounds(self,bint* oob_flag, observations * O)

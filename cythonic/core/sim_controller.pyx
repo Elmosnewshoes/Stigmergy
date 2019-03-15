@@ -111,6 +111,9 @@ cdef class Sim:
             #sense (queen/domain)
             self.domain.fill_observations(&self.queen.pheromone_vec[i], &self.queen.state_list[i].left, &self.queen.state_list[i].right)
 
+            # give ant a small nudge in the 'right' direction when at boundary
+            self.check_outofbounds(&self.queen.state_list[i].out_of_bounds,&self.queen.pheromone_vec[i])
+
             #step (queen)
             self.queen.step(&self.dt)
 
@@ -138,6 +141,16 @@ cdef class Sim:
                 " deploy ant if its deploy time is  \seq (<=) than current time step"
                 self.queen.deploy(i) # deploy ant by id
 
+    cdef void check_outofbounds(self,bint* oob_flag, observations * O):
+        " logic for handling ant at boundary "
+        if oob_flag:
+            " only do something when ant is marked as out of bounds "
+            " when ant is out of bounds, make the sensor that is out of bound sense a small negative quantity thereby making the ant wall-repellant"
+            if O[0].lft <= 1e-6:
+                O[0].lft = -1.
+            if O[0].rght <= 1e-6:
+                O[0].rght = -1
+
 
     cdef void check_target(self):
         """ Check the following:
@@ -146,25 +159,10 @@ cdef class Sim:
             - Ant is nestbound and at nest? make foodbound and reverse
         """
         " ===== WARNING: assumption, ant cannot go from out of bounds to nest/food in a single step ====="
-        # if self.queen.agent.state[0].foodbound and (
-        #      self.domain.check_pos(p = &self.queen.agent.state.left, foodbound = &self.queen.agent.state.foodbound) or
-        #      self.domain.check_pos(p = &self.queen.agent.state.right, foodbound = &self.queen.agent.state.foodbound)):
-        #     " found food!, reverse, reset the timer and count the event "
-        #     self.queen.agent.state[0].foodbound = False #toggle state
-        #     self.queen.agent.reverse()
-        #     self.foodcount+=1
-        #     self.queen.agent.state[0].time = 0.
-        #
-        # elif (not self.queen.agent.state[0].foodbound) and (
-        #     self.domain.check_pos(p = &self.queen.agent.state.left, foodbound = &self.queen.agent.state.foodbound) or
-        #     self.domain.check_pos(p = &self.queen.agent.state.right, foodbound = &self.queen.agent.state.foodbound)):
-        #     " back at the nest, reverse, reset the timer and count the event "
-        #     self.queen.agent.state[0].foodbound = True # toggle state
-        #     self.queen.agent.reverse()
-        #     self.nestcount += 1
-        #     self.queen.agent.state[0].time = 0.
+
         cdef bint foodbound = True
         cdef bint nestbound = False
+        " check arrival at food "
         if (self.domain.check_pos(p = &self.queen.agent.state.left, foodbound = &foodbound)
             or self.domain.check_pos(p = &self.queen.agent.state.right, foodbound = &foodbound)):
             # ant just arrived at food
