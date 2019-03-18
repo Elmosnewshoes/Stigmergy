@@ -6,7 +6,7 @@ Start the simulator by running:
 
 Execute gui.py:
 ```shell
-user@computer:/../ANT$ python3 gui.py
+user@computer:~/theANT3000$ python3 gui.py
 ```
 
 # Install instructions (Unix only)
@@ -30,7 +30,7 @@ Based on python3
  - Let python compile the source code: ``` user@computer:~/theANT3000$ python setup.py build_ext -i ```
  - Launch! ``` user@computer:~/theANT3000$ python gui.py ```
  - Click the run button to populate the database for the first time
- 
+
 ## Package dependencies
  - numpy (install through apt-get: ``` sudo apt install python-numpy``` )
  - pysqlite3
