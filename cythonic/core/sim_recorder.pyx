@@ -100,7 +100,7 @@ cdef class sim_recorder(Sim):
 
         result = {'sim_id': self.id,'foodcount': self.foodcount, 'nestcount': self.nestcount,
                'entropy_vec': entropy_vec, 'start_entropy': round(start_entropy,3), 'end_entropy': round(end_entropy,3),
-                'scorecard':nestcount_vec, 'step_vec':np.asarray(k_vec).tolist()}
+                'scorecard':nestcount_vec, 'step_vec':np.asarray(k_vec).tolist(),'score':self.calc_score()}
         self.db.execute(queries.insert_results(**result))
         if record:
             self.db.execute(queries.update_sim(self.id, status = 'FINISHED', steps = action_counter))

@@ -68,6 +68,7 @@ cdef class Sim:
         self.foodcount = 0
         self.nestcount = 0
         self.steps = steps
+        self.total_stepped = 0
         self.deploy_times = deploy_times(deploy_timing,n_agents, **deploy_timing_args)
 
         " initialize the ant states "
@@ -134,6 +135,7 @@ cdef class Sim:
 
         # set stepcounter on the ant
         self.queen.agent.next_step()
+        self.total_stepped += self.queen.count_active
 
 
     cdef void expand_active(self):
@@ -235,3 +237,19 @@ cdef class Sim:
         else:
             " make sure out_of_bounds flag is false "
             self.queen.agent.out_of_bounds(0)
+
+    def calc_score(self):
+        " calculate a dimensionless performance indicator "
+        " R: distance between food and nest "
+        " T: simulation time "
+        " S: ant speed "
+        " score: indicator of usefull distance covered compared to total distance capacity "
+        R = np.linalg.norm([self.domain.food_loc.x,self.domain.food_loc.y]-[self.domain.nest_loc.x,self.domain.nest_loc.y])-(self.domain.nest_radius+self.domain_food_radius)
+        T = self.steps*self.dt
+        S = self.queen.default_speed
+        score = self.nestcount * R / (self.total_stepped * S * T) #minimum required distance per 'nestcount' divided by total disctance stepped
+        print(f"Distance between food and nest: {R} mm")
+        print(f"Simulation duration: {T} sec")
+        print(f"Ants move at {S} mm/sec")
+        print(f"Ant score: {score} [ants/mm/sec]")
+        return score

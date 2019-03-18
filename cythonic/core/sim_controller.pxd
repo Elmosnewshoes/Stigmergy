@@ -17,6 +17,7 @@ cdef class Sim:
         public unsigned int foodcount
         public unsigned int nestcount
         public unsigned int steps
+        public unsigned int total_stepped
 
     # " class methods "
     cdef:
