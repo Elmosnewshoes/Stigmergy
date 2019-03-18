@@ -139,6 +139,9 @@ cdef class SimPlayer:
         " return result step vector from k==0 up to and including K==cur_step "
         return np.asarray(self.steplist)[np.asarray(self.steplist)<=self.cur_step]
     @property
+    def T(self):
+        return self.K*self.dt
+    @property
     def score(self ):
         return np.asarray(self.nestcount)[np.asarray(self.steplist)<=self.cur_step]
 
@@ -148,6 +151,9 @@ cdef class SimPlayer:
     @property
     def K_vec(self):
         return np.asarray(self.steplist)
+    @property
+    def T_vec(self):
+        return(np.round(self.K_vec*self.dt))
     @property
     def score_vec(self):
         return np.asarray(self.nestcount)

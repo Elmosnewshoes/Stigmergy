@@ -76,7 +76,8 @@ class SubplotAnimation(animation.TimedAnimation):
         ax_entropy = fig.add_subplot(2, 2, 2)
         ax_score = fig.add_subplot(2, 2, 4)
 
-        self.k = self.player.K_vec
+        # self.k = self.player.K_vec
+        self.t = self.player.T_vec
         self.h = self.player.H_vec
         self.y = self.player.score_vec
 
@@ -97,18 +98,20 @@ class SubplotAnimation(animation.TimedAnimation):
         ax_map.set_ylabel('y')
         ax_map.set_title('Pheromone map')
 
-        ax_entropy.set_xlabel('k')
+        ax_entropy.set_xlabel('t')
         ax_entropy.set_ylabel('H')
         self.line_H = Line2D([], [], color='black')
         ax_entropy.add_line(self.line_H)
-        ax_entropy.set_xlim(0, self.player.steps)
+        # ax_entropy.set_xlim(0, self.player.steps)
+        ax_entropy.set_xlim(0,max(self.player.T_vec))
         ax_entropy.set_ylim(0, max(self.player.H_vec)+1)
 
-        ax_score.set_xlabel('k')
+        ax_score.set_xlabel('t')
         ax_score.set_ylabel('score')
         self.line_score = Line2D([], [], color='black')
         ax_score.add_line(self.line_score)
-        ax_score.set_xlim(0, self.player.steps)
+        # ax_score.set_xlim(0, self.player.steps)
+        ax_score.set_xlim(0,max(self.player.T_vec))
         ax_score.set_ylim(0, max([1.1*max(self.player.score_vec),1]))
 
         animation.TimedAnimation.__init__(self, fig, interval=10, blit=True,
@@ -122,8 +125,8 @@ class SubplotAnimation(animation.TimedAnimation):
         self.ants.set_offsets(self.player.pos)
         self.left.set_offsets(self.player.lft)
         self.right.set_offsets(self.player.rght)
-        self.line_H.set_data(self.player.K,self.player.H)
-        self.line_score.set_data(self.player.K,self.player.score)
+        self.line_H.set_data(self.player.T,self.player.H)
+        self.line_score.set_data(self.player.T,self.player.score)
         self._drawn_artists = [self.map,self.ants,self.nest,self.food, self.left, self.right, self.line_H, self.line_score]
     def new_frame_seq(self):
         return iter(range(self.player.steps))
