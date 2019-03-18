@@ -63,7 +63,10 @@ class mywindow(QtWidgets.QMainWindow):
         else:
             self.set_text('Preparing a new simulation')
             result = record_and_play(**dicts, record= record, upload_interval = store_interval)
-        self.set_text(f"Simulation # {result['sim_id']} yielded a nestcount score of {result['nestcount']} with {dicts['sim_dict']['n_agents']} ants ")
+        t = f" Simulation # {result['sim_id']}" +\
+            f" yielded a nestcount score of {result['nestcount']} with {dicts['sim_dict']['n_agents']} ants" +\
+            f" -> efficiency of &eta; = {math.round(result['score']*1e6,2)} 10<sup>-6</sup>ants/mm/sec"
+        self.set_text(t)
 
     def save_and_quit(self):
         " exit app gracefully but save the settigns first "
