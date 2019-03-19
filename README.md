@@ -1,4 +1,6 @@
 # Master Thesis project
+See the repository [Wiki](https://github.com/Elmosnewshoes/Stigmergy/wiki) for information about the simulator.
+
 
 # Instructions (Work in Progress)
 
