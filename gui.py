@@ -65,7 +65,7 @@ class mywindow(QtWidgets.QMainWindow):
             result = record_and_play(**dicts, record= record, upload_interval = store_interval)
         t = f" Simulation # {result['sim_id']}" +\
             f" yielded a nestcount score of {result['nestcount']} with {dicts['sim_dict']['n_agents']} ants" +\
-            f" -> efficiency of &eta; = {math.round(result['score']*1e6,2)} 10<sup>-6</sup>ants/mm/sec"
+            f" -> efficiency of &eta; = {round(result['score']*1e6,2)} 10<sup>-6</sup>ants/mm/sec"
         self.set_text(t)
 
     def save_and_quit(self):
