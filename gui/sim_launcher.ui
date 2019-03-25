@@ -710,11 +710,14 @@ p, li { white-space: pre-wrap; }
              <layout class="QHBoxLayout" name="food_box">
               <item>
                <widget class="QSpinBox" name="food_x_size">
+                <property name="minimum">
+                 <number>250</number>
+                </property>
                 <property name="maximum">
                  <number>10000</number>
                 </property>
                 <property name="singleStep">
-                 <number>100</number>
+                 <number>250</number>
                 </property>
                 <property name="value">
                  <number>3500</number>
@@ -723,11 +726,14 @@ p, li { white-space: pre-wrap; }
               </item>
               <item>
                <widget class="QSpinBox" name="food_y_size">
+                <property name="minimum">
+                 <number>250</number>
+                </property>
                 <property name="maximum">
                  <number>10000</number>
                 </property>
                 <property name="singleStep">
-                 <number>100</number>
+                 <number>250</number>
                 </property>
                 <property name="value">
                  <number>2000</number>
