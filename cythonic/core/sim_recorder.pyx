@@ -59,7 +59,7 @@ cdef class sim_recorder(Sim):
     cdef void record_step(self, unsigned int stepnr):
         " record the state at each step "
         self.extract_antstate(stepnr) #append query with current ant_state
-        if stepnr>0 and (stepnr==self.steps-1 or stepnr%self.update_interval ==0):
+        if stepnr>0 and (stepnr==self.steps-1 or stepnr%self.update_interval ==0) and len(self.qry_args) > 0:
             # check if results must be pushed to the database
             self.db.executemany(self.pending_qry, self.qry_args)
             self.flush_resultset() # start with a fresh query string
