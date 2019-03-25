@@ -97,9 +97,10 @@ def get_best(db):
     qry = "select sim.id from sim left join results as r on r.sim_id = sim.id where r.nestcount = (select max(r.nestcount) from sim left join results as r on r.sim_id = sim.id where sim.steps_recorded is not null and sim.steps_recorded > 100) limit 1"
     try:
         row, _ = db.return_all(qry) # result should be a 2 dimensional row of length 1
+        return get_best_score(db)
     except:
         row = [[0]]
-    return row[0][0]
+        return row[0][0]
 
 def load_settings(Gui, sim_dict, queen_dict,
                   domain_dict, gauss_dict, deposit_dict):
@@ -207,3 +208,44 @@ def printall(Gui):
     print(make_gauss_dict(Gui))
     print(make_deposit_dict(Gui))
     print(make_domain_dict(Gui))
+
+def get_best_score(db):
+    # from cythonic.plugins.db_controller import db_controller
+    # from cythonic.plugins.db_path import db_path
+    import numpy as np
+
+    # db = db_controller(db_path(),'stigmergy.db')
+
+    qry = """
+        select
+        sim.id,
+        cast(substr(nest_loc,2,instr(nest_loc,', ')-2) as numeric) as X1,
+        cast(substr(nest_loc,instr(nest_loc,', ')+2,instr(nest_loc,']')-instr(nest_loc,', ')-2) as numeric) as Y1,
+        cast(substr(food_loc,2,instr(nest_loc,', ')-2) as numeric) as X2,
+        cast(substr(food_loc,instr(nest_loc,', ')+2,instr(nest_loc,']')-instr(nest_loc,', ')-2) as numeric) as Y2,
+        dom.food_rad, dom.nest_rad,
+        cast(sim_s.steps as numeric) * sim_s.dt as T,
+        queen.default_speed as S,
+        results.nestcount as nestcount,
+        sim.steps_recorded
+        from sim
+        left join domain_settings dom on dom.sim_id = sim.id
+        left join sim_settings as sim_s on sim_s.sim_id = sim.id
+        left join queen_settings as queen on queen.sim_id = sim.id
+        left join results on results.sim_id = sim.id
+        where dom.sim_id is not null
+        AND sim.status = 'FINISHED'
+        AND sim_s.sim_id is not null
+        AND queen.sim_id is not null
+        AND queen.default_speed is not null
+        AND sim_s.dt is not null
+        AND sim_s.steps is not null
+        AND results.sim_id is not null
+        AND results.nestcount is not null
+        """
+    df = db.get_df(qry)
+    df['R'] = np.sqrt(np.power(df['X1']-df['X2'],2)+np.power(df['Y1']-df['Y2'],2))-df['food_rad']-df['nest_rad']
+    df['score'] = 1e6*df['nestcount'] * df['R'] / (df['steps_recorded'] * df['S'] * df['T'])
+    # print(df[['ID','R','S','T','steps_recorded','score']].sort_values(by='score',ascending= False))
+    # print(df[['ID','R','S','T','steps_recorded','score']].sort_values(by='score',ascending= False).iloc[0]['ID'])
+    return df[['ID','R','S','T','steps_recorded','score']].sort_values(by='score',ascending= False).iloc[0]['ID'].astype(int)
