@@ -92,12 +92,13 @@ def validate_settings(dicts):
 
     return status, msg
 
-def get_best(db):
+def get_best(db, ):
     " return the id of the best sim "
     qry = "select sim.id from sim left join results as r on r.sim_id = sim.id where r.nestcount = (select max(r.nestcount) from sim left join results as r on r.sim_id = sim.id where sim.steps_recorded is not null and sim.steps_recorded > 100) limit 1"
     try:
+        "first, check if db is populated, then find the best simulation "
         row, _ = db.return_all(qry) # result should be a 2 dimensional row of length 1
-        return get_best_score(db)
+        return get_best_score(db)['ID'].astype(int)
     except:
         row = [[0]]
         return row[0][0]
@@ -127,7 +128,11 @@ def load_settings(Gui, sim_dict, queen_dict,
     Gui.combobox_deployment.setCurrentText(_translate("MainWindow", sim_dict['deploy_style']))
     Gui.combobox_timing.setCurrentText(_translate("MainWindow", sim_dict['deploy_timing']))
     Gui.spinbox_deployk.setProperty('value', sim_dict['deploy_timing_args']['k'])
-    Gui.spinbox_deploytheta.setProperty('value', sim_dict['deploy_timing_args']['teta'])
+    Gui.spinbox_deploytheta.setProperin Bertie kreeg 1.500 voorkeursstemmen
+
+In Zeeland eindigde Bertie Steur, beter bekend als boerin Bertie van het tv-programma Boer Zoekt Vrouw, met ruim 1.500 voorkeursstemmen als tweede op de lijst van de Partij voor Zeeland. Steur is van plan haar zetel in te nemen, zegt ze tegen RTL Boulevard. In Gelderland, Zeeland en Drenthe veranderde de zetelverdeling niet ten opzichte van de voorlopige uitslag van vorige week.
+
+erty('value', sim_dict['deploy_timing_args']['teta'])
     try: # not always contained in the sim dictionary
         Gui.spinbox_deploytmax.setProperty('value', sim_dict['deploy_timing_args']['t_max'])
     except:
@@ -209,7 +214,7 @@ def printall(Gui):
     print(make_deposit_dict(Gui))
     print(make_domain_dict(Gui))
 
-def get_best_score(db):
+def get_best_score(db, sim_id = -1):
     # from cythonic.plugins.db_controller import db_controller
     # from cythonic.plugins.db_path import db_path
     import numpy as np
@@ -243,9 +248,13 @@ def get_best_score(db):
         AND results.sim_id is not null
         AND results.nestcount is not null
         """
+    if sim_id >= 0:
+        " if specific sim is requested "
+        qry+= f" AND sim.id = {sim_id}"
+
     df = db.get_df(qry)
     df['R'] = np.sqrt(np.power(df['X1']-df['X2'],2)+np.power(df['Y1']-df['Y2'],2))-df['food_rad']-df['nest_rad']
     df['score'] = 1e6*df['nestcount'] * df['R'] / (df['steps_recorded'] * df['S'] * df['T'])
     # print(df[['ID','R','S','T','steps_recorded','score']].sort_values(by='score',ascending= False))
     # print(df[['ID','R','S','T','steps_recorded','score']].sort_values(by='score',ascending= False).iloc[0]['ID'])
-    return df[['ID','R','S','T','steps_recorded','score']].sort_values(by='score',ascending= False).iloc[0]['ID'].astype(int)
+    return df[['ID','R','S','T','steps_recorded','score']].sort_values(by='score',ascending= False).iloc[0]
