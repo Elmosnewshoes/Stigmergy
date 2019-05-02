@@ -128,11 +128,7 @@ def load_settings(Gui, sim_dict, queen_dict,
     Gui.combobox_deployment.setCurrentText(_translate("MainWindow", sim_dict['deploy_style']))
     Gui.combobox_timing.setCurrentText(_translate("MainWindow", sim_dict['deploy_timing']))
     Gui.spinbox_deployk.setProperty('value', sim_dict['deploy_timing_args']['k'])
-    Gui.spinbox_deploytheta.setProperin Bertie kreeg 1.500 voorkeursstemmen
-
-In Zeeland eindigde Bertie Steur, beter bekend als boerin Bertie van het tv-programma Boer Zoekt Vrouw, met ruim 1.500 voorkeursstemmen als tweede op de lijst van de Partij voor Zeeland. Steur is van plan haar zetel in te nemen, zegt ze tegen RTL Boulevard. In Gelderland, Zeeland en Drenthe veranderde de zetelverdeling niet ten opzichte van de voorlopige uitslag van vorige week.
-
-erty('value', sim_dict['deploy_timing_args']['teta'])
+    Gui.spinbox_deploytheta.setProperty('value', sim_dict['deploy_timing_args']['teta'])
     try: # not always contained in the sim dictionary
         Gui.spinbox_deploytmax.setProperty('value', sim_dict['deploy_timing_args']['t_max'])
     except:
