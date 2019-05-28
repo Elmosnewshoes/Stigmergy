@@ -10,6 +10,7 @@ cdef class SimPlayer:
 
         readonly double ant_size, sens_offset
         double[:,::] positions
+        double[:,::] droppers
         double[:] headings
         double[:,::] lefts
         double[:,::] rights
