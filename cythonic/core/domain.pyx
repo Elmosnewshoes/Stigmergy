@@ -2,7 +2,7 @@ from cythonic.plugins.positions cimport point, index, map_range
 from cythonic.core.map cimport MeshMap, GaussMap
 cimport numpy as np
 import numpy as np
-from libc.math cimport ceil as cceil, sqrt as csqrt, log as cln
+from libc.math cimport ceil as cceil, sqrt as csqrt, log as cln, fmax as cmax
 cimport cython
 from cython.parallel cimport prange
 
@@ -15,10 +15,10 @@ cdef class Domain:
         O[0].rght = self.probe_pheromone(pos_right)
 
 
-    cdef readonly void init_gaussian(self, double sigma, double significancy):
+    cdef readonly void init_gaussian(self, double covariance, double significancy):
         " initialize a gaussian meshmap "
-        cdef double R = cceil(sigma*csqrt(2*cln(significancy)))
-        self.Gaussian = GaussMap(resolution = self.Map.pitch, R = R, covariance = sigma)
+        cdef double R = cceil(covariance*csqrt(2*cln(significancy)))
+        self.Gaussian = GaussMap(resolution = self.Map.pitch, R = R, covariance = covariance)
 
     cdef readonly bint check_bounds(self, point * p):
         " check if point is within the domain limits"

@@ -104,7 +104,7 @@ cdef class GaussMap(Map):
         # print(f'New gaussian with radius: {R}')
         dim = np.array([np.ceil(self.radius/resolution)*resolution*2+resolution,np.ceil(self.radius/resolution)*resolution*2+resolution], dtype = np.float_)
         self.new(dim,resolution)
-        self.map = self.bivariate_normal(sigmax=covariance,sigmay=covariance,
+        self.map = self.bivariate_normal(sigmax=np.sqrt(covariance),sigmay=np.sqrt(covariance),
             mux = self.dim.x/2, muy=self.dim.y/2, sigmaxy=0)
         # print(f'Map shape is: {np.array(self.map).shape[0:2]}')
         self.volume = np.array(self.map).sum()*self.pitch**2

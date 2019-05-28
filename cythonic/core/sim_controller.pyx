@@ -87,7 +87,7 @@ cdef class Sim:
 
     def set_gaussian(self, double covariance, double significancy):
         " make sure there is a nice gaussian meshmap representing a single deposition of pheromone "
-        self.domain.init_gaussian(sigma = covariance,significancy = significancy)
+        self.domain.init_gaussian(covariance = covariance,significancy = significancy)
 
 
     """ ===================== Actual simulation ===================== """
