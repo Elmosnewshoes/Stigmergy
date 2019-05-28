@@ -92,6 +92,7 @@ class SubplotAnimation(animation.TimedAnimation):
         self.ants = ax_map.scatter([],[],marker = 'o',facecolors='white', edgecolors='black', s = 10, alpha = 1.)
         self.left = ax_map.scatter([], [],marker = '*', s=10, c='k', alpha=1.)
         self.right = ax_map.scatter([], [],marker = '*', s=10, c='k', alpha=1.)
+        self.dropper = ax_map.scatter([], [], marker = '*', s=10, c = 'gray', alpha=1.)
         self.nest = ax_map.scatter([], [],marker = '.', s=10, c='k', alpha=1.)
         self.food = ax_map.scatter([], [],marker = '.', s=10, c='k', alpha=1.)
         ax_map.set_xlabel('x')
@@ -123,11 +124,12 @@ class SubplotAnimation(animation.TimedAnimation):
         # i = framedata
         self.map.set_data(self.player.map)
         self.ants.set_offsets(self.player.pos)
+        self.dropper.set_offsets(self.player.drop)
         self.left.set_offsets(self.player.lft)
         self.right.set_offsets(self.player.rght)
         self.line_H.set_data(self.player.T,self.player.H)
         self.line_score.set_data(self.player.T,self.player.score)
-        self._drawn_artists = [self.map,self.ants,self.nest,self.food, self.left, self.right, self.line_H, self.line_score]
+        self._drawn_artists = [self.map,self.ants,self.dropper, self.nest,self.food, self.left, self.right, self.line_H, self.line_score]
     def new_frame_seq(self):
         return iter(range(self.player.steps))
 
@@ -144,6 +146,7 @@ class SubplotAnimation(animation.TimedAnimation):
         self.food.set_offsets(self.player.food)
         self.left.set_offsets(self.player.lft)
         self.right.set_offsets(self.player.rght)
+        self.dropper.set_offsets(self.player.drop)
         for l in lines:
             l.set_data([], [])
 

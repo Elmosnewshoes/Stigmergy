@@ -102,7 +102,9 @@ cdef class Sim:
 
         " do a round of pheromone depositing prior to stepping"
         for i in range(self.queen.count_active):
-            self.domain.add_pheromone(p = &self.queen.state_list[i].pos, Q = &self.queen.drop_quantity[i])
+            # self.domain.add_pheromone(p = &self.queen.state_list[i].pos, Q = &self.queen.drop_quantity[i])
+            self.domain.add_pheromone(p = &self.queen.state_list[i].dropper, Q = &self.queen.drop_quantity[i])
+
             # deposit the pheromone
 
         for i in range(self.queen.count_active):

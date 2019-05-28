@@ -157,10 +157,12 @@ cdef class SimPlayer:
     @property
     def score_vec(self):
         return np.asarray(self.nestcount)
-
     @property
     def pos(self):
         return np.asarray(self.positions)
+    @property
+    def drop(self):
+        return np.asarray(self.droppers)
     @property
     def lft(self):
         return np.asarray(self.lefts)
@@ -186,6 +188,12 @@ cdef class SimPlayer:
     @property
     def pos_y(self):
         return np.asarray(self.positions[:self.count_active,1])
+    @property
+    def dropper_x(self):
+        return np.asarray(self.positions[:self.count_active,0])
+    @property
+    def dropper_y(self):
+        return np.asarray(self.positions[:self.count_active,1]
     @property
     def left_x(self):
         return np.asarray(self.lefts[:self.count_active,0])

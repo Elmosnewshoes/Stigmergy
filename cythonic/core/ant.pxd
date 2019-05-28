@@ -13,6 +13,7 @@ cdef struct ant_state:
     # " position and orientation "
     unsigned int id
     point pos #{x,y} in mm
+    point dropper # deposit location
     point left #left sensor location
     point right #right sensor location
     double theta #azimuth in degrees

@@ -87,6 +87,7 @@ cdef class Ant:
         " calculate the position of the left and right sensor antennas "
         self.state[0].left = transform(self.state[0].theta + self.sens_offset, &self.l, &self.state.pos)
         self.state[0].right = transform(self.state[0].theta - self.sens_offset, &self.l, &self.state.pos)
+        self.state[0].dropper = transform(self.state[0].theta + 180, &self.l, &self.state.pos)
 
     cdef void increase_azimuth(self, double * dt):
         " ensure azimuth stays within [0,360) interval "
