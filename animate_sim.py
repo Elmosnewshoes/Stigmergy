@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 import matplotlib.animation as animation
 from matplotlib import cm
+import matplotlib.colors as colors
 
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from cythonic.plugins.db_controller import db_controller
@@ -88,6 +89,7 @@ class SubplotAnimation(animation.TimedAnimation):
             self.imshow_opts['vmax'] = 1.25 * self.player.global_max
         else:
             self.imshow_opts['vmax'] = 3
+        self.imshow_opts['norm']= colors.PowerNorm(gamma=1. / 4.)
         Z = self.player.map
         self.map = ax_map.imshow(Z, interpolation='None',**self.imshow_opts)
         fig.colorbar(self.map,orientation="vertical")

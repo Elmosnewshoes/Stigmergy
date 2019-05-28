@@ -202,7 +202,7 @@ cdef class Sim:
         #         self.queen.agent.state[0].foodbound = foodbound #toggle state
         #         self.nestcount+=1
         #         self.queen.agent.state[0].time = 0.
-        cdef double dt = self.dt * 0.25 # small step to avoid trapping in food or nest due to rounding errors
+        cdef double dt = self.dt * 1 # small step to avoid trapping in food or nest due to rounding errors
         if self.domain.check_pos(p = &self.queen.agent.state.pos, foodbound = &foodbound):
             " ant body is at food "
             self.queen.agent.reverse()
