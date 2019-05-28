@@ -11,7 +11,7 @@ from libc.math cimport M_PI as PI
 
 cdef class Ant:
     def __cinit__(self, double l, double sens_offset, double gain, str sens_fun,
-        double noise_gain_1, double noise_gain_2, dict sens_dict, str rotate_fun, **kwargs):
+        double noise_gain, double noise_gain2, dict sens_dict, str rotate_fun, double steer_regularization, **kwargs):
         " set global ant constants "
         self.l = l
         self.sens_offset = sens_offset
@@ -24,9 +24,10 @@ cdef class Ant:
             self.sens_fun = observe_linear
         self.obs_fun_args = sens_dict
 
-        self.rot_fun_args = {'covariance_1': noise_gain_1,
-                                'covariance_2': noise_gain_2,
-                                'alpha': gain}
+        self.rot_fun_args = {'covariance_1': noise_gain,
+                                'covariance_2': noise_gain2,
+                                'alpha': gain,
+                                'k': steer_regularization}
 
         if rotate_fun == 'simple':
             self.rotate_fun = simple

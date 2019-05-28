@@ -15,4 +15,4 @@ cdef void weber(ant_state* s, rotate_args* args, unsigned int * cur_step):
     " perturb the sensed pheromone quantity with noise "
     # omega(k) = alpha*(L-R+epsilon*covariance)/(L+R) + epsilon_2*covariance_2
     " notice a small regulator parameter in the denominator"
-    s[0].omega = args[0].alpha*180./PI*((s[0].Q_obs.lft-s[0].Q_obs.rght+s[0].noise_vec_1[cur_step[0]]*args[0].covariance_1)/(s[0].Q_obs.lft+s[0].Q_obs.rght+0.05)+s[0].noise_vec_2[cur_step[0]]*args[0].covariance_2)
+    s[0].omega = args[0].alpha*180./PI*((s[0].Q_obs.lft-s[0].Q_obs.rght+s[0].noise_vec_1[cur_step[0]]*args[0].covariance_1)/(s[0].Q_obs.lft+s[0].Q_obs.rght+args[0].k)+s[0].noise_vec_2[cur_step[0]]*args[0].covariance_2)

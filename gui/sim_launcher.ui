@@ -851,16 +851,60 @@ p, li { white-space: pre-wrap; }
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout">
-            <item row="7" column="1">
-             <widget class="QDoubleSpinBox" name="spinbox_returnfactor">
-              <property name="minimum">
-               <double>0.000000000000000</double>
+            <item row="6" column="0">
+             <widget class="QLabel" name="label_covariance">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
               </property>
-              <property name="maximum">
-               <double>10.000000000000000</double>
+              <property name="text">
+               <string>Deposit covariance:</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="2">
+             <widget class="QLabel" name="label_noiseparameter">
+              <property name="text">
+               <string>noise parameter
+(general):</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="2">
+             <widget class="QLabel" name="label_depfun">
+              <property name="text">
+               <string>deposit function:</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_activation">
+              <property name="text">
+               <string>sensor activation:</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="3">
+             <widget class="QDoubleSpinBox" name="spinbox_lambda">
+              <property name="minimum">
+               <double>-1.000000000000000</double>
               </property>
               <property name="singleStep">
-               <double>0.100000000000000</double>
+               <double>0.250000000000000</double>
               </property>
               <property name="value">
                <double>1.000000000000000</double>
@@ -877,6 +921,19 @@ p, li { white-space: pre-wrap; }
               </property>
               <property name="text">
                <string>Actuator settings</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="1">
+             <widget class="QSpinBox" name="spinbox_covariance">
+              <property name="maximum">
+               <number>999</number>
+              </property>
+              <property name="singleStep">
+               <number>5</number>
+              </property>
+              <property name="value">
+               <number>200</number>
               </property>
              </widget>
             </item>
@@ -897,38 +954,6 @@ p, li { white-space: pre-wrap; }
               </property>
              </widget>
             </item>
-            <item row="7" column="3">
-             <widget class="QDoubleSpinBox" name="spinbox_depositbeta">
-              <property name="decimals">
-               <number>3</number>
-              </property>
-              <property name="minimum">
-               <double>0.000000000000000</double>
-              </property>
-              <property name="maximum">
-               <double>1.000000000000000</double>
-              </property>
-              <property name="singleStep">
-               <double>0.025000000000000</double>
-              </property>
-              <property name="value">
-               <double>0.050000000000000</double>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QDoubleSpinBox" name="spinbox_breakpoint">
-              <property name="minimum">
-               <double>-1.000000000000000</double>
-              </property>
-              <property name="singleStep">
-               <double>0.250000000000000</double>
-              </property>
-              <property name="value">
-               <double>1.000000000000000</double>
-              </property>
-             </widget>
-            </item>
             <item row="7" column="0">
              <widget class="QLabel" name="label_returnfactor">
               <property name="sizePolicy">
@@ -945,90 +970,26 @@ p, li { white-space: pre-wrap; }
               </property>
              </widget>
             </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="label_breakpoint">
-              <property name="text">
-               <string>breakpoint (sigmoid):</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="0">
-             <widget class="QLabel" name="label_covariance">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>Deposit covariance:</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="3">
-             <widget class="QDoubleSpinBox" name="spinbox_lambda">
+            <item row="7" column="1">
+             <widget class="QDoubleSpinBox" name="spinbox_returnfactor">
               <property name="minimum">
-               <double>-1.000000000000000</double>
+               <double>0.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>10.000000000000000</double>
               </property>
               <property name="singleStep">
-               <double>0.250000000000000</double>
+               <double>0.100000000000000</double>
               </property>
               <property name="value">
                <double>1.000000000000000</double>
               </property>
              </widget>
             </item>
-            <item row="2" column="2">
-             <widget class="QLabel" name="label_lambda">
-              <property name="text">
-               <string>lambda (sigmoid):</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="3">
-             <widget class="QComboBox" name="combobox_depfun">
-              <property name="currentText">
-               <string>constant</string>
-              </property>
-              <property name="currentIndex">
-               <number>0</number>
-              </property>
-              <item>
-               <property name="text">
-                <string>constant</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>exponential</string>
-               </property>
-              </item>
-             </widget>
-            </item>
             <item row="3" column="0">
              <widget class="QLabel" name="label_noise">
               <property name="text">
                <string>noise type (sensor):</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="2">
-             <widget class="QLabel" name="label_noiseparameter">
-              <property name="text">
-               <string>noise parameter
-(general):</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1060,10 +1021,101 @@ p, li { white-space: pre-wrap; }
               </item>
              </widget>
             </item>
-            <item row="6" column="2">
-             <widget class="QLabel" name="label_depfun">
+            <item row="7" column="3">
+             <widget class="QDoubleSpinBox" name="spinbox_depositbeta">
+              <property name="decimals">
+               <number>3</number>
+              </property>
+              <property name="minimum">
+               <double>0.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>1.000000000000000</double>
+              </property>
+              <property name="singleStep">
+               <double>0.025000000000000</double>
+              </property>
+              <property name="value">
+               <double>0.050000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="3">
+             <widget class="QLineEdit" name="line_noiseparameter">
               <property name="text">
-               <string>deposit function:</string>
+               <string>0.5</string>
+              </property>
+              <property name="maxLength">
+               <number>5</number>
+              </property>
+              <property name="clearButtonEnabled">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_breakpoint">
+              <property name="text">
+               <string>breakpoint (sigmoid):</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="8" column="1">
+             <widget class="QSpinBox" name="spinbox_significancy">
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>5</number>
+              </property>
+              <property name="singleStep">
+               <number>1</number>
+              </property>
+              <property name="value">
+               <number>2</number>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="3">
+             <widget class="QComboBox" name="combobox_depfun">
+              <property name="currentText">
+               <string>constant</string>
+              </property>
+              <property name="currentIndex">
+               <number>0</number>
+              </property>
+              <item>
+               <property name="text">
+                <string>constant</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>exponential</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QDoubleSpinBox" name="spinbox_breakpoint">
+              <property name="minimum">
+               <double>-1.000000000000000</double>
+              </property>
+              <property name="singleStep">
+               <double>0.250000000000000</double>
+              </property>
+              <property name="value">
+               <double>1.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="2">
+             <widget class="QLabel" name="label_lambda">
+              <property name="text">
+               <string>lambda (sigmoid):</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1080,32 +1132,6 @@ p, li { white-space: pre-wrap; }
               </property>
               <property name="text">
                <string>Sensor specific settings</string>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="1">
-             <widget class="QSpinBox" name="spinbox_covariance">
-              <property name="maximum">
-               <number>999</number>
-              </property>
-              <property name="singleStep">
-               <number>5</number>
-              </property>
-              <property name="value">
-               <number>200</number>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="3">
-             <widget class="QLineEdit" name="line_noiseparameter">
-              <property name="text">
-               <string>0.5</string>
-              </property>
-              <property name="maxLength">
-               <number>5</number>
-              </property>
-              <property name="clearButtonEnabled">
-               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -1129,23 +1155,6 @@ p, li { white-space: pre-wrap; }
               </item>
              </widget>
             </item>
-            <item row="4" column="0" colspan="4">
-             <widget class="Line" name="line_5">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="label_activation">
-              <property name="text">
-               <string>sensor activation:</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
             <item row="8" column="0">
              <widget class="QLabel" name="label_significancy">
               <property name="sizePolicy">
@@ -1163,19 +1172,36 @@ significant digits: </string>
               </property>
              </widget>
             </item>
-            <item row="8" column="1">
-             <widget class="QSpinBox" name="spinbox_significancy">
-              <property name="minimum">
-               <number>1</number>
+            <item row="4" column="0" colspan="4">
+             <widget class="Line" name="line_5">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
               </property>
-              <property name="maximum">
-               <number>5</number>
+             </widget>
+            </item>
+            <item row="1" column="3">
+             <widget class="QDoubleSpinBox" name="spinbox_regularization">
+              <property name="decimals">
+               <number>4</number>
+              </property>
+              <property name="minimum">
+               <double>0.000000000000000</double>
               </property>
               <property name="singleStep">
-               <number>1</number>
+               <double>0.001000000000000</double>
               </property>
               <property name="value">
-               <number>2</number>
+               <double>0.005000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="2">
+             <widget class="QLabel" name="label_regularization">
+              <property name="text">
+               <string>k (steering regularization)</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>

@@ -114,11 +114,11 @@ cdef class Sim:
             #sense (queen/domain)
             self.domain.fill_observations(&self.queen.pheromone_vec[i], &self.queen.state_list[i].left, &self.queen.state_list[i].right)
 
-            # give ant a small nudge in the 'right' direction when at boundary
-            self.check_outofbounds(&self.queen.pheromone_vec[i])
+            # # give ant a small nudge in the 'right' direction when at boundary
+            # self.check_outofbounds(&self.queen.pheromone_vec[i])
 
             # give ant a small nudge towards its target when near
-            self.check_attractiveness(&self.queen.pheromone_vec[i])
+            # self.check_attractiveness(&self.queen.pheromone_vec[i])
 
             #step (queen)
             self.queen.step(&self.dt)

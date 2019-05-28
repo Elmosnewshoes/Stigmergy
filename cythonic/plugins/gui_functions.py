@@ -19,8 +19,9 @@ def make_ant_dict(Gui):
         'l': Gui.spinbox_antsize.value(),
         'sens_offset':Gui.spinbox_offset.value(),
         'gain': Gui.spinbox_gain.value(),
-        'noise_gain_1': Gui.spinbox_noisegain.value(),
-        'noise_gain_2': Gui.spinbox_noisegain_2.value(),
+        'noise_gain': Gui.spinbox_noisegain.value(),
+        'noise_gain2': Gui.spinbox_noisegain_2.value(),
+        'steer_regularization': Gui.spinbox_regularization.value(),
         'rotate_fun': Gui.combobox_rotate.currentText(),
         'sens_fun':  Gui.combobox_activation.currentText(),
         'sens_dict': {'breakpoint': Gui.spinbox_breakpoint.value(),
@@ -146,9 +147,16 @@ def load_settings(Gui, sim_dict, queen_dict,
     Gui.spinbox_antsize.setProperty('value', queen_dict['ant_dict']['l'])
     Gui.spinbox_offset.setProperty('value', queen_dict['ant_dict']['sens_offset'])
     Gui.spinbox_gain.setProperty('value', queen_dict['ant_dict']['gain'])
-    Gui.spinbox_noisegain.setProperty('value', queen_dict['ant_dict']['noise_gain_1'])
-    if 'noise_gain_2'  in queen_dict['ant_dict']:
-        Gui.spinbox_noisegain_2.setProperty('value', queen_dict['ant_dict']['noise_gain_2'])
+    try:
+        Gui.spinbox_noisegain.setProperty('value', queen_dict['ant_dict']['noise_gain'])
+    except:
+        Gui.spinbox_noisegain.setProperty('value', queen_dict['ant_dict']['noise_gain_1'])
+    if 'steer_regularization' in queen_dict['ant_dict']:
+        Gui.spinbox_regularization.setProperty('value', queen_dict['ant_dict']['steer_regularization'])
+    else:
+        Gui.spinbox_regularization.setProperty('value', 0.0)
+    if 'noise_gain2'  in queen_dict['ant_dict']:
+        Gui.spinbox_noisegain_2.setProperty('value', queen_dict['ant_dict']['noise_gain2'])
         Gui.combobox_rotate.setCurrentText(_translate("MainWindow", queen_dict['ant_dict']['rotate_fun']))
     else:
         Gui.spinbox_noisegain_2.setProperty('value', 0.0)
