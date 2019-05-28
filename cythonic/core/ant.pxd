@@ -3,11 +3,13 @@
 from cythonic.plugins.positions cimport point
 from cythonic.plugins.sens_structs cimport fun_args, observations
 from cythonic.plugins.dep_structs cimport dep_fun_args
+from cythonic.plugins.rotate_structs cimport  rotate_args
 from libcpp.vector cimport vector
 
 #defining NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
 ctypedef readonly void (*f_obs)(ant_state*,fun_args*, observations*) #type definition for sensing functions
 ctypedef readonly void (*f_dep)(double * x, ant_state* s, dep_fun_args* args)
+ctypedef readonly void (*f_rot)(ant_state* s, rotate_args* args, unsigned int * cur_step)
 
 cdef struct ant_state:
     # " position and orientation "
@@ -20,7 +22,8 @@ cdef struct ant_state:
     double omega #angular rotation in degrees/second
     double v # mm/s
     observations Q_obs
-    vector[double] noise_vec #pre-populate the observation noise
+    vector[double] noise_vec_1 #pre-populate the observation noise
+    vector[double] noise_vec_2
 
     #" ant status "
     bint foodbound
@@ -40,8 +43,10 @@ cdef class Ant:
         double sens_offset
 
         # sensor properties
-        double gain
-        double noise_gain
+        # double gain
+        # double noise_gain
+        rotate_args rot_fun_args
+        f_rot rotate_fun
         f_obs sens_fun
         fun_args obs_fun_args
         unsigned int current_step

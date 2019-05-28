@@ -58,8 +58,8 @@ cdef class Queen:
         s.out_of_bounds = False
         s.active = False
         s.time = 0.
-        s.noise_vec = self.noise_vec()
-
+        s.noise_vec_1 = self.noise_vec()
+        s.noise_vec_2 = self.noise_vec()
         return s
 
     @cython.boundscheck(True) #throws error when memview xy is not as long as self.n

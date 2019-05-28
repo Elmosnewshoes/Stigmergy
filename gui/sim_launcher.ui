@@ -19,7 +19,7 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>731</width>
+      <width>744</width>
       <height>803</height>
      </rect>
     </property>
@@ -69,6 +69,66 @@ p, li { white-space: pre-wrap; }
          <property name="bottomMargin">
           <number>10</number>
          </property>
+         <item row="3" column="4">
+          <layout class="QHBoxLayout" name="horizontalLayout_8">
+           <item>
+            <widget class="QLabel" name="label_steps">
+             <property name="text">
+              <string>steps:</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="spinbox_steps">
+             <property name="minimum">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <number>99999</number>
+             </property>
+             <property name="singleStep">
+              <number>500</number>
+             </property>
+             <property name="value">
+              <number>1500</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="1" column="1">
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <widget class="QLabel" name="label_noisegain">
+             <property name="text">
+              <string>noise gain/cov #1:</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QDoubleSpinBox" name="spinbox_noisegain">
+             <property name="maximum">
+              <double>10.000000000000000</double>
+             </property>
+             <property name="singleStep">
+              <double>0.250000000000000</double>
+             </property>
+             <property name="value">
+              <double>1.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
          <item row="0" column="0">
           <widget class="QLineEdit" name="sim_id_input">
            <property name="text">
@@ -115,12 +175,12 @@ p, li { white-space: pre-wrap; }
            </item>
           </layout>
          </item>
-         <item row="1" column="4">
-          <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item row="2" column="2">
+          <layout class="QHBoxLayout" name="horizontalLayout_12">
            <item>
-            <widget class="QLabel" name="label_dt">
+            <widget class="QLabel" name="label_evaporation">
              <property name="text">
-              <string>dt:</string>
+              <string>evap_rate:</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -128,88 +188,43 @@ p, li { white-space: pre-wrap; }
             </widget>
            </item>
            <item>
-            <widget class="QDoubleSpinBox" name="spinbox_dt">
+            <widget class="QDoubleSpinBox" name="spinbox_evaporation">
+             <property name="decimals">
+              <number>3</number>
+             </property>
              <property name="minimum">
-              <double>0.010000000000000</double>
+              <double>-1.000000000000000</double>
              </property>
              <property name="maximum">
-              <double>10.000000000000000</double>
+              <double>1.000000000000000</double>
              </property>
              <property name="singleStep">
               <double>0.100000000000000</double>
              </property>
              <property name="value">
-              <double>0.500000000000000</double>
+              <double>0.980000000000000</double>
              </property>
             </widget>
            </item>
           </layout>
          </item>
-         <item row="1" column="1">
-          <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item row="0" column="4">
+          <layout class="QHBoxLayout" name="horizontalLayout_18">
            <item>
-            <widget class="QLabel" name="label_noisegain">
+            <widget class="QPushButton" name="button_run">
              <property name="text">
-              <string>noise gain:</string>
+              <string>Run</string>
              </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             <property name="default">
+              <bool>false</bool>
              </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QDoubleSpinBox" name="spinbox_noisegain">
-             <property name="maximum">
-              <double>10.000000000000000</double>
-             </property>
-             <property name="singleStep">
-              <double>0.250000000000000</double>
-             </property>
-             <property name="value">
-              <double>1.000000000000000</double>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item row="1" column="2">
-          <layout class="QHBoxLayout" name="horizontalLayout_3">
-           <item>
-            <widget class="QLabel" name="label_speed">
-             <property name="text">
-              <string>speed:</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             <property name="flat">
+              <bool>false</bool>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="spinbox_speed">
-             <property name="maximum">
-              <number>999</number>
-             </property>
-             <property name="singleStep">
-              <number>25</number>
-             </property>
-             <property name="value">
-              <number>125</number>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item row="0" column="1">
-          <layout class="QHBoxLayout" name="horizontalLayout_6">
-           <item>
-            <widget class="QPushButton" name="replay_btn">
-             <property name="text">
-              <string>Replay</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_2">
+            <spacer name="horizontalSpacer_3">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
@@ -222,6 +237,16 @@ p, li { white-space: pre-wrap; }
             </spacer>
            </item>
           </layout>
+         </item>
+         <item row="3" column="0">
+          <widget class="QCheckBox" name="check_recording">
+           <property name="text">
+            <string>Recording</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
          </item>
          <item row="2" column="0">
           <layout class="QHBoxLayout" name="horizontalLayout_5">
@@ -277,12 +302,12 @@ p, li { white-space: pre-wrap; }
            </item>
           </layout>
          </item>
-         <item row="2" column="1">
-          <layout class="QHBoxLayout" name="horizontalLayout_8">
+         <item row="1" column="2">
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
            <item>
-            <widget class="QLabel" name="label_steps">
+            <widget class="QLabel" name="label_speed">
              <property name="text">
-              <string>steps:</string>
+              <string>speed:</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -290,75 +315,19 @@ p, li { white-space: pre-wrap; }
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="spinbox_steps">
-             <property name="minimum">
-              <number>1</number>
-             </property>
+            <widget class="QSpinBox" name="spinbox_speed">
              <property name="maximum">
-              <number>99999</number>
+              <number>999</number>
              </property>
              <property name="singleStep">
-              <number>500</number>
+              <number>25</number>
              </property>
              <property name="value">
-              <number>1500</number>
+              <number>125</number>
              </property>
             </widget>
            </item>
           </layout>
-         </item>
-         <item row="2" column="2">
-          <layout class="QHBoxLayout" name="horizontalLayout_12">
-           <item>
-            <widget class="QLabel" name="label_evaporation">
-             <property name="text">
-              <string>evap_rate:</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QDoubleSpinBox" name="spinbox_evaporation">
-             <property name="decimals">
-              <number>3</number>
-             </property>
-             <property name="minimum">
-              <double>-1.000000000000000</double>
-             </property>
-             <property name="maximum">
-              <double>1.000000000000000</double>
-             </property>
-             <property name="singleStep">
-              <double>0.100000000000000</double>
-             </property>
-             <property name="value">
-              <double>0.980000000000000</double>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item row="3" column="2">
-          <widget class="QCheckBox" name="check_visualize">
-           <property name="text">
-            <string>Visualize</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="1">
-          <widget class="QCheckBox" name="check_recording">
-           <property name="text">
-            <string>Recording</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
          </item>
          <item row="2" column="4">
           <layout class="QHBoxLayout" name="horizontalLayout_17">
@@ -382,32 +351,56 @@ p, li { white-space: pre-wrap; }
               <double>100000.000000000000000</double>
              </property>
              <property name="singleStep">
-              <double>100.000000000000000</double>
+              <double>0.500000000000000</double>
              </property>
              <property name="value">
-              <double>1000.000000000000000</double>
+              <double>0.500000000000000</double>
              </property>
             </widget>
            </item>
           </layout>
          </item>
-         <item row="0" column="4">
-          <layout class="QHBoxLayout" name="horizontalLayout_18">
+         <item row="2" column="1">
+          <layout class="QHBoxLayout" name="horizontalLayout_20">
            <item>
-            <widget class="QPushButton" name="button_run">
+            <widget class="QLabel" name="label_noisegain_2">
              <property name="text">
-              <string>Run</string>
+              <string>noise gain/cov #2:</string>
              </property>
-             <property name="default">
-              <bool>false</bool>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
              </property>
-             <property name="flat">
-              <bool>false</bool>
+             <property name="wordWrap">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
            <item>
-            <spacer name="horizontalSpacer_3">
+            <widget class="QDoubleSpinBox" name="spinbox_noisegain_2">
+             <property name="maximum">
+              <double>10.000000000000000</double>
+             </property>
+             <property name="singleStep">
+              <double>0.250000000000000</double>
+             </property>
+             <property name="value">
+              <double>1.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="0" column="1">
+          <layout class="QHBoxLayout" name="horizontalLayout_6">
+           <item>
+            <widget class="QPushButton" name="replay_btn">
+             <property name="text">
+              <string>Replay</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_2">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
@@ -421,13 +414,12 @@ p, li { white-space: pre-wrap; }
            </item>
           </layout>
          </item>
-         <item row="3" column="0">
-          <layout class="QHBoxLayout" name="horizontalLayout_19">
+         <item row="1" column="4">
+          <layout class="QHBoxLayout" name="horizontalLayout_4">
            <item>
-            <widget class="QLabel" name="label_interval">
+            <widget class="QLabel" name="label_dt">
              <property name="text">
-              <string>DB write
- interval</string>
+              <string>dt:</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -435,19 +427,66 @@ p, li { white-space: pre-wrap; }
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="spinbox_interval">
+            <widget class="QDoubleSpinBox" name="spinbox_dt">
              <property name="minimum">
-              <number>1</number>
+              <double>0.010000000000000</double>
              </property>
              <property name="maximum">
-              <number>1000</number>
+              <double>10.000000000000000</double>
              </property>
              <property name="singleStep">
-              <number>100</number>
+              <double>0.100000000000000</double>
              </property>
              <property name="value">
-              <number>500</number>
+              <double>0.500000000000000</double>
              </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="4" column="0">
+          <widget class="QCheckBox" name="check_visualize">
+           <property name="text">
+            <string>Visualize</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <layout class="QHBoxLayout" name="horizontalLayout_19">
+           <item>
+            <widget class="QLabel" name="label_rotate_fun">
+             <property name="text">
+              <string>rotate method</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="combobox_rotate">
+             <property name="editable">
+              <bool>false</bool>
+             </property>
+             <property name="currentText">
+              <string>simple</string>
+             </property>
+             <item>
+              <property name="text">
+               <string>simple</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>weber</string>
+              </property>
+             </item>
             </widget>
            </item>
           </layout>
@@ -464,7 +503,7 @@ p, li { white-space: pre-wrap; }
        <item>
         <widget class="QTabWidget" name="tabWidget">
          <property name="currentIndex">
-          <number>2</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="tab">
           <attribute name="title">
@@ -492,134 +531,6 @@ p, li { white-space: pre-wrap; }
             <property name="bottomMargin">
              <number>10</number>
             </property>
-            <item row="1" column="0">
-             <widget class="QLabel" name="label_antsize">
-              <property name="text">
-               <string>L (ant size):</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QSpinBox" name="spinbox_offset">
-              <property name="minimum">
-               <number>30</number>
-              </property>
-              <property name="maximum">
-               <number>90</number>
-              </property>
-              <property name="singleStep">
-               <number>5</number>
-              </property>
-              <property name="value">
-               <number>45</number>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="2">
-             <widget class="QLabel" name="label_domainsize">
-              <property name="text">
-               <string>domain size:</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="label_offset">
-              <property name="text">
-               <string>sensor offset:</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="3">
-             <widget class="QSpinBox" name="spinbox_nestradius">
-              <property name="minimum">
-               <number>25</number>
-              </property>
-              <property name="maximum">
-               <number>999</number>
-              </property>
-              <property name="singleStep">
-               <number>50</number>
-              </property>
-              <property name="value">
-               <number>150</number>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QSpinBox" name="spinbox_antsize">
-              <property name="value">
-               <number>50</number>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="3">
-             <layout class="QHBoxLayout" name="dom_box">
-              <item>
-               <widget class="QSpinBox" name="dom_x_size">
-                <property name="minimum">
-                 <number>500</number>
-                </property>
-                <property name="maximum">
-                 <number>10000</number>
-                </property>
-                <property name="singleStep">
-                 <number>500</number>
-                </property>
-                <property name="value">
-                 <number>4000</number>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QSpinBox" name="dom_y_size">
-                <property name="minimum">
-                 <number>500</number>
-                </property>
-                <property name="maximum">
-                 <number>10000</number>
-                </property>
-                <property name="singleStep">
-                 <number>500</number>
-                </property>
-                <property name="value">
-                 <number>4000</number>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item row="3" column="0">
-             <widget class="QLabel" name="label_startpheromone">
-              <property name="text">
-               <string>start pheromone level:</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1">
-             <widget class="QDoubleSpinBox" name="spinbox_pheromone">
-              <property name="minimum">
-               <double>-1.000000000000000</double>
-              </property>
-              <property name="singleStep">
-               <double>0.250000000000000</double>
-              </property>
-              <property name="value">
-               <double>1.000000000000000</double>
-              </property>
-             </widget>
-            </item>
             <item row="4" column="0">
              <widget class="QLabel" name="label_pitch">
               <property name="text">
@@ -630,16 +541,6 @@ p, li { white-space: pre-wrap; }
               </property>
              </widget>
             </item>
-            <item row="4" column="1">
-             <widget class="QSpinBox" name="spinbox_pitch">
-              <property name="minimum">
-               <number>2</number>
-              </property>
-              <property name="value">
-               <number>10</number>
-              </property>
-             </widget>
-            </item>
             <item row="2" column="2">
              <widget class="QLabel" name="label_nestlocation">
               <property name="text">
@@ -647,6 +548,13 @@ p, li { white-space: pre-wrap; }
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QSpinBox" name="spinbox_antsize">
+              <property name="value">
+               <number>50</number>
               </property>
              </widget>
             </item>
@@ -686,25 +594,87 @@ p, li { white-space: pre-wrap; }
               </item>
              </layout>
             </item>
-            <item row="4" column="2">
-             <widget class="QLabel" name="label_nestradius">
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_startpheromone">
               <property name="text">
-               <string>nest_radius:</string>
+               <string>start pheromone level:</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
-            <item row="3" column="2">
-             <widget class="QLabel" name="food_location">
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_antsize">
               <property name="text">
-               <string>food_location:</string>
+               <string>L (ant size):</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
              </widget>
+            </item>
+            <item row="1" column="2">
+             <widget class="QLabel" name="label_domainsize">
+              <property name="text">
+               <string>domain size:</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="3">
+             <widget class="QSpinBox" name="spinbox_foodradius">
+              <property name="minimum">
+               <number>25</number>
+              </property>
+              <property name="maximum">
+               <number>999</number>
+              </property>
+              <property name="singleStep">
+               <number>50</number>
+              </property>
+              <property name="value">
+               <number>150</number>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="3">
+             <layout class="QHBoxLayout" name="dom_box">
+              <item>
+               <widget class="QSpinBox" name="dom_x_size">
+                <property name="minimum">
+                 <number>500</number>
+                </property>
+                <property name="maximum">
+                 <number>10000</number>
+                </property>
+                <property name="singleStep">
+                 <number>500</number>
+                </property>
+                <property name="value">
+                 <number>4000</number>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="dom_y_size">
+                <property name="minimum">
+                 <number>500</number>
+                </property>
+                <property name="maximum">
+                 <number>10000</number>
+                </property>
+                <property name="singleStep">
+                 <number>500</number>
+                </property>
+                <property name="value">
+                 <number>4000</number>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
             <item row="3" column="3">
              <layout class="QHBoxLayout" name="food_box">
@@ -742,6 +712,16 @@ p, li { white-space: pre-wrap; }
               </item>
              </layout>
             </item>
+            <item row="4" column="2">
+             <widget class="QLabel" name="label_nestradius">
+              <property name="text">
+               <string>nest_radius:</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
             <item row="5" column="2">
              <widget class="QLabel" name="label_foodradius">
               <property name="text">
@@ -752,8 +732,44 @@ p, li { white-space: pre-wrap; }
               </property>
              </widget>
             </item>
-            <item row="5" column="3">
-             <widget class="QSpinBox" name="spinbox_foodradius">
+            <item row="3" column="2">
+             <widget class="QLabel" name="food_location">
+              <property name="text">
+               <string>food_location:</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QSpinBox" name="spinbox_offset">
+              <property name="minimum">
+               <number>30</number>
+              </property>
+              <property name="maximum">
+               <number>90</number>
+              </property>
+              <property name="singleStep">
+               <number>5</number>
+              </property>
+              <property name="value">
+               <number>45</number>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_offset">
+              <property name="text">
+               <string>sensor offset:</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="3">
+             <widget class="QSpinBox" name="spinbox_nestradius">
               <property name="minimum">
                <number>25</number>
               </property>
@@ -765,6 +781,56 @@ p, li { white-space: pre-wrap; }
               </property>
               <property name="value">
                <number>150</number>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="1">
+             <widget class="QSpinBox" name="spinbox_interval">
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>1000</number>
+              </property>
+              <property name="singleStep">
+               <number>100</number>
+              </property>
+              <property name="value">
+               <number>500</number>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QDoubleSpinBox" name="spinbox_pheromone">
+              <property name="minimum">
+               <double>-1.000000000000000</double>
+              </property>
+              <property name="singleStep">
+               <double>0.250000000000000</double>
+              </property>
+              <property name="value">
+               <double>1.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QSpinBox" name="spinbox_pitch">
+              <property name="minimum">
+               <number>2</number>
+              </property>
+              <property name="value">
+               <number>10</number>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="0">
+             <widget class="QLabel" name="label_interval">
+              <property name="text">
+               <string>DB write
+ interval</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
@@ -781,10 +847,26 @@ p, li { white-space: pre-wrap; }
              <x>10</x>
              <y>10</y>
              <width>601</width>
-             <height>293</height>
+             <height>355</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout">
+            <item row="7" column="1">
+             <widget class="QDoubleSpinBox" name="spinbox_returnfactor">
+              <property name="minimum">
+               <double>0.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>10.000000000000000</double>
+              </property>
+              <property name="singleStep">
+               <double>0.100000000000000</double>
+              </property>
+              <property name="value">
+               <double>1.000000000000000</double>
+              </property>
+             </widget>
+            </item>
             <item row="5" column="0">
              <widget class="QLabel" name="label_actuatorthings">
               <property name="sizePolicy">
@@ -798,39 +880,39 @@ p, li { white-space: pre-wrap; }
               </property>
              </widget>
             </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="label_breakpoint">
+            <item row="7" column="2">
+             <widget class="QLabel" name="label_depositbeta">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
-               <string>breakpoint (sigmoid):</string>
+               <string>Deposit decay parameter
+ (beta):</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
-            <item row="3" column="3">
-             <widget class="QLineEdit" name="line_noiseparameter">
-              <property name="text">
-               <string>0.5</string>
+            <item row="7" column="3">
+             <widget class="QDoubleSpinBox" name="spinbox_depositbeta">
+              <property name="decimals">
+               <number>3</number>
               </property>
-              <property name="maxLength">
-               <number>5</number>
-              </property>
-              <property name="clearButtonEnabled">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="3">
-             <widget class="QDoubleSpinBox" name="spinbox_lambda">
               <property name="minimum">
-               <double>-1.000000000000000</double>
+               <double>0.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>1.000000000000000</double>
               </property>
               <property name="singleStep">
-               <double>0.250000000000000</double>
+               <double>0.025000000000000</double>
               </property>
               <property name="value">
-               <double>1.000000000000000</double>
+               <double>0.050000000000000</double>
               </property>
              </widget>
             </item>
@@ -847,15 +929,89 @@ p, li { white-space: pre-wrap; }
               </property>
              </widget>
             </item>
-            <item row="3" column="2">
-             <widget class="QLabel" name="label_noiseparameter">
+            <item row="7" column="0">
+             <widget class="QLabel" name="label_returnfactor">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
-               <string>noise parameter
-(general):</string>
+               <string>Return factor</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_breakpoint">
+              <property name="text">
+               <string>breakpoint (sigmoid):</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="0">
+             <widget class="QLabel" name="label_covariance">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Deposit covariance:</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="3">
+             <widget class="QDoubleSpinBox" name="spinbox_lambda">
+              <property name="minimum">
+               <double>-1.000000000000000</double>
+              </property>
+              <property name="singleStep">
+               <double>0.250000000000000</double>
+              </property>
+              <property name="value">
+               <double>1.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="2">
+             <widget class="QLabel" name="label_lambda">
+              <property name="text">
+               <string>lambda (sigmoid):</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="3">
+             <widget class="QComboBox" name="combobox_depfun">
+              <property name="currentText">
+               <string>constant</string>
+              </property>
+              <property name="currentIndex">
+               <number>0</number>
+              </property>
+              <item>
+               <property name="text">
+                <string>constant</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>exponential</string>
+               </property>
+              </item>
              </widget>
             </item>
             <item row="3" column="0">
@@ -868,23 +1024,11 @@ p, li { white-space: pre-wrap; }
               </property>
              </widget>
             </item>
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_sensorthings">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
+            <item row="3" column="2">
+             <widget class="QLabel" name="label_noiseparameter">
               <property name="text">
-               <string>Sensor specific settings</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="2">
-             <widget class="QLabel" name="label_lambda">
-              <property name="text">
-               <string>lambda (sigmoid):</string>
+               <string>noise parameter
+(general):</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -916,8 +1060,18 @@ p, li { white-space: pre-wrap; }
               </item>
              </widget>
             </item>
-            <item row="6" column="0">
-             <widget class="QLabel" name="label_covariance">
+            <item row="6" column="2">
+             <widget class="QLabel" name="label_depfun">
+              <property name="text">
+               <string>deposit function:</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_sensorthings">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
                 <horstretch>0</horstretch>
@@ -925,52 +1079,33 @@ p, li { white-space: pre-wrap; }
                </sizepolicy>
               </property>
               <property name="text">
-               <string>Deposit covariance:</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               <string>Sensor specific settings</string>
               </property>
              </widget>
             </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="label_activation">
-              <property name="text">
-               <string>sensor activation:</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="7" column="1">
-             <widget class="QDoubleSpinBox" name="spinbox_returnfactor">
-              <property name="minimum">
-               <double>0.000000000000000</double>
-              </property>
+            <item row="6" column="1">
+             <widget class="QSpinBox" name="spinbox_covariance">
               <property name="maximum">
-               <double>10.000000000000000</double>
+               <number>999</number>
               </property>
               <property name="singleStep">
-               <double>0.100000000000000</double>
+               <number>5</number>
               </property>
               <property name="value">
-               <double>1.000000000000000</double>
+               <number>200</number>
               </property>
              </widget>
             </item>
-            <item row="7" column="0">
-             <widget class="QLabel" name="label_returnfactor">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
+            <item row="3" column="3">
+             <widget class="QLineEdit" name="line_noiseparameter">
               <property name="text">
-               <string>Return factor</string>
+               <string>0.5</string>
               </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              <property name="maxLength">
+               <number>5</number>
+              </property>
+              <property name="clearButtonEnabled">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -994,23 +1129,6 @@ p, li { white-space: pre-wrap; }
               </item>
              </widget>
             </item>
-            <item row="7" column="2">
-             <widget class="QLabel" name="label_depositbeta">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>Deposit decay parameter
- (beta):</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
             <item row="4" column="0" colspan="4">
              <widget class="Line" name="line_5">
               <property name="orientation">
@@ -1018,35 +1136,13 @@ p, li { white-space: pre-wrap; }
               </property>
              </widget>
             </item>
-            <item row="6" column="1">
-             <widget class="QSpinBox" name="spinbox_covariance">
-              <property name="maximum">
-               <number>999</number>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_activation">
+              <property name="text">
+               <string>sensor activation:</string>
               </property>
-              <property name="singleStep">
-               <number>5</number>
-              </property>
-              <property name="value">
-               <number>15</number>
-              </property>
-             </widget>
-            </item>
-            <item row="7" column="3">
-             <widget class="QDoubleSpinBox" name="spinbox_depositbeta">
-              <property name="decimals">
-               <number>3</number>
-              </property>
-              <property name="minimum">
-               <double>0.000000000000000</double>
-              </property>
-              <property name="maximum">
-               <double>1.000000000000000</double>
-              </property>
-              <property name="singleStep">
-               <double>0.025000000000000</double>
-              </property>
-              <property name="value">
-               <double>0.050000000000000</double>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
@@ -1081,36 +1177,6 @@ significant digits: </string>
               <property name="value">
                <number>2</number>
               </property>
-             </widget>
-            </item>
-            <item row="6" column="2">
-             <widget class="QLabel" name="label_depfun">
-              <property name="text">
-               <string>deposit function:</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="3">
-             <widget class="QComboBox" name="combobox_depfun">
-              <property name="currentText">
-               <string>constant</string>
-              </property>
-              <property name="currentIndex">
-               <number>0</number>
-              </property>
-              <item>
-               <property name="text">
-                <string>constant</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>exponential</string>
-               </property>
-              </item>
              </widget>
             </item>
            </layout>

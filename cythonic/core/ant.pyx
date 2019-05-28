@@ -3,6 +3,7 @@
 from cythonic.plugins.functions cimport transform
 from cythonic.plugins.sens_functions cimport observe_linear
 from cythonic.plugins.dep_functions cimport dep_constant, dep_exdecay
+from cythonic.plugins.rotate_functions cimport simple, weber
 # from cythonic.plugins.drop_functions cimport exp_decay
 # import numpy as np
 from libc.math cimport M_PI as PI
@@ -10,19 +11,27 @@ from libc.math cimport M_PI as PI
 
 cdef class Ant:
     def __cinit__(self, double l, double sens_offset, double gain, str sens_fun,
-        double noise_gain, dict sens_dict, **kwargs):
+        double noise_gain_1, double noise_gain_2, dict sens_dict, str rotate_fun, **kwargs):
         " set global ant constants "
         self.l = l
         self.sens_offset = sens_offset
-        self.gain = gain
-        self.noise_gain = noise_gain # fraction of self.gain
+        # self.gain = gain
+        # self.noise_gain = noise_gain # fraction of self.gain
         self.current_step = 0 #current step in simulation
 
         " initialize sensing specific arguments "
         if sens_fun =='linear':
             self.sens_fun = observe_linear
         self.obs_fun_args = sens_dict
-        # self.obs_fun_args.gain = 1
+
+        self.rot_fun_args = {'covariance_1': noise_gain_1,
+                                'covariance_2': noise_gain_2,
+                                'alpha': gain}
+
+        if rotate_fun == 'simple':
+            self.rotate_fun = simple
+        elif rotate_fun == 'weber':
+            self.rotate_fun = weber
 
 
     """ ================ Deposit related methods ================== """
@@ -59,9 +68,10 @@ cdef class Ant:
         " rotate the ant based on angular velocity omega "
         " compute the angular speed (degrees/second) based on sensing "
         " perturb the sensed pheromone quantity with noise "
-        self.state[0].omega = self.gain*180./PI*(
-            self.state[0].Q_obs.lft-self.state[0].Q_obs.rght
-             + self.state[0].noise_vec[self.current_step]*self.noise_gain)
+        self.rotate_fun(s = self.state, args = &self.rot_fun_args, cur_step = &self.current_step)
+        # self.state[0].omega = self.gain*180./PI*(
+        #     self.state[0].Q_obs.lft-self.state[0].Q_obs.rght
+        #      + self.state[0].noise_vec[self.current_step]*self.noise_gain)
         self.increase_azimuth(dt) # state is known, no need to pass it
         # self.state[0].theta += dt[0]*self.gain*180./PI* (
         #         self.state[0].Q_obs.lft-self.state[0].Q_obs.rght +

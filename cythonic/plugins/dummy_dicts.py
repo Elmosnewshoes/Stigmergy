@@ -11,6 +11,8 @@ ant_dict = {
     'sens_offset': 45.,
     'gain': .1,
     'noise_gain': 1.,
+    'noise_gain2': 1.,
+    'rotate_fun': 'simple',
     'sens_fun': 'linear',
     'sens_dict': sens_dict,
     'deposit_fun': 'exp_decay'

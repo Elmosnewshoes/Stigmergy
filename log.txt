@@ -3,3 +3,5 @@ Noteworthy accomplishments:
 got some pretty decent result with just 80 ants in simulation 4917
 
 difference critical ant threshold: 4924 (80 ants) vs 4925 (160 ants)
+
+difference for noise, telegraphic and gain: 5011 - 5015
