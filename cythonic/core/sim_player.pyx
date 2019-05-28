@@ -98,7 +98,7 @@ cdef class SimPlayer:
     cdef void step(self, unsigned int stepnr):
         " do a step "
         cdef double x,y, theta, q
-        cdef point pos
+        cdef point pos, dropper
         cdef unsigned int i = 0 # iterator for positions, headings, lefts and rights
         for row in self.ant_steps[self.ant_steps['STEP_NR']== stepnr].itertuples(index = False):
             pos.x = row.X
@@ -112,7 +112,14 @@ cdef class SimPlayer:
             self.lefts[i,1] = pos.y+rotate_y(l = self.ant_size,theta = deg2rad(theta+self.sens_offset))
             self.rights[i,0] = pos.x+rotate_x(l = self.ant_size,theta = deg2rad(theta-self.sens_offset))
             self.rights[i,1] = pos.y+rotate_y(l = self.ant_size,theta = deg2rad(theta-self.sens_offset))
-            self.domain.add_pheromone(p = &pos, Q = &q)
+
+            dropper.x = pos.x+rotate_x(l = self.ant_size,theta = deg2rad(theta+180))
+            dropper.y = pos.y+rotate_y(l = self.ant_size,theta = deg2rad(theta+180))
+            self.droppers[i,0] = dropper.x
+            self.droppers[i,1] = dropper.y
+            # self.domain.add_pheromone(p = &pos, Q = &q)
+            self.domain.add_pheromone(p = &dropper, Q = &q)
+
 
             i+=1
         self.domain.evaporate(tau = &self.evap_rate)
@@ -193,7 +200,7 @@ cdef class SimPlayer:
         return np.asarray(self.positions[:self.count_active,0])
     @property
     def dropper_y(self):
-        return np.asarray(self.positions[:self.count_active,1]
+        return np.asarray(self.positions[:self.count_active,1])
     @property
     def left_x(self):
         return np.asarray(self.lefts[:self.count_active,0])
