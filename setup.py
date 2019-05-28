@@ -14,11 +14,11 @@ setup(name = 'stigmergy',
                               'cythonic/core/*.pyx',],
                               compiler_directives={
                                   'embedsignature': True,
-                                   'boundscheck': False,
-                                   'wraparound': False,
-                                   'nonecheck': False,
-                                   'cdivision': True,
-                                   'initializedcheck': False,
+                                   # 'boundscheck': False,
+                                   # 'wraparound': False,
+                                   # 'nonecheck': False,
+                                   # 'cdivision': True,
+                                   # 'initializedcheck': False,
                                    'profile': True,
                                    'language_level':3
                                    }

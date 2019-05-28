@@ -109,12 +109,14 @@ cdef class Domain:
 
     cdef readonly void add_pheromone(self,point *p, double *Q):
         " add quantity Q pheromone at gaussian centered around p "
+        if not self.check_bounds(p):
+            return
         cdef index I = index(self.Map.to_grid(&p.x),self.Map.to_grid(&p.y))
         cdef map_range s = self.Map.span(&I.x,&I.y,&self.Gaussian.radius)
         cdef long offset_x = self.Map.to_grid(&p.x)-s.x[1]+s.x[0]
         cdef long offset_y = self.Map.to_grid(&p.y)-s.y[1]+s.y[0]
         cdef long i,j
-        cdef double startsum = self.Map.sum()
+        # cdef double startsum = self.Map.sum()
         for i in range(s.y[2]-s.y[0]):
             for j in range(s.x[2]-s.x[0]):
                 # print(f"Map[{offset_y+i}, {offset_x+j}] of [{self.Map.lim.x}, {self.Map.lim.y}]; Gaussian: [{i+s.y[0]}, {j+s.x[0]}] of [{self.Gaussian.lim.x}, {self.Gaussian.lim.y}]")

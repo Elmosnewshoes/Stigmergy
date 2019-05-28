@@ -130,6 +130,7 @@ cdef class SimPlayer:
         self.headings = np.zeros(self.n_agents, dtype =np.float_)
         self.lefts = -1000*np.ones([self.n_agents,2],dtype = np.float_)
         self.rights = -1000*np.ones([self.n_agents,2],dtype = np.float_)
+        self.droppers = -1000*np.ones([self.n_agents,2],dtype = np.float_)
 
     def run_until(self, lim):
         " return the map at a certain stage "
