@@ -46,6 +46,7 @@ cdef class SimPlayer:
         self.init_domain()
         self.init_gaussian(gauss_settings)
         self.count_active = 0
+        self.max_pheromone_level = 0
 
     def init_domain(self,):
         " extract the query into useable initialization parameters "
@@ -71,6 +72,8 @@ cdef class SimPlayer:
 
     def get_results(self,):
         results = extract_settings(*self.db.return_all(get_settings(self.id,'results')))
+        if results['pheromone_max']:
+            self.max_pheromone_level = results['pheromone_max']
         " check if step_vec, scorecard and entropy_vec are not NULL, then store as object attribute "
         if results['step_vec']:
             self.steplist = np.asarray(eval(results['step_vec']),dtype=np.uint32)
@@ -227,6 +230,10 @@ cdef class SimPlayer:
     def ylim(self):
         return self.domain.size.y
 
+
+    @property
+    def global_max(self):
+        return self.max_pheromone_level
     @property
     def max(self):
         return self.domain.Map.max()

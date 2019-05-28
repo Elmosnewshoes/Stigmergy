@@ -32,7 +32,7 @@ def insert_deposit(sim_id, q, return_factor, beta, **kwargs):
     return output
 
 def insert_results(sim_id, entropy_vec = 'NULL', start_entropy = 'NULL',end_entropy = 'NULL',
-                   foodcount = 'NULL', nestcount = 'NULL',scorecard='NULL',step_vec='NULL', **kwargs):
+                   foodcount = 'NULL', nestcount = 'NULL',scorecard='NULL',step_vec='NULL', pheromone_max = 'NULL', **kwargs):
     if entropy_vec !='NULL':
         # add string identifiers!
         entropy_vec = f"'{entropy_vec}'"
@@ -40,8 +40,8 @@ def insert_results(sim_id, entropy_vec = 'NULL', start_entropy = 'NULL',end_entr
         scorecard = f"'{scorecard}'"
     if step_vec  !='NULL':
         step_vec = f"'{step_vec}'"
-    output = insert('results') + "(sim_id, entropy_vec, start_entropy, end_entropy, foodcount, nestcount, scorecard, step_vec) "
-    output+= f"VALUES ({sim_id}, {entropy_vec}, {start_entropy}, {end_entropy}, {foodcount}, {nestcount},{scorecard},{step_vec})"
+    output = insert('results') + "(sim_id, entropy_vec, start_entropy, end_entropy, foodcount, nestcount, scorecard, step_vec, pheromone_max) "
+    output+= f"VALUES ({sim_id}, {entropy_vec}, {start_entropy}, {end_entropy}, {foodcount}, {nestcount},{scorecard},{step_vec}, {pheromone_max})"
     return output
 
 def insert_sens(sim_id, breakpoint, exp_lambda, **kwargs):

@@ -73,8 +73,6 @@ class SubplotAnimation(animation.TimedAnimation):
         self.f = fig
         # ax1 = fig.add_subplot(1, 2, 1)
         ax_map = fig.add_subplot(1,2,1)
-        ax_entropy = fig.add_subplot(2, 2, 2)
-        ax_score = fig.add_subplot(2, 2, 4)
 
         # self.k = self.player.K_vec
         self.t = self.player.T_vec
@@ -86,8 +84,15 @@ class SubplotAnimation(animation.TimedAnimation):
                                          0,int(self.player.ylim)],
                                'vmin':0,
                                'origin':'bottom'}
+        if self.player.global_max > 0.:
+            self.imshow_opts['vmax'] = 1.25 * self.player.global_max
+        else:
+            self.imshow_opts['vmax'] = 3
         Z = self.player.map
         self.map = ax_map.imshow(Z, interpolation='None',**self.imshow_opts)
+        fig.colorbar(self.map,orientation="vertical")
+        ax_entropy = fig.add_subplot(2, 2, 2)
+        ax_score = fig.add_subplot(2, 2, 4)
         # self.ants = ax_map.scatter([], [],marker = 'o', s=10, c='k', alpha=1.)
         self.ants = ax_map.scatter([],[],marker = 'o',facecolors='white', edgecolors='black', s = 10, alpha = 1.)
         self.left = ax_map.scatter([], [],marker = '*', s=10, c='k', alpha=1.)

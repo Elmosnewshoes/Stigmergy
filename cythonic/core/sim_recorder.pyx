@@ -1,6 +1,7 @@
 import json
 from cythonic.plugins import queries
 import numpy as np
+from libc.math cimport fmax as cmax
 
 cdef class sim_recorder(Sim):
     def __init__(self,queen_args, domain_args, sim_args):
@@ -69,6 +70,7 @@ cdef class sim_recorder(Sim):
         " run the simulation "
         cdef unsigned int i #stepcounter
         cdef unsigned int action_counter = 0 #count all ant actions
+        cdef double max_pheromone_level = 0 # keep track of the absolute max
         cdef double start_entropy = self.domain.entropy()
         cdef double end_entropy = 0 #placeholder for resulting entropy
         cdef unsigned int stepupdates = 0 #counter for storing the result
@@ -92,6 +94,7 @@ cdef class sim_recorder(Sim):
                 entropy_vec.append(round(self.domain.entropy(),3))
                 nestcount_vec.append(self.nestcount)
                 stepupdates+=1 # increase the vector index
+                max_pheromone_level = cmax(max_pheromone_level,self.domain.Map.max())
 
         # === end loop ===
 
@@ -100,7 +103,7 @@ cdef class sim_recorder(Sim):
 
         result = {'sim_id': self.id,'foodcount': self.foodcount, 'nestcount': self.nestcount,
                'entropy_vec': entropy_vec, 'start_entropy': round(start_entropy,3), 'end_entropy': round(end_entropy,3),
-                'scorecard':nestcount_vec, 'step_vec':np.asarray(k_vec).tolist(),'score':self.calc_score()}
+                'scorecard':nestcount_vec, 'step_vec':np.asarray(k_vec).tolist(),'score':self.calc_score(), 'pheromone_max': round(max_pheromone_level,1)}
         self.db.execute(queries.insert_results(**result))
         if record:
             self.db.execute(queries.update_sim(self.id, status = 'FINISHED', steps = action_counter))

@@ -2,7 +2,7 @@ from cythonic.plugins.positions cimport point, index, map_range
 from cythonic.core.map cimport MeshMap, GaussMap
 cimport numpy as np
 import numpy as np
-from libc.math cimport ceil as cceil, sqrt as csqrt, log as cln, fmax as cmax
+from libc.math cimport ceil as cceil, sqrt as csqrt, log as cln
 cimport cython
 from cython.parallel cimport prange
 

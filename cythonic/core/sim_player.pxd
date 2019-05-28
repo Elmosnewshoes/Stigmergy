@@ -6,6 +6,7 @@ cdef class SimPlayer:
         readonly unsigned int n_agents, count_active
         readonly unsigned int id, cur_step,steps
         double evap_rate, dt
+        double max_pheromone_level
         Domain domain
 
         readonly double ant_size, sens_offset
