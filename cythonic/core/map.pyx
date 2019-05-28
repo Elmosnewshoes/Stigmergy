@@ -131,4 +131,5 @@ cdef class GaussMap(Map):
         rho = sigmaxy/(sigmax*sigmay)
         z = Xmu**2/sigmax**2 + Ymu**2/sigmay**2 - 2*rho*Xmu*Ymu/(sigmax*sigmay)
         denom = 2*np.pi*sigmax*sigmay*np.sqrt(1-rho**2)
-        return np.exp(-z/(2*(1-rho**2))) / denom
+        # return np.exp(-z/(2*(1-rho**2))) / denom
+        return np.exp(-z/(2*(1-rho**2))) # peak of gaussian ==1 
