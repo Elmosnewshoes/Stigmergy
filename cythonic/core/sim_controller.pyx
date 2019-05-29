@@ -206,22 +206,22 @@ cdef class Sim:
         if self.domain.check_pos(p = &self.queen.agent.state.pos, foodbound = &foodbound):
             " ant body is at food "
             self.queen.agent.reverse()
+            self.queen.agent.step(&dt)
             if self.queen.agent.state[0].foodbound == foodbound:
                 # ant was also looking for food: do the counting magic
                 self.queen.agent.state[0].foodbound = nestbound #toggle state
                 self.foodcount +=1 #count
-                self.queen.agent.step(&dt)
                 self.queen.agent.state[0].time = 0. # reset agent internal timer
 
 
         elif self.domain.check_pos(p = &self.queen.agent.state.pos, foodbound = &nestbound):
             " ant body is at nest "
             self.queen.agent.reverse()
+            self.queen.agent.step(&dt)
             if self.queen.agent.state[0].foodbound == nestbound:
                 # ant was also looking for the nest: do the magic
                 self.queen.agent.state[0].foodbound = foodbound #toggle state
                 self.nestcount +=1 #count
-                self.queen.agent.step(&dt)
                 self.queen.agent.state[0].time = 0. # reset agent internal timer
 
         elif not self.domain.check_bounds(&self.queen.agent.state.pos):

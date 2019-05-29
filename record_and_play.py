@@ -29,22 +29,25 @@ if __name__ == '__main__':
         'food_rad': 150,
         'target_pheromone': 1.
     }
-    sim_dict['steps'] = 2000
+    sim_dict['steps'] = 900
+    sim_dict['dt'] = .3
     sim_dict['n_agents'] = 80
     domain_dict['pitch']=10
     queen_dict['default_speed'] = 125
     sim_dict['evap_rate'] = .97
-    queen_dict['noise_type'] = 'telegraph'
+    queen_dict['noise_type'] = 'white'
     queen_dict['noise_parameter'] = 10 #higher means direction changes last longer with telegraph noise
     ant_dict['deposit_fun'] = 'exp_decay'
     deposit_dict['beta'] = .01
     record = True
-    visualize = True
+    visualize = False
 
     ant_dict['gain'] = 0.5
+    ant_dict['rotate_fun'] = 'weber'
     ant_dict['noise_gain'] = 0.75
+    ant_dict['noise_gain2'] = 0.05
     sim_dict['evap_rate'] = 0.97
     ant_dict['sens_offset'] = 45
-    deposit_dict['covariance'] = 35
-    deposit_dict['q'] = 1500 # originally 1000
+    gauss_dict['covariance'] = 400
+    deposit_dict['q'] = 2
     record_and_play(sim_dict,queen_dict,domain_dict, deposit_dict,gauss_dict, record, 500, visualize)

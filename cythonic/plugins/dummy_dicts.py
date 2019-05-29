@@ -15,7 +15,8 @@ ant_dict = {
     'rotate_fun': 'simple',
     'sens_fun': 'linear',
     'sens_dict': sens_dict,
-    'deposit_fun': 'exp_decay'
+    'deposit_fun': 'exp_decay',
+    'steer_regularization': 0.001,
 }
 
 queen_dict = {
