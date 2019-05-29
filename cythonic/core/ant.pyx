@@ -25,18 +25,18 @@ cdef class Ant:
         elif sens_fun == 'ReLu':
             self.sens_fun = observe_relu
 
-        self.obs_fun_args = sens_dict
-
-        self.rot_fun_args = {'covariance_1': noise_gain,
-                                'covariance_2': noise_gain2,
-                                'alpha': gain,
-                                'k': steer_regularization}
-
         "=== Assign steering function (control algorithm) ==="
         if rotate_fun == 'simple':
             self.rotate_fun = simple
         elif rotate_fun == 'weber':
             self.rotate_fun = weber
+
+        "=== Load the structs for sensing and steering ==="
+        self.obs_fun_args = sens_dict
+        self.rot_fun_args = {'covariance_1': noise_gain,
+                                'covariance_2': noise_gain2,
+                                'alpha': gain,
+                                'k': steer_regularization}
 
 
     """ ================ Deposit related methods ================== """
@@ -77,15 +77,8 @@ cdef class Ant:
     cdef void rotate(self,double* dt):
         " rotate the ant based on angular velocity omega "
         " compute the angular speed (degrees/second) based on sensing "
-        " perturb the sensed pheromone quantity with noise "
         self.rotate_fun(s = self.state, args = &self.rot_fun_args, cur_step = &self.current_step)
-        # self.state[0].omega = self.gain*180./PI*(
-        #     self.state[0].Q_obs.lft-self.state[0].Q_obs.rght
-        #      + self.state[0].noise_vec[self.current_step]*self.noise_gain)
         self.increase_azimuth(dt) # state is known, no need to pass it
-        # self.state[0].theta += dt[0]*self.gain*180./PI* (
-        #         self.state[0].Q_obs.lft-self.state[0].Q_obs.rght +
-        #         self.state[0].noise_vec[self.current_step]*self.noise_gain)
 
     cdef void gradient_step(self, double *dt, observations * Q):
         " execute the sequence for differential based stepping "
