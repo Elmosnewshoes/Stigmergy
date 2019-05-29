@@ -1,7 +1,7 @@
 # distutils: language = c++
 
 from cythonic.plugins.functions cimport transform
-from cythonic.plugins.sens_functions cimport observe_linear
+from cythonic.plugins.sens_functions cimport observe_linear, observe_relu
 from cythonic.plugins.dep_functions cimport dep_constant, dep_exdecay
 from cythonic.plugins.rotate_functions cimport simple, weber
 # from cythonic.plugins.drop_functions cimport exp_decay
@@ -19,9 +19,12 @@ cdef class Ant:
         # self.noise_gain = noise_gain # fraction of self.gain
         self.current_step = 0 #current step in simulation
 
-        " initialize sensing specific arguments "
+        " === Assign sensor activation function === "
         if sens_fun =='linear':
             self.sens_fun = observe_linear
+        elif sens_fun == 'ReLu':
+            self.sens_fun = observe_relu
+
         self.obs_fun_args = sens_dict
 
         self.rot_fun_args = {'covariance_1': noise_gain,
@@ -29,6 +32,7 @@ cdef class Ant:
                                 'alpha': gain,
                                 'k': steer_regularization}
 
+        "=== Assign steering function (control algorithm) ==="
         if rotate_fun == 'simple':
             self.rotate_fun = simple
         elif rotate_fun == 'weber':
@@ -58,7 +62,12 @@ cdef class Ant:
     """ ================ observation related methods ================ """
     cdef void observe(self, observations* Q):
         " fill Q_obs(lft, right) based on sensing function "
-        self.sens_fun(self.state, &self.obs_fun_args, Q)
+        if self.state[0].out_of_bounds:
+            #either left or right sensor senses 0!
+            self.state[0].Q_obs.lft = Q[0].lft
+            self.state[0].Q_obs.rght = Q[0].rght
+        else:
+            self.sens_fun(self.state, &self.obs_fun_args, Q)
 
     """ ================ step related methods ================ """
     cdef void next_step(self):

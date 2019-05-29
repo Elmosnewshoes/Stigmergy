@@ -1056,7 +1056,7 @@ p, li { white-space: pre-wrap; }
             <item row="2" column="0">
              <widget class="QLabel" name="label_breakpoint">
               <property name="text">
-               <string>breakpoint (sigmoid):</string>
+               <string>breakpoint (ReLu/sigmoid):</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1146,6 +1146,11 @@ p, li { white-space: pre-wrap; }
               <item>
                <property name="text">
                 <string>linear</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>ReLu</string>
                </property>
               </item>
               <item>

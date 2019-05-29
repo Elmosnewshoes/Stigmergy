@@ -9,6 +9,7 @@ cdef double lin(double *x)
 # ctypedef readonly void (*f_obs)(ant_state*,fun_args*, observations*) #type definition for sensing functions
 
 #sensing functions themselves of type void (*f_obs)
+cdef void observe_relu(ant_state* s, fun_args* a, observations* Q)
 cdef void observe_linear(ant_state* s, fun_args* a, observations* Q)
 cdef void sigmoid(ant_state* s, fun_args* a, observations* Q)
 

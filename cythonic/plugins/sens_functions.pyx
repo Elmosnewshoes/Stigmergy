@@ -1,5 +1,5 @@
 # distutils: language = c++
-from libc.math cimport exp as cexp
+from libc.math cimport exp as cexp, fmax as cmax
 import numpy as np
 
 cdef double lin(double *x):
@@ -7,9 +7,15 @@ cdef double lin(double *x):
 
 # from cythonic.core.ant cimport ant_state
 cdef void observe_linear(ant_state* s, fun_args* a, observations* Q):
-    " linear observation: Q = (q+epsion)*gain with espilon random number"
+    " linear observation: Q = (q)*gain with"
     s[0].Q_obs.lft = Q[0].lft
     s[0].Q_obs.rght = Q[0].rght
+
+# from cythonic.core.ant cimport ant_state
+cdef void observe_relu(ant_state* s, fun_args* a, observations* Q):
+    " ReLu: Q = min(q,k)"
+    s[0].Q_obs.lft = cmax(Q[0].lft,a[0].breakpoint)
+    s[0].Q_obs.rght =cmax(Q[0].rght,a[0].breakpoint)
 
 cdef void sigmoid(ant_state* s, fun_args* a, observations* Q):
     """ observation: """
