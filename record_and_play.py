@@ -7,6 +7,21 @@
 from animate_sim import show_plot
 from cythonic.sim_wrapper import recorder
 
+import cProfile, pstats
+
+def do_cprofile(func):
+    def profiled_func(*args, **kwargs):
+        profile = cProfile.Profile()
+        try:
+            profile.enable()
+            result = func(*args, **kwargs)
+            profile.disable()
+            return result
+        finally:
+            ps = pstats.Stats(profile).sort_stats('cumulative')
+            ps.print_stats()
+    return profiled_func
+
 
 def record_and_play(sim_dict, queen_dict, domain_dict, deposit_dict, gauss_dict, record, upload_interval = 500, visualize = True):
     sim_recorder = recorder(queen_args = queen_dict, domain_args = domain_dict, sim_args = sim_dict)
@@ -17,7 +32,8 @@ def record_and_play(sim_dict, queen_dict, domain_dict, deposit_dict, gauss_dict,
         pass
     return result
 
-if __name__ == '__main__':
+@do_cprofile
+def run():
     from cythonic.plugins.dummy_dicts import ant_dict, queen_dict, domain_dict, gauss_dict, sim_dict, deposit_dict, sens_dict
 
     domain_dict = {
@@ -51,3 +67,7 @@ if __name__ == '__main__':
     gauss_dict['covariance'] = 400
     deposit_dict['q'] = 2
     record_and_play(sim_dict,queen_dict,domain_dict, deposit_dict,gauss_dict, record, 500, visualize)
+
+
+if __name__ == '__main__':
+    run()
