@@ -147,15 +147,29 @@ cdef class SimPlayer:
         " return result entropy vector from k==0 up to and including K==cur_step "
         return np.asarray(self.entropy)[np.asarray(self.steplist)<=self.cur_step]
     @property
+    def H_future(self ):
+        " return future entropy vector (H+H_future == full entropy vec) "
+        return np.asarray(self.entropy)[np.asarray(self.steplist)>=self.cur_step]
+    @property
     def K(self ):
         " return result step vector from k==0 up to and including K==cur_step "
         return np.asarray(self.steplist)[np.asarray(self.steplist)<=self.cur_step]
     @property
+    def K_future(self ):
+        " return future step vec "
+        return np.asarray(self.steplist)[np.asarray(self.steplist)>=self.cur_step]
+    @property
     def T(self):
         return self.K*self.dt
     @property
+    def T_future(self):
+        return self.K_future*self.dt
+    @property
     def score(self ):
         return np.asarray(self.nestcount)[np.asarray(self.steplist)<=self.cur_step]
+    @property
+    def score_future(self ):
+        return np.asarray(self.nestcount)[np.asarray(self.steplist)>=self.cur_step]
 
     @property
     def H_vec(self):

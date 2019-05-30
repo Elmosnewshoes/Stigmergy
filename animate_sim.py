@@ -109,7 +109,9 @@ class SubplotAnimation(animation.TimedAnimation):
         ax_entropy.set_xlabel('t')
         ax_entropy.set_ylabel('H')
         self.line_H = Line2D([], [], color='black')
+        self.line_H_future  = Line2D([], [], color='blue', linestyle = '--')
         ax_entropy.add_line(self.line_H)
+        ax_entropy.add_line(self.line_H_future)
         # ax_entropy.set_xlim(0, self.player.steps)
         ax_entropy.set_xlim(0,max(self.player.T_vec))
         ax_entropy.set_ylim(0, max(self.player.H_vec)+1)
@@ -117,7 +119,9 @@ class SubplotAnimation(animation.TimedAnimation):
         ax_score.set_xlabel('t')
         ax_score.set_ylabel('score')
         self.line_score = Line2D([], [], color='black')
+        self.line_score_future = Line2D([], [], color='blue',linestyle = '--')
         ax_score.add_line(self.line_score)
+        ax_score.add_line(self.line_score_future)
         # ax_score.set_xlim(0, self.player.steps)
         ax_score.set_xlim(0,max(self.player.T_vec))
         ax_score.set_ylim(0, max([1.1*max(self.player.score_vec),1]))
@@ -135,8 +139,10 @@ class SubplotAnimation(animation.TimedAnimation):
         self.left.set_offsets(self.player.lft)
         self.right.set_offsets(self.player.rght)
         self.line_H.set_data(self.player.T,self.player.H)
+        self.line_H_future.set_data(self.player.T_future,self.player.H_future)
         self.line_score.set_data(self.player.T,self.player.score)
-        self._drawn_artists = [self.map,self.ants,self.dropper, self.nest,self.food, self.left, self.right, self.line_H, self.line_score]
+        self.line_score_future.set_data(self.player.T_future,self.player.score_future)
+        self._drawn_artists = [self.map,self.ants,self.dropper, self.nest,self.food, self.left, self.right, self.line_H, self.line_score, self.line_score_future, self.line_H_future]
     def new_frame_seq(self):
         return iter(range(self.player.steps))
 
@@ -146,7 +152,7 @@ class SubplotAnimation(animation.TimedAnimation):
             self.player.renew()
         else:
             self.replays +=1
-        lines = [self.line_H, self.line_score]
+        lines = [self.line_H, self.line_H_future, self.line_score_future, self.line_score]
         self.map.set_data( self.player.map)
         self.ants.set_offsets(self.player.pos)
         self.nest.set_offsets(self.player.nest)
