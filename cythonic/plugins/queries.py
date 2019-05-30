@@ -6,9 +6,9 @@
 def insert(table):
     return f"INSERT INTO {table} "
 
-def insert_ant(sim_id, l, sens_offset, gain, noise_gain, noise_gain2, rotate_fun, sens_fun,deposit_fun, steer_regularization, **kwargs):
-    output = insert('ant_settings') + "(sim_id, l, sens_offset, gain, noise_gain, noise_gain2, rotate_fun, sens_fun,deposit_fun, steer_regularization) "
-    output += f" VALUES ({sim_id}, {l}, {sens_offset}, {gain}, {noise_gain},{noise_gain2},'{rotate_fun}', '{sens_fun}','{deposit_fun}', {steer_regularization})"
+def insert_ant(sim_id, l, d, sens_offset, gain, noise_gain, noise_gain2, rotate_fun, sens_fun,deposit_fun, steer_regularization, **kwargs):
+    output = insert('ant_settings') + "(sim_id, l, d, sens_offset, gain, noise_gain, noise_gain2, rotate_fun, sens_fun,deposit_fun, steer_regularization) "
+    output += f" VALUES ({sim_id}, {l}, {d}, {sens_offset}, {gain}, {noise_gain},{noise_gain2},'{rotate_fun}', '{sens_fun}','{deposit_fun}', {steer_regularization})"
     return output
 
 def insert_queen(sim_id, default_speed, noise_type, noise_parameter, **kwargs):

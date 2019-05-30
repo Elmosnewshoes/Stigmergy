@@ -17,6 +17,7 @@ def make_ant_dict(Gui):
     " return a filled dictionary with all ant parameters from the gui "
     the_dict = {
         'l': Gui.spinbox_antsize.value(),
+        'd': Gui.spinbox_antdropper.value(),
         'sens_offset':Gui.spinbox_offset.value(),
         'gain': Gui.spinbox_gain.value(),
         'noise_gain': Gui.spinbox_noisegain.value(),
@@ -145,6 +146,7 @@ def load_settings(Gui, sim_dict, queen_dict,
     #
     " ant "
     Gui.spinbox_antsize.setProperty('value', queen_dict['ant_dict']['l'])
+    Gui.spinbox_antdropper.setProperty('value', queen_dict['ant_dict']['d'])
     Gui.spinbox_offset.setProperty('value', queen_dict['ant_dict']['sens_offset'])
     Gui.spinbox_gain.setProperty('value', queen_dict['ant_dict']['gain'])
     try:

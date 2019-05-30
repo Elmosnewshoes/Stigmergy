@@ -38,6 +38,7 @@ cdef class SimPlayer:
         self.n_agents = sim_settings['n_agents']
         self.steps = sim_settings['steps']
         self.ant_size = ant_settings['l']
+        self.d = ant_settings['d']
         self.sens_offset = ant_settings['sens_offset']
         self.reset_vectors()
 
@@ -116,8 +117,8 @@ cdef class SimPlayer:
             self.rights[i,0] = pos.x+rotate_x(l = self.ant_size,theta = deg2rad(theta-self.sens_offset))
             self.rights[i,1] = pos.y+rotate_y(l = self.ant_size,theta = deg2rad(theta-self.sens_offset))
 
-            dropper.x = pos.x+rotate_x(l = self.ant_size,theta = deg2rad(theta+180))
-            dropper.y = pos.y+rotate_y(l = self.ant_size,theta = deg2rad(theta+180))
+            dropper.x = pos.x+rotate_x(l = self.d,theta = deg2rad(theta+180))
+            dropper.y = pos.y+rotate_y(l = self.d,theta = deg2rad(theta+180))
             self.droppers[i,0] = dropper.x
             self.droppers[i,1] = dropper.y
             # self.domain.add_pheromone(p = &pos, Q = &q)

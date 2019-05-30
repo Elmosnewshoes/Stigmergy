@@ -9,7 +9,7 @@ cdef class SimPlayer:
         double max_pheromone_level
         Domain domain
 
-        readonly double ant_size, sens_offset
+        readonly double ant_size, d, sens_offset
         double[:,::] positions
         double[:,::] droppers
         double[:] headings

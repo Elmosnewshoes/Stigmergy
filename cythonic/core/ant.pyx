@@ -10,11 +10,12 @@ from libc.math cimport M_PI as PI
 # from cythonic.plugins.rng cimport RNG
 
 cdef class Ant:
-    def __cinit__(self, double l, double sens_offset, double gain, str sens_fun,
+    def __cinit__(self, double l, double d, double sens_offset, double gain, str sens_fun,
         double noise_gain, double noise_gain2, dict sens_dict, str rotate_fun, double steer_regularization, **kwargs):
         " set global ant constants "
-        self.l = l
-        self.sens_offset = sens_offset
+        self.l = l #antenna length/offset
+        self.d = d #stinger offset
+        self.sens_offset = sens_offset #degrees /angular offset
         # self.gain = gain
         # self.noise_gain = noise_gain # fraction of self.gain
         self.current_step = 0 #current step in simulation
@@ -101,7 +102,7 @@ cdef class Ant:
         " calculate the position of the left and right sensor antennas "
         self.state[0].left = transform(self.state[0].theta + self.sens_offset, &self.l, &self.state.pos)
         self.state[0].right = transform(self.state[0].theta - self.sens_offset, &self.l, &self.state.pos)
-        self.state[0].dropper = transform(self.state[0].theta + 180, &self.l, &self.state.pos)
+        self.state[0].dropper = transform(self.state[0].theta + 180, &self.d, &self.state.pos)
 
     cdef void increase_azimuth(self, double * dt):
         " ensure azimuth stays within [0,360) interval "

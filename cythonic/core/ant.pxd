@@ -40,7 +40,7 @@ cdef class Ant:
     cdef ant_state* state
     cdef:
         # " geometric properties "
-        double l
+        double l, d
         double sens_offset
 
         # sensor properties
