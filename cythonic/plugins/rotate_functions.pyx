@@ -1,10 +1,18 @@
 # distutils: language = c++
 
 from libc.math cimport M_PI as PI
-from libc.math cimport fmin as cmin
+from libc.math cimport fmin as cmin, sqrt as csqrt, pow as cpow, asin as casin
 
-cdef void override(ant_state * s, t_max, double * dt):
-    s[0].omega = s[0].omega*(1-cmin(s[0].time/t_max,1.)) + s[0].omega*cmin(s[0].time/t_max,1.)/dt[0]
+cdef void override(ant_state * s, double * l ,double * t_max, double * override_max, double * dt):
+    cdef double R = csqrt(cpow(s[0].pos.x-s[0].nest.x,2)+cpow(s[0].pos.y-s[0].nest.y,2))
+    cdef double theta_offset  # optimal angle
+    if R < l[0]:
+        return
+    else:
+        theta_offset = (180/PI*(casin((s[0].pos.y-s[0].nest.y)/R)+PI)-s[0].theta)%360
+        if theta_offset > 180:
+            theta_offset -= 360
+        s[0].omega = theta_offset/dt[0]*override_max[0]*cmin(s[0].time/t_max[0],1.)+(1-override_max[0]*cmin(s[0].time/t_max[0],1.))*s[0].omega
 
 cdef void simple(ant_state* s, rotate_args* args, unsigned int * cur_step):
     " rotate the ant based on angular velocity omega "

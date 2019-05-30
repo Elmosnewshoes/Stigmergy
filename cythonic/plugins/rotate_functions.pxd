@@ -6,6 +6,7 @@ from cythonic.core.ant cimport ant_state
 cdef void simple(ant_state* s, rotate_args* args, unsigned int * cur_step)
 
 cdef void weber(ant_state* s, rotate_args* args, unsigned int * cur_step)
+cdef void override(ant_state * s, double * l ,double * t_max, double * override_max, double * dt)
 # cdef double lin(double *x)
 # function type for observe function
 # ctypedef readonly void (*f_obs)(ant_state*,fun_args*, observations*) #type definition for sensing functions

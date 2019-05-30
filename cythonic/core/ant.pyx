@@ -3,7 +3,7 @@
 from cythonic.plugins.functions cimport transform
 from cythonic.plugins.sens_functions cimport observe_linear, observe_relu
 from cythonic.plugins.dep_functions cimport dep_constant, dep_exdecay
-from cythonic.plugins.rotate_functions cimport simple, weber
+from cythonic.plugins.rotate_functions cimport simple, weber, override
 # from cythonic.plugins.drop_functions cimport exp_decay
 # import numpy as np
 from libc.math cimport M_PI as PI
@@ -11,7 +11,7 @@ from libc.math cimport M_PI as PI
 
 cdef class Ant:
     def __cinit__(self, double l, double d, double sens_offset, double gain, str sens_fun,
-        double noise_gain, double noise_gain2, dict sens_dict, str rotate_fun, double steer_regularization, **kwargs):
+        double noise_gain, double noise_gain2, dict sens_dict, str rotate_fun, double steer_regularization, override, **kwargs):
         " set global ant constants "
         self.l = l #antenna length/offset
         self.d = d #stinger offset
@@ -19,6 +19,10 @@ cdef class Ant:
         # self.gain = gain
         # self.noise_gain = noise_gain # fraction of self.gain
         self.current_step = 0 #current step in simulation
+        self.override = override
+        self.override_max = kwargs['override_max']
+        self.override_time = kwargs['override_time']
+
 
         " === Assign sensor activation function === "
         if sens_fun =='linear':
@@ -79,7 +83,9 @@ cdef class Ant:
         " rotate the ant based on angular velocity omega "
         " compute the angular speed (degrees/second) based on sensing "
         self.rotate_fun(s = self.state, args = &self.rot_fun_args, cur_step = &self.current_step)
-        # self.override(s = self.state, parameter = 10.)
+        if self.override and not self.state[0].foodbound:
+            # ant is nestbound and gets a nudge in the right direction
+            override(s = self.state, l = &self.l ,t_max = &self.override_time, override_max = &self.override_max, dt = dt)
         self.increase_azimuth(dt) # state is known, no need to pass it
 
     cdef void gradient_step(self, double *dt, observations * Q):

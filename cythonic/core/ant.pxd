@@ -42,6 +42,9 @@ cdef class Ant:
         # " geometric properties "
         double l, d
         double sens_offset
+        bint override
+        double override_time
+        double override_max
 
         # sensor properties
         # double gain

@@ -28,7 +28,10 @@ def make_ant_dict(Gui):
         'sens_fun':  Gui.combobox_activation.currentText(),
         'sens_dict': {'breakpoint': Gui.spinbox_breakpoint.value(),
                       'exp_lambda': Gui.spinbox_lambda.value()},
-        'deposit_fun': Gui.combobox_depfun.currentText()
+        'deposit_fun': Gui.combobox_depfun.currentText(),
+        'override': Gui.checkBox_override.isChecked(),
+        'override_max':Gui.spinbox_override_max.value(),
+        'override_time':Gui.spinbox_override_time.value()
     }
     if the_dict['deposit_fun'] =='exponential': the_dict['deposit_fun']= 'exp_decay'
     return the_dict
@@ -172,6 +175,12 @@ def load_settings(Gui, sim_dict, queen_dict,
         Gui.combobox_depfun.setCurrentText(_translate("MainWindow", 'exponential'))
     else:
         Gui.combobox_depfun.setCurrentText(_translate("MainWindow", val))
+    if not queen_dict['ant_dict']['override']=='FALSE':
+        Gui.checkBox_override.setChecked(True)
+        Gui.spinbox_override_max.setProperty('value', queen_dict['ant_dict']['override_max'])
+        Gui.spinbox_override_time.setProperty('value', queen_dict['ant_dict']['override_time'])
+    else:
+        Gui.checkBox_override.setChecked(False)
     #
     " Gaussian "
     Gui.spinbox_significancy.setProperty('value', gauss_dict['significancy'])
