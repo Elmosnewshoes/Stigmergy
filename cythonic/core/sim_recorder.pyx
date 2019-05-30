@@ -53,14 +53,16 @@ cdef class sim_recorder(Sim):
         cdef unsigned int i
         for i in range(self.queen.count_active):
             " push the state to a list "
-            self.qry_args.append((self.id, step, self.queen.state_list[i].id, self.queen.state_list[i].pos.x,
-                                  self.queen.state_list[i].pos.y, self.queen.state_list[i].theta,
-                                  self.queen.drop_quantity[i]))
+            if self.queen.state_list[i].pos.x >= 0:
+                #do not push empty state
+                self.qry_args.append((self.id, step, self.queen.state_list[i].id, self.queen.state_list[i].pos.x,
+                                      self.queen.state_list[i].pos.y, self.queen.state_list[i].theta,
+                                      self.queen.drop_quantity[i]))
 
     cdef void record_step(self, unsigned int stepnr):
         " record the state at each step "
         self.extract_antstate(stepnr) #append query with current ant_state
-        if stepnr>0 and (stepnr==self.steps-1 or stepnr%self.update_interval ==0) and len(self.qry_args) > 0:
+        if stepnr>0 and (stepnr==self.steps or stepnr%self.update_interval ==0) and len(self.qry_args) > 0:
             # check if results must be pushed to the database
             self.db.executemany(self.pending_qry, self.qry_args)
             self.flush_resultset() # start with a fresh query string

@@ -7,3 +7,7 @@ difference critical ant threshold: 4924 (80 ants) vs 4925 (160 ants)
 difference for noise, telegraphic and gain: 5011 - 5015
 
 wall following ants:5077
+
+AWESOME large sim 5105
+Beautiful sim 5106, 5109, no clear exploitation, but arms are strong enough to lure ants in.
+5110 has nice results, double highway

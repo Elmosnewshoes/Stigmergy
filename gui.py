@@ -16,6 +16,7 @@ from cythonic.plugins.queries import get_settings
 from cythonic.plugins.db_path import db_path
 from cythonic.plugins.db_controller import db_controller
 import math
+import gc #garbage collector, avoid memory leak during consequtive runs
 
 from record_and_play import record_and_play
 _translate = QtCore.QCoreApplication.translate
@@ -68,6 +69,7 @@ class mywindow(QtWidgets.QMainWindow):
             f" yielded a nestcount score of {result['nestcount']} with {dicts['sim_dict']['n_agents']} ants" +\
             f" -> efficiency of &eta; = {round(result['score']*1e6,2)} 10<sup>-6</sup>ants/sec"
         self.set_text(t)
+        gc.collect()
 
     def save_and_quit(self):
         " exit app gracefully but save the settigns first "

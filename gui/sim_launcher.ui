@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>749</width>
-    <height>876</height>
+    <height>953</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -99,49 +99,6 @@ p, li { white-space: pre-wrap; }
            </item>
           </layout>
          </item>
-         <item row="1" column="1">
-          <layout class="QHBoxLayout" name="horizontalLayout_2">
-           <item>
-            <widget class="QLabel" name="label_noisegain">
-             <property name="text">
-              <string>noise gain/cov #1:</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-             <property name="wordWrap">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QDoubleSpinBox" name="spinbox_noisegain">
-             <property name="maximum">
-              <double>10.000000000000000</double>
-             </property>
-             <property name="singleStep">
-              <double>0.250000000000000</double>
-             </property>
-             <property name="value">
-              <double>1.000000000000000</double>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item row="0" column="0">
-          <widget class="QLineEdit" name="sim_id_input">
-           <property name="text">
-            <string>4872</string>
-           </property>
-           <property name="maxLength">
-            <number>5</number>
-           </property>
-           <property name="placeholderText">
-            <string>1</string>
-           </property>
-          </widget>
-         </item>
          <item row="1" column="0">
           <layout class="QHBoxLayout" name="horizontalLayout">
            <item>
@@ -170,6 +127,36 @@ p, li { white-space: pre-wrap; }
              </property>
              <property name="value">
               <double>1.500000000000000</double>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="1" column="1">
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <widget class="QLabel" name="label_noisegain">
+             <property name="text">
+              <string>noise gain/cov #1:</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QDoubleSpinBox" name="spinbox_noisegain">
+             <property name="maximum">
+              <double>10.000000000000000</double>
+             </property>
+             <property name="singleStep">
+              <double>0.250000000000000</double>
+             </property>
+             <property name="value">
+              <double>1.000000000000000</double>
              </property>
             </widget>
            </item>
@@ -208,23 +195,17 @@ p, li { white-space: pre-wrap; }
            </item>
           </layout>
          </item>
-         <item row="0" column="4">
-          <layout class="QHBoxLayout" name="horizontalLayout_18">
+         <item row="0" column="2">
+          <layout class="QHBoxLayout" name="horizontalLayout_7">
            <item>
-            <widget class="QPushButton" name="button_run">
+            <widget class="QPushButton" name="copy_btn">
              <property name="text">
-              <string>Run</string>
-             </property>
-             <property name="default">
-              <bool>false</bool>
-             </property>
-             <property name="flat">
-              <bool>false</bool>
+              <string>Copy</string>
              </property>
             </widget>
            </item>
            <item>
-            <spacer name="horizontalSpacer_3">
+            <spacer name="horizontalSpacer_4">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
@@ -238,57 +219,94 @@ p, li { white-space: pre-wrap; }
            </item>
           </layout>
          </item>
-         <item row="3" column="0">
-          <widget class="QCheckBox" name="check_recording">
+         <item row="4" column="0">
+          <widget class="QCheckBox" name="check_visualize">
            <property name="text">
-            <string>Recording</string>
+            <string>Visualize</string>
            </property>
            <property name="checked">
             <bool>true</bool>
            </property>
           </widget>
          </item>
-         <item row="2" column="0">
-          <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item row="2" column="1">
+          <layout class="QHBoxLayout" name="horizontalLayout_20">
            <item>
-            <widget class="QLabel" name="label_nagents">
+            <widget class="QLabel" name="label_noisegain_2">
              <property name="text">
-              <string>total ants:</string>
+              <string>noise gain/cov #2:</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
              </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="spinbox_agents">
-             <property name="minimum">
-              <number>1</number>
-             </property>
+            <widget class="QDoubleSpinBox" name="spinbox_noisegain_2">
              <property name="maximum">
-              <number>999</number>
+              <double>10.000000000000000</double>
              </property>
              <property name="singleStep">
-              <number>5</number>
+              <double>0.250000000000000</double>
              </property>
              <property name="value">
-              <number>80</number>
+              <double>1.000000000000000</double>
              </property>
             </widget>
            </item>
           </layout>
          </item>
-         <item row="0" column="2">
-          <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <item row="3" column="1">
+          <layout class="QHBoxLayout" name="horizontalLayout_19">
            <item>
-            <widget class="QPushButton" name="copy_btn">
+            <widget class="QLabel" name="label_rotate_fun">
              <property name="text">
-              <string>Copy</string>
+              <string>rotate method</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
            <item>
-            <spacer name="horizontalSpacer_4">
+            <widget class="QComboBox" name="combobox_rotate">
+             <property name="editable">
+              <bool>false</bool>
+             </property>
+             <property name="currentText">
+              <string>simple</string>
+             </property>
+             <item>
+              <property name="text">
+               <string>simple</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>weber</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="0" column="1">
+          <layout class="QHBoxLayout" name="horizontalLayout_6">
+           <item>
+            <widget class="QPushButton" name="replay_btn">
+             <property name="text">
+              <string>Replay</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_2">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
@@ -329,90 +347,18 @@ p, li { white-space: pre-wrap; }
            </item>
           </layout>
          </item>
-         <item row="2" column="4">
-          <layout class="QHBoxLayout" name="horizontalLayout_17">
-           <item>
-            <widget class="QLabel" name="label_dropquantity">
-             <property name="text">
-              <string>Q (deposit 
- quantity):</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QDoubleSpinBox" name="spinbox_q">
-             <property name="minimum">
-              <double>0.010000000000000</double>
-             </property>
-             <property name="maximum">
-              <double>100000.000000000000000</double>
-             </property>
-             <property name="singleStep">
-              <double>0.500000000000000</double>
-             </property>
-             <property name="value">
-              <double>0.500000000000000</double>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item row="2" column="1">
-          <layout class="QHBoxLayout" name="horizontalLayout_20">
-           <item>
-            <widget class="QLabel" name="label_noisegain_2">
-             <property name="text">
-              <string>noise gain/cov #2:</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-             <property name="wordWrap">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QDoubleSpinBox" name="spinbox_noisegain_2">
-             <property name="maximum">
-              <double>10.000000000000000</double>
-             </property>
-             <property name="singleStep">
-              <double>0.250000000000000</double>
-             </property>
-             <property name="value">
-              <double>1.000000000000000</double>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item row="0" column="1">
-          <layout class="QHBoxLayout" name="horizontalLayout_6">
-           <item>
-            <widget class="QPushButton" name="replay_btn">
-             <property name="text">
-              <string>Replay</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_2">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
+         <item row="0" column="0">
+          <widget class="QLineEdit" name="sim_id_input">
+           <property name="text">
+            <string>4872</string>
+           </property>
+           <property name="maxLength">
+            <number>5</number>
+           </property>
+           <property name="placeholderText">
+            <string>1</string>
+           </property>
+          </widget>
          </item>
          <item row="1" column="4">
           <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -444,52 +390,106 @@ p, li { white-space: pre-wrap; }
            </item>
           </layout>
          </item>
-         <item row="4" column="0">
-          <widget class="QCheckBox" name="check_visualize">
+         <item row="0" column="4">
+          <layout class="QHBoxLayout" name="horizontalLayout_18">
+           <item>
+            <widget class="QPushButton" name="button_run">
+             <property name="text">
+              <string>Run</string>
+             </property>
+             <property name="default">
+              <bool>false</bool>
+             </property>
+             <property name="flat">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+         <item row="2" column="0">
+          <layout class="QHBoxLayout" name="horizontalLayout_5">
+           <item>
+            <widget class="QLabel" name="label_nagents">
+             <property name="text">
+              <string>total ants:</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="spinbox_agents">
+             <property name="minimum">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <number>999</number>
+             </property>
+             <property name="singleStep">
+              <number>5</number>
+             </property>
+             <property name="value">
+              <number>80</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="2" column="4">
+          <layout class="QHBoxLayout" name="horizontalLayout_17">
+           <item>
+            <widget class="QLabel" name="label_dropquantity">
+             <property name="text">
+              <string>Q (deposit 
+ quantity):</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QDoubleSpinBox" name="spinbox_q">
+             <property name="minimum">
+              <double>0.010000000000000</double>
+             </property>
+             <property name="maximum">
+              <double>100000.000000000000000</double>
+             </property>
+             <property name="singleStep">
+              <double>0.500000000000000</double>
+             </property>
+             <property name="value">
+              <double>0.500000000000000</double>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="3" column="0">
+          <widget class="QCheckBox" name="check_recording">
            <property name="text">
-            <string>Visualize</string>
+            <string>Recording</string>
            </property>
            <property name="checked">
             <bool>true</bool>
            </property>
           </widget>
-         </item>
-         <item row="3" column="1">
-          <layout class="QHBoxLayout" name="horizontalLayout_19">
-           <item>
-            <widget class="QLabel" name="label_rotate_fun">
-             <property name="text">
-              <string>rotate method</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-             <property name="wordWrap">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QComboBox" name="combobox_rotate">
-             <property name="editable">
-              <bool>false</bool>
-             </property>
-             <property name="currentText">
-              <string>simple</string>
-             </property>
-             <item>
-              <property name="text">
-               <string>simple</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>weber</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-          </layout>
          </item>
         </layout>
        </item>
@@ -507,7 +507,7 @@ p, li { white-space: pre-wrap; }
          </property>
          <widget class="QWidget" name="tab">
           <attribute name="title">
-           <string>Basic settings</string>
+           <string>Ant settings</string>
           </attribute>
           <widget class="QWidget" name="layoutWidget">
            <property name="geometry">
@@ -531,68 +531,58 @@ p, li { white-space: pre-wrap; }
             <property name="bottomMargin">
              <number>10</number>
             </property>
-            <item row="4" column="0">
-             <widget class="QLabel" name="label_pitch">
-              <property name="text">
-               <string>pitch:</string>
+            <item row="2" column="1">
+             <widget class="QSpinBox" name="spinbox_offset">
+              <property name="minimum">
+               <number>30</number>
               </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              <property name="maximum">
+               <number>90</number>
               </property>
-             </widget>
-            </item>
-            <item row="2" column="2">
-             <widget class="QLabel" name="label_nestlocation">
-              <property name="text">
-               <string>nest location:</string>
+              <property name="singleStep">
+               <number>5</number>
               </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QSpinBox" name="spinbox_antsize">
               <property name="value">
-               <number>50</number>
+               <number>45</number>
               </property>
              </widget>
             </item>
-            <item row="2" column="3">
-             <layout class="QHBoxLayout" name="nest_box">
-              <item>
-               <widget class="QSpinBox" name="nest_x_size">
-                <property name="minimum">
-                 <number>250</number>
-                </property>
-                <property name="maximum">
-                 <number>10000</number>
-                </property>
-                <property name="singleStep">
-                 <number>250</number>
-                </property>
-                <property name="value">
-                 <number>500</number>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QSpinBox" name="nest_y_size">
-                <property name="minimum">
-                 <number>250</number>
-                </property>
-                <property name="maximum">
-                 <number>10000</number>
-                </property>
-                <property name="singleStep">
-                 <number>250</number>
-                </property>
-                <property name="value">
-                 <number>3500</number>
-                </property>
-               </widget>
-              </item>
-             </layout>
+            <item row="5" column="3">
+             <spacer name="horizontalSpacer_5">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="3" column="1">
+             <widget class="QDoubleSpinBox" name="spinbox_pheromone">
+              <property name="minimum">
+               <double>-1.000000000000000</double>
+              </property>
+              <property name="singleStep">
+               <double>0.250000000000000</double>
+              </property>
+              <property name="value">
+               <double>1.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_interval">
+              <property name="text">
+               <string>DB write
+ interval</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
             </item>
             <item row="3" column="0">
              <widget class="QLabel" name="label_startpheromone">
@@ -601,6 +591,52 @@ p, li { white-space: pre-wrap; }
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="2">
+             <spacer name="horizontalSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_offset">
+              <property name="text">
+               <string>sensor offset:</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QSpinBox" name="spinbox_interval">
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>1000</number>
+              </property>
+              <property name="singleStep">
+               <number>100</number>
+              </property>
+              <property name="value">
+               <number>500</number>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QSpinBox" name="spinbox_antsize">
+              <property name="value">
+               <number>50</number>
               </property>
              </widget>
             </item>
@@ -614,7 +650,37 @@ p, li { white-space: pre-wrap; }
               </property>
              </widget>
             </item>
-            <item row="1" column="2">
+            <item row="5" column="1">
+             <spacer name="verticalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+         <widget class="QWidget" name="tab_4">
+          <attribute name="title">
+           <string>Domain settings</string>
+          </attribute>
+          <widget class="QWidget" name="gridLayoutWidget_4">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>10</y>
+             <width>601</width>
+             <height>301</height>
+            </rect>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_4">
+            <item row="0" column="0">
              <widget class="QLabel" name="label_domainsize">
               <property name="text">
                <string>domain size:</string>
@@ -624,59 +690,17 @@ p, li { white-space: pre-wrap; }
               </property>
              </widget>
             </item>
-            <item row="5" column="3">
-             <widget class="QSpinBox" name="spinbox_foodradius">
-              <property name="minimum">
-               <number>25</number>
+            <item row="2" column="0">
+             <widget class="QLabel" name="food_location">
+              <property name="text">
+               <string>food_location:</string>
               </property>
-              <property name="maximum">
-               <number>999</number>
-              </property>
-              <property name="singleStep">
-               <number>50</number>
-              </property>
-              <property name="value">
-               <number>150</number>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
-            <item row="1" column="3">
-             <layout class="QHBoxLayout" name="dom_box">
-              <item>
-               <widget class="QSpinBox" name="dom_x_size">
-                <property name="minimum">
-                 <number>500</number>
-                </property>
-                <property name="maximum">
-                 <number>10000</number>
-                </property>
-                <property name="singleStep">
-                 <number>500</number>
-                </property>
-                <property name="value">
-                 <number>4000</number>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QSpinBox" name="dom_y_size">
-                <property name="minimum">
-                 <number>500</number>
-                </property>
-                <property name="maximum">
-                 <number>10000</number>
-                </property>
-                <property name="singleStep">
-                 <number>500</number>
-                </property>
-                <property name="value">
-                 <number>4000</number>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item row="3" column="3">
+            <item row="2" column="1">
              <layout class="QHBoxLayout" name="food_box">
               <item>
                <widget class="QSpinBox" name="food_x_size">
@@ -712,63 +736,43 @@ p, li { white-space: pre-wrap; }
               </item>
              </layout>
             </item>
-            <item row="4" column="2">
-             <widget class="QLabel" name="label_nestradius">
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_pitch">
               <property name="text">
-               <string>nest_radius:</string>
+               <string>pitch:</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
-            <item row="5" column="2">
-             <widget class="QLabel" name="label_foodradius">
-              <property name="text">
-               <string>food_radius:</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="2">
-             <widget class="QLabel" name="food_location">
-              <property name="text">
-               <string>food_location:</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QSpinBox" name="spinbox_offset">
+            <item row="2" column="3">
+             <widget class="QSpinBox" name="spinbox_foodradius">
               <property name="minimum">
-               <number>30</number>
+               <number>25</number>
               </property>
               <property name="maximum">
-               <number>90</number>
+               <number>999</number>
               </property>
               <property name="singleStep">
-               <number>5</number>
+               <number>50</number>
               </property>
               <property name="value">
-               <number>45</number>
+               <number>150</number>
               </property>
              </widget>
             </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="label_offset">
-              <property name="text">
-               <string>sensor offset:</string>
+            <item row="3" column="1">
+             <widget class="QSpinBox" name="spinbox_pitch">
+              <property name="minimum">
+               <number>2</number>
               </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              <property name="value">
+               <number>10</number>
               </property>
              </widget>
             </item>
-            <item row="4" column="3">
+            <item row="1" column="3">
              <widget class="QSpinBox" name="spinbox_nestradius">
               <property name="minimum">
                <number>25</number>
@@ -784,55 +788,120 @@ p, li { white-space: pre-wrap; }
               </property>
              </widget>
             </item>
-            <item row="5" column="1">
-             <widget class="QSpinBox" name="spinbox_interval">
-              <property name="minimum">
-               <number>1</number>
-              </property>
-              <property name="maximum">
-               <number>1000</number>
-              </property>
-              <property name="singleStep">
-               <number>100</number>
-              </property>
-              <property name="value">
-               <number>500</number>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1">
-             <widget class="QDoubleSpinBox" name="spinbox_pheromone">
-              <property name="minimum">
-               <double>-1.000000000000000</double>
-              </property>
-              <property name="singleStep">
-               <double>0.250000000000000</double>
-              </property>
-              <property name="value">
-               <double>1.000000000000000</double>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="1">
-             <widget class="QSpinBox" name="spinbox_pitch">
-              <property name="minimum">
-               <number>2</number>
-              </property>
-              <property name="value">
-               <number>10</number>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="0">
-             <widget class="QLabel" name="label_interval">
+            <item row="1" column="2">
+             <widget class="QLabel" name="label_nestradius">
               <property name="text">
-               <string>DB write
- interval</string>
+               <string>nest_radius:</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
              </widget>
+            </item>
+            <item row="2" column="2">
+             <widget class="QLabel" name="label_foodradius">
+              <property name="text">
+               <string>food_radius:</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <layout class="QHBoxLayout" name="nest_box">
+              <item>
+               <widget class="QSpinBox" name="nest_x_size">
+                <property name="minimum">
+                 <number>250</number>
+                </property>
+                <property name="maximum">
+                 <number>10000</number>
+                </property>
+                <property name="singleStep">
+                 <number>250</number>
+                </property>
+                <property name="value">
+                 <number>500</number>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="nest_y_size">
+                <property name="minimum">
+                 <number>250</number>
+                </property>
+                <property name="maximum">
+                 <number>10000</number>
+                </property>
+                <property name="singleStep">
+                 <number>250</number>
+                </property>
+                <property name="value">
+                 <number>3500</number>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item row="0" column="1">
+             <layout class="QHBoxLayout" name="dom_box">
+              <item>
+               <widget class="QSpinBox" name="dom_x_size">
+                <property name="minimum">
+                 <number>500</number>
+                </property>
+                <property name="maximum">
+                 <number>10000</number>
+                </property>
+                <property name="singleStep">
+                 <number>500</number>
+                </property>
+                <property name="value">
+                 <number>4000</number>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="dom_y_size">
+                <property name="minimum">
+                 <number>500</number>
+                </property>
+                <property name="maximum">
+                 <number>10000</number>
+                </property>
+                <property name="singleStep">
+                 <number>500</number>
+                </property>
+                <property name="value">
+                 <number>4000</number>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_nestlocation">
+              <property name="text">
+               <string>nest location:</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <spacer name="verticalSpacer">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
             </item>
            </layout>
           </widget>
@@ -847,7 +916,7 @@ p, li { white-space: pre-wrap; }
              <x>10</x>
              <y>10</y>
              <width>601</width>
-             <height>355</height>
+             <height>301</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout">
@@ -1423,13 +1492,6 @@ significant digits: </string>
        </item>
        <item>
         <widget class="Line" name="line">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="Line" name="line_2">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>

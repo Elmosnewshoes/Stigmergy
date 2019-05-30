@@ -78,6 +78,7 @@ cdef class Ant:
         " rotate the ant based on angular velocity omega "
         " compute the angular speed (degrees/second) based on sensing "
         self.rotate_fun(s = self.state, args = &self.rot_fun_args, cur_step = &self.current_step)
+        # self.override(s = self.state, parameter = 10.)
         self.increase_azimuth(dt) # state is known, no need to pass it
 
     cdef void gradient_step(self, double *dt, observations * Q):
@@ -86,11 +87,11 @@ cdef class Ant:
         self.observe(Q)
         self.rotate(dt)
         self.step(dt)
+        self.state[0].time += dt[0] # update internal timer
         self.set_sensors()
 
     cdef void step(self, double * dt):
-        " do a step in the current direction ,do boundary check as well "
-        self.state[0].time += dt[0] # update internal timer
+        " do a step in the current direction "
 
         " update position "
         cdef double step_size = self.state[0].v*dt[0]
@@ -120,6 +121,8 @@ cdef class Ant:
 
     cdef readonly void foodbound(self):
         self.state[0].foodbound = True
+        self.state[0].nest = self.state[0].pos
+
     cdef readonly void nestbound(self):
         self.state[0].foodbound = False
 

@@ -1,6 +1,10 @@
 # distutils: language = c++
 
 from libc.math cimport M_PI as PI
+from libc.math cimport fmin as cmin
+
+cdef void override(ant_state * s, t_max, double * dt):
+    s[0].omega = s[0].omega*(1-cmin(s[0].time/t_max,1.)) + s[0].omega*cmin(s[0].time/t_max,1.)/dt[0]
 
 cdef void simple(ant_state* s, rotate_args* args, unsigned int * cur_step):
     " rotate the ant based on angular velocity omega "

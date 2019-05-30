@@ -21,6 +21,7 @@ cdef struct ant_state:
     double theta #azimuth in degrees
     double omega #angular rotation in degrees/second
     double v # mm/s
+    point nest #location where ant left nest for the last time
     observations Q_obs
     vector[double] noise_vec_1 #pre-populate the observation noise
     vector[double] noise_vec_2

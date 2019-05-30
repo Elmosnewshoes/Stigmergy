@@ -75,8 +75,11 @@ cdef class Queen:
 
     cdef readonly void deploy(self, unsigned int ant_id):
         " activate an ant "
+        cdef double mini_step = self.dt*0.1 # make ant step off nest boundary
         self.agent.set_state(&self.state_list[ant_id]) #assign state to ant
         self.agent.activate()
+        self.agent.foodbound() #make agent search food and store latest nest position
+        self.agent.step(&mini_step)
         self.agent.set_sensors() # let ant determine its sensor positions
         self.count_active += 1 # count active ants
 
