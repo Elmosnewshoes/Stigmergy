@@ -1,4 +1,5 @@
 # store some functions (methods) here to declutter the gui.py file in the main directory
+from cythonic.plugins.functions import score
 from PyQt5 import QtCore
 _translate = QtCore.QCoreApplication.translate
 def make_domain_dict(Gui):
@@ -244,6 +245,7 @@ def get_best_score(db, sim_id = -1):
         cast(substr(food_loc,instr(nest_loc,', ')+2,instr(nest_loc,']')-instr(nest_loc,', ')-2) as numeric) as Y2,
         dom.food_rad, dom.nest_rad,
         cast(sim_s.steps as numeric) * sim_s.dt as T,
+        sim_s.dt as dt,
         queen.default_speed as S,
         results.nestcount as nestcount,
         sim.steps_recorded
@@ -267,8 +269,10 @@ def get_best_score(db, sim_id = -1):
         qry+= f" AND sim.id = {sim_id}"
 
     df = db.get_df(qry)
-    df['R'] = np.sqrt(np.power(df['X1']-df['X2'],2)+np.power(df['Y1']-df['Y2'],2))-df['food_rad']-df['nest_rad']
-    df['score'] = 1e6*df['nestcount'] * df['R'] / (df['steps_recorded'] * df['S'] * df['T'])
+    df['DX'] = df['X1']-df['X2']
+    df['DY'] = df['Y1']-df['Y2']
+    df['R'] = np.sqrt(df['DX']**2+df['DY']**2)
+    df['score'] = 2*df['nestcount'] * df['R'] / (df['steps_recorded']*df['dt'] * df['S'])
     # print(df[['ID','R','S','T','steps_recorded','score']].sort_values(by='score',ascending= False))
     # print(df[['ID','R','S','T','steps_recorded','score']].sort_values(by='score',ascending= False).iloc[0]['ID'])
     return df[['ID','R','S','T','steps_recorded','score']].sort_values(by='score',ascending= False).iloc[0]

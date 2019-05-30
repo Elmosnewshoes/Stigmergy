@@ -221,19 +221,19 @@ cdef class Sim:
             " make sure out_of_bounds flag is false "
             self.queen.agent.out_of_bounds(0)
 
-    def calc_score(self):
-        " calculate a dimensionless performance indicator "
-        " R: distance between food and nest "
-        " T: simulation time "
-        " S: ant speed "
-        " score: indicator of usefull distance covered compared to total distance capacity "
-        R = np.linalg.norm(np.array([self.domain.food_location.x,self.domain.food_location.y])
-            -np.array([self.domain.nest_location.x,self.domain.nest_location.y]))-(self.domain.nest_radius+self.domain.food_radius)
-        T = self.steps*self.dt #duration in seconds
-        S = self.queen.default_speed # ant speed in mm/second
-        score = self.nestcount * R / (self.total_stepped * S * T) #minimum required distance per 'nestcount' divided by total disctance stepped
-        # print(f"Distance between food and nest: {R} mm")
-        # print(f"Simulation duration: {T} sec")
-        # print(f"Ants move at {S} mm/sec")
-        # print(f"Ant score: {score} [ants/mm/hr]")
-        return score
+    # def calc_score(self):
+    #     " calculate a dimensionless performance indicator "
+    #     " R: distance between food and nest "
+    #     " T: simulation time "
+    #     " S: ant speed "
+    #     " score: indicator of usefull distance covered compared to total distance capacity "
+    #     R = np.linalg.norm(np.array([self.domain.food_location.x,self.domain.food_location.y])
+    #         -np.array([self.domain.nest_location.x,self.domain.nest_location.y]))-(self.domain.nest_radius+self.domain.food_radius)
+    #     T = self.steps*self.dt #duration in seconds
+    #     S = self.queen.default_speed # ant speed in mm/second
+    #     score = self.nestcount * R / (self.total_stepped * S * T) #minimum required distance per 'nestcount' divided by total disctance stepped
+    #     # print(f"Distance between food and nest: {R} mm")
+    #     # print(f"Simulation duration: {T} sec")
+    #     # print(f"Ants move at {S} mm/sec")
+    #     # print(f"Ant score: {score} [ants/mm/hr]")
+    #     return score

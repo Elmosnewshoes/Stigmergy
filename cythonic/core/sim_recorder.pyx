@@ -2,6 +2,7 @@ import json
 from cythonic.plugins import queries
 import numpy as np
 from libc.math cimport fmax as cmax
+from cythonic.plugins.functions import score
 
 cdef class sim_recorder(Sim):
     def __init__(self,queen_args, domain_args, sim_args):
@@ -102,10 +103,13 @@ cdef class sim_recorder(Sim):
 
         # store results:
         end_entropy = self.domain.entropy()
+        dx = self.domain.food_location.x - self.domain.nest_location.x
+        dy = self.domain.food_location.y - self.domain.nest_location.y
+        final_score =  score(dx = dx, dy = dy, steps = action_counter, dt=self.dt, speed = self.queen.default_speed, nestcount =  self.nestcount)
 
         result = {'sim_id': self.id,'foodcount': self.foodcount, 'nestcount': self.nestcount,
                'entropy_vec': entropy_vec, 'start_entropy': round(start_entropy,3), 'end_entropy': round(end_entropy,3),
-                'scorecard':nestcount_vec, 'step_vec':np.asarray(k_vec).tolist(),'score':self.calc_score(), 'pheromone_max': round(max_pheromone_level,1)}
+                'scorecard':nestcount_vec, 'step_vec':np.asarray(k_vec).tolist(),'score':final_score, 'pheromone_max': round(max_pheromone_level,1)}
         self.db.execute(queries.insert_results(**result))
         if record:
             self.db.execute(queries.update_sim(self.id, status = 'FINISHED', steps = action_counter))

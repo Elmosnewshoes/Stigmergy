@@ -24,3 +24,15 @@ cdef point transform(double teta_deg, double *arm, point* xy):
     cdef double teta = rad(&teta_deg)
     cdef point result = point(xy[0].x+ccos(teta)*arm[0],xy[0].y+csin(teta)*arm[0])
     return result
+
+def score(unsigned int dx, unsigned int dy, unsigned int steps, double dt, double speed, unsigned int nestcount):
+    " calculate a dimensionless performance indicator "
+    " dx,dy: distance between food and nest "
+    " dt: timestep"
+    " T: simulation time "
+    " speed: ant speed "
+    " score: indicator of usefull distance covered compared to total distance capacity "
+    cdef double R = np.linalg.norm([dx, dy],2)
+    cdef double T = (<double>steps)*dt
+    cdef double score = <double>nestcount * 2. * R/(T* speed)
+    return score

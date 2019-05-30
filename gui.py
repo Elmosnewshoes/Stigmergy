@@ -67,7 +67,7 @@ class mywindow(QtWidgets.QMainWindow):
             result = record_and_play(**dicts, record= record, upload_interval = store_interval, visualize = visualize)
         t = f" Simulation # {result['sim_id']}" +\
             f" yielded a nestcount score of {result['nestcount']} with {dicts['sim_dict']['n_agents']} ants" +\
-            f" -> efficiency of &eta; = {round(result['score']*1e6,2)} 10<sup>-6</sup>ants/sec"
+            f" -> efficiency of &eta; = {round(result['score'],2)}"
         self.set_text(t)
         gc.collect()
 
@@ -135,7 +135,7 @@ class mywindow(QtWidgets.QMainWindow):
         domain_dict['nest_loc'] = eval(domain_dict['nest_loc'])
         gauss_dict['significancy'] = math.log10(gauss_dict['significancy'])
         self.load_settings(sim_dict, queen_dict, domain_dict, gauss_dict, deposit_dict)
-        self.set_text(f"Simulation {sim_id} has a score of {get_best_score(self.db, sim_id)['score']} 10<sup>6</sup> ants/s")
+        self.set_text(f"Simulation {sim_id} has a score of {get_best_score(self.db, sim_id)['score']} ")
 
 app = QtWidgets.QApplication([])
 application = mywindow()
