@@ -6,30 +6,6 @@ from cythonic.plugins.dep_functions cimport dep_constant, dep_fun_args
 from cythonic.core.ant cimport f_dep, ant_state
 from libc.math cimport fmin as cmin
 
-def new_positions(deploy_style, n, **kwargs):
-    " calculate the xy and theta starting point of an ant "
-    xy = np.zeros([n,2], dtype = np.float)
-    tetas = np.zeros(n,dtype=np.float)
-    if deploy_style =='nest_radian':
-        " all ants start aligned with a radian originating from the nest"
-        x = kwargs['nest_loc']['x']
-        y = kwargs['nest_loc']['y']
-        R = kwargs['R']
-        for i in range(n):
-            # expect nest location [nest_loc] and radius [R] in kwargs
-            teta = np.random.rand()*2*np.pi
-            xy[i,0] = x+np.cos(teta)*R
-            xy[i,1] = y+np.sin(teta)*R
-            tetas[i] = teta*180/np.pi
-
-    elif deploy_style == 'different':
-        " placeholder for different deploy tactics "
-        print(' needs implementing ')
-    else:
-        " if deploy_style argument is not recognized, future work: raise exception "
-        print(' You are not supposed to see this message! ')
-    return xy, tetas
-
 def deploy_times(deploy_method, n, **kwargs):
     " generate a list of time instances when an ant is to be deployed "
     if deploy_method == 'instant':
@@ -73,12 +49,49 @@ cdef class Sim:
         self.deploy_times = deploy_times(deploy_timing,n_agents, **deploy_timing_args)
 
         " initialize the ant states "
-        xy, tetas = new_positions(deploy_style, n_agents,**{'R':self.domain.nest_radius, 'nest_loc':self.domain.nest_location})
+        xy, tetas = self.new_positions(deploy_style, n_agents,**{'R':self.domain.nest_radius, 'nest_loc':self.domain.nest_location})
         self.queen.initialize_states(xy,tetas)
 
         " check if the map needs manipulating "
         if evap_rate <0:
             self.domain.evaporate(&self.evap_rate)
+
+    """ ===================== Calculate ant starting locations ===================== """
+    def new_positions(self, deploy_style, n, **kwargs):
+        " calculate the xy and theta starting point of an ant "
+        cdef point p #start location
+        cdef bint in_bound = False #check ant is placed within domain boundaries
+        xy = np.zeros([n,2], dtype = np.float)
+        tetas = np.zeros(n,dtype=np.float)
+        if deploy_style =='nest_radian':
+            " all ants start aligned with a radian originating from the nest"
+            x = kwargs['nest_loc']['x']
+            y = kwargs['nest_loc']['y']
+            R = kwargs['R']
+            for i in range(n):
+                in_bound = False
+                while in_bound == False: #keep trying until suitable deploy location is found
+                    # expect nest location [nest_loc] and radius [R] in kwargs
+                    teta = np.random.rand()*2*np.pi
+                    # xy[i,0] = x+np.cos(teta)*R
+                    # xy[i,1] = y+np.sin(teta)*R
+                    p.x = x+np.cos(teta)*R
+                    p.y = y+np.sin(teta)*R
+                    in_bound = self.domain.check_bounds(&p)
+
+                # store candidate deploy position
+                xy[i,0] = p.x
+                xy[i,1] = p.y
+                tetas[i] = teta*180/np.pi
+
+        elif deploy_style == 'different':
+            " placeholder for different deploy tactics "
+            print(' needs implementing ')
+        else:
+            " if deploy_style argument is not recognized, future work: raise exception "
+            print(' You are not supposed to see this message! ')
+        return xy, tetas
+
 
 
     """ ===================== Additional initializations ===================== """

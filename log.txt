@@ -11,4 +11,5 @@ wall following ants:5077
 AWESOME large sim 5105
 Beautiful sim 5106, 5109, no clear exploitation, but arms are strong enough to lure ants in.
 5110 has nice results, double highway
-5121 is awesome!!!
+5121, 5125 is awesome!!!
+5130 with nest/food on diagonal

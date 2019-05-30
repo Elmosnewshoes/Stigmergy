@@ -350,7 +350,7 @@ p, li { white-space: pre-wrap; }
        <item>
         <widget class="QTabWidget" name="tabWidget">
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="tab">
           <attribute name="title">
@@ -701,7 +701,7 @@ p, li { white-space: pre-wrap; }
               <item>
                <widget class="QSpinBox" name="food_x_size">
                 <property name="minimum">
-                 <number>250</number>
+                 <number>0</number>
                 </property>
                 <property name="maximum">
                  <number>10000</number>
@@ -717,7 +717,7 @@ p, li { white-space: pre-wrap; }
               <item>
                <widget class="QSpinBox" name="food_y_size">
                 <property name="minimum">
-                 <number>250</number>
+                 <number>0</number>
                 </property>
                 <property name="maximum">
                  <number>10000</number>
@@ -809,7 +809,7 @@ p, li { white-space: pre-wrap; }
               <item>
                <widget class="QSpinBox" name="nest_x_size">
                 <property name="minimum">
-                 <number>250</number>
+                 <number>0</number>
                 </property>
                 <property name="maximum">
                  <number>10000</number>
@@ -825,7 +825,7 @@ p, li { white-space: pre-wrap; }
               <item>
                <widget class="QSpinBox" name="nest_y_size">
                 <property name="minimum">
-                 <number>250</number>
+                 <number>0</number>
                 </property>
                 <property name="maximum">
                  <number>10000</number>

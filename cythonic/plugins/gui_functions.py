@@ -83,13 +83,13 @@ def validate_settings(dicts):
     status = 1
     msg = ""
     " check if food is in domain "
-    if (dicts['domain_dict']['food_loc'][0] > dicts['domain_dict']['size'][0]-dicts['domain_dict']['food_rad']
-        or dicts['domain_dict']['food_loc'][1] > dicts['domain_dict']['size'][1]-dicts['domain_dict']['food_rad']):
+    if (dicts['domain_dict']['food_loc'][0] > dicts['domain_dict']['size'][0]+.5*dicts['domain_dict']['food_rad']
+        or dicts['domain_dict']['food_loc'][1] > dicts['domain_dict']['size'][1]+.5*dicts['domain_dict']['food_rad']):
         status = -1
         msg = "Food location out of bounds"
         return status, msg
-    if (dicts['domain_dict']['nest_loc'][0] > dicts['domain_dict']['size'][0]-dicts['domain_dict']['nest_rad']
-        or dicts['domain_dict']['nest_loc'][1] > dicts['domain_dict']['size'][1]-dicts['domain_dict']['nest_rad']):
+    if (dicts['domain_dict']['nest_loc'][0] > dicts['domain_dict']['size'][0]+.5*dicts['domain_dict']['nest_rad']
+        or dicts['domain_dict']['nest_loc'][1] > dicts['domain_dict']['size'][1]+.5*dicts['domain_dict']['nest_rad']):
         status = -1
         msg = "Food location out of bounds"
         return status, msg
