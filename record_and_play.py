@@ -23,8 +23,8 @@ def do_cprofile(func):
     return profiled_func
 
 
-def record_and_play(sim_dict, queen_dict, domain_dict, deposit_dict, gauss_dict, record, upload_interval = 500, visualize = True):
-    sim_recorder = recorder(queen_args = queen_dict, domain_args = domain_dict, sim_args = sim_dict)
+def record_and_play(sim_dict, queen_dict, domain_dict, deposit_dict, gauss_dict, record, upload_interval = 500, visualize = True, **kwargs):
+    sim_recorder = recorder(queen_args = queen_dict, domain_args = domain_dict, sim_args = sim_dict, **kwargs)
     result = sim_recorder.time_full_sim(record = record, deposit_dict = deposit_dict,gauss_dict = gauss_dict, upload_interval = upload_interval)
     if record and visualize:
         animation = show_plot(result['sim_id'], colormap = 'blue')

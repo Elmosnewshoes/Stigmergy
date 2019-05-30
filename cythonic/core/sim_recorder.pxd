@@ -9,6 +9,7 @@ cdef class sim_recorder(Sim):
         readonly str pending_qry
         readonly list qry_args
         readonly dict ant_dict, queen_dict, domain_dict,  sim_dict
+        readonly str initiator, comment
     cdef: # class methods
         readonly void flush_resultset(self,)
         readonly void extract_antstate(self, unsigned int step)

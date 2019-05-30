@@ -5,12 +5,20 @@ from libc.math cimport fmax as cmax
 from cythonic.plugins.functions import score
 
 cdef class sim_recorder(Sim):
-    def __init__(self,queen_args, domain_args, sim_args):
+    def __init__(self,queen_args, domain_args, sim_args, **kwargs):
         """ Need to store the dicts for inserting into database """
         self.queen_dict = queen_args
         self.sim_dict = sim_args
         self.domain_dict = domain_args
         self.ant_dict=queen_args['ant_dict']
+        if 'initializer' in kwargs:
+            self.initiator = kwargs['initializer']
+        else:
+            self.initiator = 'NULL'
+        if 'comment' in kwargs:
+            self.comment = kwargs['comment']
+        else:
+            self.comment = 'NULL'
         super(sim_recorder,self).__init__(queen_args = queen_args, domain_args = domain_args, **sim_args)
 
     def init_connection(self,str path, str dbname):
@@ -112,8 +120,8 @@ cdef class sim_recorder(Sim):
                 'scorecard':nestcount_vec, 'step_vec':np.asarray(k_vec).tolist(),'score':final_score, 'pheromone_max': round(max_pheromone_level,1)}
         self.db.execute(queries.insert_results(**result))
         if record:
-            self.db.execute(queries.update_sim(self.id, status = 'FINISHED', steps = action_counter))
+            self.db.execute(queries.update_sim(self.id, status = 'FINISHED', initializer = self.initiator, comment = self.comment, steps = action_counter))
         else:
-            self.db.execute(queries.update_sim(self.id, status = 'FINISHED'))
+            self.db.execute(queries.update_sim(self.id, status = 'FINISHED', initializer = self.initiator, comment = self.comment))
 
         return result

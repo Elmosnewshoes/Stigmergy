@@ -6,10 +6,10 @@ from cythonic.plugins.db_path import db_path
 from cythonic.plugins.queries import set_activator
 
 cdef class recorder(sim_recorder):
-    def __init__(self,queen_args, domain_args, sim_args):
+    def __init__(self,queen_args, domain_args, sim_args, **kwargs):
         """ wrapper class constructor """
         # initialize the parent class
-        super(recorder,self).__init__(queen_args, domain_args, sim_args)
+        super(recorder,self).__init__(queen_args, domain_args, sim_args, **kwargs)
 
     def pysetup_sim(self, str deposit_style, dict deposit_dict, dict gauss_dict, unsigned int upload_interval):
         """ wrap setup_sim and make available to python """
@@ -31,7 +31,7 @@ cdef class recorder(sim_recorder):
         print(f" \n Simulation with ID: {self.id}")
         print(f" \n It took a whopping {(toc-tic)*1000} msec \n")
         return result
-        
+
 cdef class controller(Sim):
     def __init__(self,queen_args,domain_args,sim_args):
         "wrap constructor "

@@ -60,8 +60,12 @@ def new_sim():
 def insert_stepupdates():
     return "INSERT INTO STEP (SIM_ID, STEP_NR, ANT_ID, X, Y, THETA, Q) VALUES {VALUES}"
 
-def update_sim(sim_id, status = 'STARTED', steps = 'NULL'):
-    return f"UPDATE SIM SET STATUS = '{status}', steps_recorded = {steps} WHERE ID = {sim_id} "
+def update_sim(sim_id, status = 'STARTED', steps = 'NULL', initializer = 'NULL', comment = 'NULL'):
+    if initializer !='NULL':
+        initializer = f"'{initializer}'"
+    if comment != 'NULL':
+        comment = f"'{comment}'"
+    return f"UPDATE SIM SET STATUS = '{status}', steps_recorded = {steps}, initializer = {initializer}, comment = {comment} WHERE ID = {sim_id} "
 
 def get_settings(sim_id, table):
     return f"SELECT * FROM {table} WHERE {table}.sim_id = {sim_id}"

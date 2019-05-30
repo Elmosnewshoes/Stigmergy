@@ -239,10 +239,10 @@ def get_best_score(db, sim_id = -1):
     qry = """
         select
         sim.id,
-        cast(substr(nest_loc,2,instr(nest_loc,', ')-2) as numeric) as X1,
-        cast(substr(nest_loc,instr(nest_loc,', ')+2,instr(nest_loc,']')-instr(nest_loc,', ')-2) as numeric) as Y1,
-        cast(substr(food_loc,2,instr(nest_loc,', ')-2) as numeric) as X2,
-        cast(substr(food_loc,instr(nest_loc,', ')+2,instr(nest_loc,']')-instr(nest_loc,', ')-2) as numeric) as Y2,
+        cast(substr(nest_loc,2,instr(nest_loc,', ')-1) as numeric) as X1,
+        cast(substr(nest_loc,instr(nest_loc,', ')+2,instr(nest_loc,']')-instr(nest_loc,', ')-1) as numeric) as Y1,
+        cast(substr(food_loc,2,instr(nest_loc,', ')-1) as numeric) as X2,
+        cast(substr(food_loc,instr(nest_loc,', ')+2,instr(nest_loc,']')-instr(nest_loc,', ')-1) as numeric) as Y2,
         dom.food_rad, dom.nest_rad,
         cast(sim_s.steps as numeric) * sim_s.dt as T,
         sim_s.dt as dt,
