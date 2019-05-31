@@ -175,12 +175,15 @@ def load_settings(Gui, sim_dict, queen_dict,
         Gui.combobox_depfun.setCurrentText(_translate("MainWindow", 'exponential'))
     else:
         Gui.combobox_depfun.setCurrentText(_translate("MainWindow", val))
-    if not queen_dict['ant_dict']['override']=='FALSE':
+    if queen_dict['ant_dict']['override']=='FALSE' or int(queen_dict['ant_dict']['override'])==0:
+        Gui.checkBox_override.setChecked(False)
+        print(queen_dict['ant_dict']['override'])
+    else:
+        print(queen_dict['ant_dict']['override'])
         Gui.checkBox_override.setChecked(True)
         Gui.spinbox_override_max.setProperty('value', queen_dict['ant_dict']['override_max'])
         Gui.spinbox_override_time.setProperty('value', queen_dict['ant_dict']['override_time'])
-    else:
-        Gui.checkBox_override.setChecked(False)
+
     #
     " Gaussian "
     Gui.spinbox_significancy.setProperty('value', gauss_dict['significancy'])
@@ -282,6 +285,6 @@ def get_best_score(db, sim_id = -1):
     df['DY'] = df['Y1']-df['Y2']
     df['R'] = np.sqrt(df['DX']**2+df['DY']**2)
     df['score'] = 2*df['nestcount'] * df['R'] / (df['steps_recorded']*df['dt'] * df['S'])
-    print(df[['ID','R','S','T','steps_recorded','score']].sort_values(by='score',ascending= False))
+    # print(df[['ID','R','S','T','steps_recorded','score']].sort_values(by='score',ascending= False))
     # print(df[['ID','R','S','T','steps_recorded','score']].sort_values(by='score',ascending= False).iloc[0]['ID'])
     return df[['ID','R','S','T','steps_recorded','score']].sort_values(by='score',ascending= False).iloc[0]
