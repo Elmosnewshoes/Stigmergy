@@ -4,9 +4,10 @@ from libc.math cimport M_PI as PI
 from libc.math cimport fmin as cmin, sqrt as csqrt, pow as cpow, asin as casin
 
 cdef void override(ant_state * s, double * l ,double * t_max, double * override_max, double * dt):
+    " === nudge an ant in the direction of the nest such that theta = omega*dt*(1-rho) + rho*theta_nest"
     cdef double R = csqrt(cpow(s[0].pos.x-s[0].nest.x,2)+cpow(s[0].pos.y-s[0].nest.y,2))
-    cdef double theta_offset  # optimal angle
-    if R < l[0]:
+    cdef double theta_offset  # optimal angle correction
+    if R < l[0]: # do nothing when very close
         return
     else:
         theta_offset = (180/PI*(casin((s[0].pos.y-s[0].nest.y)/R)+PI)-s[0].theta)%360

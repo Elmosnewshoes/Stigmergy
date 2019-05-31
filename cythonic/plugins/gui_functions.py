@@ -250,8 +250,8 @@ def get_best_score(db, sim_id = -1):
         sim.id,
         cast(substr(nest_loc,2,instr(nest_loc,', ')-1) as numeric) as X1,
         cast(substr(nest_loc,instr(nest_loc,', ')+2,instr(nest_loc,']')-instr(nest_loc,', ')-1) as numeric) as Y1,
-        cast(substr(food_loc,2,instr(nest_loc,', ')-1) as numeric) as X2,
-        cast(substr(food_loc,instr(nest_loc,', ')+2,instr(nest_loc,']')-instr(nest_loc,', ')-1) as numeric) as Y2,
+        cast(substr(food_loc,2,instr(food_loc,', ')-1) as numeric) as X2,
+        cast(substr(food_loc,instr(food_loc,', ')+2,instr(food_loc,']')-instr(food_loc,', ')-1) as numeric) as Y2,
         dom.food_rad, dom.nest_rad,
         cast(sim_s.steps as numeric) * sim_s.dt as T,
         sim_s.dt as dt,
@@ -282,6 +282,6 @@ def get_best_score(db, sim_id = -1):
     df['DY'] = df['Y1']-df['Y2']
     df['R'] = np.sqrt(df['DX']**2+df['DY']**2)
     df['score'] = 2*df['nestcount'] * df['R'] / (df['steps_recorded']*df['dt'] * df['S'])
-    # print(df[['ID','R','S','T','steps_recorded','score']].sort_values(by='score',ascending= False))
+    print(df[['ID','R','S','T','steps_recorded','score']].sort_values(by='score',ascending= False))
     # print(df[['ID','R','S','T','steps_recorded','score']].sort_values(by='score',ascending= False).iloc[0]['ID'])
     return df[['ID','R','S','T','steps_recorded','score']].sort_values(by='score',ascending= False).iloc[0]

@@ -33,22 +33,24 @@ def record_and_play(sim_dict, queen_dict, domain_dict, deposit_dict, gauss_dict,
     return result
 
 @do_cprofile
+def profiled_run(*args, **kwargs):
+    return run()
+
 def run():
     from cythonic.plugins.dummy_dicts import ant_dict, queen_dict, domain_dict, gauss_dict, sim_dict, deposit_dict, sens_dict
 
     domain_dict = {
-        'size': [4000,1500],
-        'pitch': 10,
-        'nest_loc': [500,750],
+        'size': [2000,1500],
+        'pitch': 5,
+        'nest_loc': [250,750],
         'nest_rad': 150,
-        'food_loc': [3500,750],
+        'food_loc': [1750,750],
         'food_rad': 150,
         'target_pheromone': 1.
     }
-    sim_dict['steps'] = 900
+    sim_dict['steps'] = 3000
     sim_dict['dt'] = .3
     sim_dict['n_agents'] = 80
-    domain_dict['pitch']=10
     queen_dict['default_speed'] = 125
     sim_dict['evap_rate'] = .97
     queen_dict['noise_type'] = 'white'
@@ -59,17 +61,18 @@ def run():
     visualize = False
 
     ant_dict['gain'] = 0.5
+    ant_dict['d'] = .1*ant_dict['l']
     ant_dict['rotate_fun'] = 'weber'
     ant_dict['noise_gain'] = 0.75
     ant_dict['noise_gain2'] = 0.05
     sim_dict['evap_rate'] = 0.97
-    ant_dict['sens_offset'] = 45
+    ant_dict['sens_offset'] = 25
     ant_dict['sens_fun'] = 'ReLu'
     ant_dict['sens_dict']['breakpoint'] = .5
     gauss_dict['covariance'] = 400
     deposit_dict['q'] = 2
-    record_and_play(sim_dict,queen_dict,domain_dict, deposit_dict,gauss_dict, record, 500, visualize)
-
+    result = record_and_play(sim_dict,queen_dict,domain_dict, deposit_dict,gauss_dict, record, 500, visualize)
+    print(f"efiiciency score of {result['score']}")
 
 if __name__ == '__main__':
-    run()
+    profiled_run()

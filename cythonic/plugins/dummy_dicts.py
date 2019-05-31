@@ -8,6 +8,7 @@ sens_dict = {
 }
 ant_dict = {
     'l': 50.,
+    'd':50.,
     'sens_offset': 45.,
     'gain': .1,
     'noise_gain': 1.,
@@ -17,6 +18,9 @@ ant_dict = {
     'sens_dict': sens_dict,
     'deposit_fun': 'exp_decay',
     'steer_regularization': 0.001,
+    'override_time': 1.,
+    'override_max': 0.,
+    'override': 'FALSE'
 }
 
 queen_dict = {
