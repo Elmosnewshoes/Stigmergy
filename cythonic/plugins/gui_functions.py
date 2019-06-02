@@ -167,6 +167,7 @@ def load_settings(Gui, sim_dict, queen_dict,
     else:
         Gui.spinbox_noisegain_2.setProperty('value', 0.0)
         Gui.combobox_rotate.setCurrentText(_translate("MainWindow", 'simple'))
+    Gui.combobox_rotate
     Gui.combobox_activation.setCurrentText(_translate("MainWindow", queen_dict['ant_dict']['sens_fun']))
     Gui.spinbox_breakpoint.setProperty('value', queen_dict['ant_dict']['sens_dict']['breakpoint'])
     Gui.spinbox_lambda.setProperty('value', queen_dict['ant_dict']['sens_dict']['exp_lambda'])
@@ -177,9 +178,7 @@ def load_settings(Gui, sim_dict, queen_dict,
         Gui.combobox_depfun.setCurrentText(_translate("MainWindow", val))
     if queen_dict['ant_dict']['override']=='FALSE' or int(queen_dict['ant_dict']['override'])==0:
         Gui.checkBox_override.setChecked(False)
-        print(queen_dict['ant_dict']['override'])
     else:
-        print(queen_dict['ant_dict']['override'])
         Gui.checkBox_override.setChecked(True)
         Gui.spinbox_override_max.setProperty('value', queen_dict['ant_dict']['override_max'])
         Gui.spinbox_override_time.setProperty('value', queen_dict['ant_dict']['override_time'])

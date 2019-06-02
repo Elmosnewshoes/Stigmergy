@@ -9,6 +9,11 @@ recordings/
 *.db
 *.db-journal
 
+# stored maps
+cythonic/database/maps/
+*.npy
+
+
 # Jupyter Notebook directory
 Notebooks/
 

@@ -35,8 +35,14 @@ cmaps = {'blue': 'PuBu',
          'plasma': 'plasma'
          }
 class SubplotAnimation(animation.TimedAnimation):
-    def __init__(self, sim_id = 4872,db_name = 'stigmergy.db', colormap = 'plasma'):
+    def __init__(self, sim_id = 4872,db_name = 'stigmergy.db', colormap = 'plasma', store_interval = [], path = '', name = ''):
         self.status = check_sim(sim_id, dbname = db_name)
+        self.store_interval = store_interval
+        self.recording = False
+        if len(self.store_interval) >0:
+            self.recording = True
+        self.path = path
+        self.name = name
         if self.status >= 1:
             self.new(sim_id, db_name,colormap) #continue
         elif self.status == 0:
@@ -92,7 +98,7 @@ class SubplotAnimation(animation.TimedAnimation):
         self.imshow_opts['norm']= colors.PowerNorm(gamma=1. / 4.)
         Z = self.player.map
         self.map = ax_map.imshow(Z, interpolation='None',**self.imshow_opts)
-        fig.colorbar(self.map,orientation="vertical")
+        fig.colorbar(self.map,orientation="horizontal")
         ax_entropy = fig.add_subplot(2, 2, 2)
         ax_score = fig.add_subplot(2, 2, 4)
         # self.ants = ax_map.scatter([], [],marker = 'o', s=10, c='k', alpha=1.)
@@ -133,6 +139,12 @@ class SubplotAnimation(animation.TimedAnimation):
     def _draw_frame(self, framedata):
         self.player.next()
         # i = framedata
+        if self.player.current_step in self.store_interval and self.replays ==1:
+            print('recording!!')
+            "store a copy of the pheromone map"
+            name = self.name + f"i{self.player.current_step}"
+            self.player.store_map(self.path,name)
+
         self.map.set_data(self.player.map)
         self.ants.set_offsets(self.player.pos)
         self.dropper.set_offsets(self.player.drop)
@@ -143,6 +155,7 @@ class SubplotAnimation(animation.TimedAnimation):
         self.line_score.set_data(self.player.T,self.player.score)
         self.line_score_future.set_data(self.player.T_future,self.player.score_future)
         self._drawn_artists = [self.map,self.ants,self.dropper, self.nest,self.food, self.left, self.right, self.line_H, self.line_score, self.line_score_future, self.line_H_future]
+
     def new_frame_seq(self):
         return iter(range(self.player.steps))
 
@@ -168,6 +181,16 @@ def show_plot(id, colormap = 'plasma'):
     if ani.status > 0:
         plt.show()
     return ani.status
+
+def store_map(id, steps, colormap='plasma'):
+    " store a copy of the map at specified steps"
+    id = id
+    path = db_path()+'maps/'
+    name = f'{id}_'
+    print(path)
+    ani = SubplotAnimation(sim_id = id, path=path, name = name,store_interval = steps, colormap = colormap)
+    plt.show()
+
 
 if __name__=='__main__':
     ani = SubplotAnimation()

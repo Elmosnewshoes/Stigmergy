@@ -115,6 +115,10 @@ class mywindow(QtWidgets.QMainWindow):
 
     def store_settings(self):
         " store the values as in the gui to a text file to reload later on "
+        if not os.path.isfile(settings_path):
+            "create the file"
+            file = open(settings_path,'w')
+            file.close()
         with open(settings_path, 'w') as f:
             json.dump(simulation_args(self.ui), f, ensure_ascii=False)
 

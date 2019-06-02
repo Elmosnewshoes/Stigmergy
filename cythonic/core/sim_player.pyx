@@ -49,6 +49,10 @@ cdef class SimPlayer:
         self.count_active = 0
         self.max_pheromone_level = 0
 
+    def store_map(self,path,name):
+        "store a .npy copy of the map"
+        np.save(path+name, self.domain.Map.map)
+
     def init_domain(self,):
         " extract the query into useable initialization parameters "
         domain_dict = extract_settings(*self.db.return_all(get_settings(self.id,'domain_settings')))
@@ -150,6 +154,9 @@ cdef class SimPlayer:
     def H_future(self ):
         " return future entropy vector (H+H_future == full entropy vec) "
         return np.asarray(self.entropy)[np.asarray(self.steplist)>=self.cur_step]
+    @property
+    def current_step(self):
+        return self.cur_step
     @property
     def K(self ):
         " return result step vector from k==0 up to and including K==cur_step "

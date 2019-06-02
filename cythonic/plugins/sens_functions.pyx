@@ -25,13 +25,14 @@ cdef vector[double] telegraph_noise(unsigned int sz,double dt, double beta):
     " s = sgn *0.5 + e -0.5 -> s between [-1,1] since random e from U[0,1]"
     cdef double time = 0., t_hop = 0.
     cdef vector[double] output
-    cdef double sgn = 0 # can have values -1, 0 or 1
+    cdef double sgn = <double> np.sign(np.random.randn()) # can have values -1, 1
+    cdef double scale = 1/beta
     for i in range(sz):
         " populate output vector "
         if time >= t_hop:
             time = 0 # reset timer
-            t_hop =1-np.exp(-beta*np.random.rand())  # duration of validity of new sgn variable
-            sgn  = <double> np.sign(np.random.randn())  # draw random sign variable
+            t_hop =np.random.exponential(scale)  # duration of validity of new sgn variable
+            sgn  = -sgn  # flip
         time +=dt
-        output.push_back(sgn*0.5+np.random.rand()-.5) # output bounded between [-1,1] with mean zero
+        output.push_back(sgn*0.5+np.random.randn()) #
     return output
