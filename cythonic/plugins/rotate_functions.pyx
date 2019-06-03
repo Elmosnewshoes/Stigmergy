@@ -10,9 +10,14 @@ cdef void override(ant_state * s, double * l ,double * t_max, double * override_
     if R < l[0]: # do nothing when very close
         return
     else:
-        theta_offset = (180/PI*(casin((s[0].pos.y-s[0].nest.y)/R)+PI)-s[0].theta)%360
+        if s[0].pos.x>s[0].nest.x:
+            theta_offset = (180/PI*(casin((s[0].pos.y-s[0].nest.y)/R)+PI)-s[0].theta)%360
+        else:
+            theta_offset = (180/PI*(PI-casin((s[0].pos.y-s[0].nest.y)/R)-PI)-s[0].theta)%360
         if theta_offset > 180:
             theta_offset -= 360
+        elif theta_offset < -180:
+            theta_offset +=360
         s[0].omega = theta_offset/dt[0]*override_max[0]*cmin(s[0].time/t_max[0],1.)+(1-override_max[0]*cmin(s[0].time/t_max[0],1.))*s[0].omega
 
 cdef void simple(ant_state* s, rotate_args* args, unsigned int * cur_step):

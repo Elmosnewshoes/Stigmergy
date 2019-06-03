@@ -10,8 +10,8 @@ sens_dict = {
 }
 ant_dict = {
     'l': 50.,
-    'd':10.,
-    'sens_offset': 25.,
+    'd':25.,
+    'sens_offset': 45.,
     'gain': .75,
     'noise_gain': .5,
     'noise_gain2': .1,
@@ -21,7 +21,7 @@ ant_dict = {
     'deposit_fun': 'exp_decay',
     'steer_regularization': 0.01,
     'override_time': 5.,
-    'override_max': .1,
+    'override_max': .3,
     'override': 'TRUE'
 }
 
@@ -66,7 +66,7 @@ deposit_dict = {
 n_runs = 10
 score_vec = []
 initializer = 'BENCHMARK'
-comment = 'SIM_1_WEBER_v1'
+comment = 'SIM_1_WEBER_override_v2'
 for i in range(n_runs):
     R = run_func(sim_dict, queen_dict, domain_dict,
                  deposit_dict, gauss_dict, record = True, visualize = False,

@@ -9,14 +9,14 @@ import matplotlib.markers as markers
 from cythonic.plugins.db_controller import db_controller
 from math import ceil
 
-id = 5250
+id = 5295
 
 db = db_controller(db_path(),'stigmergy.db')
 qry = f"""select id, scorecard,step_vec, size, nest_loc,food_loc,food_rad, pheromone_max from
 sim
 left join domain_settings d on d.sim_id = sim.id
 left join results on results.sim_id = sim.id
-where sim.id = {id}"""
+where sim.id = {id} and sim.status= 'FINISHED'"""
 db_result = db.return_all(qry)
 db.close()
 result = {}
