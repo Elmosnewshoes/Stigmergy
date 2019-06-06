@@ -25,7 +25,7 @@ cdef point transform(double teta_deg, double *arm, point* xy):
     cdef point result = point(xy[0].x+ccos(teta)*arm[0],xy[0].y+csin(teta)*arm[0])
     return result
 
-def score(unsigned int dx, unsigned int dy, unsigned int steps, double dt, double speed, unsigned int nestcount):
+def score(double dx, double dy, unsigned int steps, double dt, double speed, unsigned int nestcount):
     " calculate a dimensionless performance indicator "
     " dx,dy: distance between food and nest "
     " dt: timestep"

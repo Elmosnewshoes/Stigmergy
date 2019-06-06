@@ -10,19 +10,19 @@ sens_dict = {
 }
 ant_dict = {
     'l': 50.,
-    'd':25.,
-    'sens_offset': 45.,
-    'gain': .75,
+    'd':10.,
+    'sens_offset': 25.,
+    'gain': 1.25,
     'noise_gain': .5,
     'noise_gain2': .1,
-    'rotate_fun': 'weber',
-    'sens_fun': 'ReLu',
+    'rotate_fun': 'weber', #simple/weber
+    'sens_fun': 'ReLu', #linear/ReLu
     'sens_dict': sens_dict,
     'deposit_fun': 'exp_decay',
     'steer_regularization': 0.01,
     'override_time': 5.,
-    'override_max': .3,
-    'override': 'TRUE'
+    'override_max': .0,
+    'override': 'FALSE'
 }
 
 queen_dict = {
@@ -63,16 +63,26 @@ deposit_dict = {
         'beta':.03 #lambda in Q(t) = Q(0)*exp(-lambda*t) with lambda is protected name
 }
 
-n_runs = 10
+n_runs = 50
 score_vec = []
 initializer = 'BENCHMARK'
-comment = 'SIM_1_WEBER_override_v2'
+comment = 'sweep_weber_3'
+
+t_half = [5,15,30,60,120,300,600]
+# N = [40,80,120,160,240,500]
+N = [20, 60]
+evap = [0.5**(1./q) for q in t_half]
+
 for i in range(n_runs):
-    R = run_func(sim_dict, queen_dict, domain_dict,
-                 deposit_dict, gauss_dict, record = True, visualize = False,
-                 initializer = initializer, comment = comment)
-    score_vec.append(R['score'])
-    print(f"Sim {R['sim_id']} has an efficiency score of {R['score']}")
+    for q in evap:
+        for n in N:
+            sim_dict['n_agents'] = n
+            sim_dict['evap_rate'] = q
+            R = run_func(sim_dict, queen_dict, domain_dict,
+                         deposit_dict, gauss_dict, record = False, visualize = False,
+                         initializer = initializer, comment = comment)
+            score_vec.append(R['score'])
+            print(f"Step {len(score_vec)}/{n_runs*len(evap)*len(N)}:Sim {R['sim_id']} has an efficiency score of {R['score']}")
 
 print(f"""Mean of the score: {np.mean(score_vec)}
       variance: {np.var(score_vec)}

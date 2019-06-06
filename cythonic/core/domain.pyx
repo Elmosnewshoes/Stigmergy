@@ -20,7 +20,7 @@ cdef class Domain:
 
     cdef readonly void init_gaussian(self, double covariance, double significancy):
         " initialize a gaussian meshmap "
-        cdef double R = cceil(covariance*csqrt(2*cln(significancy)))
+        cdef double R = cceil(csqrt(-2*covariance*cln(1/significancy))) #significant radius
         self.Gaussian = GaussMap(resolution = self.Map.pitch, R = R, covariance = covariance)
 
     cdef readonly bint check_bounds(self, point * p):
@@ -83,7 +83,7 @@ cdef class Domain:
         cdef unsigned int I = self.Map.map.shape[0]
         cdef unsigned int J = self.Map.map.shape[1]
         # for i in prange(I, nogil=True,schedule='static', chunksize=10):
-        for i in range(I):
+        for i in prange(I, nogil=True,schedule='static', chunksize=10):
             for j in range(J):
                 self.Map.map[i,j] *= tau[0]
 

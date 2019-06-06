@@ -14,3 +14,4 @@ Beautiful sim 5106, 5109, no clear exploitation, but arms are strong enough to l
 5121, 5125 is awesome!!!
 5130 with nest/food on diagonal
 5261 with a cycle that collapses
+5723 late trail formation with weber without override

@@ -17,7 +17,7 @@ def do_cprofile(func):
             profile.disable()
             return result
         finally:
-            ps = pstats.Stats(profile).sort_stats('cumulative')
+            ps = pstats.Stats(profile).sort_stats('tottime')
             ps.print_stats()
     return profiled_func
 
@@ -36,7 +36,7 @@ def profiled_run(*args, **kwargs):
     return run()
 
 def run(*args,**kwargs):
-    result = record_and_play(sim_dict,queen_dict,domain_dict, deposit_dict,gauss_dict, record, 500, visualize)
+    result = record_and_play(sim_dict,queen_dict,domain_dict, deposit_dict,gauss_dict, record, 500, visualize,)
     print(f"Sim {result['sim_id']} has an efficiency score of {result['score']}")
 
 if __name__ == '__main__':
@@ -95,7 +95,7 @@ if __name__ == '__main__':
         'steer_regularization': 0.01,
         'override_time': 5.,
         'override_max': .1,
-        'override': 'TRUE'
+        'override': 'FALSE'
     }
 
     queen_dict = {
@@ -107,7 +107,7 @@ if __name__ == '__main__':
 
     domain_dict = {
         'size': [2500,1000],
-        'pitch': 10,
+        'pitch': 5,
         'nest_loc': [500,500],
         'nest_rad': 150,
         'food_loc': [2000,500],
@@ -127,7 +127,7 @@ if __name__ == '__main__':
         'deploy_style': 'nest_radian',
         'deploy_timing': 'gamma_dist',
         'deploy_timing_args': {'k':10.,'teta': 2., 't_max': 111},
-        'evap_rate': .97
+        'evap_rate': .97,
     }
 
     deposit_dict = {
@@ -142,4 +142,5 @@ if __name__ == '__main__':
                  deposit_dict = deposit_dict,
                  gauss_dict = gauss_dict,
                  record=record,
+                 domain_dict = domain_dict,
                  visualize = visualize)

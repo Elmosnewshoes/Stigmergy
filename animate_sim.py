@@ -139,7 +139,7 @@ class SubplotAnimation(animation.TimedAnimation):
     def _draw_frame(self, framedata):
         self.player.next()
         # i = framedata
-        if self.player.current_step in self.store_interval and self.replays ==1:
+        if self.player.current_step in self.store_interval:
             print('recording!!')
             "store a copy of the pheromone map"
             name = self.name + f"i{self.player.current_step}"

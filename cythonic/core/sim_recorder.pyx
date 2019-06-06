@@ -119,9 +119,7 @@ cdef class sim_recorder(Sim):
                'entropy_vec': entropy_vec, 'start_entropy': round(start_entropy,3), 'end_entropy': round(end_entropy,3),
                 'scorecard':nestcount_vec, 'step_vec':np.asarray(k_vec).tolist(),'score':final_score, 'pheromone_max': round(max_pheromone_level,1)}
         self.db.execute(queries.insert_results(**result))
-        if record:
-            self.db.execute(queries.update_sim(self.id, status = 'FINISHED', initializer = self.initiator, comment = self.comment, steps = action_counter))
-        else:
-            self.db.execute(queries.update_sim(self.id, status = 'FINISHED', initializer = self.initiator, comment = self.comment))
 
+        self.db.execute(queries.update_sim(self.id, status = 'FINISHED', initializer = self.initiator, comment = self.comment, steps = action_counter))
+    
         return result

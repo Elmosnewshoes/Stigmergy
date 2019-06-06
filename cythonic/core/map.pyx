@@ -65,17 +65,19 @@ cdef class Map:
     cdef readonly double entropy(self):
         cdef unsigned int i,j,I,J
         (I,J) = self.map.shape[:2] # domain
-        cdef double h = 0. # entropy
+        # cdef double h = 0. # entropy
         cdef double T = self.sum() # sum of pheromones
         if T <= 0.0:
             raise ValueError('Sum of pheromone map <= 0')
-        for i in range(I):
+        cdef unsigned int threads = 8
+        cdef double[:] h = np.zeros(I) #temporary store entropy per line
+        for i in prange(I,nogil=True,schedule='static', chunksize=10):
             for j in range(J):
                 # if self.map[i,j]<= 1e-20:
                     # " check if nothing goes wrong here "
                     # raise ValueError('Error calculating the entropy of the map: log of nearzero number is ill-defined')
-                h-= self.map[i,j]/T*clog2(self.map[i,j]/T)
-        return h
+                h[i]-= self.map[i,j]/T*clog2(self.map[i,j]/T)
+        return np.sum(h)
 
     def __repr__(self):
         " print useful information "
@@ -132,4 +134,4 @@ cdef class GaussMap(Map):
         z = Xmu**2/sigmax**2 + Ymu**2/sigmay**2 - 2*rho*Xmu*Ymu/(sigmax*sigmay)
         denom = 2*np.pi*sigmax*sigmay*np.sqrt(1-rho**2)
         # return np.exp(-z/(2*(1-rho**2))) / denom
-        return np.exp(-z/(2*(1-rho**2))) # peak of gaussian ==1 
+        return np.exp(-z/(2*(1-rho**2))) # peak of gaussian ==1
