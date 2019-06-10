@@ -64,8 +64,8 @@ class mywindow(QtWidgets.QMainWindow):
             return
         else:
             self.set_text('Preparing a new simulation')
-            result = record_and_play(**dicts, record= record, upload_interval = store_interval, visualize = visualize,
-                                     initializer = 'GUI')
+            result = record_and_play(record= record, upload_interval = store_interval, visualize = visualize,
+                                     initializer = 'GUI',**dicts)
         t = f" Simulation # {result['sim_id']}" +\
             f" yielded a nestcount score of {result['nestcount']} with {dicts['sim_dict']['n_agents']} ants" +\
             f" -> efficiency of &eta; = {round(result['score'],2)}"
