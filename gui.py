@@ -138,7 +138,7 @@ class mywindow(QtWidgets.QMainWindow):
         domain_dict['size'] = eval(domain_dict['size'])
         domain_dict['food_loc'] = eval(domain_dict['food_loc'])
         domain_dict['nest_loc'] = eval(domain_dict['nest_loc'])
-        gauss_dict['significancy'] = math.log10(gauss_dict['significancy'])
+        # gauss_dict['significancy'] = math.log10(gauss_dict['significancy'])
         self.load_settings(sim_dict, queen_dict, domain_dict, gauss_dict, deposit_dict)
         self.set_text(f"Simulation {sim_id} has a score of {get_best_score(self.db, sim_id)['score']} ")
 

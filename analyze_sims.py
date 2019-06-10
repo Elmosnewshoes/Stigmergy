@@ -21,13 +21,13 @@ initializer = 'BENCHMARK'
 # labels = ['Exp. \#1: $\eta=0$', 'Exp. \#2: $\eta=0.2$', 'Exp. \#3: $\eta=0.6$']
 
 # ===== for weber controller
-comment = ['SIM_1_WEBER_v6','SIM_1_WEBER_override_v7','SIM_1_WEBER_override_v8','SIM_1_WEBER_override_v9']
-labels = ['Exp. \#1: $\eta=0$', 'Exp. \#2: $\eta=0.1$', 'Exp. \#3: $\eta=0.3$',  'Exp. \#4: $\eta=0.6$']
+# comment = ['SIM_1_WEBER_v6','SIM_1_WEBER_override_v7','SIM_1_WEBER_override_v8','SIM_1_WEBER_override_v9']
+# labels = ['Exp. \#1: $\eta=0$', 'Exp. \#2: $\eta=0.1$', 'Exp. \#3: $\eta=0.3$',  'Exp. \#4: $\eta=0.6$']
 
 # ===== for weber evap rate and colony size sweep =====
 
 # comment = ['sweep_weber','sweep_weber_override2']
-# comment = ['sweep_weber_2','sweep_weber_3']
+comment = ['sweep_weber_2','sweep_weber_3']
 
 db = db_controller(db_path(),'stigmergy.db')
 qry = f"""
@@ -75,97 +75,97 @@ df['score'] = 2*df['nestcount'] * df['R'] / (df['steps_recorded']*df['dt'] * df[
 
 # #======= surface plot of 2-parameter sweep ======
 #
-# N = df['N'].to_numpy()
-# rho = df['evap_rate'].to_numpy()
-# Upsilon = df['score'].to_numpy()
-#
-# n_map =sorted(list(set(N)))
-# rho_map = sorted(list(set(rho)))
-#
-#
-#
-# fig = plt.figure()
-# ax = fig.gca()
-# x = [5, 10, 25]
-# y = [.3,.4,.5]
-#
-# n_v, rho_v = np.meshgrid(n_map, rho_map,)
-# z = np.zeros(n_v.shape)
-# for i in range(len(Upsilon)):
-#     z[(n_v ==N[i]) & (rho_v == rho[i])]+=Upsilon[i]
-# z *=1/(len(Upsilon)/z.size)
-# t_v = np.log(.5)/np.log(rho_v)
-#
-# print(t_v[:,0].round())
-# print(n_map)
-# print(z)
-# print(f"Number of samples per scenario {len(Upsilon)/z.size}")
-#
-# print(z[(n_v ==120) & (t_v.round()==5)  ])
-#
-# # Make data.
-# # Plot the surface.
-# # print(df['score'].to_numpy())
-# # surf = ax.plot_surface(n_v, t_v, z, cmap = cm.get_cmap("PuBu"), antialiased=True)
-# surf = ax.imshow( z, interpolation = 'bicubic',origin='bottom', vmin = 0,vmax = .9, cmap = 'Spectral',norm =colors.PowerNorm(gamma=1. / 1.5))
-# # Customize the z axis.
-# # ax.set_zlim(-1.01, 1.01)
-# # ax.zaxis.set_major_locator(LinearLocator(10))
-# # ax.zaxis.set_major_formatter(FormatStrFormatter('%.02f'))
-#
-# # Add a color bar which maps values to colors.
-# fig.colorbar(surf, shrink=0.5, aspect=5)
-# ax.set_xlabel('Colony size M [-]')
-# ax.set_ylabel('$t_{1/2} [s]$')
-# ax.set_title('Efficiency score analysis')
-# plt.xticks(np.arange(8), n_map)
-# plt.yticks(np.arange(7),t_v[:,0].round(0))
-# # #
-# plt.show()
+N = df['N'].to_numpy()
+rho = df['evap_rate'].to_numpy()
+Upsilon = df['score'].to_numpy()
+
+n_map =sorted(list(set(N)))
+rho_map = sorted(list(set(rho)))
 
 
 
+fig = plt.figure()
+ax = fig.gca()
+x = [5, 10, 25]
+y = [.3,.4,.5]
 
-# ====== Calculate score and final score correlation =====
-R = {'steps': [],
-     'name': [],
-     'score':[],
-     'score_vec': [],
-     'last_score':[],
-     'R': [],
-     'S': [],
-     'N':[]
-     }
+n_v, rho_v = np.meshgrid(n_map, rho_map,)
+z = np.zeros(n_v.shape)
+for i in range(len(Upsilon)):
+    z[(n_v ==N[i]) & (rho_v == rho[i])]+=Upsilon[i]
+z *=1/(len(Upsilon)/z.size)
+t_v = np.log(.5)/np.log(rho_v)
 
-def get_last(row):
-    # returns difference between last entry in list and 11th last entry
-    return row[-1]- row[-11]
+print(t_v[:,0].round())
+print(n_map)
+print(z)
+print(f"Number of samples per scenario {len(Upsilon)/z.size}")
 
-for index, row in df.iterrows():
-    R['steps'].append( get_last(eval(row['step_vec']))*0.3)
-    R['score_vec'].append( get_last(eval(row['scorecard']))*0.3)
-    R['name'].append( row['comment'])
-    R['score'].append(row['score'])
-    R['R'].append(row['R'])
-    R['S'].append(row['S'])
-    R['N'].append(row['N'])
+print(z[(n_v ==120) & (t_v.round()==5)  ])
 
-for i in range(len(R['score'])):
-    R['last_score'].append(2*R['R'][i]*R['score_vec'][i]/(R['N'][i]*R['S'][i]*R['steps'][i]*0.3))
-print(R['last_score'])
+# Make data.
+# Plot the surface.
+# print(df['score'].to_numpy())
+# surf = ax.plot_surface(n_v, t_v, z, cmap = cm.get_cmap("PuBu"), antialiased=True)
+surf = ax.imshow( z, interpolation = 'bicubic',origin='bottom', vmin = 0,vmax = .9, cmap = 'Spectral',norm =colors.PowerNorm(gamma=1. / 1.5))
+# Customize the z axis.
+# ax.set_zlim(-1.01, 1.01)
+# ax.zaxis.set_major_locator(LinearLocator(10))
+# ax.zaxis.set_major_formatter(FormatStrFormatter('%.02f'))
 
-marker = ['o','x','+','d']
-color = ['blue', 'orange','black','green']
-fig, ax = plt.subplots()
-for i in range(4):
-    ax.scatter(R['score'][i*100:(i+1)*100], R['last_score'][i*100:(i+1)*100],c=color[i],marker= marker[i],label=labels[i])
-ax.plot([0,1.2],[0,1.2], color = 'k', linestyle = '--', label = 'autocorrelation', alpha = .5)
-ax.legend()
-ax.grid(True)
-ax.set_title('Efficiency')
-ax.set_xlabel('Global efficiency [-]')
-ax.set_ylabel('Final efficiency [-]')
+# Add a color bar which maps values to colors.
+fig.colorbar(surf, shrink=0.5, aspect=5)
+ax.set_xlabel('Swarm size M [-]')
+ax.set_ylabel('$t_{1/2} [s]$')
+ax.set_title('Efficiency score analysis')
+plt.xticks(np.arange(8), n_map)
+plt.yticks(np.arange(7),t_v[:,0].round(0))
+# #
 plt.show()
+
+
+
+
+# # ====== Calculate score and final score correlation =====
+# R = {'steps': [],
+#      'name': [],
+#      'score':[],
+#      'score_vec': [],
+#      'last_score':[],
+#      'R': [],
+#      'S': [],
+#      'N':[]
+#      }
+#
+# def get_last(row):
+#     # returns difference between last entry in list and 11th last entry
+#     return row[-1]- row[-11]
+#
+# for index, row in df.iterrows():
+#     R['steps'].append( get_last(eval(row['step_vec']))*0.3)
+#     R['score_vec'].append( get_last(eval(row['scorecard']))*0.3)
+#     R['name'].append( row['comment'])
+#     R['score'].append(row['score'])
+#     R['R'].append(row['R'])
+#     R['S'].append(row['S'])
+#     R['N'].append(row['N'])
+#
+# for i in range(len(R['score'])):
+#     R['last_score'].append(2*R['R'][i]*R['score_vec'][i]/(R['N'][i]*R['S'][i]*R['steps'][i]*0.3))
+# print(R['last_score'])
+#
+# marker = ['o','x','+','d']
+# color = ['blue', 'orange','black','green']
+# fig, ax = plt.subplots()
+# for i in range(4):
+#     ax.scatter(R['score'][i*100:(i+1)*100], R['last_score'][i*100:(i+1)*100],c=color[i],marker= marker[i],label=labels[i])
+# ax.plot([0,1.2],[0,1.2], color = 'k', linestyle = '--', label = 'autocorrelation', alpha = .5)
+# ax.legend()
+# ax.grid(True)
+# ax.set_title('Efficiency')
+# ax.set_xlabel('Global efficiency [-]')
+# ax.set_ylabel('Final efficiency [-]')
+# plt.show()
 
 # ===== sim properties ======
 # for sim in comment:

@@ -1,6 +1,7 @@
 # store some functions (methods) here to declutter the gui.py file in the main directory
 from cythonic.plugins.functions import score
 from PyQt5 import QtCore
+from numpy import log10
 _translate = QtCore.QCoreApplication.translate
 def make_domain_dict(Gui):
     the_dict = {
@@ -185,7 +186,7 @@ def load_settings(Gui, sim_dict, queen_dict,
 
     #
     " Gaussian "
-    Gui.spinbox_significancy.setProperty('value', gauss_dict['significancy'])
+    Gui.spinbox_significancy.setProperty('value', int(round(log10(gauss_dict['significancy']))))
     Gui.spinbox_covariance.setProperty('value', gauss_dict['covariance'])
     #
     " deposit "
