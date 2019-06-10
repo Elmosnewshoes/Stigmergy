@@ -7,10 +7,12 @@ def insert(table):
     return f"INSERT INTO {table} "
 
 def insert_ant(sim_id, l, d, sens_offset, gain, noise_gain, noise_gain2, rotate_fun, sens_fun,deposit_fun, steer_regularization, override = 'FALSE', **kwargs):
-    if override == 'FALSE':
+    if override == 'FALSE' or override ==False or override ==0:
         override_time = 'NULL'
         override_max = 'NULL'
+        override = 0
     else:
+        override = 1
         override_time = kwargs['override_time']
         override_max = kwargs['override_max']
     output = insert('ant_settings') + "(sim_id, l, d, sens_offset, gain, noise_gain, noise_gain2, rotate_fun, sens_fun,deposit_fun, steer_regularization, override_time, override_max, override ) "
